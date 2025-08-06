@@ -1,7 +1,6 @@
 package authentication
 
 import (
-	"strings"
 	"time"
 
 	"github.com/connor-davis/threereco-nextgen/internal/constants"
@@ -11,6 +10,7 @@ import (
 	"github.com/getkin/kin-openapi/openapi3"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/log"
+	"github.com/google/uuid"
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -94,12 +94,13 @@ func (r *AuthenticationRouter) LoginRoute() routing.Route {
 			RequestBody: bodies.LoginPayloadBody,
 			Responses:   responses,
 		},
-		Method: routing.PostMethod,
-		Path:   "/authentication/login",
+		Method:      routing.PostMethod,
+		Path:        "/authentication/login",
+		Middlewares: []fiber.Handler{},
 		Handler: func(c *fiber.Ctx) error {
-			var loginRequest LoginPayload
+			var payload LoginPayload
 
-			if err := c.BodyParser(&loginRequest); err != nil {
+			if err := c.BodyParser(&payload); err != nil {
 				log.Errorf("🔥 Error parsing request body: %s", err.Error())
 
 				return c.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
@@ -108,9 +109,9 @@ func (r *AuthenticationRouter) LoginRoute() routing.Route {
 				})
 			}
 
-			user, err := r.Services.Users.GetByEmail(loginRequest.Email)
+			user, err := r.Services.Users.GetByEmail(payload.Email)
 
-			if err != nil && !strings.Contains(err.Error(), "no rows in result set") {
+			if err != nil {
 				log.Errorf("🔥 Error retrieving user: %s", err.Error())
 
 				return c.Status(fiber.StatusInternalServerError).JSON(&fiber.Map{
@@ -119,8 +120,8 @@ func (r *AuthenticationRouter) LoginRoute() routing.Route {
 				})
 			}
 
-			if err != nil && strings.Contains(err.Error(), "no rows in result set") {
-				log.Warnf("⚠️ User with email %s not found", loginRequest.Email)
+			if user.Id == uuid.Nil {
+				log.Warnf("⚠️ User with email %s not found", payload.Email)
 
 				return c.Status(fiber.StatusUnauthorized).JSON(&fiber.Map{
 					"error":   constants.UnauthorizedError,
@@ -128,10 +129,10 @@ func (r *AuthenticationRouter) LoginRoute() routing.Route {
 				})
 			}
 
-			err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(loginRequest.Password))
+			err = bcrypt.CompareHashAndPassword(user.Password, []byte(payload.Password))
 
 			if err != nil {
-				log.Warnf("⚠️ Invalid password for user %s: %s", loginRequest.Email, err.Error())
+				log.Warnf("⚠️ Invalid password for user %s: %s", payload.Email, err.Error())
 
 				return c.Status(fiber.StatusUnauthorized).JSON(&fiber.Map{
 					"error":   constants.UnauthorizedError,
@@ -162,18 +163,12 @@ func (r *AuthenticationRouter) LoginRoute() routing.Route {
 				})
 			}
 
-			err = r.Services.Users.Update(user.Id, user.Id, user)
-
-			if err != nil {
-				log.Errorf("🔥 Error updating user: %s", err.Error())
-
-				return c.Status(fiber.StatusInternalServerError).JSON(&fiber.Map{
-					"error":   constants.InternalServerError,
-					"details": constants.InternalServerErrorDetails,
-				})
-			}
-
-			if err := r.Storage.Postgres.Model(&user).UpdateColumn("mfa_verified", false).Error; err != nil {
+			if err := r.Storage.Postgres.
+				Set("one:audit_user_id", user.Id).
+				Model(&user).
+				Updates(map[string]any{
+					"mfa_verified": false,
+				}).Error; err != nil {
 				log.Errorf("🔥 Error updating MFA status for user: %s", err.Error())
 
 				return c.Status(fiber.StatusInternalServerError).JSON(&fiber.Map{

@@ -44,7 +44,11 @@ func (s *UsersService) Create(auditId uuid.UUID, user *models.User) error {
 // It also sets the audit user ID for tracking who performed the update.
 // Returns an error if the update operation fails.
 func (s *UsersService) Update(auditId uuid.UUID, id uuid.UUID, user *models.User) error {
-	if err := s.Storage.Postgres.Set("one:audit_user_id", auditId).Where("id = ?", id).Updates(&user).Error; err != nil {
+	if err := s.Storage.Postgres.Set("one:audit_user_id", auditId).
+		Where(&models.User{
+			Id: id,
+		}).
+		Updates(&user).Error; err != nil {
 		return err
 	}
 
@@ -60,7 +64,11 @@ func (s *UsersService) Update(auditId uuid.UUID, id uuid.UUID, user *models.User
 // Returns:
 //   - error: An error if the deletion fails, otherwise nil.
 func (s *UsersService) Delete(auditId uuid.UUID, id uuid.UUID) error {
-	if err := s.Storage.Postgres.Set("one:audit_user_id", auditId).Where("id = ?", id).Delete(&models.User{}).Error; err != nil {
+	if err := s.Storage.Postgres.Set("one:audit_user_id", auditId).
+		Where(&models.User{
+			Id: id,
+		}).
+		Delete(&models.User{}).Error; err != nil {
 		return err
 	}
 
@@ -79,7 +87,13 @@ func (s *UsersService) Delete(auditId uuid.UUID, id uuid.UUID) error {
 func (s *UsersService) GetById(id uuid.UUID) (*models.User, error) {
 	var user models.User
 
-	if err := s.Storage.Postgres.Where("id = ?", id).Preload("Roles").Preload("Organizations.Owner").Find(&user).Error; err != nil {
+	if err := s.Storage.Postgres.
+		Where(&models.User{
+			Id: id,
+		}).
+		Preload("Roles").
+		Preload("Organizations.Owner").
+		Find(&user).Error; err != nil {
 		return nil, err
 	}
 
@@ -99,7 +113,11 @@ func (s *UsersService) GetById(id uuid.UUID) (*models.User, error) {
 func (s *UsersService) GetByEmail(email string) (*models.User, error) {
 	var user models.User
 
-	if err := s.Storage.Postgres.Where("email = ?", email).Find(&user).Error; err != nil {
+	if err := s.Storage.Postgres.
+		Where(&models.User{
+			Email: email,
+		}).
+		Find(&user).Error; err != nil {
 		return nil, err
 	}
 
