@@ -150,62 +150,8 @@ export type Role = {
 };
 
 export type Success = {
-  item?: {
-    createdAt?: string;
-    email?: string;
-    id?: string;
-    image?: string | null;
-    jobTitle?: string | null;
-    mfaEnabled?: boolean;
-    mfaVerified?: boolean;
-    modifiedBy?: {
-      createdAt?: string;
-      email?: string;
-      id?: string;
-      image?: string | null;
-      jobTitle?: string | null;
-      mfaEnabled?: boolean;
-      mfaVerified?: boolean;
-      modifiedById?: string;
-      name?: string | null;
-      phone?: string | null;
-      primaryOrganizationId?: string | null;
-      updatedAt?: string;
-    };
-    modifiedById?: string;
-    name?: string | null;
-    organizations?: Array<{
-      createdAt?: string;
-      domain?: string;
-      id?: string;
-      modifiedById?: string;
-      name?: string;
-      ownerId?: string;
-      updatedAt?: string;
-    }>;
-    phone?: string | null;
-    primaryOrganizationId?: string | null;
-    roles?: Array<{
-      createdAt?: string;
-      description?: string | null;
-      id?: string;
-      modifiedById?: string;
-      name?: string;
-      permissions?: Array<string>;
-      updatedAt?: string;
-    }>;
-    updatedAt?: string;
-  };
-  items?: Array<
-    Array<{
-      createdAt?: string;
-      email?: string;
-      id?: string;
-      image?: string | null;
-      jobTitle?: string | null;
-      mfaEnabled?: boolean;
-      mfaVerified?: boolean;
-      modifiedBy?: {
+  item?:
+    | {
         createdAt?: string;
         email?: string;
         id?: string;
@@ -213,36 +159,355 @@ export type Success = {
         jobTitle?: string | null;
         mfaEnabled?: boolean;
         mfaVerified?: boolean;
+        modifiedBy?: {
+          createdAt?: string;
+          email?: string;
+          id?: string;
+          image?: string | null;
+          jobTitle?: string | null;
+          mfaEnabled?: boolean;
+          mfaVerified?: boolean;
+          modifiedById?: string;
+          name?: string | null;
+          phone?: string | null;
+          primaryOrganizationId?: string | null;
+          updatedAt?: string;
+        };
         modifiedById?: string;
         name?: string | null;
+        organizations?: Array<{
+          createdAt?: string;
+          domain?: string;
+          id?: string;
+          modifiedById?: string;
+          name?: string;
+          ownerId?: string;
+          updatedAt?: string;
+        }>;
         phone?: string | null;
         primaryOrganizationId?: string | null;
+        roles?: Array<{
+          createdAt?: string;
+          description?: string | null;
+          id?: string;
+          modifiedById?: string;
+          name?: string;
+          permissions?: Array<string>;
+          updatedAt?: string;
+        }>;
         updatedAt?: string;
-      };
-      modifiedById?: string;
-      name?: string | null;
-      organizations?: Array<{
+      }
+    | {
         createdAt?: string;
         domain?: string;
         id?: string;
+        modifiedBy?: {
+          createdAt?: string;
+          email?: string;
+          id?: string;
+          image?: string | null;
+          jobTitle?: string | null;
+          mfaEnabled?: boolean;
+          mfaVerified?: boolean;
+          modifiedById?: string;
+          name?: string | null;
+          phone?: string | null;
+          primaryOrganizationId?: string | null;
+          updatedAt?: string;
+        };
         modifiedById?: string;
         name?: string;
+        owner?: {
+          createdAt?: string;
+          email?: string;
+          id?: string;
+          image?: string | null;
+          jobTitle?: string | null;
+          mfaEnabled?: boolean;
+          mfaVerified?: boolean;
+          modifiedById?: string;
+          name?: string | null;
+          phone?: string | null;
+          primaryOrganizationId?: string | null;
+          updatedAt?: string;
+        };
         ownerId?: string;
+        roles?: Array<{
+          createdAt?: string;
+          description?: string | null;
+          id?: string;
+          modifiedById?: string;
+          name?: string;
+          permissions?: Array<string>;
+          updatedAt?: string;
+        }>;
         updatedAt?: string;
-      }>;
-      phone?: string | null;
-      primaryOrganizationId?: string | null;
-      roles?: Array<{
+        users?: Array<{
+          createdAt?: string;
+          email?: string;
+          id?: string;
+          image?: string | null;
+          jobTitle?: string | null;
+          mfaEnabled?: boolean;
+          mfaVerified?: boolean;
+          modifiedById?: string;
+          name?: string | null;
+          phone?: string | null;
+          primaryOrganizationId?: string | null;
+          updatedAt?: string;
+        }>;
+      }
+    | {
         createdAt?: string;
         description?: string | null;
         id?: string;
+        modifiedBy?: {
+          createdAt?: string;
+          email?: string;
+          id?: string;
+          image?: string | null;
+          jobTitle?: string | null;
+          mfaEnabled?: boolean;
+          mfaVerified?: boolean;
+          modifiedById?: string;
+          name?: string | null;
+          phone?: string | null;
+          primaryOrganizationId?: string | null;
+          updatedAt?: string;
+        };
         modifiedById?: string;
         name?: string;
+        organizations?: Array<{
+          createdAt?: string;
+          domain?: string;
+          id?: string;
+          modifiedById?: string;
+          name?: string;
+          ownerId?: string;
+          updatedAt?: string;
+        }>;
         permissions?: Array<string>;
         updatedAt?: string;
-      }>;
-      updatedAt?: string;
-    }>
+        users?: Array<{
+          createdAt?: string;
+          email?: string;
+          id?: string;
+          image?: string | null;
+          jobTitle?: string | null;
+          mfaEnabled?: boolean;
+          mfaVerified?: boolean;
+          modifiedById?: string;
+          name?: string | null;
+          phone?: string | null;
+          primaryOrganizationId?: string | null;
+          updatedAt?: string;
+        }>;
+      }
+    | {
+        createdAt?: string;
+        data?: {
+          [key: string]: unknown;
+        };
+        id?: string;
+        objectId?: string;
+        operationType?: string;
+        tableName?: string;
+        updatedAt?: string;
+        user?: {
+          createdAt?: string;
+          email?: string;
+          id?: string;
+          image?: string | null;
+          jobTitle?: string | null;
+          mfaEnabled?: boolean;
+          mfaVerified?: boolean;
+          modifiedById?: string;
+          name?: string | null;
+          phone?: string | null;
+          primaryOrganizationId?: string | null;
+          updatedAt?: string;
+        };
+        userId?: string;
+      };
+  items?: Array<
+    | {
+        createdAt?: string;
+        email?: string;
+        id?: string;
+        image?: string | null;
+        jobTitle?: string | null;
+        mfaEnabled?: boolean;
+        mfaVerified?: boolean;
+        modifiedBy?: {
+          createdAt?: string;
+          email?: string;
+          id?: string;
+          image?: string | null;
+          jobTitle?: string | null;
+          mfaEnabled?: boolean;
+          mfaVerified?: boolean;
+          modifiedById?: string;
+          name?: string | null;
+          phone?: string | null;
+          primaryOrganizationId?: string | null;
+          updatedAt?: string;
+        };
+        modifiedById?: string;
+        name?: string | null;
+        organizations?: Array<{
+          createdAt?: string;
+          domain?: string;
+          id?: string;
+          modifiedById?: string;
+          name?: string;
+          ownerId?: string;
+          updatedAt?: string;
+        }>;
+        phone?: string | null;
+        primaryOrganizationId?: string | null;
+        roles?: Array<{
+          createdAt?: string;
+          description?: string | null;
+          id?: string;
+          modifiedById?: string;
+          name?: string;
+          permissions?: Array<string>;
+          updatedAt?: string;
+        }>;
+        updatedAt?: string;
+      }
+    | {
+        createdAt?: string;
+        domain?: string;
+        id?: string;
+        modifiedBy?: {
+          createdAt?: string;
+          email?: string;
+          id?: string;
+          image?: string | null;
+          jobTitle?: string | null;
+          mfaEnabled?: boolean;
+          mfaVerified?: boolean;
+          modifiedById?: string;
+          name?: string | null;
+          phone?: string | null;
+          primaryOrganizationId?: string | null;
+          updatedAt?: string;
+        };
+        modifiedById?: string;
+        name?: string;
+        owner?: {
+          createdAt?: string;
+          email?: string;
+          id?: string;
+          image?: string | null;
+          jobTitle?: string | null;
+          mfaEnabled?: boolean;
+          mfaVerified?: boolean;
+          modifiedById?: string;
+          name?: string | null;
+          phone?: string | null;
+          primaryOrganizationId?: string | null;
+          updatedAt?: string;
+        };
+        ownerId?: string;
+        roles?: Array<{
+          createdAt?: string;
+          description?: string | null;
+          id?: string;
+          modifiedById?: string;
+          name?: string;
+          permissions?: Array<string>;
+          updatedAt?: string;
+        }>;
+        updatedAt?: string;
+        users?: Array<{
+          createdAt?: string;
+          email?: string;
+          id?: string;
+          image?: string | null;
+          jobTitle?: string | null;
+          mfaEnabled?: boolean;
+          mfaVerified?: boolean;
+          modifiedById?: string;
+          name?: string | null;
+          phone?: string | null;
+          primaryOrganizationId?: string | null;
+          updatedAt?: string;
+        }>;
+      }
+    | {
+        createdAt?: string;
+        description?: string | null;
+        id?: string;
+        modifiedBy?: {
+          createdAt?: string;
+          email?: string;
+          id?: string;
+          image?: string | null;
+          jobTitle?: string | null;
+          mfaEnabled?: boolean;
+          mfaVerified?: boolean;
+          modifiedById?: string;
+          name?: string | null;
+          phone?: string | null;
+          primaryOrganizationId?: string | null;
+          updatedAt?: string;
+        };
+        modifiedById?: string;
+        name?: string;
+        organizations?: Array<{
+          createdAt?: string;
+          domain?: string;
+          id?: string;
+          modifiedById?: string;
+          name?: string;
+          ownerId?: string;
+          updatedAt?: string;
+        }>;
+        permissions?: Array<string>;
+        updatedAt?: string;
+        users?: Array<{
+          createdAt?: string;
+          email?: string;
+          id?: string;
+          image?: string | null;
+          jobTitle?: string | null;
+          mfaEnabled?: boolean;
+          mfaVerified?: boolean;
+          modifiedById?: string;
+          name?: string | null;
+          phone?: string | null;
+          primaryOrganizationId?: string | null;
+          updatedAt?: string;
+        }>;
+      }
+    | {
+        createdAt?: string;
+        data?: {
+          [key: string]: unknown;
+        };
+        id?: string;
+        objectId?: string;
+        operationType?: string;
+        tableName?: string;
+        updatedAt?: string;
+        user?: {
+          createdAt?: string;
+          email?: string;
+          id?: string;
+          image?: string | null;
+          jobTitle?: string | null;
+          mfaEnabled?: boolean;
+          mfaVerified?: boolean;
+          modifiedById?: string;
+          name?: string | null;
+          phone?: string | null;
+          primaryOrganizationId?: string | null;
+          updatedAt?: string;
+        };
+        userId?: string;
+      }
   >;
   pageDetails?: {
     count?: number;
@@ -333,62 +598,8 @@ export type GetApiAuthenticationCheckResponses = {
    * Successful authentication check.
    */
   200: {
-    item?: {
-      createdAt?: string;
-      email?: string;
-      id?: string;
-      image?: string | null;
-      jobTitle?: string | null;
-      mfaEnabled?: boolean;
-      mfaVerified?: boolean;
-      modifiedBy?: {
-        createdAt?: string;
-        email?: string;
-        id?: string;
-        image?: string | null;
-        jobTitle?: string | null;
-        mfaEnabled?: boolean;
-        mfaVerified?: boolean;
-        modifiedById?: string;
-        name?: string | null;
-        phone?: string | null;
-        primaryOrganizationId?: string | null;
-        updatedAt?: string;
-      };
-      modifiedById?: string;
-      name?: string | null;
-      organizations?: Array<{
-        createdAt?: string;
-        domain?: string;
-        id?: string;
-        modifiedById?: string;
-        name?: string;
-        ownerId?: string;
-        updatedAt?: string;
-      }>;
-      phone?: string | null;
-      primaryOrganizationId?: string | null;
-      roles?: Array<{
-        createdAt?: string;
-        description?: string | null;
-        id?: string;
-        modifiedById?: string;
-        name?: string;
-        permissions?: Array<string>;
-        updatedAt?: string;
-      }>;
-      updatedAt?: string;
-    };
-    items?: Array<
-      Array<{
-        createdAt?: string;
-        email?: string;
-        id?: string;
-        image?: string | null;
-        jobTitle?: string | null;
-        mfaEnabled?: boolean;
-        mfaVerified?: boolean;
-        modifiedBy?: {
+    item?:
+      | {
           createdAt?: string;
           email?: string;
           id?: string;
@@ -396,36 +607,355 @@ export type GetApiAuthenticationCheckResponses = {
           jobTitle?: string | null;
           mfaEnabled?: boolean;
           mfaVerified?: boolean;
+          modifiedBy?: {
+            createdAt?: string;
+            email?: string;
+            id?: string;
+            image?: string | null;
+            jobTitle?: string | null;
+            mfaEnabled?: boolean;
+            mfaVerified?: boolean;
+            modifiedById?: string;
+            name?: string | null;
+            phone?: string | null;
+            primaryOrganizationId?: string | null;
+            updatedAt?: string;
+          };
           modifiedById?: string;
           name?: string | null;
+          organizations?: Array<{
+            createdAt?: string;
+            domain?: string;
+            id?: string;
+            modifiedById?: string;
+            name?: string;
+            ownerId?: string;
+            updatedAt?: string;
+          }>;
           phone?: string | null;
           primaryOrganizationId?: string | null;
+          roles?: Array<{
+            createdAt?: string;
+            description?: string | null;
+            id?: string;
+            modifiedById?: string;
+            name?: string;
+            permissions?: Array<string>;
+            updatedAt?: string;
+          }>;
           updatedAt?: string;
-        };
-        modifiedById?: string;
-        name?: string | null;
-        organizations?: Array<{
+        }
+      | {
           createdAt?: string;
           domain?: string;
           id?: string;
+          modifiedBy?: {
+            createdAt?: string;
+            email?: string;
+            id?: string;
+            image?: string | null;
+            jobTitle?: string | null;
+            mfaEnabled?: boolean;
+            mfaVerified?: boolean;
+            modifiedById?: string;
+            name?: string | null;
+            phone?: string | null;
+            primaryOrganizationId?: string | null;
+            updatedAt?: string;
+          };
           modifiedById?: string;
           name?: string;
+          owner?: {
+            createdAt?: string;
+            email?: string;
+            id?: string;
+            image?: string | null;
+            jobTitle?: string | null;
+            mfaEnabled?: boolean;
+            mfaVerified?: boolean;
+            modifiedById?: string;
+            name?: string | null;
+            phone?: string | null;
+            primaryOrganizationId?: string | null;
+            updatedAt?: string;
+          };
           ownerId?: string;
+          roles?: Array<{
+            createdAt?: string;
+            description?: string | null;
+            id?: string;
+            modifiedById?: string;
+            name?: string;
+            permissions?: Array<string>;
+            updatedAt?: string;
+          }>;
           updatedAt?: string;
-        }>;
-        phone?: string | null;
-        primaryOrganizationId?: string | null;
-        roles?: Array<{
+          users?: Array<{
+            createdAt?: string;
+            email?: string;
+            id?: string;
+            image?: string | null;
+            jobTitle?: string | null;
+            mfaEnabled?: boolean;
+            mfaVerified?: boolean;
+            modifiedById?: string;
+            name?: string | null;
+            phone?: string | null;
+            primaryOrganizationId?: string | null;
+            updatedAt?: string;
+          }>;
+        }
+      | {
           createdAt?: string;
           description?: string | null;
           id?: string;
+          modifiedBy?: {
+            createdAt?: string;
+            email?: string;
+            id?: string;
+            image?: string | null;
+            jobTitle?: string | null;
+            mfaEnabled?: boolean;
+            mfaVerified?: boolean;
+            modifiedById?: string;
+            name?: string | null;
+            phone?: string | null;
+            primaryOrganizationId?: string | null;
+            updatedAt?: string;
+          };
           modifiedById?: string;
           name?: string;
+          organizations?: Array<{
+            createdAt?: string;
+            domain?: string;
+            id?: string;
+            modifiedById?: string;
+            name?: string;
+            ownerId?: string;
+            updatedAt?: string;
+          }>;
           permissions?: Array<string>;
           updatedAt?: string;
-        }>;
-        updatedAt?: string;
-      }>
+          users?: Array<{
+            createdAt?: string;
+            email?: string;
+            id?: string;
+            image?: string | null;
+            jobTitle?: string | null;
+            mfaEnabled?: boolean;
+            mfaVerified?: boolean;
+            modifiedById?: string;
+            name?: string | null;
+            phone?: string | null;
+            primaryOrganizationId?: string | null;
+            updatedAt?: string;
+          }>;
+        }
+      | {
+          createdAt?: string;
+          data?: {
+            [key: string]: unknown;
+          };
+          id?: string;
+          objectId?: string;
+          operationType?: string;
+          tableName?: string;
+          updatedAt?: string;
+          user?: {
+            createdAt?: string;
+            email?: string;
+            id?: string;
+            image?: string | null;
+            jobTitle?: string | null;
+            mfaEnabled?: boolean;
+            mfaVerified?: boolean;
+            modifiedById?: string;
+            name?: string | null;
+            phone?: string | null;
+            primaryOrganizationId?: string | null;
+            updatedAt?: string;
+          };
+          userId?: string;
+        };
+    items?: Array<
+      | {
+          createdAt?: string;
+          email?: string;
+          id?: string;
+          image?: string | null;
+          jobTitle?: string | null;
+          mfaEnabled?: boolean;
+          mfaVerified?: boolean;
+          modifiedBy?: {
+            createdAt?: string;
+            email?: string;
+            id?: string;
+            image?: string | null;
+            jobTitle?: string | null;
+            mfaEnabled?: boolean;
+            mfaVerified?: boolean;
+            modifiedById?: string;
+            name?: string | null;
+            phone?: string | null;
+            primaryOrganizationId?: string | null;
+            updatedAt?: string;
+          };
+          modifiedById?: string;
+          name?: string | null;
+          organizations?: Array<{
+            createdAt?: string;
+            domain?: string;
+            id?: string;
+            modifiedById?: string;
+            name?: string;
+            ownerId?: string;
+            updatedAt?: string;
+          }>;
+          phone?: string | null;
+          primaryOrganizationId?: string | null;
+          roles?: Array<{
+            createdAt?: string;
+            description?: string | null;
+            id?: string;
+            modifiedById?: string;
+            name?: string;
+            permissions?: Array<string>;
+            updatedAt?: string;
+          }>;
+          updatedAt?: string;
+        }
+      | {
+          createdAt?: string;
+          domain?: string;
+          id?: string;
+          modifiedBy?: {
+            createdAt?: string;
+            email?: string;
+            id?: string;
+            image?: string | null;
+            jobTitle?: string | null;
+            mfaEnabled?: boolean;
+            mfaVerified?: boolean;
+            modifiedById?: string;
+            name?: string | null;
+            phone?: string | null;
+            primaryOrganizationId?: string | null;
+            updatedAt?: string;
+          };
+          modifiedById?: string;
+          name?: string;
+          owner?: {
+            createdAt?: string;
+            email?: string;
+            id?: string;
+            image?: string | null;
+            jobTitle?: string | null;
+            mfaEnabled?: boolean;
+            mfaVerified?: boolean;
+            modifiedById?: string;
+            name?: string | null;
+            phone?: string | null;
+            primaryOrganizationId?: string | null;
+            updatedAt?: string;
+          };
+          ownerId?: string;
+          roles?: Array<{
+            createdAt?: string;
+            description?: string | null;
+            id?: string;
+            modifiedById?: string;
+            name?: string;
+            permissions?: Array<string>;
+            updatedAt?: string;
+          }>;
+          updatedAt?: string;
+          users?: Array<{
+            createdAt?: string;
+            email?: string;
+            id?: string;
+            image?: string | null;
+            jobTitle?: string | null;
+            mfaEnabled?: boolean;
+            mfaVerified?: boolean;
+            modifiedById?: string;
+            name?: string | null;
+            phone?: string | null;
+            primaryOrganizationId?: string | null;
+            updatedAt?: string;
+          }>;
+        }
+      | {
+          createdAt?: string;
+          description?: string | null;
+          id?: string;
+          modifiedBy?: {
+            createdAt?: string;
+            email?: string;
+            id?: string;
+            image?: string | null;
+            jobTitle?: string | null;
+            mfaEnabled?: boolean;
+            mfaVerified?: boolean;
+            modifiedById?: string;
+            name?: string | null;
+            phone?: string | null;
+            primaryOrganizationId?: string | null;
+            updatedAt?: string;
+          };
+          modifiedById?: string;
+          name?: string;
+          organizations?: Array<{
+            createdAt?: string;
+            domain?: string;
+            id?: string;
+            modifiedById?: string;
+            name?: string;
+            ownerId?: string;
+            updatedAt?: string;
+          }>;
+          permissions?: Array<string>;
+          updatedAt?: string;
+          users?: Array<{
+            createdAt?: string;
+            email?: string;
+            id?: string;
+            image?: string | null;
+            jobTitle?: string | null;
+            mfaEnabled?: boolean;
+            mfaVerified?: boolean;
+            modifiedById?: string;
+            name?: string | null;
+            phone?: string | null;
+            primaryOrganizationId?: string | null;
+            updatedAt?: string;
+          }>;
+        }
+      | {
+          createdAt?: string;
+          data?: {
+            [key: string]: unknown;
+          };
+          id?: string;
+          objectId?: string;
+          operationType?: string;
+          tableName?: string;
+          updatedAt?: string;
+          user?: {
+            createdAt?: string;
+            email?: string;
+            id?: string;
+            image?: string | null;
+            jobTitle?: string | null;
+            mfaEnabled?: boolean;
+            mfaVerified?: boolean;
+            modifiedById?: string;
+            name?: string | null;
+            phone?: string | null;
+            primaryOrganizationId?: string | null;
+            updatedAt?: string;
+          };
+          userId?: string;
+        }
     >;
     pageDetails?: {
       count?: number;

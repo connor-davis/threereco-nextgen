@@ -9,10 +9,18 @@ import "github.com/getkin/kin-openapi/openapi3"
 // This schema can be used to standardize the structure of success responses in the API.
 var SuccessResponseSchema = openapi3.NewSchema().WithProperties(map[string]*openapi3.Schema{
 	"items": openapi3.NewArraySchema().WithItems(
-		UserArraySchema.Value,
+		openapi3.NewAnyOfSchema(
+			UserSchema.Value,
+			OrganizationSchema.Value,
+			RoleSchema.Value,
+			AuditLogSchema.Value,
+		),
 	),
 	"item": openapi3.NewAnyOfSchema(
 		UserSchema.Value,
+		OrganizationSchema.Value,
+		RoleSchema.Value,
+		AuditLogSchema.Value,
 	),
 	"pageDetails": openapi3.NewObjectSchema().WithProperties(map[string]*openapi3.Schema{
 		"count":        openapi3.NewIntegerSchema().WithMin(0),
