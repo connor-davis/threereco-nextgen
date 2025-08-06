@@ -2,7 +2,7 @@ import { type UserConfig } from '@hey-api/openapi-ts';
 
 export default {
   input: {
-    path: 'http://localhost:4000/api/api-spec',
+    path: 'http://localhost:6173/api/api-spec',
   },
   output: {
     lint: 'eslint',
@@ -13,5 +13,6 @@ export default {
     '@hey-api/client-fetch',
     '@hey-api/typescript',
     '@hey-api/schemas',
+    'zod',
   ],
 } as UserConfig;
