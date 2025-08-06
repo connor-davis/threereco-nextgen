@@ -31,3 +31,12 @@ var UserProperties = map[string]*openapi3.Schema{
 	"createdAt":             openapi3.NewDateTimeSchema(),
 	"updatedAt":             openapi3.NewDateTimeSchema(),
 }
+
+var CreateUserPayloadProperties = map[string]*openapi3.Schema{
+	"email":    openapi3.NewStringSchema().WithFormat("email").WithMinLength(1),
+	"password": openapi3.NewStringSchema().WithMinLength(8),
+	"name":     openapi3.NewStringSchema().WithNullable(),
+	"phone":    openapi3.NewStringSchema().WithNullable(),
+	"jobTitle": openapi3.NewStringSchema().WithNullable(),
+	"roles":    openapi3.NewArraySchema().WithItems(openapi3.NewStringSchema().WithFormat("uuid")),
+}

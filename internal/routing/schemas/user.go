@@ -37,3 +37,5 @@ var UserSchema = openapi3.NewSchema().WithProperties(properties.UserProperties).
 // multiple users in a single payload.
 var UserArraySchema = openapi3.NewArraySchema().
 	WithItems(UserSchema.Value).NewRef()
+
+var CreateUserPayloadSchema = openapi3.NewSchema().WithProperties(properties.CreateUserPayloadProperties).NewRef()

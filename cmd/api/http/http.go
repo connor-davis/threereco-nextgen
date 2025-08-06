@@ -6,6 +6,7 @@ import (
 
 	"github.com/connor-davis/threereco-nextgen/cmd/api/http/authentication"
 	"github.com/connor-davis/threereco-nextgen/cmd/api/http/middleware"
+	"github.com/connor-davis/threereco-nextgen/cmd/api/http/users"
 	"github.com/connor-davis/threereco-nextgen/env"
 	"github.com/connor-davis/threereco-nextgen/internal/routing"
 	"github.com/connor-davis/threereco-nextgen/internal/routing/schemas"
@@ -42,9 +43,13 @@ func NewHttpRouter(storage *storage.Storage, sessions *session.Store, services *
 	authenticationRouter := authentication.NewAuthenticationRouter(storage, sessions, services, middleware)
 	authenticationRoutes := authenticationRouter.InitializeRoutes()
 
+	usersRouter := users.NewUsersRouter(storage, sessions, services, middleware)
+	usersRoutes := usersRouter.InitializeRoutes()
+
 	routes := []routing.Route{}
 
 	routes = append(routes, authenticationRoutes...)
+	routes = append(routes, usersRoutes...)
 
 	return &HttpRouter{
 		Storage:    storage,
