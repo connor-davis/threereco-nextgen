@@ -28,7 +28,7 @@ export const zAuditLog = z.object({
   userId: z.optional(z.uuid()),
 });
 
-export const zError = z.object({
+export const zErrorResponse = z.object({
   error: z.optional(z.string()).default('Bad Request'),
   message: z
     .optional(z.string())
@@ -176,7 +176,7 @@ export const zRole = z.object({
   ),
 });
 
-export const zSuccess = z.object({
+export const zSuccessResponse = z.object({
   item: z.optional(
     z.union([
       z.object({
@@ -1149,7 +1149,7 @@ export const zPostApiAuthenticationLoginData = z.object({
   query: z.optional(z.never()),
 });
 
-export const zGetApiAuthenticationLogoutData = z.object({
+export const zPostApiAuthenticationLogoutData = z.object({
   body: z.optional(z.never()),
   path: z.optional(z.never()),
   query: z.optional(z.never()),

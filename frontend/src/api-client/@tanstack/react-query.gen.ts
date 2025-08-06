@@ -5,18 +5,19 @@ import { client as _heyApiClient } from '../client.gen';
 import {
   type Options,
   getApiAuthenticationCheck,
-  getApiAuthenticationLogout,
   getApiAuthenticationMfaEnable,
   postApiAuthenticationLogin,
+  postApiAuthenticationLogout,
   postApiAuthenticationMfaVerify,
   postApiUsers,
 } from '../sdk.gen';
 import type {
   GetApiAuthenticationCheckData,
-  GetApiAuthenticationLogoutData,
   GetApiAuthenticationMfaEnableData,
   PostApiAuthenticationLoginData,
   PostApiAuthenticationLoginError,
+  PostApiAuthenticationLogoutData,
+  PostApiAuthenticationLogoutError,
   PostApiAuthenticationMfaVerifyData,
   PostApiAuthenticationMfaVerifyError,
   PostApiUsersData,
@@ -137,20 +138,20 @@ export const postApiAuthenticationLoginMutation = (
   return mutationOptions;
 };
 
-export const getApiAuthenticationLogoutQueryKey = (
-  options?: Options<GetApiAuthenticationLogoutData>
-) => createQueryKey('getApiAuthenticationLogout', options);
+export const postApiAuthenticationLogoutQueryKey = (
+  options?: Options<PostApiAuthenticationLogoutData>
+) => createQueryKey('postApiAuthenticationLogout', options);
 
 /**
  * Logout
  * Logs out the user and invalidates their session.
  */
-export const getApiAuthenticationLogoutOptions = (
-  options?: Options<GetApiAuthenticationLogoutData>
+export const postApiAuthenticationLogoutOptions = (
+  options?: Options<PostApiAuthenticationLogoutData>
 ) => {
   return queryOptions({
     queryFn: async ({ queryKey, signal }) => {
-      const { data } = await getApiAuthenticationLogout({
+      const { data } = await postApiAuthenticationLogout({
         ...options,
         ...queryKey[0],
         signal,
@@ -158,8 +159,36 @@ export const getApiAuthenticationLogoutOptions = (
       });
       return data;
     },
-    queryKey: getApiAuthenticationLogoutQueryKey(options),
+    queryKey: postApiAuthenticationLogoutQueryKey(options),
   });
+};
+
+/**
+ * Logout
+ * Logs out the user and invalidates their session.
+ */
+export const postApiAuthenticationLogoutMutation = (
+  options?: Partial<Options<PostApiAuthenticationLogoutData>>
+): UseMutationOptions<
+  unknown,
+  PostApiAuthenticationLogoutError,
+  Options<PostApiAuthenticationLogoutData>
+> => {
+  const mutationOptions: UseMutationOptions<
+    unknown,
+    PostApiAuthenticationLogoutError,
+    Options<PostApiAuthenticationLogoutData>
+  > = {
+    mutationFn: async (localOptions) => {
+      const { data } = await postApiAuthenticationLogout({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
 };
 
 export const getApiAuthenticationMfaEnableQueryKey = (

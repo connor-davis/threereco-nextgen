@@ -195,8 +195,8 @@ func (h *HttpRouter) InitializeOpenAPI() *openapi3.T {
 		Paths: paths,
 		Components: &openapi3.Components{
 			Schemas: openapi3.Schemas{
-				"Success":          schemas.SuccessResponseSchema,
-				"Error":            schemas.ErrorResponseSchema,
+				"SuccessResponse":  schemas.SuccessResponseSchema,
+				"ErrorResponse":    schemas.ErrorResponseSchema,
 				"User":             schemas.UserSchema,
 				"Role":             schemas.RoleSchema,
 				"Organization":     schemas.OrganizationSchema,

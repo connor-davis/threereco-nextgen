@@ -5,15 +5,15 @@ import type {
   GetApiAuthenticationCheckData,
   GetApiAuthenticationCheckErrors,
   GetApiAuthenticationCheckResponses,
-  GetApiAuthenticationLogoutData,
-  GetApiAuthenticationLogoutErrors,
-  GetApiAuthenticationLogoutResponses,
   GetApiAuthenticationMfaEnableData,
   GetApiAuthenticationMfaEnableErrors,
   GetApiAuthenticationMfaEnableResponses,
   PostApiAuthenticationLoginData,
   PostApiAuthenticationLoginErrors,
   PostApiAuthenticationLoginResponses,
+  PostApiAuthenticationLogoutData,
+  PostApiAuthenticationLogoutErrors,
+  PostApiAuthenticationLogoutResponses,
   PostApiAuthenticationMfaVerifyData,
   PostApiAuthenticationMfaVerifyErrors,
   PostApiAuthenticationMfaVerifyResponses,
@@ -83,14 +83,14 @@ export const postApiAuthenticationLogin = <
  * Logout
  * Logs out the user and invalidates their session.
  */
-export const getApiAuthenticationLogout = <
+export const postApiAuthenticationLogout = <
   ThrowOnError extends boolean = false,
 >(
-  options?: Options<GetApiAuthenticationLogoutData, ThrowOnError>
+  options?: Options<PostApiAuthenticationLogoutData, ThrowOnError>
 ) => {
-  return (options?.client ?? _heyApiClient).get<
-    GetApiAuthenticationLogoutResponses,
-    GetApiAuthenticationLogoutErrors,
+  return (options?.client ?? _heyApiClient).post<
+    PostApiAuthenticationLogoutResponses,
+    PostApiAuthenticationLogoutErrors,
     ThrowOnError
   >({
     url: '/api/authentication/logout',

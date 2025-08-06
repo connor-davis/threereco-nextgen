@@ -91,7 +91,7 @@ export const AuditLogSchema = {
   },
 } as const;
 
-export const ErrorSchema = {
+export const ErrorResponseSchema = {
   properties: {
     error: {
       default: 'Bad Request',
@@ -554,7 +554,7 @@ export const RoleSchema = {
   },
 } as const;
 
-export const SuccessSchema = {
+export const SuccessResponseSchema = {
   properties: {
     item: {
       anyOf: [

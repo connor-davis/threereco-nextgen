@@ -27,7 +27,7 @@ export type AuditLog = {
   userId?: string;
 };
 
-export type _Error = {
+export type ErrorResponse = {
   error?: string;
   message?: string;
 };
@@ -149,7 +149,7 @@ export type Role = {
   }>;
 };
 
-export type Success = {
+export type SuccessResponse = {
   item?:
     | {
         createdAt?: string;
@@ -1015,14 +1015,14 @@ export type PostApiAuthenticationLoginResponses = {
   200: unknown;
 };
 
-export type GetApiAuthenticationLogoutData = {
+export type PostApiAuthenticationLogoutData = {
   body?: never;
   path?: never;
   query?: never;
   url: '/api/authentication/logout';
 };
 
-export type GetApiAuthenticationLogoutErrors = {
+export type PostApiAuthenticationLogoutErrors = {
   /**
    * Unauthorized
    */
@@ -1040,10 +1040,10 @@ export type GetApiAuthenticationLogoutErrors = {
   default: unknown;
 };
 
-export type GetApiAuthenticationLogoutError =
-  GetApiAuthenticationLogoutErrors[keyof GetApiAuthenticationLogoutErrors];
+export type PostApiAuthenticationLogoutError =
+  PostApiAuthenticationLogoutErrors[keyof PostApiAuthenticationLogoutErrors];
 
-export type GetApiAuthenticationLogoutResponses = {
+export type PostApiAuthenticationLogoutResponses = {
   /**
    * Successful logout.
    */

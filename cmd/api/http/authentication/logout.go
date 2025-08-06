@@ -53,7 +53,7 @@ func (r *AuthenticationRouter) LogoutRoute() routing.Route {
 			RequestBody: nil,
 			Responses:   responses,
 		},
-		Method: routing.GetMethod,
+		Method: routing.PostMethod,
 		Path:   "/authentication/logout",
 		Middlewares: []fiber.Handler{
 			r.Middleware.Authorized(),
