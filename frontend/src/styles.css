@@ -121,15 +121,24 @@ body {
   --sidebar-ring: oklch(0.645 0.246 16.439);
 }
 
-.zing,
-:root,
-.dark {
-  --primary: hsl(34, 83%, 56%);
+.threereco,
+:root {
+  --primary: hsl(164, 86%, 16%);
   --primary-foreground: hsl(0, 0%, 100%);
-  --ring: hsl(34, 83%, 56%);
-  --sidebar-primary: hsl(34, 83%, 56%);
+  --ring: hsl(164, 86%, 16%);
+  --sidebar-primary: hsl(164, 86%, 16%);
   --sidebar-primary-foreground: hsl(0, 0%, 100%);
-  --sidebar-ring: hsl(34, 83%, 56%);
+  --sidebar-ring: hsl(164, 86%, 16%);
+}
+
+.threereco,
+.dark {
+  --primary: hsl(163.1, 88.1%, 19.8%);
+  --primary-foreground: hsl(0, 0%, 100%);
+  --ring: hsl(163.1, 88.1%, 19.8%);
+  --sidebar-primary: hsl(163.1, 88.1%, 19.8%);
+  --sidebar-primary-foreground: hsl(0, 0%, 100%);
+  --sidebar-ring: hsl(163.1, 88.1%, 19.8%);
 }
 
 @theme inline {
