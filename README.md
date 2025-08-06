@@ -1,6 +1,9 @@
-# 🚀 3rEco NextGen API
+# 🚀 3rEco NextGen Platform
 
-A comprehensive enterprise management API built with Go and Fiber, featuring authentication, multi-factor authentication, role-based access control, and audit logging.
+A full-stack enterprise management platform featuring:
+
+- **Backend:** Go + Fiber REST API (authentication, MFA, RBAC, audit logging, organizations, users, roles)
+- **Frontend:** Modern React (Vite, TanStack Router, Tailwind CSS) web app for user, organization, and role management
 
 ---
 
@@ -8,127 +11,136 @@ A comprehensive enterprise management API built with Go and Fiber, featuring aut
 
 ### Prerequisites
 
-- 🐹 [Go](https://golang.org/) (version 1.24.5 or later)
-- 🐘 PostgreSQL database
-- 🔧 PM2 (for production deployment)
+- [Go](https://golang.org/) >= 1.24.5
+- PostgreSQL database
+- Node.js & Yarn/NPM (for frontend)
+- PM2 (optional, for production deployment)
 
 ### Installation
 
-1. Clone the repository:
-
+1. **Clone the repository:**
    ```bash
    git clone <repository-url>
-   cd threereco-nextgen
+   cd nextgen-threereco
    ```
-
-2. Install Go dependencies:
-
+2. **Backend setup:**
    ```bash
    go mod download
-   ```
-
-3. Set up your PostgreSQL database and configure environment variables in `env/env.go`
-
-4. Run the application:
-   ```bash
    go run cmd/api/main.go
    ```
+   The API runs at `http://localhost:6173`.
+3. **Frontend setup:**
+   ```bash
+   cd frontend
+   yarn install # or npm install
+   yarn build   # or npm run build
+   npx serve dist --port 5177
+   ```
+   The frontend runs at `http://localhost:5177` and connects to the API.
+4. **Environment:**
+   - Configure database/API keys in `env/env.go` (backend)
+   - Set `VITE_API_URL` in `.env` (frontend) if needed
 
 ---
 
 ## 🏗️ Project Structure
 
 ```
-threereco-nextgen/
-├── cmd/
-│   └── api/
-│       ├── main.go                     # Application entry point
-│       └── http/
-│           ├── http.go                 # HTTP router setup
-│           ├── authentication/         # Authentication routes
-│           └── middleware/             # HTTP middleware
-├── env/
-│   └── env.go                         # Environment configuration
+nextgen-threereco/
+├── cmd/api/                  # Backend entrypoint & HTTP routing
+│   ├── main.go               # API server setup
+│   └── http/                 # HTTP routers & middleware
+│       ├── authentication/   # Auth endpoints (login, logout, MFA)
+│       └── middleware/       # Auth/session middleware
+├── env/                      # Environment config (env.go)
 ├── internal/
-│   ├── constants/                     # Application constants
-│   ├── models/                        # Data models
-│   │   ├── audit_log.go              # Audit logging model
-│   │   ├── organization.go           # Organization model
-│   │   ├── role.go                   # Role & permissions model
-│   │   └── user.go                   # User model with MFA
-│   ├── routing/                       # OpenAPI routing framework
-│   │   ├── bodies/                   # Request body schemas
-│   │   ├── properties/               # OpenAPI property definitions
-│   │   └── schemas/                  # OpenAPI schemas
-│   ├── services/                      # Business logic layer
-│   │   ├── organizations/            # Organization service
-│   │   ├── roles/                    # Role management service
-│   │   └── users/                    # User management service
-│   ├── sessions/                      # Session management
-│   └── storage/                       # Database layer
-├── ecosystem.config.js                # PM2 deployment configuration
-├── go.mod                            # Go module definition
-└── go.sum                            # Go module checksums
+│   ├── constants/            # Error/status constants
+│   ├── models/               # Data models (User, Organization, Role, AuditLog)
+│   ├── routing/              # OpenAPI schemas, route definitions
+│   ├── services/             # Business logic (users, roles, orgs)
+│   ├── sessions/             # Session management
+│   └── storage/              # Database connection/migrations
+├── frontend/
+│   ├── src/                  # React app source code
+│   │   ├── components/ui/    # UI components (Table, Select, Sheet, etc.)
+│   │   ├── hooks/            # Custom React hooks
+│   │   ├── lib/              # Utilities (permissions, API client)
+│   │   ├── providers/        # Context providers (auth, theme)
+│   │   ├── routes/           # Route definitions (TanStack Router)
+│   │   └── styles.css        # Tailwind & custom styles
+│   ├── dist/                 # Production build output
+│   ├── vite.config.ts        # Vite config
+│   └── tsconfig.json         # TypeScript config
+├── ecosystem.config.js       # PM2 deployment config
+├── go.mod                    # Go module definition
+└── go.sum                    # Go module checksums
 ```
 
 ---
 
-## � Features
+## ✨ Features
 
 ### 🔐 Authentication & Security
 
-- **Email/Password Authentication** with secure password hashing
-- **Multi-Factor Authentication (MFA)** using TOTP
-- **Session Management** with PostgreSQL-backed sessions
-- **Role-Based Access Control** with granular permissions
-- **Microsoft OAuth Integration** (configured for enterprise SSO)
+- Email/password login (bcrypt)
+- Multi-factor authentication (MFA, TOTP)
+- Session management (PostgreSQL-backed)
+- Role-based access control (RBAC)
+- Microsoft OAuth SSO (enterprise)
 
 ### 👥 User Management
 
-- User registration and profile management
+- Registration, profile, and password management
 - Organization-based user grouping
-- Self-referencing user modification tracking
+- Self-referencing modification tracking
 - Primary organization assignment
 
 ### 🏢 Organization Management
 
-- Multi-tenant organization structure
-- Domain-based organization identification
-- Owner and user associations
-- Organization-specific roles and permissions
+- Multi-tenant structure
+- Domain-based identification
+- Owner/user/role associations
 
 ### 📋 Role & Permission System
 
-- Flexible role-based permissions
+- Flexible, string-based permissions
 - Organization-scoped roles
-- Permission inheritance and checking
-- Dynamic role assignment
+- Permission inheritance/checking
+- Dynamic assignment
 
 ### 📊 Audit Logging
 
-- Comprehensive audit trail for all data changes
-- JSON-based change tracking
-- User attribution for all modifications
-- Automatic timestamping
+- Tracks all CRUD operations
+- JSON data snapshots
+- User attribution
+- Automatic timestamps
 
 ### 📖 API Documentation
 
-- **OpenAPI 3.0 Specification** with full schema definitions
-- **Interactive API Documentation** via Scalar
-- Auto-generated request/response schemas
-- Real-time API specification at `/api/api-spec`
+- OpenAPI 3.0 spec (auto-generated)
+- Interactive docs via Scalar
+- Real-time spec at `/api/api-spec`
 
 ---
 
 ## 📦 Key Dependencies
 
-- **[Fiber v2](https://gofiber.io/)** - Fast Express-inspired web framework
-- **[GORM](https://gorm.io/)** - Go ORM with advanced features
-- **[OpenAPI 3](https://github.com/getkin/kin-openapi)** - API specification and validation
-- **[go-json](https://github.com/goccy/go-json)** - High-performance JSON processing
-- **[UUID](https://github.com/google/uuid)** - UUID generation and parsing
-- **[OTP](https://github.com/pquerna/otp)** - TOTP multi-factor authentication
-- **[bcrypt](https://golang.org/x/crypto/bcrypt)** - Secure password hashing
+**Backend:**
+
+- [Fiber v2](https://gofiber.io/) - Web framework
+- [GORM](https://gorm.io/) - ORM
+- [OpenAPI 3](https://github.com/getkin/kin-openapi) - API spec
+- [go-json](https://github.com/goccy/go-json) - Fast JSON
+- [UUID](https://github.com/google/uuid) - UUIDs
+- [OTP](https://github.com/pquerna/otp) - MFA
+- [bcrypt](https://golang.org/x/crypto/bcrypt) - Password hashing
+
+**Frontend:**
+
+- [React](https://react.dev/) + [Vite](https://vitejs.dev/) - SPA
+- [TanStack Router](https://tanstack.com/router) - Routing
+- [Tailwind CSS](https://tailwindcss.com/) - Styling
+- [React Query](https://tanstack.com/query) - Data fetching
 
 ---
 
@@ -136,48 +148,55 @@ threereco-nextgen/
 
 ### Authentication
 
-- `POST /api/v2/authentication/login` - User login
-- `POST /api/v2/authentication/logout` - User logout
-- `GET /api/v2/authentication/check` - Check authentication status
-- `POST /api/v2/authentication/mfa/enable` - Enable MFA
-- `POST /api/v2/authentication/mfa/verify` - Verify MFA token
+- `POST /api/v2/authentication/login` — Login
+- `POST /api/v2/authentication/logout` — Logout
+- `GET /api/v2/authentication/check` — Check session
+- `POST /api/v2/authentication/mfa/enable` — Enable MFA
+- `POST /api/v2/authentication/mfa/verify` — Verify MFA
 
 ### System
 
-- `GET /api/health` - Health check endpoint
-- `GET /api/api-spec` - OpenAPI specification
-- `GET /api/api-doc` - Interactive API documentation
+- `GET /api/health` — Health check
+- `GET /api/api-spec` — OpenAPI spec
+- `GET /api/api-doc` — Interactive docs
 
 ---
 
 ## 🗃️ Data Models
 
-### User Model
+### User
 
-- **Authentication**: Email/password with MFA support
-- **Profile**: Name, phone, job title, profile image
-- **Associations**: Multiple organizations, roles, and permissions
-- **Security**: Encrypted password and MFA secret storage
+- Email/password (bcrypt)
+- MFA secret & status
+- Profile: name, phone, job title, image
+- Roles (many-to-many)
+- Organizations (many-to-many)
+- Primary organization
+- ModifiedBy (self-referencing)
+- Created/updated timestamps
 
-### Organization Model
+### Organization
 
-- **Identity**: Unique name and domain
-- **Ownership**: Owner user with administrative rights
-- **Members**: Associated users and their roles
-- **Auditing**: Creation and modification tracking
+- Name, domain (unique)
+- Owner (user)
+- Users, roles (many-to-many)
+- ModifiedBy (user)
+- Created/updated timestamps
 
-### Role Model
+### Role
 
-- **Permissions**: Flexible string-based permission system
-- **Associations**: Users and organizations
-- **Validation**: Built-in permission checking methods
+- Name, description
+- Permissions (string[])
+- Users, organizations (many-to-many)
+- ModifiedBy (user)
+- Created/updated timestamps
 
-### Audit Log Model
+### AuditLog
 
-- **Comprehensive Tracking**: All CRUD operations
-- **Data Snapshots**: JSON representation of changes
-- **Attribution**: User who performed the action
-- **Timestamps**: Automatic creation and update times
+- Table name, operation type
+- Object ID, data (JSON)
+- User (who performed action)
+- Created/updated timestamps
 
 ---
 
@@ -185,58 +204,62 @@ threereco-nextgen/
 
 ### Development
 
-```bash
-go run cmd/api/main.go
-```
+- Backend: `go run cmd/api/main.go` (http://localhost:6173)
+- Frontend: `npx serve dist --port 5177` (http://localhost:5177)
 
-The API will be available at `http://localhost:6173`
+### Production
 
-### Production with PM2
-
-```bash
-pm2 start ecosystem.config.js
-```
+- Use `pm2 start ecosystem.config.js` to run both backend and serve frontend from `frontend/dist`.
 
 ### Environment Configuration
 
-Configure the following in `env/env.go`:
-
-- `POSTGRES_DSN` - PostgreSQL connection string
-- `MICROSOFT_CLIENT_ID/SECRET` - OAuth credentials
-- `COOKIE_DOMAIN` - Session cookie domain
-- `MODE` - Application mode (development/production)
+- Backend: `env/env.go` (DB, OAuth, cookie, mode)
+- Frontend: `.env` (VITE_API_URL)
 
 ---
 
-## 🔧 Development
+## 🖥️ Frontend
 
-### Database Setup
+- Built with React, Vite, TanStack Router, Tailwind CSS
+- UI components for tables, forms, modals, sheets, sidebar, etc.
+- Authentication context/provider for user session
+- Theme provider (light/dark/system)
+- Permission checks via `lib/permissions.ts`
+- API client auto-configured for backend URL
+- Route-based code splitting and navigation
+- Responsive/mobile support via custom hooks
+- Entry: `frontend/src/main.tsx`, routes in `frontend/src/routes/`
+- Production build: `frontend/dist/`
 
-The application automatically:
+---
 
-1. Connects to PostgreSQL
-2. Runs database migrations
-3. Seeds initial data (admin user, roles, organization)
+## 🔧 Development Workflow
 
-### Adding New Routes
+### Backend
 
-1. Create route handlers in appropriate `cmd/api/http/` subdirectory
-2. Define OpenAPI schemas in `internal/routing/schemas/`
-3. Register routes in the router's `InitializeRoutes()` method
+- Auto-connects to PostgreSQL, runs migrations, seeds initial data
+- Add new routes: create handler in `cmd/api/http/`, define OpenAPI schema, register in router
+- Add custom middleware in `cmd/api/http/middleware/`
 
-### Custom Middleware
+### Frontend
 
-Add middleware in `cmd/api/http/middleware/` and register in the router setup.
+- Add new pages/routes in `frontend/src/routes/`
+- Add UI components in `frontend/src/components/ui/`
+- Use context providers for authentication, theme, etc.
+- Use hooks/utilities for permissions, API calls, mobile detection
 
 ---
 
 ## 📚 Learn More
 
-- 📖 [Fiber Documentation](https://docs.gofiber.io/)
-- � [GORM Documentation](https://gorm.io/docs/)
-- 🔐 [OpenAPI 3.0 Specification](https://swagger.io/specification/)
-- 🐹 [Go Documentation](https://golang.org/doc/)
-- 🐘 [PostgreSQL Documentation](https://www.postgresql.org/docs/)
+- [Fiber Documentation](https://docs.gofiber.io/)
+- [GORM Documentation](https://gorm.io/docs/)
+- [OpenAPI 3.0 Specification](https://swagger.io/specification/)
+- [Go Documentation](https://golang.org/doc/)
+- [PostgreSQL Documentation](https://www.postgresql.org/docs/)
+- [React Documentation](https://react.dev/)
+- [TanStack Router](https://tanstack.com/router)
+- [Tailwind CSS](https://tailwindcss.com/)
 
 ---
 
