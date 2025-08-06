@@ -8,6 +8,12 @@ import type {
   GetApiAuthenticationMfaEnableData,
   GetApiAuthenticationMfaEnableErrors,
   GetApiAuthenticationMfaEnableResponses,
+  GetApiUsersByIdData,
+  GetApiUsersByIdErrors,
+  GetApiUsersByIdResponses,
+  GetApiUsersData,
+  GetApiUsersErrors,
+  GetApiUsersResponses,
   PostApiAuthenticationLoginData,
   PostApiAuthenticationLoginErrors,
   PostApiAuthenticationLoginResponses,
@@ -141,6 +147,23 @@ export const postApiAuthenticationMfaVerify = <
 };
 
 /**
+ * View Users
+ * Endpoint to retrieve a list of users with pagination and optional search query
+ */
+export const getApiUsers = <ThrowOnError extends boolean = false>(
+  options?: Options<GetApiUsersData, ThrowOnError>
+) => {
+  return (options?.client ?? _heyApiClient).get<
+    GetApiUsersResponses,
+    GetApiUsersErrors,
+    ThrowOnError
+  >({
+    url: '/api/users',
+    ...options,
+  });
+};
+
+/**
  * Create User
  * Creates a new user.
  */
@@ -158,5 +181,22 @@ export const postApiUsers = <ThrowOnError extends boolean = false>(
       'Content-Type': 'application/json',
       ...options.headers,
     },
+  });
+};
+
+/**
+ * View User
+ * Endpoint to retrieve a user by their ID
+ */
+export const getApiUsersById = <ThrowOnError extends boolean = false>(
+  options: Options<GetApiUsersByIdData, ThrowOnError>
+) => {
+  return (options.client ?? _heyApiClient).get<
+    GetApiUsersByIdResponses,
+    GetApiUsersByIdErrors,
+    ThrowOnError
+  >({
+    url: '/api/users/{id}',
+    ...options,
   });
 };

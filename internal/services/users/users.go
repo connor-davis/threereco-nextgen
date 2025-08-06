@@ -144,3 +144,13 @@ func (s *UsersService) GetAll(clauses ...clause.Expression) ([]models.User, erro
 
 	return users, nil
 }
+
+func (s *UsersService) GetTotal(clauses ...clause.Expression) (int64, error) {
+	var total int64
+
+	if err := s.Storage.Postgres.Clauses(clauses...).Model(&models.User{}).Count(&total).Error; err != nil {
+		return 0, err
+	}
+
+	return total, nil
+}

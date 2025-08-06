@@ -25,9 +25,14 @@ func NewUsersRouter(storage *storage.Storage, sessions *session.Store, services 
 }
 
 func (r *UsersRouter) InitializeRoutes() []routing.Route {
+	viewRoute := r.ViewRoute()
+	viewByIdRoute := r.ViewByIdRoute()
+
 	createRoute := r.CreateRoute()
 
 	return []routing.Route{
+		viewRoute,
+		viewByIdRoute,
 		createRoute,
 	}
 }
