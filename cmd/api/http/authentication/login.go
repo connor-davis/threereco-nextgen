@@ -14,7 +14,7 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-type LoginRequest struct {
+type LoginPayload struct {
 	Email    string `json:"email"`
 	Password string `json:"password"`
 }
@@ -91,13 +91,13 @@ func (r *AuthenticationRouter) LoginRoute() routing.Route {
 			Description: "Endpoint for user login",
 			Tags:        []string{"Authentication"},
 			Parameters:  nil,
-			RequestBody: bodies.LoginRequestBody,
+			RequestBody: bodies.LoginPayloadBody,
 			Responses:   responses,
 		},
 		Method: routing.PostMethod,
 		Path:   "/authentication/login",
 		Handler: func(c *fiber.Ctx) error {
-			var loginRequest LoginRequest
+			var loginRequest LoginPayload
 
 			if err := c.BodyParser(&loginRequest); err != nil {
 				log.Errorf("🔥 Error parsing request body: %s", err.Error())

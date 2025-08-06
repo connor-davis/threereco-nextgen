@@ -5,6 +5,7 @@ import (
 	"github.com/connor-davis/threereco-nextgen/internal/models"
 	"github.com/gofiber/fiber/v2/log"
 	"github.com/google/uuid"
+	"golang.org/x/crypto/bcrypt"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
@@ -122,8 +123,17 @@ func (s *Storage) SeedPostgres() {
 	organizationAdminUserName := string(env.DEFAULT_ORGANIZATION_ADMIN_NAME)
 	organizationAdminUserPhone := string(env.DEFAULT_ORGANIZATION_ADMIN_PHONE)
 
+	organizationAdminUserHashedPassword, err := bcrypt.GenerateFromPassword([]byte(string(env.DEFAULT_ORGANIZATION_ADMIN_PASSWORD)), bcrypt.DefaultCost)
+
+	if err != nil {
+		log.Errorf("❌ Failed to hash organization admin user password: %v", err)
+
+		return
+	}
+
 	organizationAdminUser := &models.User{
 		Email:                 string(env.DEFAULT_ORGANIZATION_ADMIN_EMAIL),
+		Password:              organizationAdminUserHashedPassword,
 		Name:                  &organizationAdminUserName,
 		Phone:                 &organizationAdminUserPhone,
 		Image:                 nil,

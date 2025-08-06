@@ -5,6 +5,6 @@ import (
 	"github.com/getkin/kin-openapi/openapi3"
 )
 
-var LoginRequestBody = &openapi3.RequestBodyRef{
-	Value: openapi3.NewRequestBody().WithJSONSchemaRef(schemas.LoginRequestSchema).WithRequired(true),
+var LoginPayloadBody = &openapi3.RequestBodyRef{
+	Value: openapi3.NewRequestBody().WithJSONSchemaRef(schemas.LoginPayloadSchema).WithRequired(true),
 }

@@ -5,4 +5,4 @@ import (
 	"github.com/getkin/kin-openapi/openapi3"
 )
 
-var LoginRequestSchema = openapi3.NewSchema().WithProperties(properties.LoginRequestProperties).NewRef()
+var LoginPayloadSchema = openapi3.NewSchema().WithProperties(properties.LoginPayloadProperties).NewRef()
