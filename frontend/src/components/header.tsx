@@ -10,7 +10,7 @@ export default function Header() {
         <SidebarTrigger />
 
         <Link to="/">
-          <Label className="text-primary">3rEco</Label>
+          <Label className="text-primary font-bold text-2xl">3rEco</Label>
         </Link>
       </div>
     </div>
