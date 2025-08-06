@@ -18,7 +18,7 @@ func NewSessions() *session.Store {
 			Table:         "sessions",
 			ConnectionURI: string(env.POSTGRES_DSN),
 		}),
-		KeyLookup:         "cookie:one_session",
+		KeyLookup:         "cookie:threereco_session",
 		CookieDomain:      string(env.COOKIE_DOMAIN),
 		CookiePath:        "/",
 		CookieSecure:      true,

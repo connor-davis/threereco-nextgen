@@ -24,20 +24,7 @@ func (r *AuthenticationRouter) LoginRoute() routing.Route {
 
 	responses.Set("200", &openapi3.ResponseRef{
 		Value: openapi3.NewResponse().
-			WithJSONSchema(
-				schemas.SuccessResponseSchema.Value,
-			).
-			WithDescription("User logged in successfully.").
-			WithContent(openapi3.Content{
-				"application/json": &openapi3.MediaType{
-					Example: map[string]any{
-						"message": constants.Success,
-						"details": constants.SuccessDetails,
-						"data":    map[string]any{},
-					},
-					Schema: schemas.SuccessResponseSchema,
-				},
-			}),
+			WithDescription("The user has been successfully logged in."),
 	})
 
 	responses.Set("400", &openapi3.ResponseRef{
@@ -88,7 +75,7 @@ func (r *AuthenticationRouter) LoginRoute() routing.Route {
 	return routing.Route{
 		OpenAPIMetadata: routing.OpenAPIMetadata{
 			Summary:     "Login",
-			Description: "Endpoint for user login",
+			Description: "Logs in a user with email and password.",
 			Tags:        []string{"Authentication"},
 			Parameters:  nil,
 			RequestBody: bodies.LoginPayloadBody,
@@ -151,8 +138,8 @@ func (r *AuthenticationRouter) LoginRoute() routing.Route {
 				})
 			}
 
-			currentSession.Set("userId", user.Id.String())
-			currentSession.SetExpiry(24 * time.Hour)
+			currentSession.Set("user_id", user.Id.String())
+			currentSession.SetExpiry(1 * time.Hour)
 
 			if err := currentSession.Save(); err != nil {
 				log.Errorf("🔥 Error saving session: %s", err.Error())
@@ -177,11 +164,7 @@ func (r *AuthenticationRouter) LoginRoute() routing.Route {
 				})
 			}
 
-			return c.Status(fiber.StatusOK).JSON(&fiber.Map{
-				"message": constants.Success,
-				"details": constants.SuccessDetails,
-				"data":    user,
-			})
+			return c.SendStatus(fiber.StatusOK)
 		},
 	}
 }
