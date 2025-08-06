@@ -1,11 +1,24 @@
+import { QueryClientProvider } from '@tanstack/react-query';
 import { Outlet, createRootRoute } from '@tanstack/react-router';
 import { TanStackRouterDevtools } from '@tanstack/react-router-devtools';
 
+import { Toaster } from '@/components/ui/sonner';
+import { queryClient } from '@/lib/utils';
+import { AuthenticationProvider } from '@/providers/authentication';
+import { ThemeProvider } from '@/providers/theme';
+
 export const Route = createRootRoute({
   component: () => (
-    <>
-      <Outlet />
-      {import.meta.env.MODE === 'development' && <TanStackRouterDevtools />}
-    </>
+    <ThemeProvider defaultTheme="system" defaultAppearance="threereco">
+      <QueryClientProvider client={queryClient}>
+        <AuthenticationProvider>
+          <div className="flex flex-col w-screen h-screen text-foreground bg-background">
+            <Outlet />
+          </div>
+          {import.meta.env.MODE === 'development' && <TanStackRouterDevtools />}
+        </AuthenticationProvider>
+      </QueryClientProvider>
+      <Toaster />
+    </ThemeProvider>
   ),
 });
