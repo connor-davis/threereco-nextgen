@@ -39,3 +39,5 @@ var UserArraySchema = openapi3.NewArraySchema().
 	WithItems(UserSchema.Value).NewRef()
 
 var CreateUserPayloadSchema = openapi3.NewSchema().WithProperties(properties.CreateUserPayloadProperties).NewRef()
+
+var UpdateUserPayloadSchema = openapi3.NewSchema().WithProperties(properties.UpdateUserPayloadProperties).NewRef()

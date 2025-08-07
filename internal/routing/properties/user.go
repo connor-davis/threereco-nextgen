@@ -40,3 +40,12 @@ var CreateUserPayloadProperties = map[string]*openapi3.Schema{
 	"jobTitle": openapi3.NewStringSchema().WithNullable(),
 	"roles":    openapi3.NewArraySchema().WithItems(openapi3.NewStringSchema().WithFormat("uuid")),
 }
+
+var UpdateUserPayloadProperties = map[string]*openapi3.Schema{
+	"email":         openapi3.NewStringSchema().WithFormat("email").WithMinLength(1),
+	"name":          openapi3.NewStringSchema().WithNullable(),
+	"phone":         openapi3.NewStringSchema().WithNullable(),
+	"jobTitle":      openapi3.NewStringSchema().WithNullable(),
+	"organizations": openapi3.NewArraySchema().WithItems(openapi3.NewStringSchema().WithFormat("uuid")),
+	"roles":         openapi3.NewArraySchema().WithItems(openapi3.NewStringSchema().WithFormat("uuid")),
+}

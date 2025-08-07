@@ -4,30 +4,19 @@ import (
 	"github.com/connor-davis/threereco-nextgen/internal/constants"
 	"github.com/connor-davis/threereco-nextgen/internal/models"
 	"github.com/connor-davis/threereco-nextgen/internal/routing"
-	"github.com/connor-davis/threereco-nextgen/internal/routing/bodies"
 	"github.com/connor-davis/threereco-nextgen/internal/routing/schemas"
 	"github.com/getkin/kin-openapi/openapi3"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/log"
 	"github.com/google/uuid"
-	"golang.org/x/crypto/bcrypt"
 )
 
-type CreateUserPayload struct {
-	Email    string   `json:"email"`
-	Password string   `json:"password"`
-	Name     string   `json:"name"`
-	Phone    string   `json:"phone"`
-	JobTitle string   `json:"jobTitle"`
-	Roles    []string `json:"roles"`
-}
-
-func (r *UsersRouter) CreateRoute() routing.Route {
+func (r *UsersRouter) DeleteByIdRoute() routing.Route {
 	responses := openapi3.NewResponses()
 
 	responses.Set("200", &openapi3.ResponseRef{
 		Value: openapi3.NewResponse().
-			WithDescription("The user has been successfully created."),
+			WithDescription("The user has been successfully deleted."),
 	})
 
 	responses.Set("400", &openapi3.ResponseRef{
@@ -61,10 +50,24 @@ func (r *UsersRouter) CreateRoute() routing.Route {
 		}),
 	})
 
+	responses.Set("404", &openapi3.ResponseRef{
+		Value: openapi3.NewResponse().WithJSONSchema(
+			schemas.ErrorResponseSchema.Value,
+		).WithDescription("User not found.").WithContent(openapi3.Content{
+			"application/json": &openapi3.MediaType{
+				Example: map[string]any{
+					"error":   constants.NotFoundError,
+					"details": constants.NotFoundErrorDetails,
+				},
+				Schema: schemas.ErrorResponseSchema,
+			},
+		}),
+	})
+
 	responses.Set("500", &openapi3.ResponseRef{
 		Value: openapi3.NewResponse().WithJSONSchema(
 			schemas.ErrorResponseSchema.Value,
-		).WithDescription("Internal Server Error.").WithContent(openapi3.Content{
+		).WithDescription("Internal server error.").WithContent(openapi3.Content{
 			"application/json": &openapi3.MediaType{
 				Example: map[string]any{
 					"error":   constants.InternalServerError,
@@ -75,25 +78,44 @@ func (r *UsersRouter) CreateRoute() routing.Route {
 		}),
 	})
 
+	parameters := []*openapi3.ParameterRef{
+		{
+			Value: &openapi3.Parameter{
+				Name:     "id",
+				In:       "path",
+				Required: true,
+				Schema: &openapi3.SchemaRef{
+					Value: &openapi3.Schema{
+						Type: &openapi3.Types{
+							"uuid",
+						},
+					},
+				},
+			},
+		},
+	}
+
 	return routing.Route{
 		OpenAPIMetadata: routing.OpenAPIMetadata{
-			Summary:     "Create User",
-			Description: "Creates a new user.",
+			Summary:     "Delete User by ID",
+			Description: "Deletes a user by by their id.",
 			Tags:        []string{"Users"},
-			Parameters:  nil,
-			RequestBody: bodies.CreateUserPayloadBody,
+			Parameters:  parameters,
+			RequestBody: nil,
 			Responses:   responses,
 		},
-		Method:      routing.PostMethod,
-		Path:        "/users",
-		Middlewares: []fiber.Handler{},
+		Method: routing.DeleteMethod,
+		Path:   "/users/{id}",
+		Middlewares: []fiber.Handler{
+			r.Middleware.Authorized(),
+		},
 		Handler: func(c *fiber.Ctx) error {
-			currentUser := c.Locals("user").(*models.User)
+			localUser := c.Locals("user").(*models.User)
 
-			var payload CreateUserPayload
+			id := c.Params("id")
 
-			if err := c.BodyParser(&payload); err != nil {
-				log.Errorf("🔥 Error parsing request body: %s", err.Error())
+			if id == "" {
+				log.Infof("🔥 User id is required.")
 
 				return c.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
 					"error":   constants.BadRequestError,
@@ -101,53 +123,39 @@ func (r *UsersRouter) CreateRoute() routing.Route {
 				})
 			}
 
-			hashedPassword, err := bcrypt.GenerateFromPassword([]byte(payload.Password), bcrypt.DefaultCost)
+			idUUID, err := uuid.Parse(id)
 
 			if err != nil {
-				log.Errorf("🔥 Error hashing password: %s", err.Error())
+				log.Errorf("🔥 Error parsing user id: %s", err.Error())
 
-				return c.Status(fiber.StatusInternalServerError).JSON(&fiber.Map{
+				return c.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
+					"error":   constants.BadRequestError,
+					"details": constants.BadRequestErrorDetails,
+				})
+			}
+
+			existingUser, err := r.Services.Users.GetById(idUUID)
+
+			if err != nil {
+				log.Errorf("🔥 Error retrieving user: %s", err.Error())
+
+				return c.Status(fiber.StatusNotFound).JSON(&fiber.Map{
 					"error":   constants.InternalServerError,
 					"details": constants.InternalServerErrorDetails,
 				})
 			}
 
-			user := models.User{
-				Email:    payload.Email,
-				Password: hashedPassword,
-				Name:     &payload.Name,
-				Phone:    &payload.Phone,
-				JobTitle: &payload.JobTitle,
+			if existingUser.Id == uuid.Nil {
+				log.Infof("🔥 User with ID %s not found", id)
+
+				return c.Status(fiber.StatusNotFound).JSON(&fiber.Map{
+					"error":   constants.NotFoundError,
+					"details": constants.NotFoundErrorDetails,
+				})
 			}
 
-			for _, roleId := range payload.Roles {
-				roleIdUUID, err := uuid.Parse(roleId)
-
-				if err != nil {
-					log.Errorf("🔥 Error parsing role ID: %s", err.Error())
-
-					continue
-				}
-
-				role, err := r.Services.Roles.GetById(roleIdUUID)
-
-				if err != nil {
-					log.Errorf("🔥 Error retrieving role: %s", err.Error())
-
-					continue
-				}
-
-				if role.Id == uuid.Nil {
-					log.Warnf("⚠️ Role with ID %s not found", roleId)
-
-					continue
-				}
-
-				user.Roles = append(user.Roles, *role)
-			}
-
-			if err := r.Services.Users.Create(currentUser.Id, &user); err != nil {
-				log.Errorf("🔥 Error creating user: %s", err.Error())
+			if err := r.Services.Users.Delete(localUser.Id, idUUID); err != nil {
+				log.Errorf("🔥 Error deleting user: %s", err.Error())
 
 				return c.Status(fiber.StatusInternalServerError).JSON(&fiber.Map{
 					"error":   constants.InternalServerError,

@@ -8,3 +8,7 @@ import (
 var CreateUserPayloadBody = &openapi3.RequestBodyRef{
 	Value: openapi3.NewRequestBody().WithJSONSchemaRef(schemas.CreateUserPayloadSchema).WithRequired(true),
 }
+
+var UpdateUserPayloadBody = &openapi3.RequestBodyRef{
+	Value: openapi3.NewRequestBody().WithJSONSchemaRef(schemas.UpdateUserPayloadSchema).WithRequired(true),
+}

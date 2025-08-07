@@ -29,10 +29,14 @@ func (r *UsersRouter) InitializeRoutes() []routing.Route {
 	viewByIdRoute := r.ViewByIdRoute()
 
 	createRoute := r.CreateRoute()
+	updateByIdRoute := r.UpdateByIdRoute()
+	deleteByIdRoute := r.DeleteByIdRoute()
 
 	return []routing.Route{
 		viewRoute,
 		viewByIdRoute,
 		createRoute,
+		updateByIdRoute,
+		deleteByIdRoute,
 	}
 }

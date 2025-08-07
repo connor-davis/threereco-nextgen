@@ -29,12 +29,25 @@ func NewRolesService(storage *storage.Storage) *RolesService {
 	}
 }
 
-// Upsert inserts or updates a role in the database. If the role already exists, it is updated;
-// otherwise, a new role is created. The operation is performed within the context of the provided
-// auditId for auditing purposes. Additional GORM clauses can be specified to customize the query.
-// Returns an error if the operation fails.
-func (s *RolesService) Upsert(auditId uuid.UUID, role *models.Role, clauses ...clause.Expression) error {
-	if err := s.Storage.Postgres.Set("one:audit_user_id", auditId).Clauses(clauses...).Assign(&role).FirstOrCreate(&role).Error; err != nil {
+// Create inserts a new role record into the database using the provided Role model.
+// It associates the operation with the given auditId for auditing purposes.
+// Returns an error if the creation fails.
+func (s *RolesService) Create(auditId uuid.UUID, role *models.Role) error {
+	if err := s.Storage.Postgres.Set("one:audit_user_id", auditId).
+		Create(role).Error; err != nil {
+		return err
+	}
+
+	return nil
+}
+
+// Update updates the role with the specified ID in the database.
+// It uses the provided auditId for auditing purposes and applies the changes from the given role model.
+// Returns an error if the update operation fails.
+func (s *RolesService) Update(auditId uuid.UUID, id uuid.UUID, role *models.Role) error {
+	if err := s.Storage.Postgres.Set("one:audit_user_id", auditId).
+		Where("id = ?", id).
+		Updates(role).Error; err != nil {
 		return err
 	}
 
@@ -51,7 +64,7 @@ func (s *RolesService) Upsert(auditId uuid.UUID, role *models.Role, clauses ...c
 //
 // Returns:
 //   - error: Non-nil if the deletion fails, nil otherwise.
-func (s *RolesService) Delete(auditId uuid.UUID, id string) error {
+func (s *RolesService) Delete(auditId uuid.UUID, id uuid.UUID) error {
 	if err := s.Storage.Postgres.Set("one:audit_user_id", auditId).Where("id = ?", id).Delete(&models.Role{}).Error; err != nil {
 		return err
 	}
@@ -68,7 +81,7 @@ func (s *RolesService) Delete(auditId uuid.UUID, id string) error {
 // Returns:
 //   - *models.Role: Pointer to the retrieved Role model.
 //   - error: Error encountered during the retrieval, or nil if successful.
-func (s *RolesService) GetById(id string) (*models.Role, error) {
+func (s *RolesService) GetById(id uuid.UUID) (*models.Role, error) {
 	var role models.Role
 
 	if err := s.Storage.Postgres.Where("id = ?", id).Find(&role).Error; err != nil {
@@ -97,4 +110,17 @@ func (s *RolesService) GetAll(clauses ...clause.Expression) ([]models.Role, erro
 	}
 
 	return roles, nil
+}
+
+// GetTotal returns the total number of Role records in the database that match the provided GORM clause expressions.
+// It accepts a variable number of clause.Expression arguments to filter the query.
+// Returns the count as int64 and an error if the query fails.
+func (s *RolesService) GetTotal(clauses ...clause.Expression) (int64, error) {
+	var total int64
+
+	if err := s.Storage.Postgres.Model(&models.Role{}).Clauses(clauses...).Count(&total).Error; err != nil {
+		return 0, err
+	}
+
+	return total, nil
 }

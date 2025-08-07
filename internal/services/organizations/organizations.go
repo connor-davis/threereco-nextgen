@@ -29,12 +29,26 @@ func NewOrganizationsService(storage *storage.Storage) *OrganizationsService {
 	}
 }
 
-// Upsert creates a new organization record or updates an existing one in the database.
-// It uses the provided auditId for tracking the user performing the operation.
-// Additional GORM clause expressions can be passed to customize the query.
+// Create adds a new organization record to the database with the specified audit ID.
+// It sets the audit user ID for tracking purposes before creating the organization.
 // Returns an error if the operation fails.
-func (s *OrganizationsService) Upsert(auditId uuid.UUID, organization *models.Organization, clauses ...clause.Expression) error {
-	if err := s.Storage.Postgres.Set("one:audit_user_id", auditId).Clauses(clauses...).Assign(&organization).FirstOrCreate(&organization).Error; err != nil {
+func (s *OrganizationsService) Create(auditId uuid.UUID, organization *models.Organization) error {
+	if err := s.Storage.Postgres.Set("one:audit_user_id", auditId).
+		Create(organization).Error; err != nil {
+		return err
+	}
+
+	return nil
+}
+
+// Update updates an existing organization record in the database identified by the given id.
+// It uses the provided auditId for tracking the user performing the update.
+// The organization parameter contains the new data to be updated.
+// Returns an error if the update operation fails.
+func (s *OrganizationsService) Update(auditId uuid.UUID, id uuid.UUID, organization *models.Organization) error {
+	if err := s.Storage.Postgres.Set("one:audit_user_id", auditId).
+		Where("id = $1", id).
+		Updates(organization).Error; err != nil {
 		return err
 	}
 
@@ -44,8 +58,10 @@ func (s *OrganizationsService) Upsert(auditId uuid.UUID, organization *models.Or
 // Delete removes an organization record from the database by its ID.
 // It associates the deletion with the provided auditId for auditing purposes.
 // Returns an error if the deletion fails.
-func (s *OrganizationsService) Delete(auditId uuid.UUID, id string) error {
-	if err := s.Storage.Postgres.Set("one:audit_user_id", auditId).Where("id = ?", id).Delete(&models.Organization{}).Error; err != nil {
+func (s *OrganizationsService) Delete(auditId uuid.UUID, id uuid.UUID) error {
+	if err := s.Storage.Postgres.Set("one:audit_user_id", auditId).
+		Where("id = $1", id).
+		Delete(&models.Organization{}).Error; err != nil {
 		return err
 	}
 
@@ -61,10 +77,11 @@ func (s *OrganizationsService) Delete(auditId uuid.UUID, id string) error {
 // Returns:
 //   - *models.Organization: Pointer to the retrieved organization, or nil if not found.
 //   - error: Error encountered during the retrieval, or nil if successful.
-func (s *OrganizationsService) GetById(id string) (*models.Organization, error) {
+func (s *OrganizationsService) GetById(id uuid.UUID) (*models.Organization, error) {
 	var organization models.Organization
 
-	if err := s.Storage.Postgres.Where("id = ?", id).Find(&organization).Error; err != nil {
+	if err := s.Storage.Postgres.Where("id = $1", id).
+		Find(&organization).Error; err != nil {
 		return nil, err
 	}
 
@@ -85,9 +102,25 @@ func (s *OrganizationsService) GetById(id string) (*models.Organization, error) 
 func (s *OrganizationsService) GetAll(clauses ...clause.Expression) ([]models.Organization, error) {
 	var organizations []models.Organization
 
-	if err := s.Storage.Postgres.Clauses(clauses...).Find(&organizations).Error; err != nil {
+	if err := s.Storage.Postgres.Clauses(clauses...).
+		Find(&organizations).Error; err != nil {
 		return nil, err
 	}
 
 	return organizations, nil
+}
+
+// GetTotal returns the total number of Organization records that match the provided GORM clause expressions.
+// It accepts a variable number of clause.Expression arguments to filter the query.
+// The function returns the count of matching records and any error encountered during the query execution.
+func (s *OrganizationsService) GetTotal(clauses ...clause.Expression) (int64, error) {
+	var count int64
+
+	if err := s.Storage.Postgres.Model(&models.Organization{}).
+		Clauses(clauses...).
+		Count(&count).Error; err != nil {
+		return 0, err
+	}
+
+	return count, nil
 }

@@ -145,6 +145,9 @@ func (s *UsersService) GetAll(clauses ...clause.Expression) ([]models.User, erro
 	return users, nil
 }
 
+// GetTotal returns the total number of User records in the database that match the provided GORM clause expressions.
+// It accepts a variadic number of clause.Expression arguments to filter the query.
+// Returns the count as int64 and an error if the query fails.
 func (s *UsersService) GetTotal(clauses ...clause.Expression) (int64, error) {
 	var total int64
 
