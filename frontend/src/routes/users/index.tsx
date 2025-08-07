@@ -5,7 +5,6 @@ import {
   useRouter,
 } from '@tanstack/react-router';
 
-import { capitalCase } from 'change-case';
 import z from 'zod';
 
 import { type ErrorResponse, type User, getApiUsers } from '@/api-client';
@@ -109,9 +108,9 @@ function RouteComponent() {
           />
 
           <PermissionGuard value="users.create">
-            {/* <CreateUserDialog> */}
-            <Button variant="ghost">Add</Button>
-            {/* </CreateUserDialog> */}
+            <Link to="/users/create">
+              <Button variant="ghost">Add</Button>
+            </Link>
           </PermissionGuard>
         </div>
       </div>
@@ -127,21 +126,27 @@ function RouteComponent() {
               )}
             >
               <div className="flex items-center gap-3">
-                <div className="flex flex-col">
-                  <Label className="text-sm">{user.email}</Label>
-                  <Label className="text-xs text-muted-foreground">
-                    {capitalCase(
-                      Array.isArray(user.roles)
-                        ? user.roles.join(', ')
-                        : (user.roles ?? 'user')
-                    )}
-                  </Label>
-                </div>
+                {user.name && (
+                  <div className="flex flex-col">
+                    <Label className="text-sm">{user.name}</Label>
+                    <Label className="text-sm text-muted-foreground">
+                      {user.email}
+                    </Label>
+                  </div>
+                )}
+
+                {!user.name && (
+                  <div className="flex flex-col">
+                    <Label className="text-sm">{user.email}</Label>
+                  </div>
+                )}
               </div>
               <div className="flex items-center gap-3">
-                {/* <Link to="/users/$id" params={{ id: user.ID! }}> */}
-                <Button variant="ghost">Edit</Button>
-                {/* </Link> */}
+                <PermissionGuard value="users.update">
+                  <Link to="/users/$id/edit" params={{ id: user.id! }}>
+                    <Button variant="ghost">Edit</Button>
+                  </Link>
+                </PermissionGuard>
                 <PermissionGuard value="users.delete">
                   <DeleteUserByIdDialog id={user.id!} email={user.email!}>
                     <Button variant="ghost">Delete</Button>
