@@ -14,6 +14,7 @@ import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
 import { DebounceInput } from '@/components/ui/debounce-input';
 import { Label } from '@/components/ui/label';
+import DeleteUserByIdDialog from '@/components/users/delete.dialog';
 import { apiClient, cn } from '@/lib/utils';
 
 export const Route = createFileRoute('/users/')({
@@ -138,14 +139,14 @@ function RouteComponent() {
                 </div>
               </div>
               <div className="flex items-center gap-3">
-                {/* <RoleGuard value="admin">
-                  <Link to="/users/$id" params={{ id: user.ID! }}> */}
+                {/* <Link to="/users/$id" params={{ id: user.ID! }}> */}
                 <Button variant="ghost">Edit</Button>
-                {/* </Link>
-                  <DeleteUserDialog id={user.ID!} email={user.Email!}> */}
-                <Button variant="ghost">Delete</Button>
-                {/* </DeleteUserDialog>
-                </RoleGuard> */}
+                {/* </Link> */}
+                <PermissionGuard value="users.delete">
+                  <DeleteUserByIdDialog id={user.id!} email={user.email!}>
+                    <Button variant="ghost">Delete</Button>
+                  </DeleteUserByIdDialog>
+                </PermissionGuard>
               </div>
             </div>
           ))

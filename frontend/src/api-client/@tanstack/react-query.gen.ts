@@ -9,6 +9,7 @@ import {
 import { client as _heyApiClient } from '../client.gen';
 import {
   type Options,
+  deleteApiUsersById,
   getApiAuthenticationCheck,
   getApiAuthenticationMfaEnable,
   getApiUsers,
@@ -17,8 +18,11 @@ import {
   postApiAuthenticationLogout,
   postApiAuthenticationMfaVerify,
   postApiUsers,
+  putApiUsersById,
 } from '../sdk.gen';
 import type {
+  DeleteApiUsersByIdData,
+  DeleteApiUsersByIdError,
   GetApiAuthenticationCheckData,
   GetApiAuthenticationMfaEnableData,
   GetApiUsersByIdData,
@@ -33,6 +37,8 @@ import type {
   PostApiAuthenticationMfaVerifyError,
   PostApiUsersData,
   PostApiUsersError,
+  PutApiUsersByIdData,
+  PutApiUsersByIdError,
 } from '../types.gen';
 
 export type QueryKey<TOptions extends Options> = [
@@ -440,6 +446,34 @@ export const postApiUsersMutation = (
   return mutationOptions;
 };
 
+/**
+ * Delete User by ID
+ * Deletes a user by by their id.
+ */
+export const deleteApiUsersByIdMutation = (
+  options?: Partial<Options<DeleteApiUsersByIdData>>
+): UseMutationOptions<
+  unknown,
+  DeleteApiUsersByIdError,
+  Options<DeleteApiUsersByIdData>
+> => {
+  const mutationOptions: UseMutationOptions<
+    unknown,
+    DeleteApiUsersByIdError,
+    Options<DeleteApiUsersByIdData>
+  > = {
+    mutationFn: async (localOptions) => {
+      const { data } = await deleteApiUsersById({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
+};
+
 export const getApiUsersByIdQueryKey = (
   options: Options<GetApiUsersByIdData>
 ) => createQueryKey('getApiUsersById', options);
@@ -463,4 +497,32 @@ export const getApiUsersByIdOptions = (
     },
     queryKey: getApiUsersByIdQueryKey(options),
   });
+};
+
+/**
+ * Update User by ID
+ * Updates the user information for a specific user identified by their id.
+ */
+export const putApiUsersByIdMutation = (
+  options?: Partial<Options<PutApiUsersByIdData>>
+): UseMutationOptions<
+  unknown,
+  PutApiUsersByIdError,
+  Options<PutApiUsersByIdData>
+> => {
+  const mutationOptions: UseMutationOptions<
+    unknown,
+    PutApiUsersByIdError,
+    Options<PutApiUsersByIdData>
+  > = {
+    mutationFn: async (localOptions) => {
+      const { data } = await putApiUsersById({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
 };

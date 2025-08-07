@@ -1591,6 +1591,57 @@ export type PostApiUsersResponses = {
   200: unknown;
 };
 
+export type DeleteApiUsersByIdData = {
+  body?: never;
+  path: {
+    id: unknown;
+  };
+  query?: never;
+  url: '/api/users/{id}';
+};
+
+export type DeleteApiUsersByIdErrors = {
+  /**
+   * Invalid request.
+   */
+  400: {
+    error?: string;
+    message?: string;
+  };
+  /**
+   * Unauthorized.
+   */
+  401: {
+    error?: string;
+    message?: string;
+  };
+  /**
+   * User not found.
+   */
+  404: {
+    error?: string;
+    message?: string;
+  };
+  /**
+   * Internal server error.
+   */
+  500: {
+    error?: string;
+    message?: string;
+  };
+  default: unknown;
+};
+
+export type DeleteApiUsersByIdError =
+  DeleteApiUsersByIdErrors[keyof DeleteApiUsersByIdErrors];
+
+export type DeleteApiUsersByIdResponses = {
+  /**
+   * The user has been successfully deleted.
+   */
+  200: unknown;
+};
+
 export type GetApiUsersByIdData = {
   body?: never;
   path: {
@@ -2011,6 +2062,64 @@ export type GetApiUsersByIdResponses = {
 
 export type GetApiUsersByIdResponse =
   GetApiUsersByIdResponses[keyof GetApiUsersByIdResponses];
+
+export type PutApiUsersByIdData = {
+  body: {
+    email?: string;
+    jobTitle?: string | null;
+    name?: string | null;
+    organizations?: Array<string>;
+    phone?: string | null;
+    roles?: Array<string>;
+  };
+  path: {
+    id: unknown;
+  };
+  query?: never;
+  url: '/api/users/{id}';
+};
+
+export type PutApiUsersByIdErrors = {
+  /**
+   * Bad Request.
+   */
+  400: {
+    error?: string;
+    message?: string;
+  };
+  /**
+   * Unauthorized.
+   */
+  401: {
+    error?: string;
+    message?: string;
+  };
+  /**
+   * User not found.
+   */
+  404: {
+    error?: string;
+    message?: string;
+  };
+  /**
+   * Internal Server Error.
+   */
+  500: {
+    error?: string;
+    message?: string;
+  };
+  default: unknown;
+};
+
+export type PutApiUsersByIdError =
+  PutApiUsersByIdErrors[keyof PutApiUsersByIdErrors];
+
+export type PutApiUsersByIdResponses = {
+  /**
+   * The user has been successfully updated.
+   */
+  200: unknown;
+};
 
 export type ClientOptions = {
   baseUrl: 'http://localhost:6173' | 'https://one.thusa.co.za' | (string & {});

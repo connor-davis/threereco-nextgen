@@ -2,6 +2,9 @@
 import type { Client, Options as ClientOptions, TDataShape } from './client';
 import { client as _heyApiClient } from './client.gen';
 import type {
+  DeleteApiUsersByIdData,
+  DeleteApiUsersByIdErrors,
+  DeleteApiUsersByIdResponses,
   GetApiAuthenticationCheckData,
   GetApiAuthenticationCheckErrors,
   GetApiAuthenticationCheckResponses,
@@ -26,6 +29,9 @@ import type {
   PostApiUsersData,
   PostApiUsersErrors,
   PostApiUsersResponses,
+  PutApiUsersByIdData,
+  PutApiUsersByIdErrors,
+  PutApiUsersByIdResponses,
 } from './types.gen';
 
 export type Options<
@@ -185,6 +191,23 @@ export const postApiUsers = <ThrowOnError extends boolean = false>(
 };
 
 /**
+ * Delete User by ID
+ * Deletes a user by by their id.
+ */
+export const deleteApiUsersById = <ThrowOnError extends boolean = false>(
+  options: Options<DeleteApiUsersByIdData, ThrowOnError>
+) => {
+  return (options.client ?? _heyApiClient).delete<
+    DeleteApiUsersByIdResponses,
+    DeleteApiUsersByIdErrors,
+    ThrowOnError
+  >({
+    url: '/api/users/{id}',
+    ...options,
+  });
+};
+
+/**
  * View User
  * Endpoint to retrieve a user by their ID
  */
@@ -198,5 +221,26 @@ export const getApiUsersById = <ThrowOnError extends boolean = false>(
   >({
     url: '/api/users/{id}',
     ...options,
+  });
+};
+
+/**
+ * Update User by ID
+ * Updates the user information for a specific user identified by their id.
+ */
+export const putApiUsersById = <ThrowOnError extends boolean = false>(
+  options: Options<PutApiUsersByIdData, ThrowOnError>
+) => {
+  return (options.client ?? _heyApiClient).put<
+    PutApiUsersByIdResponses,
+    PutApiUsersByIdErrors,
+    ThrowOnError
+  >({
+    url: '/api/users/{id}',
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...options.headers,
+    },
   });
 };

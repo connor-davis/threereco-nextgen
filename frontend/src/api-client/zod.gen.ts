@@ -1645,6 +1645,14 @@ export const zPostApiUsersData = z.object({
   query: z.optional(z.never()),
 });
 
+export const zDeleteApiUsersByIdData = z.object({
+  body: z.optional(z.never()),
+  path: z.object({
+    id: z.unknown(),
+  }),
+  query: z.optional(z.never()),
+});
+
 export const zGetApiUsersByIdData = z.object({
   body: z.optional(z.never()),
   path: z.object({
@@ -2103,4 +2111,19 @@ export const zGetApiUsersByIdResponse = z.object({
       z.null(),
     ])
   ),
+});
+
+export const zPutApiUsersByIdData = z.object({
+  body: z.object({
+    email: z.optional(z.email().min(1)),
+    jobTitle: z.optional(z.union([z.string(), z.null()])),
+    name: z.optional(z.union([z.string(), z.null()])),
+    organizations: z.optional(z.array(z.uuid())),
+    phone: z.optional(z.union([z.string(), z.null()])),
+    roles: z.optional(z.array(z.uuid())),
+  }),
+  path: z.object({
+    id: z.unknown(),
+  }),
+  query: z.optional(z.never()),
 });
