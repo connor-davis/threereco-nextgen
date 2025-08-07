@@ -27,6 +27,15 @@ export type AuditLog = {
   userId?: string;
 };
 
+export type CreateUserPayload = {
+  email?: string;
+  jobTitle?: string | null;
+  name?: string | null;
+  password?: string;
+  phone?: string | null;
+  roles?: Array<string>;
+};
+
 export type ErrorResponse = {
   error?: string;
   message?: string;
@@ -516,6 +525,15 @@ export type SuccessResponse = {
     pages?: number;
     previousPage?: number;
   } | null;
+};
+
+export type UpdateUserPayload = {
+  email?: string;
+  jobTitle?: string | null;
+  name?: string | null;
+  organizations?: Array<string>;
+  phone?: string | null;
+  roles?: Array<string>;
 };
 
 export type User = {

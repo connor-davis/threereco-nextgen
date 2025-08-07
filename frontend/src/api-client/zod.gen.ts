@@ -28,6 +28,15 @@ export const zAuditLog = z.object({
   userId: z.optional(z.uuid()),
 });
 
+export const zCreateUserPayload = z.object({
+  email: z.optional(z.email().min(1)),
+  jobTitle: z.optional(z.union([z.string(), z.null()])),
+  name: z.optional(z.union([z.string(), z.null()])),
+  password: z.optional(z.string().min(8)),
+  phone: z.optional(z.union([z.string(), z.null()])),
+  roles: z.optional(z.array(z.uuid())),
+});
+
 export const zErrorResponse = z.object({
   error: z.optional(z.string()).default('Bad Request'),
   message: z
@@ -623,6 +632,15 @@ export const zSuccessResponse = z.object({
       z.null(),
     ])
   ),
+});
+
+export const zUpdateUserPayload = z.object({
+  email: z.optional(z.email().min(1)),
+  jobTitle: z.optional(z.union([z.string(), z.null()])),
+  name: z.optional(z.union([z.string(), z.null()])),
+  organizations: z.optional(z.array(z.uuid())),
+  phone: z.optional(z.union([z.string(), z.null()])),
+  roles: z.optional(z.array(z.uuid())),
 });
 
 export const zUser = z.object({

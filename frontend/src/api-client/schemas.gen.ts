@@ -91,6 +91,39 @@ export const AuditLogSchema = {
   },
 } as const;
 
+export const CreateUserPayloadSchema = {
+  properties: {
+    email: {
+      format: 'email',
+      minLength: 1,
+      type: 'string',
+    },
+    jobTitle: {
+      nullable: true,
+      type: 'string',
+    },
+    name: {
+      nullable: true,
+      type: 'string',
+    },
+    password: {
+      minLength: 8,
+      type: 'string',
+    },
+    phone: {
+      nullable: true,
+      type: 'string',
+    },
+    roles: {
+      items: {
+        format: 'uuid',
+        type: 'string',
+      },
+      type: 'array',
+    },
+  },
+} as const;
+
 export const ErrorResponseSchema = {
   properties: {
     error: {
@@ -1986,6 +2019,42 @@ export const SuccessResponseSchema = {
         },
       },
       type: 'object',
+    },
+  },
+} as const;
+
+export const UpdateUserPayloadSchema = {
+  properties: {
+    email: {
+      format: 'email',
+      minLength: 1,
+      type: 'string',
+    },
+    jobTitle: {
+      nullable: true,
+      type: 'string',
+    },
+    name: {
+      nullable: true,
+      type: 'string',
+    },
+    organizations: {
+      items: {
+        format: 'uuid',
+        type: 'string',
+      },
+      type: 'array',
+    },
+    phone: {
+      nullable: true,
+      type: 'string',
+    },
+    roles: {
+      items: {
+        format: 'uuid',
+        type: 'string',
+      },
+      type: 'array',
     },
   },
 } as const;
