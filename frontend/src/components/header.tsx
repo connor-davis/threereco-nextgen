@@ -9,7 +9,7 @@ export default function Header() {
         <SidebarTrigger />
 
         <Link to="/">
-          <img src="/logo-text.png" className="w-full h-6 object-contain" />
+          <img src="/logo.png" className="w-full h-8 object-contain" />
         </Link>
       </div>
     </div>
