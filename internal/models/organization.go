@@ -41,6 +41,27 @@ type Organization struct {
 	UpdatedAt        time.Time `json:"updatedAt" gorm:"autoUpdateTime;"`
 }
 
+// CreateOrganizationPayload contains the data required to create a new organization.
+// Name is the human‑readable organization name.
+// Domain is the unique domain or slug used to identify the organization (e.g. in URLs).
+// OwnerId is the UUID of the user who will become the organization owner.
+type CreateOrganizationPayload struct {
+	Name    string    `json:"name"`
+	Domain  string    `json:"domain"`
+	OwnerId uuid.UUID `json:"ownerId"`
+}
+
+// UpdateOrganizationPayload contains optional fields for partially updating an organization.
+// Any field left as nil will be ignored (the existing value is preserved).
+// Name: new human‑readable name for the organization.
+// Domain: primary domain to associate with the organization; should be unique if enforced by business rules.
+// OwnerId: UUID of the user who will become the new owner (transfer of ownership).
+type UpdateOrganizationPayload struct {
+	Name    *string    `json:"name"`
+	Domain  *string    `json:"domain"`
+	OwnerId *uuid.UUID `json:"ownerId"`
+}
+
 // AfterCreate is a GORM hook that is triggered after a Organization record is created in the database.
 // It retrieves the audit user ID from the transaction context, marshals the Organization object to JSON,
 // and creates an audit log entry recording the creation event. If any step fails, it logs the error

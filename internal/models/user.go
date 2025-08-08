@@ -47,6 +47,59 @@ type User struct {
 	UpdatedAt             time.Time      `json:"updatedAt" gorm:"autoUpdateTime;"`
 }
 
+// CreateUserPayload represents the incoming request body for creating a new user.
+// It includes required authentication credentials along with optional profile
+// and association data:
+//   - Email: Required unique email address used as the primary identifier.
+//   - Password: Required plaintext password (should be validated and hashed before storage).
+//   - Name: Optional full name of the user.
+//   - Phone: Optional phone number (format validation recommended).
+//   - JobTitle: Optional job or position title.
+//   - Roles: Slice of role UUIDs to associate the user with predefined permission sets.
+//   - Organizations: Slice of organization UUIDs establishing organizational memberships.
+//
+// All UUID references should be validated for existence before persistence.
+type CreateUserPayload struct {
+	Email         string      `json:"email"`
+	Password      string      `json:"password"`
+	Name          *string     `json:"name"`
+	Phone         *string     `json:"phone"`
+	JobTitle      *string     `json:"jobTitle"`
+	Roles         []uuid.UUID `json:"roles"`
+	Organizations []uuid.UUID `json:"organizations"`
+}
+
+// UpdateUserPayload represents a partial update request for a user. Pointer
+// fields allow distinguishing between "no change" (nil) and "set to empty"
+// (non-nil pointing to an empty string). Non-nil / non-empty values are applied
+// by the update logic.
+//
+// Fields:
+//
+//	Email:         Optional new email address.
+//	Name:          Optional full or display name.
+//	Phone:         Optional phone number.
+//	JobTitle:      Optional job title / position.
+//	Roles:         Slice of role UUIDs to assign; semantics (replace, merge, etc.)
+//	               depend on the service layer (commonly replace when non-nil).
+//	Organizations: Slice of organization UUIDs to associate; handled similarly
+//	               to Roles.
+//
+// Notes:
+//   - Nil pointer string fields => leave existing value unchanged.
+//   - Non-nil pointer to "" => explicitly clear the value (if allowed).
+//   - Empty vs nil slices can be used to differentiate "clear" vs "no change"
+//     if the update handler implements that convention.
+//   - Callers must supply valid UUIDs for Roles and Organizations.
+type UpdateUserPayload struct {
+	Email         *string     `json:"email"`
+	Name          *string     `json:"name"`
+	Phone         *string     `json:"phone"`
+	JobTitle      *string     `json:"jobTitle"`
+	Roles         []uuid.UUID `json:"roles"`
+	Organizations []uuid.UUID `json:"organizations"`
+}
+
 // AfterCreate is a GORM hook that is triggered after a User record is created in the database.
 // It retrieves the audit user ID from the transaction context, marshals the User object to JSON,
 // and creates an audit log entry recording the creation event. If any step fails, it logs the error

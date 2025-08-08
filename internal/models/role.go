@@ -38,6 +38,29 @@ type Role struct {
 	UpdatedAt        time.Time      `json:"updatedAt" gorm:"autoUpdateTime;"`
 }
 
+// CreateRolePayload represents the input payload used to create a new role.
+// Name is the required unique name of the role.
+// Description is an optional human-readable description; if nil, no description was provided,
+// allowing the distinction between an explicitly empty string and absence of a value.
+// Permissions is the list of permission identifiers (e.g., action or resource codes) that
+// will be assigned to the role; it should typically be non-empty to grant capabilities.
+type CreateRolePayload struct {
+	Name        string   `json:"name"`
+	Description *string  `json:"description"`
+	Permissions []string `json:"permissions"`
+}
+
+// UpdateRolePayload represents the set of mutable fields that can be supplied to update an existing role.
+// Fields set to nil (for pointer fields) indicate that the corresponding attribute should not be changed.
+// Name: Optional new role name.
+// Description: Optional new role description.
+// Permissions: Full replacement list of permission identifiers; if provided, it overwrites the existing set.
+type UpdateRolePayload struct {
+	Name        *string  `json:"name"`
+	Description *string  `json:"description"`
+	Permissions []string `json:"permissions"`
+}
+
 // HasPermissions checks if the Role has at least one of the specified permissions.
 // It returns true if any of the provided permissions are found in the Role's Permissions slice.
 // Otherwise, it returns false.
