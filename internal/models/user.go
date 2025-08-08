@@ -40,8 +40,8 @@ type User struct {
 	MfaVerified           bool           `json:"mfaVerified" gorm:"default:false;"`
 	Roles                 []Role         `json:"roles" gorm:"many2many:users_roles;constraint:OnDelete:CASCADE;"`
 	Organizations         []Organization `json:"organizations" gorm:"many2many:organizations_users;constraint:OnDelete:CASCADE;"`
-	Sales                 []Transaction  `json:"sales" gorm:"polymorphicType:Kind;polymorphicId:SellerId;polymorphicValue:master;constraint:OnDelete:CASCADE;"`
-	Purchases             []Transaction  `json:"purchases" gorm:"polymorphicType:Kind;polymorphicId:BuyerId;polymorphicValue:master;constraint:OnDelete:CASCADE;"`
+	Sales                 []Transaction  `json:"sales" gorm:"polymorphic:Seller;constraint:OnDelete:CASCADE;"`
+	Purchases             []Transaction  `json:"purchases" gorm:"polymorphic:Buyer;constraint:OnDelete:CASCADE;"`
 	PrimaryOrganizationId uuid.UUID      `json:"primaryOrganizationId" gorm:"type:uuid;"`
 	ModifiedByUserId      uuid.UUID      `json:"modifiedById" gorm:"type:uuid;"`
 	ModifiedByUser        *User          `json:"modifiedBy"`

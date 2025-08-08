@@ -35,8 +35,8 @@ type Organization struct {
 	Owner            User          `json:"owner"`
 	Users            []User        `json:"users" gorm:"many2many:organizations_users;constraint:OnDelete:CASCADE;"`
 	Roles            []Role        `json:"roles" gorm:"many2many:organizations_roles;constraint:OnDelete:CASCADE;"`
-	Sales            []Transaction `json:"sales" gorm:"polymorphicType:Kind;polymorphicId:SellerId;polymorphicValue:master;constraint:OnDelete:CASCADE;"`
-	Purchases        []Transaction `json:"purchases" gorm:"polymorphicType:Kind;polymorphicId:BuyerId;polymorphicValue:master;constraint:OnDelete:CASCADE;"`
+	Sales            []Transaction `json:"sales" gorm:"polymorphic:Seller;constraint:OnDelete:CASCADE;"`
+	Purchases        []Transaction `json:"purchases" gorm:"polymorphic:Buyer;constraint:OnDelete:CASCADE;"`
 	ModifiedByUserId uuid.UUID     `json:"modifiedById" gorm:"type:uuid;"`
 	ModifiedByUser   *User         `json:"modifiedBy"`
 	CreatedAt        time.Time     `json:"createdAt" gorm:"autoCreateTime;"`

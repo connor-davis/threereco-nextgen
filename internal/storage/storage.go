@@ -67,6 +67,9 @@ func (s *Storage) MigratePostgres() {
 		&models.User{},
 		&models.Organization{},
 		&models.Role{},
+		&models.Product{},
+		&models.Material{},
+		&models.Transaction{},
 	); err != nil {
 		log.Errorf("❌ AutoMigrate failed: %v", err)
 
