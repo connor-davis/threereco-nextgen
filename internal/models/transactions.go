@@ -20,6 +20,8 @@ type Transaction struct {
 	Amount         float64         `json:"amount" gorm:"type:decimal(10,2);not null;default:0.0;"`
 	SellerAccepted bool            `json:"sellerAccepted" gorm:"type:boolean;not null;default:false;"`
 	SellerDeclined bool            `json:"sellerDeclined" gorm:"type:boolean;not null;default:false;"`
+	SellerId       uuid.UUID       `json:"sellerId" gorm:"type:uuid;not null;"`
+	BuyerId        uuid.UUID       `json:"buyerId" gorm:"type:uuid;not null;"`
 	Products       []Product       `json:"products" gorm:"many2many:transactions_products;constraint:OnDelete:CASCADE;"`
 	CreatedAt      time.Time       `json:"createdAt" gorm:"autoCreateTime;"`
 	UpdatedAt      time.Time       `json:"updatedAt" gorm:"autoUpdateTime;"`

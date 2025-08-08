@@ -28,17 +28,19 @@ import (
 //   - CreatedAt: Timestamp when the organization was created, automatically set.
 //   - UpdatedAt: Timestamp when the organization was last updated, automatically set.
 type Organization struct {
-	Id               uuid.UUID `json:"id" gorm:"type:uuid;default:gen_random_uuid();primaryKey;"`
-	Name             string    `json:"name" gorm:"type:text;uniqueIndex;not null;"`
-	Domain           string    `json:"domain" gorm:"type:text;uniqueIndex;not null;"`
-	OwnerId          uuid.UUID `json:"ownerId" gorm:"type:uuid;not null;"`
-	Owner            User      `json:"owner"`
-	Users            []User    `json:"users" gorm:"many2many:organizations_users;constraint:OnDelete:CASCADE;"`
-	Roles            []Role    `json:"roles" gorm:"many2many:organizations_roles;constraint:OnDelete:CASCADE;"`
-	ModifiedByUserId uuid.UUID `json:"modifiedById" gorm:"type:uuid;"`
-	ModifiedByUser   *User     `json:"modifiedBy"`
-	CreatedAt        time.Time `json:"createdAt" gorm:"autoCreateTime;"`
-	UpdatedAt        time.Time `json:"updatedAt" gorm:"autoUpdateTime;"`
+	Id               uuid.UUID     `json:"id" gorm:"type:uuid;default:gen_random_uuid();primaryKey;"`
+	Name             string        `json:"name" gorm:"type:text;uniqueIndex;not null;"`
+	Domain           string        `json:"domain" gorm:"type:text;uniqueIndex;not null;"`
+	OwnerId          uuid.UUID     `json:"ownerId" gorm:"type:uuid;not null;"`
+	Owner            User          `json:"owner"`
+	Users            []User        `json:"users" gorm:"many2many:organizations_users;constraint:OnDelete:CASCADE;"`
+	Roles            []Role        `json:"roles" gorm:"many2many:organizations_roles;constraint:OnDelete:CASCADE;"`
+	Sales            []Transaction `json:"sales" gorm:"polymorphicType:Kind;polymorphicId:SellerId;polymorphicValue:master;constraint:OnDelete:CASCADE;"`
+	Purchases        []Transaction `json:"purchases" gorm:"polymorphicType:Kind;polymorphicId:BuyerId;polymorphicValue:master;constraint:OnDelete:CASCADE;"`
+	ModifiedByUserId uuid.UUID     `json:"modifiedById" gorm:"type:uuid;"`
+	ModifiedByUser   *User         `json:"modifiedBy"`
+	CreatedAt        time.Time     `json:"createdAt" gorm:"autoCreateTime;"`
+	UpdatedAt        time.Time     `json:"updatedAt" gorm:"autoUpdateTime;"`
 }
 
 // CreateOrganizationPayload contains the data required to create a new organization.
