@@ -1,6 +1,8 @@
 package roles
 
 import (
+	"errors"
+
 	"github.com/connor-davis/threereco-nextgen/internal/models"
 	"github.com/connor-davis/threereco-nextgen/internal/storage"
 	"github.com/google/uuid"
@@ -32,9 +34,13 @@ func NewRolesService(storage *storage.Storage) *RolesService {
 // Create inserts a new role record into the database using the provided Role model.
 // It associates the operation with the given auditId for auditing purposes.
 // Returns an error if the creation fails.
-func (s *RolesService) Create(auditId uuid.UUID, role *models.Role) error {
+func (s *RolesService) Create(auditId uuid.UUID, role models.CreateRolePayload) error {
 	if err := s.Storage.Postgres.Set("one:audit_user_id", auditId).
-		Create(role).Error; err != nil {
+		Create(&models.Role{
+			Name:        role.Name,
+			Description: role.Description,
+			Permissions: role.Permissions,
+		}).Error; err != nil {
 		return err
 	}
 
@@ -44,10 +50,36 @@ func (s *RolesService) Create(auditId uuid.UUID, role *models.Role) error {
 // Update updates the role with the specified ID in the database.
 // It uses the provided auditId for auditing purposes and applies the changes from the given role model.
 // Returns an error if the update operation fails.
-func (s *RolesService) Update(auditId uuid.UUID, id uuid.UUID, role *models.Role) error {
+func (s *RolesService) Update(auditId uuid.UUID, id uuid.UUID, role models.UpdateRolePayload) error {
+	var existingRole models.Role
+
+	if err := s.Storage.Postgres.Where("id = $1", id).Find(&existingRole).Error; err != nil {
+		return err
+	}
+
+	if existingRole.Id == uuid.Nil {
+		return errors.New("role not found")
+	}
+
+	if role.Name != nil {
+		existingRole.Name = *role.Name
+	}
+
+	if role.Description != nil {
+		existingRole.Description = role.Description
+	}
+
+	if role.Permissions != nil {
+		existingRole.Permissions = role.Permissions
+	}
+
 	if err := s.Storage.Postgres.Set("one:audit_user_id", auditId).
-		Where("id = ?", id).
-		Updates(role).Error; err != nil {
+		Where("id = $1", id).
+		Updates(&map[string]any{
+			"name":        existingRole.Name,
+			"description": existingRole.Description,
+			"permissions": existingRole.Permissions,
+		}).Error; err != nil {
 		return err
 	}
 
@@ -65,7 +97,7 @@ func (s *RolesService) Update(auditId uuid.UUID, id uuid.UUID, role *models.Role
 // Returns:
 //   - error: Non-nil if the deletion fails, nil otherwise.
 func (s *RolesService) Delete(auditId uuid.UUID, id uuid.UUID) error {
-	if err := s.Storage.Postgres.Set("one:audit_user_id", auditId).Where("id = ?", id).Delete(&models.Role{}).Error; err != nil {
+	if err := s.Storage.Postgres.Set("one:audit_user_id", auditId).Where("id = $1", id).Delete(&models.Role{}).Error; err != nil {
 		return err
 	}
 
@@ -84,7 +116,7 @@ func (s *RolesService) Delete(auditId uuid.UUID, id uuid.UUID) error {
 func (s *RolesService) GetById(id uuid.UUID) (*models.Role, error) {
 	var role models.Role
 
-	if err := s.Storage.Postgres.Where("id = ?", id).Find(&role).Error; err != nil {
+	if err := s.Storage.Postgres.Where("id = $1", id).Find(&role).Error; err != nil {
 		return nil, err
 	}
 

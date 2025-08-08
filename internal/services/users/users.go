@@ -1,9 +1,12 @@
 package users
 
 import (
+	"errors"
+
 	"github.com/connor-davis/threereco-nextgen/internal/models"
 	"github.com/connor-davis/threereco-nextgen/internal/storage"
 	"github.com/google/uuid"
+	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm/clause"
 )
 
@@ -32,9 +35,66 @@ func NewUsersService(storage *storage.Storage) *UsersService {
 // Create adds a new user to the database with the provided audit ID.
 // It sets the audit ID in the database context for tracking purposes.
 // Returns an error if the user creation fails.
-func (s *UsersService) Create(auditId uuid.UUID, user *models.User) error {
-	if err := s.Storage.Postgres.Set("one:audit_user_id", auditId).Create(&user).Error; err != nil {
+func (s *UsersService) Create(auditId uuid.UUID, user models.CreateUserPayload) error {
+	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(user.Password), bcrypt.DefaultCost)
+
+	if err != nil {
 		return err
+	}
+
+	var newUser models.User
+
+	newUser.Email = user.Email
+	newUser.Password = hashedPassword
+	newUser.Name = user.Name
+	newUser.Phone = user.Phone
+	newUser.JobTitle = user.JobTitle
+
+	if err := s.Storage.Postgres.Set("one:audit_user_id", auditId).Create(&newUser).Error; err != nil {
+		return err
+	}
+
+	if len(user.Roles) > 0 {
+		for _, roleId := range user.Roles {
+			if roleId == uuid.Nil {
+				return errors.New("invalid role ID")
+			}
+
+			var existingRole models.Role
+
+			if err := s.Storage.Postgres.Find(&existingRole, roleId).Error; err != nil {
+				return err
+			}
+
+			if existingRole.Id == uuid.Nil {
+				return errors.New("role not found")
+			}
+
+			if err := s.Storage.Postgres.Model(&models.User{Id: newUser.Id}).Association("Roles").Append(&existingRole); err != nil {
+				return err
+			}
+		}
+	}
+
+	if len(user.Organizations) > 0 {
+		for _, orgId := range user.Organizations {
+			if orgId == uuid.Nil {
+				return errors.New("invalid organization ID")
+			}
+
+			var existingOrg models.Organization
+			if err := s.Storage.Postgres.Find(&existingOrg, orgId).Error; err != nil {
+				return err
+			}
+
+			if existingOrg.Id == uuid.Nil {
+				return errors.New("organization not found")
+			}
+
+			if err := s.Storage.Postgres.Model(&models.User{Id: newUser.Id}).Association("Organizations").Append(&existingOrg); err != nil {
+				return err
+			}
+		}
 	}
 
 	return nil
@@ -43,12 +103,86 @@ func (s *UsersService) Create(auditId uuid.UUID, user *models.User) error {
 // Update updates the user record identified by the given id with the provided user data.
 // It also sets the audit user ID for tracking who performed the update.
 // Returns an error if the update operation fails.
-func (s *UsersService) Update(auditId uuid.UUID, id uuid.UUID, user *models.User) error {
+func (s *UsersService) Update(auditId uuid.UUID, id uuid.UUID, user models.UpdateUserPayload) error {
+	var existingUser models.User
+
+	if err := s.Storage.Postgres.Where("id = $1", id).Find(&existingUser).Error; err != nil {
+		return err
+	}
+
+	if existingUser.Id == uuid.Nil {
+		return errors.New("user not found")
+	}
+
+	if len(user.Roles) > 0 {
+		for _, roleId := range user.Roles {
+			if roleId == uuid.Nil {
+				return errors.New("invalid role ID")
+			}
+
+			var existingRole models.Role
+
+			if err := s.Storage.Postgres.Find(&existingRole, roleId).Error; err != nil {
+				return err
+			}
+
+			if existingRole.Id == uuid.Nil {
+				return errors.New("role not found")
+			}
+
+			if err := s.Storage.Postgres.Model(&models.User{Id: existingUser.Id}).Association("Roles").Append(&existingRole); err != nil {
+				return err
+			}
+		}
+	}
+
+	if len(user.Organizations) > 0 {
+		for _, orgId := range user.Organizations {
+			if orgId == uuid.Nil {
+				return errors.New("invalid organization ID")
+			}
+
+			var existingOrg models.Organization
+			if err := s.Storage.Postgres.Find(&existingOrg, orgId).Error; err != nil {
+				return err
+			}
+
+			if existingOrg.Id == uuid.Nil {
+				return errors.New("organization not found")
+			}
+
+			if err := s.Storage.Postgres.Model(&models.User{Id: existingUser.Id}).Association("Organizations").Append(&existingOrg); err != nil {
+				return err
+			}
+		}
+	}
+
+	if user.Email != nil {
+		existingUser.Email = *user.Email
+	}
+
+	if user.Name != nil {
+		existingUser.Name = user.Name
+	}
+
+	if user.Phone != nil {
+		existingUser.Phone = user.Phone
+	}
+
+	if user.JobTitle != nil {
+		existingUser.JobTitle = user.JobTitle
+	}
+
 	if err := s.Storage.Postgres.Set("one:audit_user_id", auditId).
 		Where(&models.User{
 			Id: id,
 		}).
-		Updates(&user).Error; err != nil {
+		Updates(&map[string]any{
+			"email":     existingUser.Email,
+			"name":      existingUser.Name,
+			"phone":     existingUser.Phone,
+			"job_title": existingUser.JobTitle,
+		}).Error; err != nil {
 		return err
 	}
 

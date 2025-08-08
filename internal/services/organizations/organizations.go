@@ -1,6 +1,8 @@
 package organizations
 
 import (
+	"errors"
+
 	"github.com/connor-davis/threereco-nextgen/internal/models"
 	"github.com/connor-davis/threereco-nextgen/internal/storage"
 	"github.com/google/uuid"
@@ -32,9 +34,13 @@ func NewOrganizationsService(storage *storage.Storage) *OrganizationsService {
 // Create adds a new organization record to the database with the specified audit ID.
 // It sets the audit user ID for tracking purposes before creating the organization.
 // Returns an error if the operation fails.
-func (s *OrganizationsService) Create(auditId uuid.UUID, organization *models.Organization) error {
+func (s *OrganizationsService) Create(auditId uuid.UUID, organization models.CreateOrganizationPayload) error {
 	if err := s.Storage.Postgres.Set("one:audit_user_id", auditId).
-		Create(organization).Error; err != nil {
+		Create(&models.Organization{
+			Name:    organization.Name,
+			Domain:  organization.Domain,
+			OwnerId: organization.OwnerId,
+		}).Error; err != nil {
 		return err
 	}
 
@@ -45,10 +51,33 @@ func (s *OrganizationsService) Create(auditId uuid.UUID, organization *models.Or
 // It uses the provided auditId for tracking the user performing the update.
 // The organization parameter contains the new data to be updated.
 // Returns an error if the update operation fails.
-func (s *OrganizationsService) Update(auditId uuid.UUID, id uuid.UUID, organization *models.Organization) error {
+func (s *OrganizationsService) Update(auditId uuid.UUID, id uuid.UUID, organization models.UpdateOrganizationPayload) error {
+	var existingOrganization models.Organization
+
+	if err := s.Storage.Postgres.Where("id = $1", id).
+		Find(&existingOrganization).Error; err != nil {
+		return err
+	}
+
+	if existingOrganization.Id == uuid.Nil {
+		return errors.New("organization not found")
+	}
+
+	if organization.Name != nil {
+		existingOrganization.Name = *organization.Name
+	}
+
+	if organization.Domain != nil {
+		existingOrganization.Domain = *organization.Domain
+	}
+
+	if organization.OwnerId != nil {
+		existingOrganization.OwnerId = *organization.OwnerId
+	}
+
 	if err := s.Storage.Postgres.Set("one:audit_user_id", auditId).
 		Where("id = $1", id).
-		Updates(organization).Error; err != nil {
+		Updates(&existingOrganization).Error; err != nil {
 		return err
 	}
 
