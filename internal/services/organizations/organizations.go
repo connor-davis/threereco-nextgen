@@ -77,7 +77,11 @@ func (s *OrganizationsService) Update(auditId uuid.UUID, id uuid.UUID, organizat
 
 	if err := s.Storage.Postgres.Set("one:audit_user_id", auditId).
 		Where("id = $1", id).
-		Updates(&existingOrganization).Error; err != nil {
+		Updates(&map[string]any{
+			"name":     existingOrganization.Name,
+			"domain":   existingOrganization.Domain,
+			"owner_id": existingOrganization.OwnerId,
+		}).Error; err != nil {
 		return err
 	}
 
