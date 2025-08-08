@@ -40,6 +40,11 @@ func (s *RolesService) Create(auditId uuid.UUID, role models.CreateRolePayload) 
 			Name:        role.Name,
 			Description: role.Description,
 			Permissions: role.Permissions,
+			Organizations: []models.Organization{
+				{
+					Id: role.OrganizationId,
+				},
+			},
 		}).Error; err != nil {
 		return err
 	}
