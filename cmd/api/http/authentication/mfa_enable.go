@@ -99,7 +99,11 @@ func (r *AuthenticationRouter) MfaEnableRoute() routing.Route {
 
 				user.MfaSecret = []byte(secret.Secret())
 
-				if err := r.Services.Users.Update(user.Id, user.Id, user); err != nil {
+				if err := r.Storage.Postgres.Where(&models.User{
+					Id: user.Id,
+				}).Updates(&models.User{
+					MfaSecret: user.MfaSecret,
+				}).Error; err != nil {
 					log.Infof("🔥 Failed to update user: %s", err.Error())
 
 					return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{

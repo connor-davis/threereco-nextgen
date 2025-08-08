@@ -11,12 +11,6 @@ import (
 	"github.com/gofiber/fiber/v2/log"
 )
 
-type CreateRolePayload struct {
-	Name        string   `json:"name"`
-	Description string   `json:"description"`
-	Permissions []string `json:"permissions"`
-}
-
 func (r *RolesRouter) CreateRoute() routing.Route {
 	responses := openapi3.NewResponses()
 
@@ -85,7 +79,7 @@ func (r *RolesRouter) CreateRoute() routing.Route {
 		Handler: func(c *fiber.Ctx) error {
 			currentUser := c.Locals("user").(*models.User)
 
-			var payload CreateRolePayload
+			var payload models.CreateRolePayload
 
 			if err := c.BodyParser(&payload); err != nil {
 				log.Errorf("🔥 Error parsing request body: %s", err.Error())
@@ -96,18 +90,7 @@ func (r *RolesRouter) CreateRoute() routing.Route {
 				})
 			}
 
-			role := models.Role{
-				Name:        payload.Name,
-				Description: &payload.Description,
-				Permissions: payload.Permissions,
-				Organizations: []models.Organization{
-					{
-						Id: currentUser.PrimaryOrganizationId,
-					},
-				},
-			}
-
-			if err := r.Services.Roles.Create(currentUser.Id, &role); err != nil {
+			if err := r.Services.Roles.Create(currentUser.Id, payload); err != nil {
 				log.Errorf("🔥 Error creating role: %s", err.Error())
 
 				return c.Status(fiber.StatusInternalServerError).JSON(&fiber.Map{

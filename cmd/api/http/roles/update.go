@@ -147,7 +147,7 @@ func (r *RolesRouter) UpdateByIdRoute() routing.Route {
 				})
 			}
 
-			var payload UpdateRolePayload
+			var payload models.UpdateRolePayload
 
 			if err := c.BodyParser(&payload); err != nil {
 				log.Infof("🔥 Failed to parse request body: %v", err)
@@ -158,39 +158,7 @@ func (r *RolesRouter) UpdateByIdRoute() routing.Route {
 				})
 			}
 
-			existingRole, err := r.Services.Roles.GetById(idUUID)
-
-			if err != nil {
-				log.Errorf("🔥 Error retrieving role by ID: %v", err)
-
-				return c.Status(fiber.StatusInternalServerError).JSON(&fiber.Map{
-					"error":   constants.InternalServerError,
-					"details": constants.InternalServerErrorDetails,
-				})
-			}
-
-			if existingRole.Id == uuid.Nil {
-				log.Infof("🔥 Role with ID %s not found", id)
-
-				return c.Status(fiber.StatusNotFound).JSON(&fiber.Map{
-					"error":   constants.NotFoundError,
-					"details": constants.NotFoundErrorDetails,
-				})
-			}
-
-			if payload.Name != nil {
-				existingRole.Name = *payload.Name
-			}
-
-			if payload.Description != nil {
-				existingRole.Description = payload.Description
-			}
-
-			if len(payload.Permissions) > 0 {
-				existingRole.Permissions = payload.Permissions
-			}
-
-			if err := r.Services.Roles.Update(currentUser.Id, idUUID, existingRole); err != nil {
+			if err := r.Services.Roles.Update(currentUser.Id, idUUID, payload); err != nil {
 				log.Errorf("🔥 Error updating role: %v", err)
 
 				return c.Status(fiber.StatusInternalServerError).JSON(&fiber.Map{

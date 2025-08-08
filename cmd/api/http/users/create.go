@@ -9,8 +9,6 @@ import (
 	"github.com/getkin/kin-openapi/openapi3"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/log"
-	"github.com/google/uuid"
-	"golang.org/x/crypto/bcrypt"
 )
 
 type CreateUserPayload struct {
@@ -90,7 +88,7 @@ func (r *UsersRouter) CreateRoute() routing.Route {
 		Handler: func(c *fiber.Ctx) error {
 			currentUser := c.Locals("user").(*models.User)
 
-			var payload CreateUserPayload
+			var payload models.CreateUserPayload
 
 			if err := c.BodyParser(&payload); err != nil {
 				log.Errorf("🔥 Error parsing request body: %s", err.Error())
@@ -101,52 +99,7 @@ func (r *UsersRouter) CreateRoute() routing.Route {
 				})
 			}
 
-			hashedPassword, err := bcrypt.GenerateFromPassword([]byte(payload.Password), bcrypt.DefaultCost)
-
-			if err != nil {
-				log.Errorf("🔥 Error hashing password: %s", err.Error())
-
-				return c.Status(fiber.StatusInternalServerError).JSON(&fiber.Map{
-					"error":   constants.InternalServerError,
-					"details": constants.InternalServerErrorDetails,
-				})
-			}
-
-			user := models.User{
-				Email:    payload.Email,
-				Password: hashedPassword,
-				Name:     &payload.Name,
-				Phone:    &payload.Phone,
-				JobTitle: &payload.JobTitle,
-			}
-
-			for _, roleId := range payload.Roles {
-				roleIdUUID, err := uuid.Parse(roleId)
-
-				if err != nil {
-					log.Errorf("🔥 Error parsing role ID: %s", err.Error())
-
-					continue
-				}
-
-				role, err := r.Services.Roles.GetById(roleIdUUID)
-
-				if err != nil {
-					log.Errorf("🔥 Error retrieving role: %s", err.Error())
-
-					continue
-				}
-
-				if role.Id == uuid.Nil {
-					log.Warnf("⚠️ Role with ID %s not found", roleId)
-
-					continue
-				}
-
-				user.Roles = append(user.Roles, *role)
-			}
-
-			if err := r.Services.Users.Create(currentUser.Id, &user); err != nil {
+			if err := r.Services.Users.Create(currentUser.Id, payload); err != nil {
 				log.Errorf("🔥 Error creating user: %s", err.Error())
 
 				return c.Status(fiber.StatusInternalServerError).JSON(&fiber.Map{

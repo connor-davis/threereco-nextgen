@@ -9,14 +9,7 @@ import (
 	"github.com/getkin/kin-openapi/openapi3"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/log"
-	"github.com/google/uuid"
 )
-
-type CreateOrganizationPayload struct {
-	Name    string    `json:"name"`
-	Domain  string    `json:"domain"`
-	OwnerId uuid.UUID `json:"ownerId"`
-}
 
 func (r *OrganizationsRouter) CreateRoute() routing.Route {
 	responses := openapi3.NewResponses()
@@ -86,7 +79,7 @@ func (r *OrganizationsRouter) CreateRoute() routing.Route {
 		Handler: func(c *fiber.Ctx) error {
 			currentUser := c.Locals("user").(*models.User)
 
-			var payload CreateOrganizationPayload
+			var payload models.CreateOrganizationPayload
 
 			if err := c.BodyParser(&payload); err != nil {
 				log.Errorf("🔥 Error parsing request body: %s", err.Error())
@@ -97,13 +90,7 @@ func (r *OrganizationsRouter) CreateRoute() routing.Route {
 				})
 			}
 
-			organization := models.Organization{
-				Name:    payload.Name,
-				Domain:  payload.Domain,
-				OwnerId: currentUser.Id,
-			}
-
-			if err := r.Services.Organizations.Create(currentUser.Id, &organization); err != nil {
+			if err := r.Services.Organizations.Create(currentUser.Id, payload); err != nil {
 				log.Errorf("🔥 Error creating organization: %s", err.Error())
 
 				return c.Status(fiber.StatusInternalServerError).JSON(&fiber.Map{

@@ -54,49 +54,6 @@ func (s *UsersService) Create(auditId uuid.UUID, user models.CreateUserPayload) 
 		return err
 	}
 
-	if len(user.Roles) > 0 {
-		for _, roleId := range user.Roles {
-			if roleId == uuid.Nil {
-				return errors.New("invalid role ID")
-			}
-
-			var existingRole models.Role
-
-			if err := s.Storage.Postgres.Find(&existingRole, roleId).Error; err != nil {
-				return err
-			}
-
-			if existingRole.Id == uuid.Nil {
-				return errors.New("role not found")
-			}
-
-			if err := s.Storage.Postgres.Model(&models.User{Id: newUser.Id}).Association("Roles").Append(&existingRole); err != nil {
-				return err
-			}
-		}
-	}
-
-	if len(user.Organizations) > 0 {
-		for _, orgId := range user.Organizations {
-			if orgId == uuid.Nil {
-				return errors.New("invalid organization ID")
-			}
-
-			var existingOrg models.Organization
-			if err := s.Storage.Postgres.Find(&existingOrg, orgId).Error; err != nil {
-				return err
-			}
-
-			if existingOrg.Id == uuid.Nil {
-				return errors.New("organization not found")
-			}
-
-			if err := s.Storage.Postgres.Model(&models.User{Id: newUser.Id}).Association("Organizations").Append(&existingOrg); err != nil {
-				return err
-			}
-		}
-	}
-
 	return nil
 }
 
@@ -131,27 +88,6 @@ func (s *UsersService) Update(auditId uuid.UUID, id uuid.UUID, user models.Updat
 			}
 
 			if err := s.Storage.Postgres.Model(&models.User{Id: existingUser.Id}).Association("Roles").Append(&existingRole); err != nil {
-				return err
-			}
-		}
-	}
-
-	if len(user.Organizations) > 0 {
-		for _, orgId := range user.Organizations {
-			if orgId == uuid.Nil {
-				return errors.New("invalid organization ID")
-			}
-
-			var existingOrg models.Organization
-			if err := s.Storage.Postgres.Find(&existingOrg, orgId).Error; err != nil {
-				return err
-			}
-
-			if existingOrg.Id == uuid.Nil {
-				return errors.New("organization not found")
-			}
-
-			if err := s.Storage.Postgres.Model(&models.User{Id: existingUser.Id}).Association("Organizations").Append(&existingOrg); err != nil {
 				return err
 			}
 		}

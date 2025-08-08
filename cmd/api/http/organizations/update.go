@@ -12,12 +12,6 @@ import (
 	"github.com/google/uuid"
 )
 
-type UpdateOrganizationPayload struct {
-	Name    *string    `json:"name,omitempty"`
-	Domain  *string    `json:"domain,omitempty"`
-	OwnerId *uuid.UUID `json:"ownerId,omitempty"`
-}
-
 func (r *OrganizationsRouter) UpdateByIdRoute() routing.Route {
 	responses := openapi3.NewResponses()
 
@@ -147,7 +141,7 @@ func (r *OrganizationsRouter) UpdateByIdRoute() routing.Route {
 				})
 			}
 
-			var payload UpdateOrganizationPayload
+			var payload models.UpdateOrganizationPayload
 
 			if err := c.BodyParser(&payload); err != nil {
 				log.Infof("🔥 Failed to parse request body: %v", err)
@@ -158,39 +152,7 @@ func (r *OrganizationsRouter) UpdateByIdRoute() routing.Route {
 				})
 			}
 
-			existingOrganization, err := r.Services.Organizations.GetById(idUUID)
-
-			if err != nil {
-				log.Errorf("🔥 Error retrieving organization by ID: %v", err)
-
-				return c.Status(fiber.StatusInternalServerError).JSON(&fiber.Map{
-					"error":   constants.InternalServerError,
-					"details": constants.InternalServerErrorDetails,
-				})
-			}
-
-			if existingOrganization.Id == uuid.Nil {
-				log.Infof("🔥 Organization with ID %s not found", id)
-
-				return c.Status(fiber.StatusNotFound).JSON(&fiber.Map{
-					"error":   constants.NotFoundError,
-					"details": constants.NotFoundErrorDetails,
-				})
-			}
-
-			if payload.Name != nil {
-				existingOrganization.Name = *payload.Name
-			}
-
-			if payload.Domain != nil {
-				existingOrganization.Domain = *payload.Domain
-			}
-
-			if payload.OwnerId != nil {
-				existingOrganization.OwnerId = *payload.OwnerId
-			}
-
-			if err := r.Services.Organizations.Update(currentUser.Id, idUUID, existingOrganization); err != nil {
+			if err := r.Services.Organizations.Update(currentUser.Id, idUUID, payload); err != nil {
 				log.Errorf("🔥 Error updating organization: %v", err)
 
 				return c.Status(fiber.StatusInternalServerError).JSON(&fiber.Map{

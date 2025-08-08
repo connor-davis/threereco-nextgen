@@ -12,15 +12,6 @@ import (
 	"github.com/google/uuid"
 )
 
-type UpdateUserPayload struct {
-	Email         *string  `json:"email"`
-	Name          *string  `json:"name"`
-	Phone         *string  `json:"phone"`
-	JobTitle      *string  `json:"jobTitle"`
-	Organizations []string `json:"organizations"`
-	Roles         []string `json:"roles"`
-}
-
 func (r *UsersRouter) UpdateByIdRoute() routing.Route {
 	responses := openapi3.NewResponses()
 
@@ -150,7 +141,7 @@ func (r *UsersRouter) UpdateByIdRoute() routing.Route {
 				})
 			}
 
-			var payload UpdateUserPayload
+			var payload models.UpdateUserPayload
 
 			if err := c.BodyParser(&payload); err != nil {
 				log.Infof("🔥 Failed to parse request body: %v", err)
@@ -161,91 +152,7 @@ func (r *UsersRouter) UpdateByIdRoute() routing.Route {
 				})
 			}
 
-			existingUser, err := r.Services.Users.GetById(idUUID)
-
-			if err != nil {
-				log.Errorf("🔥 Error retrieving user by ID: %v", err)
-
-				return c.Status(fiber.StatusInternalServerError).JSON(&fiber.Map{
-					"error":   constants.InternalServerError,
-					"details": constants.InternalServerErrorDetails,
-				})
-			}
-
-			if existingUser.Id == uuid.Nil {
-				log.Infof("🔥 User with ID %s not found", id)
-
-				return c.Status(fiber.StatusNotFound).JSON(&fiber.Map{
-					"error":   constants.NotFoundError,
-					"details": constants.NotFoundErrorDetails,
-				})
-			}
-
-			if payload.Email != nil {
-				existingUser.Email = *payload.Email
-			}
-
-			existingUser.Name = payload.Name
-			existingUser.Phone = payload.Phone
-			existingUser.JobTitle = payload.JobTitle
-
-			if len(payload.Organizations) > 0 {
-				for _, organizationId := range payload.Organizations {
-					organizationIdUUID, err := uuid.Parse(organizationId)
-
-					if err != nil {
-						log.Infof("🔥 Invalid organization ID format: %v", err)
-
-						continue
-					}
-
-					existingOrganization, err := r.Services.Organizations.GetById(organizationIdUUID)
-
-					if err != nil {
-						log.Errorf("🔥 Error retrieving organization by ID: %v", err)
-
-						continue
-					}
-
-					if existingOrganization.Id == uuid.Nil {
-						log.Infof("🔥 Organization with ID %s not found", organizationId)
-
-						continue
-					}
-
-					existingUser.Organizations = append(existingUser.Organizations, *existingOrganization)
-				}
-			}
-
-			if len(payload.Roles) > 0 {
-				for _, roleId := range payload.Roles {
-					roleIdUUID, err := uuid.Parse(roleId)
-
-					if err != nil {
-						log.Infof("🔥 Invalid role ID format: %v", err)
-
-						continue
-					}
-
-					existingRole, err := r.Services.Roles.GetById(roleIdUUID)
-
-					if err != nil {
-						log.Errorf("🔥 Error retrieving role by ID: %v", err)
-
-						continue
-					}
-
-					if existingRole.Id == uuid.Nil {
-						log.Infof("🔥 Role with ID %s not found", roleId)
-
-						continue
-					}
-
-					existingUser.Roles = append(existingUser.Roles, *existingRole)
-				}
-			}
-
-			if err := r.Services.Users.Update(user.Id, idUUID, existingUser); err != nil {
+			if err := r.Services.Users.Update(user.Id, idUUID, payload); err != nil {
 				log.Errorf("🔥 Error updating user: %v", err)
 
 				return c.Status(fiber.StatusInternalServerError).JSON(&fiber.Map{

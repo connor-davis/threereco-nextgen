@@ -120,10 +120,12 @@ func (r *AuthenticationRouter) MfaVerifyRoute() routing.Route {
 					})
 			}
 
-			user.MfaEnabled = true
-			user.MfaVerified = true
-
-			if err := r.Services.Users.Update(user.Id, user.Id, user); err != nil {
+			if err := r.Storage.Postgres.Where(&models.User{
+				Id: user.Id,
+			}).Updates(&models.User{
+				MfaEnabled:  true,
+				MfaVerified: true,
+			}).Error; err != nil {
 				log.Errorf("🔥 Error updating user: %s", err.Error())
 
 				return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{

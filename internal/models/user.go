@@ -60,13 +60,11 @@ type User struct {
 //
 // All UUID references should be validated for existence before persistence.
 type CreateUserPayload struct {
-	Email         string      `json:"email"`
-	Password      string      `json:"password"`
-	Name          *string     `json:"name"`
-	Phone         *string     `json:"phone"`
-	JobTitle      *string     `json:"jobTitle"`
-	Roles         []uuid.UUID `json:"roles"`
-	Organizations []uuid.UUID `json:"organizations"`
+	Email    string  `json:"email"`
+	Password string  `json:"password"`
+	Name     *string `json:"name"`
+	Phone    *string `json:"phone"`
+	JobTitle *string `json:"jobTitle"`
 }
 
 // UpdateUserPayload represents a partial update request for a user. Pointer
@@ -92,12 +90,11 @@ type CreateUserPayload struct {
 //     if the update handler implements that convention.
 //   - Callers must supply valid UUIDs for Roles and Organizations.
 type UpdateUserPayload struct {
-	Email         *string     `json:"email"`
-	Name          *string     `json:"name"`
-	Phone         *string     `json:"phone"`
-	JobTitle      *string     `json:"jobTitle"`
-	Roles         []uuid.UUID `json:"roles"`
-	Organizations []uuid.UUID `json:"organizations"`
+	Email    *string     `json:"email"`
+	Name     *string     `json:"name"`
+	Phone    *string     `json:"phone"`
+	JobTitle *string     `json:"jobTitle"`
+	Roles    []uuid.UUID `json:"roles"`
 }
 
 // AfterCreate is a GORM hook that is triggered after a User record is created in the database.
