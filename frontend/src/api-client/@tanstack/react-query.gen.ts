@@ -9,22 +9,44 @@ import {
 import { client as _heyApiClient } from '../client.gen';
 import {
   type Options,
+  deleteApiOrganizationsById,
+  deleteApiRolesById,
   deleteApiUsersById,
   getApiAuthenticationCheck,
   getApiAuthenticationMfaEnable,
+  getApiOrganizations,
+  getApiOrganizationsById,
+  getApiRoles,
+  getApiRolesById,
   getApiUsers,
   getApiUsersById,
   postApiAuthenticationLogin,
   postApiAuthenticationLogout,
   postApiAuthenticationMfaVerify,
+  postApiOrganizations,
+  postApiRoles,
   postApiUsers,
+  putApiOrganizationsById,
+  putApiRolesById,
   putApiUsersById,
 } from '../sdk.gen';
 import type {
+  DeleteApiOrganizationsByIdData,
+  DeleteApiOrganizationsByIdError,
+  DeleteApiRolesByIdData,
+  DeleteApiRolesByIdError,
   DeleteApiUsersByIdData,
   DeleteApiUsersByIdError,
   GetApiAuthenticationCheckData,
   GetApiAuthenticationMfaEnableData,
+  GetApiOrganizationsByIdData,
+  GetApiOrganizationsData,
+  GetApiOrganizationsError,
+  GetApiOrganizationsResponse,
+  GetApiRolesByIdData,
+  GetApiRolesData,
+  GetApiRolesError,
+  GetApiRolesResponse,
   GetApiUsersByIdData,
   GetApiUsersData,
   GetApiUsersError,
@@ -35,8 +57,16 @@ import type {
   PostApiAuthenticationLogoutError,
   PostApiAuthenticationMfaVerifyData,
   PostApiAuthenticationMfaVerifyError,
+  PostApiOrganizationsData,
+  PostApiOrganizationsError,
+  PostApiRolesData,
+  PostApiRolesError,
   PostApiUsersData,
   PostApiUsersError,
+  PutApiOrganizationsByIdData,
+  PutApiOrganizationsByIdError,
+  PutApiRolesByIdData,
+  PutApiRolesByIdError,
   PutApiUsersByIdData,
   PutApiUsersByIdError,
 } from '../types.gen';
@@ -286,17 +316,20 @@ export const postApiAuthenticationMfaVerifyMutation = (
   return mutationOptions;
 };
 
-export const getApiUsersQueryKey = (options?: Options<GetApiUsersData>) =>
-  createQueryKey('getApiUsers', options);
+export const getApiOrganizationsQueryKey = (
+  options?: Options<GetApiOrganizationsData>
+) => createQueryKey('getApiOrganizations', options);
 
 /**
- * View Users
- * Endpoint to retrieve a list of users with pagination and optional search query
+ * View Organizations
+ * Endpoint to retrieve a list of organizations with pagination and optional search query
  */
-export const getApiUsersOptions = (options?: Options<GetApiUsersData>) => {
+export const getApiOrganizationsOptions = (
+  options?: Options<GetApiOrganizationsData>
+) => {
   return queryOptions({
     queryFn: async ({ queryKey, signal }) => {
-      const { data } = await getApiUsers({
+      const { data } = await getApiOrganizations({
         ...options,
         ...queryKey[0],
         signal,
@@ -304,7 +337,7 @@ export const getApiUsersOptions = (options?: Options<GetApiUsersData>) => {
       });
       return data;
     },
-    queryKey: getApiUsersQueryKey(options),
+    queryKey: getApiOrganizationsQueryKey(options),
   });
 };
 
@@ -342,6 +375,419 @@ const createInfiniteParams = <
     };
   }
   return params as unknown as typeof page;
+};
+
+export const getApiOrganizationsInfiniteQueryKey = (
+  options?: Options<GetApiOrganizationsData>
+): QueryKey<Options<GetApiOrganizationsData>> =>
+  createQueryKey('getApiOrganizations', options, true);
+
+/**
+ * View Organizations
+ * Endpoint to retrieve a list of organizations with pagination and optional search query
+ */
+export const getApiOrganizationsInfiniteOptions = (
+  options?: Options<GetApiOrganizationsData>
+) => {
+  return infiniteQueryOptions<
+    GetApiOrganizationsResponse,
+    GetApiOrganizationsError,
+    InfiniteData<GetApiOrganizationsResponse>,
+    QueryKey<Options<GetApiOrganizationsData>>,
+    | number
+    | Pick<
+        QueryKey<Options<GetApiOrganizationsData>>[0],
+        'body' | 'headers' | 'path' | 'query'
+      >
+  >(
+    // @ts-ignore
+    {
+      queryFn: async ({ pageParam, queryKey, signal }) => {
+        // @ts-ignore
+        const page: Pick<
+          QueryKey<Options<GetApiOrganizationsData>>[0],
+          'body' | 'headers' | 'path' | 'query'
+        > =
+          typeof pageParam === 'object'
+            ? pageParam
+            : {
+                query: {
+                  page: pageParam,
+                },
+              };
+        const params = createInfiniteParams(queryKey, page);
+        const { data } = await getApiOrganizations({
+          ...options,
+          ...params,
+          signal,
+          throwOnError: true,
+        });
+        return data;
+      },
+      queryKey: getApiOrganizationsInfiniteQueryKey(options),
+    }
+  );
+};
+
+export const postApiOrganizationsQueryKey = (
+  options: Options<PostApiOrganizationsData>
+) => createQueryKey('postApiOrganizations', options);
+
+/**
+ * Create Organization
+ * Creates a new organization.
+ */
+export const postApiOrganizationsOptions = (
+  options: Options<PostApiOrganizationsData>
+) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await postApiOrganizations({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: postApiOrganizationsQueryKey(options),
+  });
+};
+
+/**
+ * Create Organization
+ * Creates a new organization.
+ */
+export const postApiOrganizationsMutation = (
+  options?: Partial<Options<PostApiOrganizationsData>>
+): UseMutationOptions<
+  unknown,
+  PostApiOrganizationsError,
+  Options<PostApiOrganizationsData>
+> => {
+  const mutationOptions: UseMutationOptions<
+    unknown,
+    PostApiOrganizationsError,
+    Options<PostApiOrganizationsData>
+  > = {
+    mutationFn: async (localOptions) => {
+      const { data } = await postApiOrganizations({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
+};
+
+/**
+ * Delete Organization by ID
+ * Deletes a organization by by their id.
+ */
+export const deleteApiOrganizationsByIdMutation = (
+  options?: Partial<Options<DeleteApiOrganizationsByIdData>>
+): UseMutationOptions<
+  unknown,
+  DeleteApiOrganizationsByIdError,
+  Options<DeleteApiOrganizationsByIdData>
+> => {
+  const mutationOptions: UseMutationOptions<
+    unknown,
+    DeleteApiOrganizationsByIdError,
+    Options<DeleteApiOrganizationsByIdData>
+  > = {
+    mutationFn: async (localOptions) => {
+      const { data } = await deleteApiOrganizationsById({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
+};
+
+export const getApiOrganizationsByIdQueryKey = (
+  options: Options<GetApiOrganizationsByIdData>
+) => createQueryKey('getApiOrganizationsById', options);
+
+/**
+ * View Organization
+ * Endpoint to retrieve a organization by their ID
+ */
+export const getApiOrganizationsByIdOptions = (
+  options: Options<GetApiOrganizationsByIdData>
+) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await getApiOrganizationsById({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: getApiOrganizationsByIdQueryKey(options),
+  });
+};
+
+/**
+ * Update Organization by ID
+ * Updates the organization information for a specific organization identified by their id.
+ */
+export const putApiOrganizationsByIdMutation = (
+  options?: Partial<Options<PutApiOrganizationsByIdData>>
+): UseMutationOptions<
+  unknown,
+  PutApiOrganizationsByIdError,
+  Options<PutApiOrganizationsByIdData>
+> => {
+  const mutationOptions: UseMutationOptions<
+    unknown,
+    PutApiOrganizationsByIdError,
+    Options<PutApiOrganizationsByIdData>
+  > = {
+    mutationFn: async (localOptions) => {
+      const { data } = await putApiOrganizationsById({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
+};
+
+export const getApiRolesQueryKey = (options?: Options<GetApiRolesData>) =>
+  createQueryKey('getApiRoles', options);
+
+/**
+ * View Roles
+ * Endpoint to retrieve a list of roles with pagination and optional search query
+ */
+export const getApiRolesOptions = (options?: Options<GetApiRolesData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await getApiRoles({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: getApiRolesQueryKey(options),
+  });
+};
+
+export const getApiRolesInfiniteQueryKey = (
+  options?: Options<GetApiRolesData>
+): QueryKey<Options<GetApiRolesData>> =>
+  createQueryKey('getApiRoles', options, true);
+
+/**
+ * View Roles
+ * Endpoint to retrieve a list of roles with pagination and optional search query
+ */
+export const getApiRolesInfiniteOptions = (
+  options?: Options<GetApiRolesData>
+) => {
+  return infiniteQueryOptions<
+    GetApiRolesResponse,
+    GetApiRolesError,
+    InfiniteData<GetApiRolesResponse>,
+    QueryKey<Options<GetApiRolesData>>,
+    | number
+    | Pick<
+        QueryKey<Options<GetApiRolesData>>[0],
+        'body' | 'headers' | 'path' | 'query'
+      >
+  >(
+    // @ts-ignore
+    {
+      queryFn: async ({ pageParam, queryKey, signal }) => {
+        // @ts-ignore
+        const page: Pick<
+          QueryKey<Options<GetApiRolesData>>[0],
+          'body' | 'headers' | 'path' | 'query'
+        > =
+          typeof pageParam === 'object'
+            ? pageParam
+            : {
+                query: {
+                  page: pageParam,
+                },
+              };
+        const params = createInfiniteParams(queryKey, page);
+        const { data } = await getApiRoles({
+          ...options,
+          ...params,
+          signal,
+          throwOnError: true,
+        });
+        return data;
+      },
+      queryKey: getApiRolesInfiniteQueryKey(options),
+    }
+  );
+};
+
+export const postApiRolesQueryKey = (options: Options<PostApiRolesData>) =>
+  createQueryKey('postApiRoles', options);
+
+/**
+ * Create Role
+ * Creates a new role.
+ */
+export const postApiRolesOptions = (options: Options<PostApiRolesData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await postApiRoles({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: postApiRolesQueryKey(options),
+  });
+};
+
+/**
+ * Create Role
+ * Creates a new role.
+ */
+export const postApiRolesMutation = (
+  options?: Partial<Options<PostApiRolesData>>
+): UseMutationOptions<
+  unknown,
+  PostApiRolesError,
+  Options<PostApiRolesData>
+> => {
+  const mutationOptions: UseMutationOptions<
+    unknown,
+    PostApiRolesError,
+    Options<PostApiRolesData>
+  > = {
+    mutationFn: async (localOptions) => {
+      const { data } = await postApiRoles({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
+};
+
+/**
+ * Delete Role by ID
+ * Deletes a role by by their id.
+ */
+export const deleteApiRolesByIdMutation = (
+  options?: Partial<Options<DeleteApiRolesByIdData>>
+): UseMutationOptions<
+  unknown,
+  DeleteApiRolesByIdError,
+  Options<DeleteApiRolesByIdData>
+> => {
+  const mutationOptions: UseMutationOptions<
+    unknown,
+    DeleteApiRolesByIdError,
+    Options<DeleteApiRolesByIdData>
+  > = {
+    mutationFn: async (localOptions) => {
+      const { data } = await deleteApiRolesById({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
+};
+
+export const getApiRolesByIdQueryKey = (
+  options: Options<GetApiRolesByIdData>
+) => createQueryKey('getApiRolesById', options);
+
+/**
+ * View Role
+ * Endpoint to retrieve a role by their ID
+ */
+export const getApiRolesByIdOptions = (
+  options: Options<GetApiRolesByIdData>
+) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await getApiRolesById({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: getApiRolesByIdQueryKey(options),
+  });
+};
+
+/**
+ * Update Role by ID
+ * Updates the role information for a specific role identified by their id.
+ */
+export const putApiRolesByIdMutation = (
+  options?: Partial<Options<PutApiRolesByIdData>>
+): UseMutationOptions<
+  unknown,
+  PutApiRolesByIdError,
+  Options<PutApiRolesByIdData>
+> => {
+  const mutationOptions: UseMutationOptions<
+    unknown,
+    PutApiRolesByIdError,
+    Options<PutApiRolesByIdData>
+  > = {
+    mutationFn: async (localOptions) => {
+      const { data } = await putApiRolesById({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
+};
+
+export const getApiUsersQueryKey = (options?: Options<GetApiUsersData>) =>
+  createQueryKey('getApiUsers', options);
+
+/**
+ * View Users
+ * Endpoint to retrieve a list of users with pagination and optional search query
+ */
+export const getApiUsersOptions = (options?: Options<GetApiUsersData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await getApiUsers({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: getApiUsersQueryKey(options),
+  });
 };
 
 export const getApiUsersInfiniteQueryKey = (

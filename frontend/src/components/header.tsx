@@ -1,6 +1,5 @@
 import { Link } from '@tanstack/react-router';
 
-import { Label } from './ui/label';
 import { SidebarTrigger } from './ui/sidebar';
 
 export default function Header() {
@@ -10,7 +9,7 @@ export default function Header() {
         <SidebarTrigger />
 
         <Link to="/">
-          <Label className="text-primary font-bold text-2xl">3rEco</Label>
+          <img src="/logo-text.png" className="w-full h-6 object-contain" />
         </Link>
       </div>
     </div>

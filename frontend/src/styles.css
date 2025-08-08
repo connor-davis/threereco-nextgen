@@ -123,7 +123,7 @@ body {
 
 .threereco,
 :root {
-  --primary: hsl(164, 86%, 16%);
+  --primary: hsl(164, 85%, 16%);
   --primary-foreground: hsl(0, 0%, 100%);
   --ring: hsl(164, 86%, 16%);
   --sidebar-primary: hsl(164, 86%, 16%);

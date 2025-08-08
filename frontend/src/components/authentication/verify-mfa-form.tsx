@@ -56,7 +56,7 @@ export default function VerifyMfaForm() {
     <div className="flex flex-col items-center justify-center w-screen h-screen p-3">
       <div className="flex flex-col w-full md:max-w-96 items-center justify-center gap-5 md:gap-10 p-5 md:p-10 m-5 md:m-10 border rounded-md bg-popover">
         <div className="flex flex-col space-y-3 text-center items-center justify-center">
-          <Label className="text-primary font-bold text-2xl">3rEco</Label>
+          <img src="/logo.png" className="w-full h-20 object-contain" />
 
           <Label className="text-sm">Welcome back, {user.email}!</Label>
 

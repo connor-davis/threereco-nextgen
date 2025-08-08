@@ -91,6 +91,43 @@ export const AuditLogSchema = {
   },
 } as const;
 
+export const CreateOrganizationPayloadSchema = {
+  properties: {
+    domain: {
+      minLength: 1,
+      type: 'string',
+    },
+    name: {
+      minLength: 1,
+      type: 'string',
+    },
+    ownerId: {
+      format: 'uuid',
+      type: 'string',
+    },
+  },
+} as const;
+
+export const CreateRolePayloadSchema = {
+  properties: {
+    description: {
+      nullable: true,
+      type: 'string',
+    },
+    name: {
+      minLength: 1,
+      type: 'string',
+    },
+    permissions: {
+      default: [],
+      items: {
+        type: 'string',
+      },
+      type: 'array',
+    },
+  },
+} as const;
+
 export const CreateUserPayloadSchema = {
   properties: {
     email: {
@@ -119,6 +156,7 @@ export const CreateUserPayloadSchema = {
         format: 'uuid',
         type: 'string',
       },
+      nullable: true,
       type: 'array',
     },
   },
@@ -2023,11 +2061,53 @@ export const SuccessResponseSchema = {
   },
 } as const;
 
+export const UpdateOrganizationPayloadSchema = {
+  properties: {
+    domain: {
+      minLength: 1,
+      nullable: true,
+      type: 'string',
+    },
+    name: {
+      minLength: 1,
+      nullable: true,
+      type: 'string',
+    },
+    ownerId: {
+      format: 'uuid',
+      nullable: true,
+      type: 'string',
+    },
+  },
+} as const;
+
+export const UpdateRolePayloadSchema = {
+  properties: {
+    description: {
+      nullable: true,
+      type: 'string',
+    },
+    name: {
+      minLength: 1,
+      nullable: true,
+      type: 'string',
+    },
+    permissions: {
+      default: [],
+      items: {
+        type: 'string',
+      },
+      type: 'array',
+    },
+  },
+} as const;
+
 export const UpdateUserPayloadSchema = {
   properties: {
     email: {
       format: 'email',
       minLength: 1,
+      nullable: true,
       type: 'string',
     },
     jobTitle: {
@@ -2043,6 +2123,7 @@ export const UpdateUserPayloadSchema = {
         format: 'uuid',
         type: 'string',
       },
+      nullable: true,
       type: 'array',
     },
     phone: {
@@ -2054,6 +2135,7 @@ export const UpdateUserPayloadSchema = {
         format: 'uuid',
         type: 'string',
       },
+      nullable: true,
       type: 'array',
     },
   },

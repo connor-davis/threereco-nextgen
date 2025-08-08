@@ -92,7 +92,7 @@ export default function AuthenticationGuard({
       <div className="flex flex-col items-center justify-center w-full h-full">
         <div className="flex flex-col w-full md:max-w-96 items-center justify-center gap-5 md:gap-10 p-5 md:p-10 m-5 md:m-10 border rounded-md bg-popover">
           <div className="flex flex-col w-full h-auto gap-5 items-center justify-center text-center">
-            <Label className="text-primary font-bold text-2xl">3rEco</Label>
+            <img src="/logo.png" className="w-full h-20 object-contain" />
 
             <p className="text-muted-foreground">
               You need to authenticate to continue to the application.

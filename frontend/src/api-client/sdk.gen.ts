@@ -2,6 +2,12 @@
 import type { Client, Options as ClientOptions, TDataShape } from './client';
 import { client as _heyApiClient } from './client.gen';
 import type {
+  DeleteApiOrganizationsByIdData,
+  DeleteApiOrganizationsByIdErrors,
+  DeleteApiOrganizationsByIdResponses,
+  DeleteApiRolesByIdData,
+  DeleteApiRolesByIdErrors,
+  DeleteApiRolesByIdResponses,
   DeleteApiUsersByIdData,
   DeleteApiUsersByIdErrors,
   DeleteApiUsersByIdResponses,
@@ -11,6 +17,18 @@ import type {
   GetApiAuthenticationMfaEnableData,
   GetApiAuthenticationMfaEnableErrors,
   GetApiAuthenticationMfaEnableResponses,
+  GetApiOrganizationsByIdData,
+  GetApiOrganizationsByIdErrors,
+  GetApiOrganizationsByIdResponses,
+  GetApiOrganizationsData,
+  GetApiOrganizationsErrors,
+  GetApiOrganizationsResponses,
+  GetApiRolesByIdData,
+  GetApiRolesByIdErrors,
+  GetApiRolesByIdResponses,
+  GetApiRolesData,
+  GetApiRolesErrors,
+  GetApiRolesResponses,
   GetApiUsersByIdData,
   GetApiUsersByIdErrors,
   GetApiUsersByIdResponses,
@@ -26,9 +44,21 @@ import type {
   PostApiAuthenticationMfaVerifyData,
   PostApiAuthenticationMfaVerifyErrors,
   PostApiAuthenticationMfaVerifyResponses,
+  PostApiOrganizationsData,
+  PostApiOrganizationsErrors,
+  PostApiOrganizationsResponses,
+  PostApiRolesData,
+  PostApiRolesErrors,
+  PostApiRolesResponses,
   PostApiUsersData,
   PostApiUsersErrors,
   PostApiUsersResponses,
+  PutApiOrganizationsByIdData,
+  PutApiOrganizationsByIdErrors,
+  PutApiOrganizationsByIdResponses,
+  PutApiRolesByIdData,
+  PutApiRolesByIdErrors,
+  PutApiRolesByIdResponses,
   PutApiUsersByIdData,
   PutApiUsersByIdErrors,
   PutApiUsersByIdResponses,
@@ -144,6 +174,194 @@ export const postApiAuthenticationMfaVerify = <
     ThrowOnError
   >({
     url: '/api/authentication/mfa/verify',
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...options.headers,
+    },
+  });
+};
+
+/**
+ * View Organizations
+ * Endpoint to retrieve a list of organizations with pagination and optional search query
+ */
+export const getApiOrganizations = <ThrowOnError extends boolean = false>(
+  options?: Options<GetApiOrganizationsData, ThrowOnError>
+) => {
+  return (options?.client ?? _heyApiClient).get<
+    GetApiOrganizationsResponses,
+    GetApiOrganizationsErrors,
+    ThrowOnError
+  >({
+    url: '/api/organizations',
+    ...options,
+  });
+};
+
+/**
+ * Create Organization
+ * Creates a new organization.
+ */
+export const postApiOrganizations = <ThrowOnError extends boolean = false>(
+  options: Options<PostApiOrganizationsData, ThrowOnError>
+) => {
+  return (options.client ?? _heyApiClient).post<
+    PostApiOrganizationsResponses,
+    PostApiOrganizationsErrors,
+    ThrowOnError
+  >({
+    url: '/api/organizations',
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...options.headers,
+    },
+  });
+};
+
+/**
+ * Delete Organization by ID
+ * Deletes a organization by by their id.
+ */
+export const deleteApiOrganizationsById = <
+  ThrowOnError extends boolean = false,
+>(
+  options: Options<DeleteApiOrganizationsByIdData, ThrowOnError>
+) => {
+  return (options.client ?? _heyApiClient).delete<
+    DeleteApiOrganizationsByIdResponses,
+    DeleteApiOrganizationsByIdErrors,
+    ThrowOnError
+  >({
+    url: '/api/organizations/{id}',
+    ...options,
+  });
+};
+
+/**
+ * View Organization
+ * Endpoint to retrieve a organization by their ID
+ */
+export const getApiOrganizationsById = <ThrowOnError extends boolean = false>(
+  options: Options<GetApiOrganizationsByIdData, ThrowOnError>
+) => {
+  return (options.client ?? _heyApiClient).get<
+    GetApiOrganizationsByIdResponses,
+    GetApiOrganizationsByIdErrors,
+    ThrowOnError
+  >({
+    url: '/api/organizations/{id}',
+    ...options,
+  });
+};
+
+/**
+ * Update Organization by ID
+ * Updates the organization information for a specific organization identified by their id.
+ */
+export const putApiOrganizationsById = <ThrowOnError extends boolean = false>(
+  options: Options<PutApiOrganizationsByIdData, ThrowOnError>
+) => {
+  return (options.client ?? _heyApiClient).put<
+    PutApiOrganizationsByIdResponses,
+    PutApiOrganizationsByIdErrors,
+    ThrowOnError
+  >({
+    url: '/api/organizations/{id}',
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...options.headers,
+    },
+  });
+};
+
+/**
+ * View Roles
+ * Endpoint to retrieve a list of roles with pagination and optional search query
+ */
+export const getApiRoles = <ThrowOnError extends boolean = false>(
+  options?: Options<GetApiRolesData, ThrowOnError>
+) => {
+  return (options?.client ?? _heyApiClient).get<
+    GetApiRolesResponses,
+    GetApiRolesErrors,
+    ThrowOnError
+  >({
+    url: '/api/roles',
+    ...options,
+  });
+};
+
+/**
+ * Create Role
+ * Creates a new role.
+ */
+export const postApiRoles = <ThrowOnError extends boolean = false>(
+  options: Options<PostApiRolesData, ThrowOnError>
+) => {
+  return (options.client ?? _heyApiClient).post<
+    PostApiRolesResponses,
+    PostApiRolesErrors,
+    ThrowOnError
+  >({
+    url: '/api/roles',
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...options.headers,
+    },
+  });
+};
+
+/**
+ * Delete Role by ID
+ * Deletes a role by by their id.
+ */
+export const deleteApiRolesById = <ThrowOnError extends boolean = false>(
+  options: Options<DeleteApiRolesByIdData, ThrowOnError>
+) => {
+  return (options.client ?? _heyApiClient).delete<
+    DeleteApiRolesByIdResponses,
+    DeleteApiRolesByIdErrors,
+    ThrowOnError
+  >({
+    url: '/api/roles/{id}',
+    ...options,
+  });
+};
+
+/**
+ * View Role
+ * Endpoint to retrieve a role by their ID
+ */
+export const getApiRolesById = <ThrowOnError extends boolean = false>(
+  options: Options<GetApiRolesByIdData, ThrowOnError>
+) => {
+  return (options.client ?? _heyApiClient).get<
+    GetApiRolesByIdResponses,
+    GetApiRolesByIdErrors,
+    ThrowOnError
+  >({
+    url: '/api/roles/{id}',
+    ...options,
+  });
+};
+
+/**
+ * Update Role by ID
+ * Updates the role information for a specific role identified by their id.
+ */
+export const putApiRolesById = <ThrowOnError extends boolean = false>(
+  options: Options<PutApiRolesByIdData, ThrowOnError>
+) => {
+  return (options.client ?? _heyApiClient).put<
+    PutApiRolesByIdResponses,
+    PutApiRolesByIdErrors,
+    ThrowOnError
+  >({
+    url: '/api/roles/{id}',
     ...options,
     headers: {
       'Content-Type': 'application/json',
