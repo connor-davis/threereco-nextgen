@@ -108,9 +108,7 @@ function RouteComponent() {
           />
 
           <PermissionGuard value="users.create">
-            <Link to="/users/create">
-              <Button variant="ghost">Add</Button>
-            </Link>
+            <Button variant="ghost">Invite</Button>
           </PermissionGuard>
         </div>
       </div>

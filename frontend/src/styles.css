@@ -123,22 +123,22 @@ body {
 
 .threereco,
 :root {
-  --primary: hsl(164, 85%, 16%);
+  --primary: hsl(183, 55%, 35%);
   --primary-foreground: hsl(0, 0%, 100%);
-  --ring: hsl(164, 86%, 16%);
-  --sidebar-primary: hsl(164, 86%, 16%);
+  --ring: hsl(183, 55%, 35%);
+  --sidebar-primary: hsl(183, 55%, 35%);
   --sidebar-primary-foreground: hsl(0, 0%, 100%);
-  --sidebar-ring: hsl(164, 86%, 16%);
+  --sidebar-ring: hsl(183, 55%, 35%);
 }
 
 .threereco,
 .dark {
-  --primary: hsl(163.1, 88.1%, 19.8%);
+  --primary: hsl(183, 55%, 35%);
   --primary-foreground: hsl(0, 0%, 100%);
-  --ring: hsl(163.1, 88.1%, 19.8%);
-  --sidebar-primary: hsl(163.1, 88.1%, 19.8%);
+  --ring: hsl(183, 55%, 35%);
+  --sidebar-primary: hsl(183, 55%, 35%);
   --sidebar-primary-foreground: hsl(0, 0%, 100%);
-  --sidebar-ring: hsl(163.1, 88.1%, 19.8%);
+  --sidebar-ring: hsl(183, 55%, 35%);
 }
 
 @theme inline {

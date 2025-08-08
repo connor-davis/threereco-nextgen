@@ -81,7 +81,7 @@ func (r *AuthenticationRouter) MfaVerifyRoute() routing.Route {
 			r.Middleware.Authorized(),
 		},
 		Handler: func(c *fiber.Ctx) error {
-			user := c.Locals("user").(*models.User)
+			currentUser := c.Locals("user").(*models.User)
 
 			var payload MfaVerifyPayload
 
@@ -103,7 +103,7 @@ func (r *AuthenticationRouter) MfaVerifyRoute() routing.Route {
 				})
 			}
 
-			if user == nil || user.MfaSecret == nil {
+			if currentUser == nil || currentUser.MfaSecret == nil {
 				log.Warn("🚫 Unauthorized access attempt: User not found or MFA not enabled")
 
 				return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
@@ -112,7 +112,7 @@ func (r *AuthenticationRouter) MfaVerifyRoute() routing.Route {
 				})
 			}
 
-			if !totp.Validate(payload.Code, string(user.MfaSecret)) {
+			if !totp.Validate(payload.Code, string(currentUser.MfaSecret)) {
 				return c.Status(fiber.StatusUnauthorized).
 					JSON(fiber.Map{
 						"error":   constants.UnauthorizedError,
@@ -120,12 +120,14 @@ func (r *AuthenticationRouter) MfaVerifyRoute() routing.Route {
 					})
 			}
 
-			if err := r.Storage.Postgres.Where(&models.User{
-				Id: user.Id,
-			}).Updates(&models.User{
-				MfaEnabled:  true,
-				MfaVerified: true,
-			}).Error; err != nil {
+			currentUser.MfaEnabled = true
+			currentUser.MfaVerified = true
+
+			if err := r.Storage.Postgres.Set("one:audit_user_id", currentUser.Id).
+				Where(&models.User{
+					Id: currentUser.Id,
+				}).
+				Updates(&currentUser).Error; err != nil {
 				log.Errorf("🔥 Error updating user: %s", err.Error())
 
 				return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
