@@ -71,28 +71,6 @@ func (s *UsersService) Update(auditId uuid.UUID, id uuid.UUID, user models.Updat
 		return errors.New("user not found")
 	}
 
-	if len(user.Roles) > 0 {
-		for _, roleId := range user.Roles {
-			if roleId == uuid.Nil {
-				return errors.New("invalid role ID")
-			}
-
-			var existingRole models.Role
-
-			if err := s.Storage.Postgres.Find(&existingRole, roleId).Error; err != nil {
-				return err
-			}
-
-			if existingRole.Id == uuid.Nil {
-				return errors.New("role not found")
-			}
-
-			if err := s.Storage.Postgres.Model(&models.User{Id: existingUser.Id}).Association("Roles").Append(&existingRole); err != nil {
-				return err
-			}
-		}
-	}
-
 	if user.Email != nil {
 		existingUser.Email = *user.Email
 	}
@@ -120,6 +98,12 @@ func (s *UsersService) Update(auditId uuid.UUID, id uuid.UUID, user models.Updat
 			"job_title": existingUser.JobTitle,
 		}).Error; err != nil {
 		return err
+	}
+
+	if len(user.Roles) > 0 {
+		if err := s.Storage.Postgres.Model(&existingUser).Association("Roles").Replace(user.Roles); err != nil {
+			return err
+		}
 	}
 
 	return nil

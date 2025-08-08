@@ -33,8 +33,8 @@ type Organization struct {
 	Domain           string    `json:"domain" gorm:"type:text;uniqueIndex;not null;"`
 	OwnerId          uuid.UUID `json:"ownerId" gorm:"type:uuid;not null;"`
 	Owner            User      `json:"owner"`
-	Users            []User    `json:"users" gorm:"many2many:organization_users;constraint:OnDelete:CASCADE;"`
-	Roles            []Role    `json:"roles" gorm:"many2many:organization_roles;constraint:OnDelete:CASCADE;"`
+	Users            []User    `json:"users" gorm:"many2many:organizations_users;constraint:OnDelete:CASCADE;"`
+	Roles            []Role    `json:"roles" gorm:"many2many:organizations_roles;constraint:OnDelete:CASCADE;"`
 	ModifiedByUserId uuid.UUID `json:"modifiedById" gorm:"type:uuid;"`
 	ModifiedByUser   *User     `json:"modifiedBy"`
 	CreatedAt        time.Time `json:"createdAt" gorm:"autoCreateTime;"`

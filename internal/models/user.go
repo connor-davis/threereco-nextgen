@@ -38,8 +38,8 @@ type User struct {
 	MfaSecret             []byte         `json:"-" gorm:"type:bytea;"`
 	MfaEnabled            bool           `json:"mfaEnabled" gorm:"default:false;"`
 	MfaVerified           bool           `json:"mfaVerified" gorm:"default:false;"`
-	Roles                 []Role         `json:"roles" gorm:"many2many:user_roles;constraint:OnDelete:CASCADE;"`
-	Organizations         []Organization `json:"organizations" gorm:"many2many:organization_users;constraint:OnDelete:CASCADE;"`
+	Roles                 []Role         `json:"roles" gorm:"many2many:users_roles;constraint:OnDelete:CASCADE;"`
+	Organizations         []Organization `json:"organizations" gorm:"many2many:organizations_users;constraint:OnDelete:CASCADE;"`
 	PrimaryOrganizationId uuid.UUID      `json:"primaryOrganizationId" gorm:"type:uuid;"`
 	ModifiedByUserId      uuid.UUID      `json:"modifiedById" gorm:"type:uuid;"`
 	ModifiedByUser        *User          `json:"modifiedBy"`
@@ -65,6 +65,7 @@ type CreateUserPayload struct {
 	Name     *string `json:"name"`
 	Phone    *string `json:"phone"`
 	JobTitle *string `json:"jobTitle"`
+	Roles    []Role  `json:"roles"`
 }
 
 // UpdateUserPayload represents a partial update request for a user. Pointer
@@ -90,11 +91,11 @@ type CreateUserPayload struct {
 //     if the update handler implements that convention.
 //   - Callers must supply valid UUIDs for Roles and Organizations.
 type UpdateUserPayload struct {
-	Email    *string     `json:"email"`
-	Name     *string     `json:"name"`
-	Phone    *string     `json:"phone"`
-	JobTitle *string     `json:"jobTitle"`
-	Roles    []uuid.UUID `json:"roles"`
+	Email    *string `json:"email"`
+	Name     *string `json:"name"`
+	Phone    *string `json:"phone"`
+	JobTitle *string `json:"jobTitle"`
+	Roles    []Role  `json:"roles"`
 }
 
 // AfterCreate is a GORM hook that is triggered after a User record is created in the database.

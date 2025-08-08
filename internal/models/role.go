@@ -30,8 +30,8 @@ type Role struct {
 	Name             string         `json:"name" gorm:"type:text;not null;"`
 	Description      *string        `json:"description" gorm:"type:text;"`
 	Permissions      pq.StringArray `json:"permissions" gorm:"type:text[];default:array[]::text[];"`
-	Users            []User         `json:"users" gorm:"many2many:user_roles;constraint:OnDelete:CASCADE;"`
-	Organizations    []Organization `json:"organizations" gorm:"many2many:organization_roles;constraint:OnDelete:CASCADE;"`
+	Users            []User         `json:"users" gorm:"many2many:users_roles;constraint:OnDelete:CASCADE;"`
+	Organizations    []Organization `json:"organizations" gorm:"many2many:organizations_roles;constraint:OnDelete:CASCADE;"`
 	ModifiedByUserId uuid.UUID      `json:"modifiedById" gorm:"type:uuid;"`
 	ModifiedByUser   *User          `json:"modifiedBy"`
 	CreatedAt        time.Time      `json:"createdAt" gorm:"autoCreateTime;"`
