@@ -6,6 +6,8 @@ import (
 
 	"github.com/connor-davis/threereco-nextgen/cmd/api/http/authentication"
 	"github.com/connor-davis/threereco-nextgen/cmd/api/http/middleware"
+	"github.com/connor-davis/threereco-nextgen/cmd/api/http/organizations"
+	"github.com/connor-davis/threereco-nextgen/cmd/api/http/roles"
 	"github.com/connor-davis/threereco-nextgen/cmd/api/http/users"
 	"github.com/connor-davis/threereco-nextgen/env"
 	"github.com/connor-davis/threereco-nextgen/internal/routing"
@@ -46,10 +48,18 @@ func NewHttpRouter(storage *storage.Storage, sessions *session.Store, services *
 	usersRouter := users.NewUsersRouter(storage, sessions, services, middleware)
 	usersRoutes := usersRouter.InitializeRoutes()
 
+	rolesRouter := roles.NewRolesRouter(storage, sessions, services, middleware)
+	rolesRoutes := rolesRouter.InitializeRoutes()
+
+	organizationsRouter := organizations.NewOrganizationsRouter(storage, sessions, services, middleware)
+	organizationsRoutes := organizationsRouter.InitializeRoutes()
+
 	routes := []routing.Route{}
 
 	routes = append(routes, authenticationRoutes...)
 	routes = append(routes, usersRoutes...)
+	routes = append(routes, rolesRoutes...)
+	routes = append(routes, organizationsRoutes...)
 
 	return &HttpRouter{
 		Storage:    storage,
@@ -195,16 +205,20 @@ func (h *HttpRouter) InitializeOpenAPI() *openapi3.T {
 		Paths: paths,
 		Components: &openapi3.Components{
 			Schemas: openapi3.Schemas{
-				"SuccessResponse":   schemas.SuccessResponseSchema,
-				"ErrorResponse":     schemas.ErrorResponseSchema,
-				"User":              schemas.UserSchema,
-				"CreateUserPayload": schemas.CreateUserPayloadSchema,
-				"UpdateUserPayload": schemas.UpdateUserPayloadSchema,
-				"Role":              schemas.RoleSchema,
-				"Organization":      schemas.OrganizationSchema,
-				"AuditLog":          schemas.AuditLogSchema,
-				"MfaVerifyPayload":  schemas.MfaVerifyPayloadSchema,
-				"LoginPayload":      schemas.LoginPayloadSchema,
+				"SuccessResponse":           schemas.SuccessResponseSchema,
+				"ErrorResponse":             schemas.ErrorResponseSchema,
+				"User":                      schemas.UserSchema,
+				"CreateUserPayload":         schemas.CreateUserPayloadSchema,
+				"UpdateUserPayload":         schemas.UpdateUserPayloadSchema,
+				"Role":                      schemas.RoleSchema,
+				"CreateRolePayload":         schemas.CreateRolePayloadSchema,
+				"UpdateRolePayload":         schemas.UpdateRolePayloadSchema,
+				"Organization":              schemas.OrganizationSchema,
+				"CreateOrganizationPayload": schemas.CreateOrganizationPayloadSchema,
+				"UpdateOrganizationPayload": schemas.UpdateOrganizationPayloadSchema,
+				"AuditLog":                  schemas.AuditLogSchema,
+				"MfaVerifyPayload":          schemas.MfaVerifyPayloadSchema,
+				"LoginPayload":              schemas.LoginPayloadSchema,
 			},
 		},
 	}
