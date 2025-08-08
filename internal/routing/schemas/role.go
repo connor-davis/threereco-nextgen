@@ -36,3 +36,7 @@ var RoleSchema = openapi3.NewSchema().WithProperties(properties.RoleProperties).
 // that accept or return a list of roles.
 var RoleArraySchema = openapi3.NewArraySchema().
 	WithItems(RoleSchema.Value).NewRef()
+
+var CreateRolePayloadSchema = openapi3.NewSchema().WithProperties(properties.CreateRolePayloadProperties).NewRef()
+
+var UpdateRolePayloadSchema = openapi3.NewSchema().WithProperties(properties.UpdateRolePayloadProperties).NewRef()

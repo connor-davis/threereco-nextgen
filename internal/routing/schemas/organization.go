@@ -42,3 +42,7 @@ var OrganizationSchema = openapi3.NewSchema().WithProperties(properties.Organiza
 // of API endpoints that return or accept lists of organizations.
 var OrganizationArraySchema = openapi3.NewArraySchema().
 	WithItems(OrganizationSchema.Value).NewRef()
+
+var CreateOrganizationPayloadSchema = openapi3.NewSchema().WithProperties(properties.CreateOrganizationPayloadProperties).NewRef()
+
+var UpdateOrganizationPayloadSchema = openapi3.NewSchema().WithProperties(properties.UpdateOrganizationPayloadProperties).NewRef()

@@ -20,3 +20,15 @@ var OrganizationProperties = map[string]*openapi3.Schema{
 	"createdAt":    openapi3.NewDateTimeSchema(),
 	"updatedAt":    openapi3.NewDateTimeSchema(),
 }
+
+var CreateOrganizationPayloadProperties = map[string]*openapi3.Schema{
+	"name":    openapi3.NewStringSchema().WithMinLength(1),
+	"domain":  openapi3.NewStringSchema().WithMinLength(1),
+	"ownerId": openapi3.NewStringSchema().WithFormat("uuid"),
+}
+
+var UpdateOrganizationPayloadProperties = map[string]*openapi3.Schema{
+	"name":    openapi3.NewStringSchema().WithMinLength(1).WithNullable(),
+	"domain":  openapi3.NewStringSchema().WithMinLength(1).WithNullable(),
+	"ownerId": openapi3.NewStringSchema().WithFormat("uuid").WithNullable(),
+}

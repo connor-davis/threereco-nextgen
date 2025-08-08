@@ -21,3 +21,15 @@ var RoleProperties = map[string]*openapi3.Schema{
 	"createdAt":    openapi3.NewDateTimeSchema(),
 	"updatedAt":    openapi3.NewDateTimeSchema(),
 }
+
+var CreateRolePayloadProperties = map[string]*openapi3.Schema{
+	"name":        openapi3.NewStringSchema().WithMinLength(1),
+	"description": openapi3.NewStringSchema().WithNullable(),
+	"permissions": openapi3.NewArraySchema().WithItems(openapi3.NewStringSchema()).WithDefault([]string{}),
+}
+
+var UpdateRolePayloadProperties = map[string]*openapi3.Schema{
+	"name":        openapi3.NewStringSchema().WithMinLength(1).WithNullable(),
+	"description": openapi3.NewStringSchema().WithNullable(),
+	"permissions": openapi3.NewArraySchema().WithItems(openapi3.NewStringSchema()).WithDefault([]string{}),
+}
