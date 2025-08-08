@@ -165,7 +165,7 @@ export default function UserNav() {
                     <DropdownMenuItem
                       onClick={() => setAppearance('threereco')}
                     >
-                      3rEco
+                      3REco
                     </DropdownMenuItem>
                   </DropdownMenuSubContent>
                 </DropdownMenuPortal>
