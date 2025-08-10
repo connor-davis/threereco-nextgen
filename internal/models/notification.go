@@ -52,8 +52,10 @@ func (n NotificationAction) Value() (driver.Value, error) {
 // the input is not a []byte or if JSON unmarshaling fails.
 func (n *NotificationAction) Scan(value interface{}) error {
 	bytes, ok := value.([]byte)
+
 	if !ok {
 		return fmt.Errorf("cannot convert %v to NotificationAction", value)
 	}
+
 	return json.Unmarshal(bytes, n)
 }
