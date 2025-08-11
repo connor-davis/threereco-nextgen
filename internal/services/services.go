@@ -1,8 +1,11 @@
 package services
 
 import (
+	"github.com/connor-davis/threereco-nextgen/internal/services/materials"
 	"github.com/connor-davis/threereco-nextgen/internal/services/organizations"
+	"github.com/connor-davis/threereco-nextgen/internal/services/products"
 	"github.com/connor-davis/threereco-nextgen/internal/services/roles"
+	"github.com/connor-davis/threereco-nextgen/internal/services/transactions"
 	"github.com/connor-davis/threereco-nextgen/internal/services/users"
 	"github.com/connor-davis/threereco-nextgen/internal/storage"
 )
@@ -15,6 +18,9 @@ type Services struct {
 	Users         *users.UsersService
 	Roles         *roles.RolesService
 	Organizations *organizations.OrganizationsService
+	Materials     *materials.MaterialsService
+	Products      *products.ProductsService
+	Transactions  *transactions.TransactionsService
 }
 
 // NewServices initializes and returns a new Services struct, wiring together

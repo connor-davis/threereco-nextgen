@@ -5,9 +5,12 @@ import (
 	"regexp"
 
 	"github.com/connor-davis/threereco-nextgen/cmd/api/http/authentication"
+	"github.com/connor-davis/threereco-nextgen/cmd/api/http/materials"
 	"github.com/connor-davis/threereco-nextgen/cmd/api/http/middleware"
 	"github.com/connor-davis/threereco-nextgen/cmd/api/http/organizations"
+	"github.com/connor-davis/threereco-nextgen/cmd/api/http/products"
 	"github.com/connor-davis/threereco-nextgen/cmd/api/http/roles"
+	"github.com/connor-davis/threereco-nextgen/cmd/api/http/transactions"
 	"github.com/connor-davis/threereco-nextgen/cmd/api/http/users"
 	"github.com/connor-davis/threereco-nextgen/env"
 	"github.com/connor-davis/threereco-nextgen/internal/routing"
@@ -54,12 +57,24 @@ func NewHttpRouter(storage *storage.Storage, sessions *session.Store, services *
 	organizationsRouter := organizations.NewOrganizationsRouter(storage, sessions, services, middleware)
 	organizationsRoutes := organizationsRouter.InitializeRoutes()
 
+	materialsRouter := materials.NewMaterialsRouter(storage, sessions, services, middleware)
+	materialsRoutes := materialsRouter.InitializeRoutes()
+
+	productsRouter := products.NewProductsRouter(storage, sessions, services, middleware)
+	productsRoutes := productsRouter.InitializeRoutes()
+
+	transactionsRouter := transactions.NewTransactionsRouter(storage, sessions, services, middleware)
+	transactionsRoutes := transactionsRouter.InitializeRoutes()
+
 	routes := []routing.Route{}
 
 	routes = append(routes, authenticationRoutes...)
 	routes = append(routes, usersRoutes...)
 	routes = append(routes, rolesRoutes...)
 	routes = append(routes, organizationsRoutes...)
+	routes = append(routes, materialsRoutes...)
+	routes = append(routes, productsRoutes...)
+	routes = append(routes, transactionsRoutes...)
 
 	return &HttpRouter{
 		Storage:    storage,
