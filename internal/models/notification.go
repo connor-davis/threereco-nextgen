@@ -39,6 +39,8 @@ type Notification struct {
 	Title     string              `json:"title" gorm:"type:text;not null;"`
 	Message   string              `json:"message" gorm:"type:text;not null;"`
 	Action    *NotificationAction `json:"action" gorm:"type:jsonb;"`
+	UserId    uuid.UUID           `json:"userId" gorm:"type:uuid;not null;"`
+	Closed    bool                `json:"closed" gorm:"type:boolean;default:false;"`
 	CreatedAt time.Time           `json:"created_at" gorm:"autoCreateTime;"`
 	UpdatedAt time.Time           `json:"updated_at" gorm:"autoUpdateTime;"`
 }
@@ -70,6 +72,8 @@ func (n *NotificationAction) Scan(value interface{}) error {
 type CreateNotificationPayload struct {
 	Title   string              `json:"title" binding:"required"`
 	Message string              `json:"message" binding:"required"`
+	UserId  uuid.UUID           `json:"userId" binding:"required"`
+	Closed  bool                `json:"closed" binding:"required"`
 	Action  *NotificationAction `json:"action" binding:"required"`
 }
 
@@ -87,6 +91,7 @@ type CreateNotificationPayload struct {
 type UpdateNotificationPayload struct {
 	Title   *string             `json:"title" binding:"required"`
 	Message *string             `json:"message" binding:"required"`
+	Closed  *bool               `json:"closed" binding:"required"`
 	Action  *NotificationAction `json:"action" binding:"required"`
 }
 

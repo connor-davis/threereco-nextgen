@@ -154,6 +154,63 @@ func (s *UsersService) GetById(id uuid.UUID) (*models.User, error) {
 	return &user, nil
 }
 
+// GetSales returns all transactions where the provided userId matches the SellerID.
+// Optional GORM clause expressions may be supplied to customize the query (e.g., OrderBy, Limit, Locking).
+// It returns the matching transactions on success, or a non-nil error if the query fails.
+func (s *UsersService) GetSales(userId uuid.UUID, clauses ...clause.Expression) ([]models.Transaction, error) {
+	var sales []models.Transaction
+
+	if err := s.Storage.Postgres.
+		Clauses(clauses...).
+		Where(&models.Transaction{
+			SellerID: userId,
+		}).
+		Find(&sales).Error; err != nil {
+		return nil, err
+	}
+
+	return sales, nil
+}
+
+// GetPurchases retrieves all transactions where the given userId matches Transaction.BuyerID.
+// Optional GORM clause.Expression values can be provided to refine the query (e.g., ORDER BY,
+// LIMIT, or locking clauses). It returns an empty slice and a nil error when no records are found,
+// and a non-nil error only if the query execution fails.
+func (s *UsersService) GetPurchases(userId uuid.UUID, clauses ...clause.Expression) ([]models.Transaction, error) {
+	var purchases []models.Transaction
+
+	if err := s.Storage.Postgres.
+		Clauses(clauses...).
+		Where(&models.Transaction{
+			BuyerID: userId,
+		}).
+		Find(&purchases).Error; err != nil {
+		return nil, err
+	}
+
+	return purchases, nil
+}
+
+// GetNotifications returns notifications that belong to the provided userId.
+// Optional GORM clause expressions can be supplied to customize the query
+// (for example: Order("created_at DESC"), Limit(n), Offset(n), Preload("...")).
+// It returns the matching notifications, or an error if the query fails.
+// If no records match, the returned slice may be empty.
+func (s *UsersService) GetNotifications(userId uuid.UUID, clauses ...clause.Expression) ([]models.Notification, error) {
+	var notifications []models.Notification
+
+	if err := s.Storage.Postgres.
+		Clauses(clauses...).
+		Where(&models.Notification{
+			UserId: userId,
+		}).
+		Find(&notifications).Error; err != nil {
+		return nil, err
+	}
+
+	return notifications, nil
+}
+
 // GetByEmail retrieves a user from the database by their email address.
 // It returns a pointer to the User model and an error if the operation fails.
 // If no user is found with the given email, the returned error will indicate the failure.

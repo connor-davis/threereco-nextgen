@@ -42,6 +42,7 @@ type User struct {
 	Organizations         []Organization `json:"organizations" gorm:"many2many:organizations_users;constraint:OnDelete:CASCADE;"`
 	Sales                 []Transaction  `json:"sales" gorm:"polymorphic:Seller;constraint:OnDelete:CASCADE;"`
 	Purchases             []Transaction  `json:"purchases" gorm:"polymorphic:Buyer;constraint:OnDelete:CASCADE;"`
+	Notifications         []Notification `json:"notifications" gorm:"foreignKey:UserId;references:Id;constraint:OnDelete:CASCADE;"`
 	PrimaryOrganizationId uuid.UUID      `json:"primaryOrganizationId" gorm:"type:uuid;"`
 	ModifiedByUserId      uuid.UUID      `json:"modifiedById" gorm:"type:uuid;"`
 	ModifiedByUser        *User          `json:"modifiedBy"`
