@@ -25,7 +25,7 @@ import (
 type Material struct {
 	Id               uuid.UUID      `json:"id" gorm:"type:uuid;default:gen_random_uuid();primaryKey;"`
 	Name             string         `json:"name" gorm:"type:text;not null;"`
-	GwCode           string         `json:"gwCode" gorm:"type:int;not null;"`
+	GwCode           string         `json:"gwCode" gorm:"type:text;not null;"`
 	CarbonFactor     string         `json:"carbonFactor" gorm:"type:text;not null;"`
 	Products         []Product      `json:"products" gorm:"many2many:products_materials;constraint:OnDelete:CASCADE;"`
 	Organizations    []Organization `json:"organizations" gorm:"many2many:organizations_materials;constraint:OnDelete:CASCADE;"`
@@ -42,7 +42,7 @@ type Material struct {
 //   - CarbonFactor: Emission / carbon factor associated with the material, stored as text (required).
 type CreateMaterialPayload struct {
 	Name         string `json:"name" gorm:"type:text;not null;"`
-	GwCode       string `json:"gwCode" gorm:"type:int;not null;"`
+	GwCode       string `json:"gwCode" gorm:"type:text;not null;"`
 	CarbonFactor string `json:"carbonFactor" gorm:"type:text;not null;"`
 }
 
@@ -56,7 +56,7 @@ type CreateMaterialPayload struct {
 //	CarbonFactor: Emissions factor (e.g., CO₂e per unit), stored as text to allow flexible formatting.
 type UpdateMaterialPayload struct {
 	Name         *string `json:"name" gorm:"type:text;not null;"`
-	GwCode       *string `json:"gwCode" gorm:"type:int;not null;"`
+	GwCode       *string `json:"gwCode" gorm:"type:text;not null;"`
 	CarbonFactor *string `json:"carbonFactor" gorm:"type:text;not null;"`
 }
 
