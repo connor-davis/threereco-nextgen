@@ -14,10 +14,14 @@ var TransactionSchema = openapi3.NewSchema().WithProperties(properties.Transacti
 var TransactionArraySchema = openapi3.NewArraySchema().
 	WithItems(TransactionSchema.Value).NewRef()
 
-var CreateTransactionPayloadSchema = openapi3.NewSchema().WithProperties(properties.CreateTransactionPayloadProperties).NewRef()
+var CreateTransactionPayloadSchema = openapi3.NewSchema().WithProperties(properties.CreateTransactionPayloadProperties).
+	WithProperty(
+		"products",
+		openapi3.NewArraySchema().WithItems(openapi3.NewStringSchema().WithFormat("uuid")),
+	).NewRef()
 
 var UpdateTransactionPayloadSchema = openapi3.NewSchema().WithProperties(properties.UpdateTransactionPayloadProperties).
 	WithProperty(
 		"products",
-		openapi3.NewArraySchema().WithItems(ProductSchema.Value),
+		openapi3.NewArraySchema().WithItems(openapi3.NewStringSchema().WithFormat("uuid")),
 	).NewRef()

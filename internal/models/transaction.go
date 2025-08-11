@@ -61,7 +61,7 @@ type Transaction struct {
 // - "amount" → float64: Required; monetary total for the transaction.
 // - "sellerId" → uuid.UUID: Required; unique identifier of the seller.
 // - "buyerId" → uuid.UUID: Required; unique identifier of the buyer.
-// - "products" → []Product: Required; the items included in the transaction.
+// - "products" → []uuid.UUID: Required; the items included in the transaction.
 //
 // All fields are validated as required via binding tags. UUID fields must be valid UUIDs.
 type CreateTransactionPayload struct {
@@ -70,7 +70,7 @@ type CreateTransactionPayload struct {
 	Amount   float64         `json:"amount" binding:"required"`
 	SellerID uuid.UUID       `json:"sellerId" binding:"required"`
 	BuyerID  uuid.UUID       `json:"buyerId" binding:"required"`
-	Products []Product       `json:"products" binding:"required"`
+	Products []uuid.UUID     `json:"products" binding:"required"`
 }
 
 // UpdateTransactionPayload represents a partial update (PATCH) request for a Transaction.
@@ -92,7 +92,7 @@ type UpdateTransactionPayload struct {
 	BuyerID        uuid.UUID        `json:"buyerId"`
 	SellerAccepted *bool            `json:"sellerAccepted"`
 	SellerDeclined *bool            `json:"sellerDeclined"`
-	Products       []Product        `json:"products"`
+	Products       []uuid.UUID      `json:"products"`
 }
 
 // AfterCreate is a GORM hook invoked after a Transaction has been inserted.

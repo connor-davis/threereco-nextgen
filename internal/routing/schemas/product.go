@@ -14,10 +14,14 @@ var ProductSchema = openapi3.NewSchema().WithProperties(properties.ProductProper
 var ProductArraySchema = openapi3.NewArraySchema().
 	WithItems(ProductSchema.Value).NewRef()
 
-var CreateProductPayloadSchema = openapi3.NewSchema().WithProperties(properties.CreateProductPayloadProperties).NewRef()
+var CreateProductPayloadSchema = openapi3.NewSchema().WithProperties(properties.CreateProductPayloadProperties).
+	WithProperty(
+		"materials",
+		openapi3.NewArraySchema().WithItems(openapi3.NewStringSchema().WithFormat("uuid")),
+	).NewRef()
 
 var UpdateProductPayloadSchema = openapi3.NewSchema().WithProperties(properties.UpdateProductPayloadProperties).
 	WithProperty(
 		"materials",
-		openapi3.NewArraySchema().WithItems(MaterialSchema.Value),
+		openapi3.NewArraySchema().WithItems(openapi3.NewStringSchema().WithFormat("uuid")),
 	).NewRef()

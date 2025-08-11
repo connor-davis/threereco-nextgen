@@ -28,10 +28,11 @@ type Product struct {
 // CreateProductPayload represents the incoming data required to create a new product.
 // Name is the human-readable product name.
 // Value is the monetary value (price) of the product in the smallest currency unit or as a floating-point amount, depending on system conventions.
+// Materials is an optional list of UUIDs representing materials associated with the product.
 type CreateProductPayload struct {
-	Name      string     `json:"name"`
-	Value     float64    `json:"value"`
-	Materials []Material `json:"materials"` // Optional materials to associate with the product
+	Name      string      `json:"name"`
+	Value     float64     `json:"value"`
+	Materials []uuid.UUID `json:"materials"` // Optional materials to associate with the product
 }
 
 // UpdateProductPayload represents the partial update input for a product.
@@ -39,10 +40,11 @@ type CreateProductPayload struct {
 // explicit zero-value updates.
 // - Name: Optional new product name.
 // - Value: Optional new product value (e.g., price); nil means no change.
+// - Materials: Optional new list of material UUIDs.
 type UpdateProductPayload struct {
-	Name      *string    `json:"name"`
-	Value     *float64   `json:"value"`
-	Materials []Material `json:"materials"`
+	Name      *string     `json:"name"`
+	Value     *float64    `json:"value"`
+	Materials []uuid.UUID `json:"materials"`
 }
 
 // AfterCreate is a GORM hook that is triggered after a Product record is created in the database.
