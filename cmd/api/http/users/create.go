@@ -82,9 +82,11 @@ func (r *UsersRouter) CreateRoute() routing.Route {
 			RequestBody: bodies.CreateUserPayloadBody,
 			Responses:   responses,
 		},
-		Method:      routing.PostMethod,
-		Path:        "/users",
-		Middlewares: []fiber.Handler{},
+		Method: routing.PostMethod,
+		Path:   "/users",
+		Middlewares: []fiber.Handler{
+			r.Middleware.Authorized(),
+		},
 		Handler: func(c *fiber.Ctx) error {
 			currentUser := c.Locals("user").(*models.User)
 

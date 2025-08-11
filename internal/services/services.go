@@ -2,6 +2,7 @@ package services
 
 import (
 	"github.com/connor-davis/threereco-nextgen/internal/services/materials"
+	"github.com/connor-davis/threereco-nextgen/internal/services/notifications"
 	"github.com/connor-davis/threereco-nextgen/internal/services/organizations"
 	"github.com/connor-davis/threereco-nextgen/internal/services/products"
 	"github.com/connor-davis/threereco-nextgen/internal/services/roles"
@@ -21,6 +22,7 @@ type Services struct {
 	Materials     *materials.MaterialsService
 	Products      *products.ProductsService
 	Transactions  *transactions.TransactionsService
+	Notifications *notifications.NotificationsService
 }
 
 // NewServices initializes and returns a new Services struct, wiring together
@@ -38,11 +40,19 @@ func NewServices(storage *storage.Storage) *Services {
 	users := users.NewUsersService(storage)
 	roles := roles.NewRolesService(storage)
 	organizations := organizations.NewOrganizationsService(storage)
+	materials := materials.NewMaterialsService(storage)
+	products := products.NewProductsService(storage)
+	transactions := transactions.NewTransactionsService(storage)
+	notifications := notifications.NewNotificationsService(storage)
 
 	return &Services{
 		Storage:       storage,
 		Users:         users,
 		Roles:         roles,
 		Organizations: organizations,
+		Materials:     materials,
+		Products:      products,
+		Transactions:  transactions,
+		Notifications: notifications,
 	}
 }

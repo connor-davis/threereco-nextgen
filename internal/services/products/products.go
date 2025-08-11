@@ -23,6 +23,8 @@ func (s *ProductsService) Create(auditId uuid.UUID, product models.CreateProduct
 	newProduct.Name = product.Name
 	newProduct.Value = product.Value
 
+	newProduct.ModifiedByUserId = auditId
+
 	if err := s.Storage.Postgres.Set("one:audit_user_id", auditId).Create(&newProduct).Error; err != nil {
 		return err
 	}
@@ -59,13 +61,16 @@ func (s *ProductsService) Update(auditId uuid.UUID, id uuid.UUID, product models
 		existingProduct.Value = *product.Value
 	}
 
+	existingProduct.ModifiedByUserId = auditId
+
 	if err := s.Storage.Postgres.Set("one:audit_user_id", auditId).
 		Where(&models.Product{
 			Id: id,
 		}).
 		Updates(&map[string]any{
-			"name":  existingProduct.Name,
-			"value": existingProduct.Value,
+			"name":                existingProduct.Name,
+			"value":               existingProduct.Value,
+			"modified_by_user_id": existingProduct.ModifiedByUserId,
 		}).Error; err != nil {
 		return err
 	}

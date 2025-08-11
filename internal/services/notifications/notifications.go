@@ -27,6 +27,8 @@ func (s *NotificationsService) Create(auditId uuid.UUID, notification models.Cre
 		newNotification.Action = notification.Action
 	}
 
+	newNotification.ModifiedByUserId = auditId
+
 	if err := s.Storage.Postgres.Create(&newNotification).Error; err != nil {
 		return err
 	}
@@ -53,14 +55,17 @@ func (s *NotificationsService) Update(auditId uuid.UUID, id uuid.UUID, notificat
 		existingNotification.Action = notification.Action
 	}
 
+	existingNotification.ModifiedByUserId = auditId
+
 	if err := s.Storage.Postgres.Set("one:audit_user_id", auditId).
 		Where(&models.Notification{
 			Id: id,
 		}).
 		Updates(&map[string]any{
-			"title":   existingNotification.Title,
-			"message": existingNotification.Message,
-			"action":  existingNotification.Action,
+			"title":               existingNotification.Title,
+			"message":             existingNotification.Message,
+			"action":              existingNotification.Action,
+			"modified_by_user_id": existingNotification.ModifiedByUserId,
 		}).Error; err != nil {
 		return err
 	}

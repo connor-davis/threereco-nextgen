@@ -1,4 +1,4 @@
-package organizations
+package notifications
 
 import (
 	"github.com/connor-davis/threereco-nextgen/internal/constants"
@@ -11,12 +11,21 @@ import (
 	"github.com/gofiber/fiber/v2/log"
 )
 
-func (r *OrganizationsRouter) CreateRoute() routing.Route {
+type CreateNotificationPayload struct {
+	Email    string   `json:"email"`
+	Password string   `json:"password"`
+	Name     string   `json:"name"`
+	Phone    string   `json:"phone"`
+	JobTitle string   `json:"jobTitle"`
+	Roles    []string `json:"roles"`
+}
+
+func (r *NotificationsRouter) CreateRoute() routing.Route {
 	responses := openapi3.NewResponses()
 
 	responses.Set("200", &openapi3.ResponseRef{
 		Value: openapi3.NewResponse().
-			WithDescription("The organization has been successfully created."),
+			WithDescription("The notification has been successfully created."),
 	})
 
 	responses.Set("400", &openapi3.ResponseRef{
@@ -66,22 +75,22 @@ func (r *OrganizationsRouter) CreateRoute() routing.Route {
 
 	return routing.Route{
 		OpenAPIMetadata: routing.OpenAPIMetadata{
-			Summary:     "Create Organization",
-			Description: "Creates a new organization.",
-			Tags:        []string{"Organizations"},
+			Summary:     "Create Notification",
+			Description: "Creates a new notification.",
+			Tags:        []string{"Notifications"},
 			Parameters:  nil,
-			RequestBody: bodies.CreateOrganizationPayloadBody,
+			RequestBody: bodies.CreateNotificationPayloadBody,
 			Responses:   responses,
 		},
 		Method: routing.PostMethod,
-		Path:   "/organizations",
+		Path:   "/notifications",
 		Middlewares: []fiber.Handler{
 			r.Middleware.Authorized(),
 		},
 		Handler: func(c *fiber.Ctx) error {
-			currentUser := c.Locals("user").(*models.User)
+			currentNotification := c.Locals("notification").(*models.Notification)
 
-			var payload models.CreateOrganizationPayload
+			var payload models.CreateNotificationPayload
 
 			if err := c.BodyParser(&payload); err != nil {
 				log.Errorf("🔥 Error parsing request body: %s", err.Error())
@@ -92,8 +101,8 @@ func (r *OrganizationsRouter) CreateRoute() routing.Route {
 				})
 			}
 
-			if err := r.Services.Organizations.Create(currentUser.Id, payload); err != nil {
-				log.Errorf("🔥 Error creating organization: %s", err.Error())
+			if err := r.Services.Notifications.Create(currentNotification.Id, payload); err != nil {
+				log.Errorf("🔥 Error creating notification: %s", err.Error())
 
 				return c.Status(fiber.StatusInternalServerError).JSON(&fiber.Map{
 					"error":   constants.InternalServerError,

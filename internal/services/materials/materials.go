@@ -24,6 +24,8 @@ func (s *MaterialsService) Create(auditId uuid.UUID, material models.CreateMater
 	newMaterial.GwCode = material.GwCode
 	newMaterial.CarbonFactor = material.CarbonFactor
 
+	newMaterial.ModifiedByUserId = auditId
+
 	if err := s.Storage.Postgres.Set("one:audit_user_id", auditId).Create(&newMaterial).Error; err != nil {
 		return err
 	}
@@ -50,14 +52,17 @@ func (s *MaterialsService) Update(auditId uuid.UUID, id uuid.UUID, material mode
 		existingMaterial.CarbonFactor = *material.CarbonFactor
 	}
 
+	existingMaterial.ModifiedByUserId = auditId
+
 	if err := s.Storage.Postgres.Set("one:audit_user_id", auditId).
 		Where(&models.Material{
 			Id: id,
 		}).
 		Updates(&map[string]any{
-			"name":          existingMaterial.Name,
-			"gw_code":       existingMaterial.GwCode,
-			"carbon_factor": existingMaterial.CarbonFactor,
+			"name":                existingMaterial.Name,
+			"gw_code":             existingMaterial.GwCode,
+			"carbon_factor":       existingMaterial.CarbonFactor,
+			"modified_by_user_id": existingMaterial.ModifiedByUserId,
 		}).Error; err != nil {
 		return err
 	}

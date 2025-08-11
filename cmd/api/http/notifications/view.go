@@ -1,4 +1,4 @@
-package materials
+package notifications
 
 import (
 	"math"
@@ -14,7 +14,7 @@ import (
 	"gorm.io/gorm/clause"
 )
 
-func (r *MaterialsRouter) ViewRoute() routing.Route {
+func (r *NotificationsRouter) ViewRoute() routing.Route {
 	responses := openapi3.NewResponses()
 
 	responses.Set("200", &openapi3.ResponseRef{
@@ -22,7 +22,7 @@ func (r *MaterialsRouter) ViewRoute() routing.Route {
 			WithJSONSchema(
 				schemas.SuccessResponseSchema.Value,
 			).
-			WithDescription("The list of materials for the specified page and search query.").
+			WithDescription("The list of notifications for the specified page and search query.").
 			WithContent(openapi3.Content{
 				"application/json": &openapi3.MediaType{
 					Example: map[string]any{
@@ -117,15 +117,15 @@ func (r *MaterialsRouter) ViewRoute() routing.Route {
 
 	return routing.Route{
 		OpenAPIMetadata: routing.OpenAPIMetadata{
-			Summary:     "View Materials",
-			Description: "Endpoint to retrieve a list of materials with pagination and optional search query",
-			Tags:        []string{"Materials"},
+			Summary:     "View Notifications",
+			Description: "Endpoint to retrieve a list of notifications with pagination and optional search query",
+			Tags:        []string{"Notifications"},
 			Parameters:  parameters,
 			RequestBody: nil,
 			Responses:   responses,
 		},
 		Method: routing.GetMethod,
-		Path:   "/materials",
+		Path:   "/notifications",
 		Middlewares: []fiber.Handler{
 			r.Middleware.Authorized(),
 		},
@@ -141,30 +141,24 @@ func (r *MaterialsRouter) ViewRoute() routing.Route {
 			searchClauses := clause.Or(
 				clause.Like{
 					Column: clause.Column{
-						Name: "name",
+						Name: "title",
 					},
 					Value: "%" + search + "%",
 				},
 				clause.Like{
 					Column: clause.Column{
-						Name: "gw_code",
-					},
-					Value: "%" + search + "%",
-				},
-				clause.Like{
-					Column: clause.Column{
-						Name: "carbon_factor",
+						Name: "message",
 					},
 					Value: "%" + search + "%",
 				},
 			)
 
-			totalMaterials, err := r.Services.Materials.GetTotal(
+			totalNotifications, err := r.Services.Notifications.GetTotal(
 				searchClauses,
 			)
 
 			if err != nil {
-				log.Errorf("🔥 Failed to get total materials: %v", err)
+				log.Errorf("🔥 Failed to get total notifications: %v", err)
 
 				return c.Status(fiber.StatusInternalServerError).JSON(&fiber.Map{
 					"error":   constants.InternalServerError,
@@ -172,12 +166,12 @@ func (r *MaterialsRouter) ViewRoute() routing.Route {
 				})
 			}
 
-			pages := max(int(math.Ceil(float64(totalMaterials)/10)), 1)
+			pages := max(int(math.Ceil(float64(totalNotifications)/10)), 1)
 			nextPage := min(page+1, pages)
 			previousPage := max(page-1, 1)
 
 			pageDetails := fiber.Map{
-				"count":        totalMaterials,
+				"count":        totalNotifications,
 				"nextPage":     nextPage,
 				"previousPage": previousPage,
 				"currentPage":  page,
@@ -187,7 +181,7 @@ func (r *MaterialsRouter) ViewRoute() routing.Route {
 			limit := 10
 			offset := (page - 1) * 10
 
-			materials, err := r.Services.Materials.GetAll(
+			notifications, err := r.Services.Notifications.GetAll(
 				clause.Limit{
 					Limit:  &limit,
 					Offset: offset,
@@ -196,7 +190,7 @@ func (r *MaterialsRouter) ViewRoute() routing.Route {
 			)
 
 			if err != nil {
-				log.Errorf("🔥 Failed to get materials: %v", err)
+				log.Errorf("🔥 Failed to get notifications: %v", err)
 
 				return c.Status(fiber.StatusInternalServerError).JSON(&fiber.Map{
 					"error":   constants.InternalServerError,
@@ -205,14 +199,14 @@ func (r *MaterialsRouter) ViewRoute() routing.Route {
 			}
 
 			return c.Status(fiber.StatusOK).JSON(&fiber.Map{
-				"items":       materials,
+				"items":       notifications,
 				"pageDetails": pageDetails,
 			})
 		},
 	}
 }
 
-func (r *MaterialsRouter) ViewByIdRoute() routing.Route {
+func (r *NotificationsRouter) ViewByIdRoute() routing.Route {
 	responses := openapi3.NewResponses()
 
 	responses.Set("200", &openapi3.ResponseRef{
@@ -220,7 +214,7 @@ func (r *MaterialsRouter) ViewByIdRoute() routing.Route {
 			WithJSONSchema(
 				schemas.SuccessResponseSchema.Value,
 			).
-			WithDescription("The material was retrieved successfully.").
+			WithDescription("The notification was retrieved successfully.").
 			WithContent(openapi3.Content{
 				"application/json": &openapi3.MediaType{
 					Example: map[string]any{
@@ -271,7 +265,7 @@ func (r *MaterialsRouter) ViewByIdRoute() routing.Route {
 			WithJSONSchema(
 				schemas.ErrorResponseSchema.Value,
 			).
-			WithDescription("Material not found.").
+			WithDescription("Notification not found.").
 			WithContent(openapi3.Content{
 				"application/json": &openapi3.MediaType{
 					Example: map[string]any{
@@ -319,15 +313,15 @@ func (r *MaterialsRouter) ViewByIdRoute() routing.Route {
 
 	return routing.Route{
 		OpenAPIMetadata: routing.OpenAPIMetadata{
-			Summary:     "View Material",
-			Description: "Endpoint to retrieve a material by their ID",
-			Tags:        []string{"Materials"},
+			Summary:     "View Notification",
+			Description: "Endpoint to retrieve a notification by their ID",
+			Tags:        []string{"Notifications"},
 			Parameters:  parameters,
 			RequestBody: nil,
 			Responses:   responses,
 		},
 		Method: routing.GetMethod,
-		Path:   "/materials/{id}",
+		Path:   "/notifications/{id}",
 		Middlewares: []fiber.Handler{
 			r.Middleware.Authorized(),
 		},
@@ -350,7 +344,7 @@ func (r *MaterialsRouter) ViewByIdRoute() routing.Route {
 				})
 			}
 
-			material, err := r.Services.Materials.GetById(idUUID)
+			notification, err := r.Services.Notifications.GetById(idUUID)
 
 			if err != nil {
 				return c.Status(fiber.StatusInternalServerError).JSON(&fiber.Map{
@@ -359,7 +353,7 @@ func (r *MaterialsRouter) ViewByIdRoute() routing.Route {
 				})
 			}
 
-			if material.Id == uuid.Nil {
+			if notification.Id == uuid.Nil {
 				return c.Status(fiber.StatusNotFound).JSON(&fiber.Map{
 					"error":   constants.NotFoundError,
 					"details": constants.NotFoundErrorDetails,
@@ -367,7 +361,7 @@ func (r *MaterialsRouter) ViewByIdRoute() routing.Route {
 			}
 
 			return c.Status(fiber.StatusOK).JSON(&fiber.Map{
-				"item": material,
+				"item": notification,
 			})
 		},
 	}

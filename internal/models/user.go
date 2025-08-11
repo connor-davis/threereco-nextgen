@@ -45,7 +45,7 @@ type User struct {
 	Purchases             []Transaction  `json:"purchases" gorm:"polymorphic:Buyer;constraint:OnDelete:CASCADE;"`
 	Notifications         []Notification `json:"notifications" gorm:"foreignKey:UserId;references:Id;constraint:OnDelete:CASCADE;"`
 	Tags                  pq.StringArray `json:"tags" gorm:"type:text[];default:'{}';"`
-	PrimaryOrganizationId uuid.UUID      `json:"primaryOrganizationId" gorm:"type:uuid;"`
+	PrimaryOrganizationId *uuid.UUID     `json:"primaryOrganizationId" gorm:"type:uuid;"`
 	ModifiedByUserId      uuid.UUID      `json:"modifiedById" gorm:"type:uuid;"`
 	ModifiedByUser        *User          `json:"modifiedBy"`
 	CreatedAt             time.Time      `json:"createdAt" gorm:"autoCreateTime;"`
@@ -85,6 +85,7 @@ type CreateUserPayload struct {
 //	Name:          Optional full or display name.
 //	Phone:         Optional phone number.
 //	JobTitle:      Optional job title / position.
+//	PrimaryOrganizationId: Optional primary organization ID.
 //	Roles:         Slice of role UUIDs to assign; semantics (replace, merge, etc.)
 //	               depend on the service layer (commonly replace when non-nil).
 //	Organizations: Slice of organization UUIDs to associate; handled similarly
@@ -97,12 +98,13 @@ type CreateUserPayload struct {
 //     if the update handler implements that convention.
 //   - Callers must supply valid UUIDs for Roles and Organizations.
 type UpdateUserPayload struct {
-	Email    *string        `json:"email"`
-	Name     *string        `json:"name"`
-	Phone    *string        `json:"phone"`
-	JobTitle *string        `json:"jobTitle"`
-	Roles    []uuid.UUID    `json:"roles"`
-	Tags     pq.StringArray `json:"tags"`
+	Email                 *string        `json:"email"`
+	Name                  *string        `json:"name"`
+	Phone                 *string        `json:"phone"`
+	JobTitle              *string        `json:"jobTitle"`
+	PrimaryOrganizationId *uuid.UUID     `json:"primaryOrganizationId"`
+	Roles                 []uuid.UUID    `json:"roles"`
+	Tags                  pq.StringArray `json:"tags"`
 }
 
 // AfterCreate is a GORM hook that is triggered after a User record is created in the database.

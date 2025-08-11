@@ -35,14 +35,16 @@ type NotificationAction struct {
 //   - CreatedAt: Timestamp when the notification was created.
 //   - UpdatedAt: Timestamp when the notification was last updated.
 type Notification struct {
-	Id        uuid.UUID           `json:"id" gorm:"primaryKey;type:uuid;default:uuid_generate_v4();"`
-	Title     string              `json:"title" gorm:"type:text;not null;"`
-	Message   string              `json:"message" gorm:"type:text;not null;"`
-	Action    *NotificationAction `json:"action" gorm:"type:jsonb;"`
-	UserId    uuid.UUID           `json:"userId" gorm:"type:uuid;not null;"`
-	Closed    bool                `json:"closed" gorm:"type:boolean;default:false;"`
-	CreatedAt time.Time           `json:"created_at" gorm:"autoCreateTime;"`
-	UpdatedAt time.Time           `json:"updated_at" gorm:"autoUpdateTime;"`
+	Id               uuid.UUID           `json:"id" gorm:"primaryKey;type:uuid;default:uuid_generate_v4();"`
+	Title            string              `json:"title" gorm:"type:text;not null;"`
+	Message          string              `json:"message" gorm:"type:text;not null;"`
+	Action           *NotificationAction `json:"action" gorm:"type:jsonb;"`
+	UserId           uuid.UUID           `json:"userId" gorm:"type:uuid;not null;"`
+	Closed           bool                `json:"closed" gorm:"type:boolean;default:false;"`
+	ModifiedByUserId uuid.UUID           `json:"modifiedById" gorm:"type:uuid;"`
+	ModifiedByUser   *User               `json:"modifiedBy"`
+	CreatedAt        time.Time           `json:"created_at" gorm:"autoCreateTime;"`
+	UpdatedAt        time.Time           `json:"updated_at" gorm:"autoUpdateTime;"`
 }
 
 // Value implements the driver.Valuer interface for NotificationAction by returning

@@ -82,9 +82,11 @@ func (r *TransactionsRouter) CreateRoute() routing.Route {
 			RequestBody: bodies.CreateTransactionPayloadBody,
 			Responses:   responses,
 		},
-		Method:      routing.PostMethod,
-		Path:        "/transactions",
-		Middlewares: []fiber.Handler{},
+		Method: routing.PostMethod,
+		Path:   "/transactions",
+		Middlewares: []fiber.Handler{
+			r.Middleware.Authorized(),
+		},
 		Handler: func(c *fiber.Ctx) error {
 			currentTransaction := c.Locals("transaction").(*models.Transaction)
 

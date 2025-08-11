@@ -70,6 +70,7 @@ func (s *Storage) MigratePostgres() {
 		&models.Product{},
 		&models.Material{},
 		&models.Transaction{},
+		&models.Notification{},
 	); err != nil {
 		log.Errorf("❌ AutoMigrate failed: %v", err)
 
@@ -141,7 +142,7 @@ func (s *Storage) SeedPostgres() {
 		Phone:                 &organizationAdminUserPhone,
 		Image:                 nil,
 		ModifiedByUserId:      organizationAdminUserId,
-		PrimaryOrganizationId: organizationId,
+		PrimaryOrganizationId: &organizationId,
 		Roles:                 []models.Role{*organizationAdminRole},
 	}
 
@@ -182,8 +183,6 @@ func (s *Storage) SeedPostgres() {
 
 		organization.Id = organizationId
 	}
-
-	organizationAdminUser.PrimaryOrganizationId = organization.Id
 
 	if err := s.Postgres.
 		Set("one:audit_user_id", organizationAdminUser.Id).

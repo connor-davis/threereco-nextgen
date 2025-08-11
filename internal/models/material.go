@@ -23,14 +23,16 @@ import (
 //
 // The struct leverages GORM tags for schema definition, UUID generation, and relationship management.
 type Material struct {
-	Id            uuid.UUID      `json:"id" gorm:"type:uuid;default:gen_random_uuid();primaryKey;"`
-	Name          string         `json:"name" gorm:"type:text;not null;"`
-	GwCode        string         `json:"gwCode" gorm:"type:int;not null;"`
-	CarbonFactor  string         `json:"carbonFactor" gorm:"type:text;not null;"`
-	Products      []Product      `json:"products" gorm:"many2many:products_materials;constraint:OnDelete:CASCADE;"`
-	Organizations []Organization `json:"organizations" gorm:"many2many:organizations_materials;constraint:OnDelete:CASCADE;"`
-	CreatedAt     time.Time      `json:"createdAt" gorm:"autoCreateTime;"`
-	UpdatedAt     time.Time      `json:"updatedAt" gorm:"autoUpdateTime;"`
+	Id               uuid.UUID      `json:"id" gorm:"type:uuid;default:gen_random_uuid();primaryKey;"`
+	Name             string         `json:"name" gorm:"type:text;not null;"`
+	GwCode           string         `json:"gwCode" gorm:"type:int;not null;"`
+	CarbonFactor     string         `json:"carbonFactor" gorm:"type:text;not null;"`
+	Products         []Product      `json:"products" gorm:"many2many:products_materials;constraint:OnDelete:CASCADE;"`
+	Organizations    []Organization `json:"organizations" gorm:"many2many:organizations_materials;constraint:OnDelete:CASCADE;"`
+	ModifiedByUserId uuid.UUID      `json:"modifiedById" gorm:"type:uuid;"`
+	ModifiedByUser   *User          `json:"modifiedBy"`
+	CreatedAt        time.Time      `json:"createdAt" gorm:"autoCreateTime;"`
+	UpdatedAt        time.Time      `json:"updatedAt" gorm:"autoUpdateTime;"`
 }
 
 // CreateMaterialPayload represents the JSON body used to create a new material.

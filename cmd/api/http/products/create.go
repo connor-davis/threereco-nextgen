@@ -82,9 +82,11 @@ func (r *ProductsRouter) CreateRoute() routing.Route {
 			RequestBody: bodies.CreateProductPayloadBody,
 			Responses:   responses,
 		},
-		Method:      routing.PostMethod,
-		Path:        "/products",
-		Middlewares: []fiber.Handler{},
+		Method: routing.PostMethod,
+		Path:   "/products",
+		Middlewares: []fiber.Handler{
+			r.Middleware.Authorized(),
+		},
 		Handler: func(c *fiber.Ctx) error {
 			currentProduct := c.Locals("product").(*models.Product)
 

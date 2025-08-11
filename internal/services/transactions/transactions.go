@@ -26,6 +26,8 @@ func (s *TransactionsService) Create(auditId uuid.UUID, transaction models.Creat
 	newTransaction.SellerID = transaction.SellerID
 	newTransaction.BuyerID = transaction.BuyerID
 
+	newTransaction.ModifiedByUserId = auditId
+
 	if err := s.Storage.Postgres.Create(&newTransaction).Error; err != nil {
 		return err
 	}
@@ -82,18 +84,21 @@ func (s *TransactionsService) Update(auditId uuid.UUID, id uuid.UUID, transactio
 		existingTransaction.SellerDeclined = *transaction.SellerDeclined
 	}
 
+	existingTransaction.ModifiedByUserId = auditId
+
 	if err := s.Storage.Postgres.Set("one:audit_user_id", auditId).
 		Where(&models.Transaction{
 			Id: id,
 		}).
 		Updates(&map[string]any{
-			"type":            existingTransaction.Type,
-			"weight":          existingTransaction.Weight,
-			"amount":          existingTransaction.Amount,
-			"seller_id":       existingTransaction.SellerID,
-			"buyer_id":        existingTransaction.BuyerID,
-			"seller_accepted": existingTransaction.SellerAccepted,
-			"seller_declined": existingTransaction.SellerDeclined,
+			"type":                existingTransaction.Type,
+			"weight":              existingTransaction.Weight,
+			"amount":              existingTransaction.Amount,
+			"seller_id":           existingTransaction.SellerID,
+			"buyer_id":            existingTransaction.BuyerID,
+			"seller_accepted":     existingTransaction.SellerAccepted,
+			"seller_declined":     existingTransaction.SellerDeclined,
+			"modified_by_user_id": existingTransaction.ModifiedByUserId,
 		}).Error; err != nil {
 		return err
 	}

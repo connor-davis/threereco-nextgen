@@ -141,19 +141,19 @@ func (r *TransactionsRouter) ViewRoute() routing.Route {
 			searchClauses := clause.Or(
 				clause.Like{
 					Column: clause.Column{
-						Name: "name",
+						Name: "type",
 					},
 					Value: "%" + search + "%",
 				},
 				clause.Like{
 					Column: clause.Column{
-						Name: "email",
+						Name: "weight",
 					},
 					Value: "%" + search + "%",
 				},
 				clause.Like{
 					Column: clause.Column{
-						Name: "phone",
+						Name: "amount",
 					},
 					Value: "%" + search + "%",
 				},

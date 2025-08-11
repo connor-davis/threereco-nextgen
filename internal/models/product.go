@@ -16,13 +16,15 @@ import (
 // through the join table `organizations_products`. Timestamps for creation and
 // last update are automatically managed by GORM.
 type Product struct {
-	Id            uuid.UUID      `json:"id" gorm:"type:uuid;default:gen_random_uuid();primaryKey;"`
-	Name          string         `json:"name" gorm:"type:text;not null;"`
-	Value         float64        `json:"value" gorm:"type:decimal(10,2);not null;default:0.0;"`
-	Organizations []Organization `json:"organizations" gorm:"many2many:organizations_products;constraint:OnDelete:CASCADE;"`
-	Materials     []Material     `json:"materials" gorm:"many2many:products_materials;constraint:OnDelete:CASCADE;"`
-	CreatedAt     time.Time      `json:"createdAt" gorm:"autoCreateTime;"`
-	UpdatedAt     time.Time      `json:"updatedAt" gorm:"autoUpdateTime;"`
+	Id               uuid.UUID      `json:"id" gorm:"type:uuid;default:gen_random_uuid();primaryKey;"`
+	Name             string         `json:"name" gorm:"type:text;not null;"`
+	Value            float64        `json:"value" gorm:"type:decimal(10,2);not null;default:0.0;"`
+	Organizations    []Organization `json:"organizations" gorm:"many2many:organizations_products;constraint:OnDelete:CASCADE;"`
+	Materials        []Material     `json:"materials" gorm:"many2many:products_materials;constraint:OnDelete:CASCADE;"`
+	ModifiedByUserId uuid.UUID      `json:"modifiedById" gorm:"type:uuid;"`
+	ModifiedByUser   *User          `json:"modifiedBy"`
+	CreatedAt        time.Time      `json:"createdAt" gorm:"autoCreateTime;"`
+	UpdatedAt        time.Time      `json:"updatedAt" gorm:"autoUpdateTime;"`
 }
 
 // CreateProductPayload represents the incoming data required to create a new product.

@@ -45,6 +45,7 @@ func (s *RolesService) Create(auditId uuid.UUID, role models.CreateRolePayload) 
 					Id: role.OrganizationId,
 				},
 			},
+			ModifiedByUserId: auditId,
 		}).Error; err != nil {
 		return err
 	}
@@ -78,12 +79,15 @@ func (s *RolesService) Update(auditId uuid.UUID, id uuid.UUID, role models.Updat
 		existingRole.Permissions = role.Permissions
 	}
 
+	existingRole.ModifiedByUserId = auditId
+
 	if err := s.Storage.Postgres.Set("one:audit_user_id", auditId).
 		Where("id = $1", id).
 		Updates(&map[string]any{
-			"name":        existingRole.Name,
-			"description": existingRole.Description,
-			"permissions": existingRole.Permissions,
+			"name":                existingRole.Name,
+			"description":         existingRole.Description,
+			"permissions":         existingRole.Permissions,
+			"modified_by_user_id": existingRole.ModifiedByUserId,
 		}).Error; err != nil {
 		return err
 	}

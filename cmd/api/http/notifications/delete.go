@@ -1,4 +1,4 @@
-package invites
+package notifications
 
 import (
 	"github.com/connor-davis/threereco-nextgen/internal/constants"
@@ -7,15 +7,16 @@ import (
 	"github.com/connor-davis/threereco-nextgen/internal/routing/schemas"
 	"github.com/getkin/kin-openapi/openapi3"
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/log"
 	"github.com/google/uuid"
 )
 
-func (r *OrganizationsInvitesRouter) AcceptInvite() routing.Route {
+func (r *NotificationsRouter) DeleteByIdRoute() routing.Route {
 	responses := openapi3.NewResponses()
 
 	responses.Set("200", &openapi3.ResponseRef{
 		Value: openapi3.NewResponse().
-			WithDescription("The invitation has been successfully accepted."),
+			WithDescription("The notification has been successfully deleted."),
 	})
 
 	responses.Set("400", &openapi3.ResponseRef{
@@ -49,10 +50,24 @@ func (r *OrganizationsInvitesRouter) AcceptInvite() routing.Route {
 		}),
 	})
 
+	responses.Set("404", &openapi3.ResponseRef{
+		Value: openapi3.NewResponse().WithJSONSchema(
+			schemas.ErrorResponseSchema.Value,
+		).WithDescription("Notification not found.").WithContent(openapi3.Content{
+			"application/json": &openapi3.MediaType{
+				Example: map[string]any{
+					"error":   constants.NotFoundError,
+					"details": constants.NotFoundErrorDetails,
+				},
+				Schema: schemas.ErrorResponseSchema,
+			},
+		}),
+	})
+
 	responses.Set("500", &openapi3.ResponseRef{
 		Value: openapi3.NewResponse().WithJSONSchema(
 			schemas.ErrorResponseSchema.Value,
-		).WithDescription("Internal Server Error.").WithContent(openapi3.Content{
+		).WithDescription("Internal server error.").WithContent(openapi3.Content{
 			"application/json": &openapi3.MediaType{
 				Example: map[string]any{
 					"error":   constants.InternalServerError,
@@ -63,49 +78,85 @@ func (r *OrganizationsInvitesRouter) AcceptInvite() routing.Route {
 		}),
 	})
 
+	parameters := []*openapi3.ParameterRef{
+		{
+			Value: &openapi3.Parameter{
+				Name:     "id",
+				In:       "path",
+				Required: true,
+				Schema: &openapi3.SchemaRef{
+					Value: &openapi3.Schema{
+						Type: &openapi3.Types{
+							"uuid",
+						},
+					},
+				},
+			},
+		},
+	}
+
 	return routing.Route{
 		OpenAPIMetadata: routing.OpenAPIMetadata{
-			Summary:     "Accept Organization Invite",
-			Description: "Accepts an invitation to join the organization.",
-			Tags:        []string{"Organizations"},
-			Parameters:  nil,
+			Summary:     "Delete Notification by ID",
+			Description: "Deletes a notification by by their id.",
+			Tags:        []string{"Notifications"},
+			Parameters:  parameters,
 			RequestBody: nil,
 			Responses:   responses,
 		},
-		Method: routing.PostMethod,
-		Path:   "/organizations/{id}/invites/accept",
+		Method: routing.DeleteMethod,
+		Path:   "/notifications/{id}",
 		Middlewares: []fiber.Handler{
 			r.Middleware.Authorized(),
 		},
 		Handler: func(c *fiber.Ctx) error {
-			currentUser := c.Locals("user").(*models.User)
+			localNotification := c.Locals("notification").(*models.Notification)
 
-			organizationId := c.Params("id")
+			id := c.Params("id")
 
-			existingOrganization, err := r.Services.Organizations.GetById(uuid.MustParse(organizationId))
+			if id == "" {
+				log.Infof("🔥 Notification id is required.")
+
+				return c.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
+					"error":   constants.BadRequestError,
+					"details": constants.BadRequestErrorDetails,
+				})
+			}
+
+			idUUID, err := uuid.Parse(id)
 
 			if err != nil {
-				return c.Status(fiber.StatusInternalServerError).JSON(&fiber.Map{
+				log.Errorf("🔥 Error parsing notification id: %s", err.Error())
+
+				return c.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
+					"error":   constants.BadRequestError,
+					"details": constants.BadRequestErrorDetails,
+				})
+			}
+
+			existingNotification, err := r.Services.Notifications.GetById(idUUID)
+
+			if err != nil {
+				log.Errorf("🔥 Error retrieving notification: %s", err.Error())
+
+				return c.Status(fiber.StatusNotFound).JSON(&fiber.Map{
 					"error":   constants.InternalServerError,
 					"details": constants.InternalServerErrorDetails,
 				})
 			}
 
-			if existingOrganization == nil || existingOrganization.Id == uuid.Nil {
+			if existingNotification.Id == uuid.Nil {
+				log.Infof("🔥 Notification with ID %s not found", id)
+
 				return c.Status(fiber.StatusNotFound).JSON(&fiber.Map{
 					"error":   constants.NotFoundError,
 					"details": constants.NotFoundErrorDetails,
 				})
 			}
 
-			if currentUser.PrimaryOrganizationId != nil && currentUser.PrimaryOrganizationId.String() == organizationId {
-				return c.Status(fiber.StatusConflict).JSON(&fiber.Map{
-					"error":   constants.ConflictError,
-					"details": "You can not accept an invite to an organization you are already a member of.",
-				})
-			}
+			if err := r.Services.Notifications.Delete(localNotification.Id, idUUID); err != nil {
+				log.Errorf("🔥 Error deleting notification: %s", err.Error())
 
-			if err := r.Services.Organizations.AcceptInvite(currentUser.Id, existingOrganization.Id, currentUser.Id); err != nil {
 				return c.Status(fiber.StatusInternalServerError).JSON(&fiber.Map{
 					"error":   constants.InternalServerError,
 					"details": constants.InternalServerErrorDetails,

@@ -73,9 +73,11 @@ func (r *RolesRouter) CreateRoute() routing.Route {
 			RequestBody: bodies.CreateRolePayloadBody,
 			Responses:   responses,
 		},
-		Method:      routing.PostMethod,
-		Path:        "/roles",
-		Middlewares: []fiber.Handler{},
+		Method: routing.PostMethod,
+		Path:   "/roles",
+		Middlewares: []fiber.Handler{
+			r.Middleware.Authorized(),
+		},
 		Handler: func(c *fiber.Ctx) error {
 			currentUser := c.Locals("user").(*models.User)
 

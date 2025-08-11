@@ -44,11 +44,12 @@ var CreateUserPayloadProperties = map[string]*openapi3.Schema{
 }
 
 var UpdateUserPayloadProperties = map[string]*openapi3.Schema{
-	"email":         openapi3.NewStringSchema().WithFormat("email").WithMinLength(1).WithNullable(),
-	"name":          openapi3.NewStringSchema().WithNullable(),
-	"phone":         openapi3.NewStringSchema().WithNullable(),
-	"jobTitle":      openapi3.NewStringSchema().WithNullable(),
-	"organizations": openapi3.NewArraySchema().WithItems(openapi3.NewStringSchema().WithFormat("uuid")).WithNullable(),
-	"roles":         openapi3.NewArraySchema().WithItems(openapi3.NewStringSchema().WithFormat("uuid")).WithNullable(),
-	"tags":          openapi3.NewArraySchema().WithItems(openapi3.NewStringSchema()).WithNullable(),
+	"email":                 openapi3.NewStringSchema().WithFormat("email").WithMinLength(1).WithNullable(),
+	"name":                  openapi3.NewStringSchema().WithNullable(),
+	"phone":                 openapi3.NewStringSchema().WithNullable(),
+	"jobTitle":              openapi3.NewStringSchema().WithNullable(),
+	"organizations":         openapi3.NewArraySchema().WithItems(openapi3.NewStringSchema().WithFormat("uuid")).WithNullable(),
+	"primaryOrganizationId": openapi3.NewStringSchema().WithFormat("uuid").WithNullable(),
+	"roles":                 openapi3.NewArraySchema().WithItems(openapi3.NewStringSchema().WithFormat("uuid")).WithNullable(),
+	"tags":                  openapi3.NewArraySchema().WithItems(openapi3.NewStringSchema()).WithNullable(),
 }

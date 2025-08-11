@@ -41,6 +41,8 @@ func (s *OrganizationsService) SendInvite(auditId uuid.UUID, organizationId uuid
 				Link:     fmt.Sprintf("/organizations/%s/invite", organizationId),
 				LinkText: "View Invitation",
 			},
+			UserId:           userId,
+			ModifiedByUserId: auditId,
 		}).Error; err != nil {
 		return err
 	}
@@ -51,11 +53,13 @@ func (s *OrganizationsService) SendInvite(auditId uuid.UUID, organizationId uuid
 func (s *OrganizationsService) AcceptInvite(auditId uuid.UUID, organizationId uuid.UUID, userId uuid.UUID) error {
 	if err := s.Storage.Postgres.Set("one:audit_user_id", auditId).
 		Model(&models.Organization{
-			Id: organizationId,
+			Id:               organizationId,
+			ModifiedByUserId: auditId,
 		}).
 		Association("Users").
 		Append(&models.User{
-			Id: userId,
+			Id:               userId,
+			ModifiedByUserId: auditId,
 		}); err != nil {
 		return err
 	}
@@ -69,9 +73,10 @@ func (s *OrganizationsService) AcceptInvite(auditId uuid.UUID, organizationId uu
 func (s *OrganizationsService) Create(auditId uuid.UUID, organization models.CreateOrganizationPayload) error {
 	if err := s.Storage.Postgres.Set("one:audit_user_id", auditId).
 		Create(&models.Organization{
-			Name:    organization.Name,
-			Domain:  organization.Domain,
-			OwnerId: organization.OwnerId,
+			Name:             organization.Name,
+			Domain:           organization.Domain,
+			OwnerId:          organization.OwnerId,
+			ModifiedByUserId: auditId,
 		}).Error; err != nil {
 		return err
 	}
@@ -107,12 +112,15 @@ func (s *OrganizationsService) Update(auditId uuid.UUID, id uuid.UUID, organizat
 		existingOrganization.OwnerId = *organization.OwnerId
 	}
 
+	existingOrganization.ModifiedByUserId = auditId
+
 	if err := s.Storage.Postgres.Set("one:audit_user_id", auditId).
 		Where("id = $1", id).
 		Updates(&map[string]any{
-			"name":     existingOrganization.Name,
-			"domain":   existingOrganization.Domain,
-			"owner_id": existingOrganization.OwnerId,
+			"name":                existingOrganization.Name,
+			"domain":              existingOrganization.Domain,
+			"owner_id":            existingOrganization.OwnerId,
+			"modified_by_user_id": existingOrganization.ModifiedByUserId,
 		}).Error; err != nil {
 		return err
 	}

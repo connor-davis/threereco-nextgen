@@ -7,6 +7,7 @@ import (
 	"github.com/connor-davis/threereco-nextgen/cmd/api/http/authentication"
 	"github.com/connor-davis/threereco-nextgen/cmd/api/http/materials"
 	"github.com/connor-davis/threereco-nextgen/cmd/api/http/middleware"
+	"github.com/connor-davis/threereco-nextgen/cmd/api/http/notifications"
 	"github.com/connor-davis/threereco-nextgen/cmd/api/http/organizations"
 	"github.com/connor-davis/threereco-nextgen/cmd/api/http/organizations/invites"
 	"github.com/connor-davis/threereco-nextgen/cmd/api/http/products"
@@ -70,6 +71,9 @@ func NewHttpRouter(storage *storage.Storage, sessions *session.Store, services *
 	transactionsRouter := transactions.NewTransactionsRouter(storage, sessions, services, middleware)
 	transactionsRoutes := transactionsRouter.InitializeRoutes()
 
+	notificationsRouter := notifications.NewNotificationsRouter(storage, sessions, services, middleware)
+	notificationsRoutes := notificationsRouter.InitializeRoutes()
+
 	routes := []routing.Route{}
 
 	routes = append(routes, authenticationRoutes...)
@@ -80,6 +84,7 @@ func NewHttpRouter(storage *storage.Storage, sessions *session.Store, services *
 	routes = append(routes, materialsRoutes...)
 	routes = append(routes, productsRoutes...)
 	routes = append(routes, transactionsRoutes...)
+	routes = append(routes, notificationsRoutes...)
 
 	return &HttpRouter{
 		Storage:    storage,

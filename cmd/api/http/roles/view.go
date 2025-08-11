@@ -147,13 +147,7 @@ func (r *RolesRouter) ViewRoute() routing.Route {
 				},
 				clause.Like{
 					Column: clause.Column{
-						Name: "email",
-					},
-					Value: "%" + search + "%",
-				},
-				clause.Like{
-					Column: clause.Column{
-						Name: "phone",
+						Name: "description",
 					},
 					Value: "%" + search + "%",
 				},

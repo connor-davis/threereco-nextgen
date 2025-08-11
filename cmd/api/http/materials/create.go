@@ -82,9 +82,11 @@ func (r *MaterialsRouter) CreateRoute() routing.Route {
 			RequestBody: bodies.CreateMaterialPayloadBody,
 			Responses:   responses,
 		},
-		Method:      routing.PostMethod,
-		Path:        "/materials",
-		Middlewares: []fiber.Handler{},
+		Method: routing.PostMethod,
+		Path:   "/materials",
+		Middlewares: []fiber.Handler{
+			r.Middleware.Authorized(),
+		},
 		Handler: func(c *fiber.Ctx) error {
 			currentMaterial := c.Locals("material").(*models.Material)
 

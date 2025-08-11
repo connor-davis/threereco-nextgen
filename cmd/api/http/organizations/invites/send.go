@@ -72,9 +72,11 @@ func (r *OrganizationsInvitesRouter) SendInvite() routing.Route {
 			RequestBody: nil,
 			Responses:   responses,
 		},
-		Method:      routing.PostMethod,
-		Path:        "/organizations/invites/send/{email}",
-		Middlewares: []fiber.Handler{},
+		Method: routing.PostMethod,
+		Path:   "/organizations/invites/send/{email}",
+		Middlewares: []fiber.Handler{
+			r.Middleware.Authorized(),
+		},
 		Handler: func(c *fiber.Ctx) error {
 			currentUser := c.Locals("user").(*models.User)
 
@@ -96,7 +98,14 @@ func (r *OrganizationsInvitesRouter) SendInvite() routing.Route {
 				})
 			}
 
-			if err := r.Services.Organizations.SendInvite(currentUser.Id, currentUser.PrimaryOrganizationId, existingUser.Id); err != nil {
+			if currentUser.PrimaryOrganizationId == nil {
+				return c.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
+					"error":   constants.BadRequestError,
+					"details": "You must belong to an organization to send invites.",
+				})
+			}
+
+			if err := r.Services.Organizations.SendInvite(currentUser.Id, *currentUser.PrimaryOrganizationId, existingUser.Id); err != nil {
 				return c.Status(fiber.StatusInternalServerError).JSON(&fiber.Map{
 					"error":   constants.InternalServerError,
 					"details": constants.InternalServerErrorDetails,
