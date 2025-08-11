@@ -39,10 +39,9 @@ type Material struct {
 //   - GwCode: Integer code identifying the material (required).
 //   - CarbonFactor: Emission / carbon factor associated with the material, stored as text (required).
 type CreateMaterialPayload struct {
-	Name         string    `json:"name" gorm:"type:text;not null;"`
-	GwCode       string    `json:"gwCode" gorm:"type:int;not null;"`
-	CarbonFactor string    `json:"carbonFactor" gorm:"type:text;not null;"`
-	Products     []Product `json:"products"`
+	Name         string `json:"name" gorm:"type:text;not null;"`
+	GwCode       string `json:"gwCode" gorm:"type:int;not null;"`
+	CarbonFactor string `json:"carbonFactor" gorm:"type:text;not null;"`
 }
 
 // UpdateMaterialPayload represents the optional fields that can be modified when updating a Material.
@@ -54,10 +53,9 @@ type CreateMaterialPayload struct {
 //	GwCode: Code referencing the material's GW classification or external system identifier.
 //	CarbonFactor: Emissions factor (e.g., CO₂e per unit), stored as text to allow flexible formatting.
 type UpdateMaterialPayload struct {
-	Name         *string   `json:"name" gorm:"type:text;not null;"`
-	GwCode       *string   `json:"gwCode" gorm:"type:int;not null;"`
-	CarbonFactor *string   `json:"carbonFactor" gorm:"type:text;not null;"`
-	Products     []Product `json:"products"`
+	Name         *string `json:"name" gorm:"type:text;not null;"`
+	GwCode       *string `json:"gwCode" gorm:"type:int;not null;"`
+	CarbonFactor *string `json:"carbonFactor" gorm:"type:text;not null;"`
 }
 
 // AfterCreate is a GORM hook that is triggered after a Material record is created in the database.
