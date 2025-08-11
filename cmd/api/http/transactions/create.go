@@ -88,7 +88,7 @@ func (r *TransactionsRouter) CreateRoute() routing.Route {
 			r.Middleware.Authorized(),
 		},
 		Handler: func(c *fiber.Ctx) error {
-			currentTransaction := c.Locals("transaction").(*models.Transaction)
+			currentUser := c.Locals("user").(*models.User)
 
 			var payload models.CreateTransactionPayload
 
@@ -101,7 +101,16 @@ func (r *TransactionsRouter) CreateRoute() routing.Route {
 				})
 			}
 
-			if err := r.Services.Transactions.Create(currentTransaction.Id, payload); err != nil {
+			if currentUser.PrimaryOrganizationId == nil {
+				log.Errorf("🔥 Current user does not belong to any organization.")
+
+				return c.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
+					"error":   constants.BadRequestError,
+					"details": "You must belong to and have selected an organization to create transactions.",
+				})
+			}
+
+			if err := r.Services.Transactions.Create(currentUser.Id, *currentUser.PrimaryOrganizationId, payload); err != nil {
 				log.Errorf("🔥 Error creating transaction: %s", err.Error())
 
 				return c.Status(fiber.StatusInternalServerError).JSON(&fiber.Map{

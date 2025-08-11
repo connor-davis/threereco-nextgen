@@ -110,7 +110,7 @@ func (r *ProductsRouter) DeleteByIdRoute() routing.Route {
 			r.Middleware.Authorized(),
 		},
 		Handler: func(c *fiber.Ctx) error {
-			localProduct := c.Locals("product").(*models.Product)
+			currentUser := c.Locals("user").(*models.User)
 
 			id := c.Params("id")
 
@@ -154,7 +154,7 @@ func (r *ProductsRouter) DeleteByIdRoute() routing.Route {
 				})
 			}
 
-			if err := r.Services.Products.Delete(localProduct.Id, idUUID); err != nil {
+			if err := r.Services.Products.Delete(currentUser.Id, idUUID); err != nil {
 				log.Errorf("🔥 Error deleting product: %s", err.Error())
 
 				return c.Status(fiber.StatusInternalServerError).JSON(&fiber.Map{

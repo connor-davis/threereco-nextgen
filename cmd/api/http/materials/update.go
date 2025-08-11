@@ -117,7 +117,7 @@ func (r *MaterialsRouter) UpdateByIdRoute() routing.Route {
 			r.Middleware.Authorized(),
 		},
 		Handler: func(c *fiber.Ctx) error {
-			material := c.Locals("material").(*models.Material)
+			currentUser := c.Locals("user").(*models.User)
 
 			id := c.Params("id")
 
@@ -152,7 +152,7 @@ func (r *MaterialsRouter) UpdateByIdRoute() routing.Route {
 				})
 			}
 
-			if err := r.Services.Materials.Update(material.Id, idUUID, payload); err != nil {
+			if err := r.Services.Materials.Update(currentUser.Id, idUUID, payload); err != nil {
 				log.Errorf("🔥 Error updating material: %v", err)
 
 				return c.Status(fiber.StatusInternalServerError).JSON(&fiber.Map{

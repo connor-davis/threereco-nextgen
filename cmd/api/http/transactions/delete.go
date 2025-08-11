@@ -110,7 +110,7 @@ func (r *TransactionsRouter) DeleteByIdRoute() routing.Route {
 			r.Middleware.Authorized(),
 		},
 		Handler: func(c *fiber.Ctx) error {
-			localTransaction := c.Locals("transaction").(*models.Transaction)
+			currentUser := c.Locals("user").(*models.User)
 
 			id := c.Params("id")
 
@@ -154,7 +154,7 @@ func (r *TransactionsRouter) DeleteByIdRoute() routing.Route {
 				})
 			}
 
-			if err := r.Services.Transactions.Delete(localTransaction.Id, idUUID); err != nil {
+			if err := r.Services.Transactions.Delete(currentUser.Id, idUUID); err != nil {
 				log.Errorf("🔥 Error deleting transaction: %s", err.Error())
 
 				return c.Status(fiber.StatusInternalServerError).JSON(&fiber.Map{

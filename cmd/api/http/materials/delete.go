@@ -110,7 +110,7 @@ func (r *MaterialsRouter) DeleteByIdRoute() routing.Route {
 			r.Middleware.Authorized(),
 		},
 		Handler: func(c *fiber.Ctx) error {
-			localMaterial := c.Locals("material").(*models.Material)
+			currentUser := c.Locals("user").(*models.User)
 
 			id := c.Params("id")
 
@@ -154,7 +154,7 @@ func (r *MaterialsRouter) DeleteByIdRoute() routing.Route {
 				})
 			}
 
-			if err := r.Services.Materials.Delete(localMaterial.Id, idUUID); err != nil {
+			if err := r.Services.Materials.Delete(currentUser.Id, idUUID); err != nil {
 				log.Errorf("🔥 Error deleting material: %s", err.Error())
 
 				return c.Status(fiber.StatusInternalServerError).JSON(&fiber.Map{
