@@ -52,8 +52,10 @@ func (a *AuditLog) AfterCreate(tx *gorm.DB) error {
 
 	auditUserId, ok := tx.Get("one:audit_user_id")
 
-	if !ok {
+	if !ok || auditUserId == nil {
 		log.Errorf("❌ Failed to get audit user ID")
+
+		return errors.New("failed to get audit user ID")
 	}
 
 	auditUserIdUUID, err := uuid.Parse(auditUserId.(string))
@@ -108,8 +110,10 @@ func (a *AuditLog) AfterUpdate(tx *gorm.DB) error {
 
 	auditUserId, ok := tx.Get("one:audit_user_id")
 
-	if !ok {
+	if !ok || auditUserId == nil {
 		log.Errorf("❌ Failed to get audit user ID")
+
+		return errors.New("failed to get audit user ID")
 	}
 
 	auditUserIdUUID, err := uuid.Parse(auditUserId.(string))
@@ -163,8 +167,10 @@ func (a *AuditLog) AfterDelete(tx *gorm.DB) error {
 
 	auditUserId, ok := tx.Get("one:audit_user_id")
 
-	if !ok {
+	if !ok || auditUserId == nil {
 		log.Errorf("❌ Failed to get audit user ID")
+
+		return errors.New("failed to get audit user ID")
 	}
 
 	auditUserIdUUID, err := uuid.Parse(auditUserId.(string))
