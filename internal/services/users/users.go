@@ -55,6 +55,20 @@ func (s *UsersService) Create(auditId uuid.UUID, user models.CreateUserPayload) 
 		return err
 	}
 
+	if len(user.Roles) > 0 {
+		roles := []models.Role{}
+
+		for _, roleId := range user.Roles {
+			roles = append(roles, models.Role{
+				Id: roleId,
+			})
+		}
+
+		if err := s.Storage.Postgres.Model(&newUser).Association("Roles").Append(roles); err != nil {
+			return err
+		}
+	}
+
 	return nil
 }
 
@@ -107,7 +121,15 @@ func (s *UsersService) Update(auditId uuid.UUID, id uuid.UUID, user models.Updat
 	}
 
 	if len(user.Roles) > 0 {
-		if err := s.Storage.Postgres.Model(&existingUser).Association("Roles").Replace(user.Roles); err != nil {
+		roles := []models.Role{}
+
+		for _, roleId := range user.Roles {
+			roles = append(roles, models.Role{
+				Id: roleId,
+			})
+		}
+
+		if err := s.Storage.Postgres.Model(&existingUser).Association("Roles").Replace(roles); err != nil {
 			return err
 		}
 	}

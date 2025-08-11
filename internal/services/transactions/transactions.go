@@ -31,7 +31,15 @@ func (s *TransactionsService) Create(auditId uuid.UUID, transaction models.Creat
 	}
 
 	if transaction.Products != nil {
-		if err := s.Storage.Postgres.Model(&newTransaction).Association("Products").Append(transaction.Products); err != nil {
+		products := []models.Product{}
+
+		for _, productId := range transaction.Products {
+			products = append(products, models.Product{
+				Id: productId,
+			})
+		}
+
+		if err := s.Storage.Postgres.Model(&newTransaction).Association("Products").Append(products); err != nil {
 			return err
 		}
 	}
@@ -91,7 +99,15 @@ func (s *TransactionsService) Update(auditId uuid.UUID, id uuid.UUID, transactio
 	}
 
 	if transaction.Products != nil {
-		if err := s.Storage.Postgres.Model(&existingTransaction).Association("Products").Replace(transaction.Products); err != nil {
+		products := []models.Product{}
+
+		for _, productId := range transaction.Products {
+			products = append(products, models.Product{
+				Id: productId,
+			})
+		}
+
+		if err := s.Storage.Postgres.Model(&existingTransaction).Association("Products").Replace(products); err != nil {
 			return err
 		}
 	}

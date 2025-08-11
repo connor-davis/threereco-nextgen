@@ -70,7 +70,7 @@ type CreateUserPayload struct {
 	Name     *string        `json:"name"`
 	Phone    *string        `json:"phone"`
 	JobTitle *string        `json:"jobTitle"`
-	Roles    []Role         `json:"roles"`
+	Roles    []uuid.UUID    `json:"roles"`
 	Tags     pq.StringArray `json:"tags"`
 }
 
@@ -101,7 +101,7 @@ type UpdateUserPayload struct {
 	Name     *string        `json:"name"`
 	Phone    *string        `json:"phone"`
 	JobTitle *string        `json:"jobTitle"`
-	Roles    []Role         `json:"roles"`
+	Roles    []uuid.UUID    `json:"roles"`
 	Tags     pq.StringArray `json:"tags"`
 }
 
