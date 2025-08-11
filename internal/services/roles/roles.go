@@ -127,7 +127,7 @@ func (s *RolesService) GetById(id uuid.UUID) (*models.Role, error) {
 
 	if err := s.Storage.Postgres.
 		Where("id = $1", id).
-		Preload("ModifiedBy").
+		Preload("ModifiedByUser").
 		Find(&role).Error; err != nil {
 		return nil, err
 	}

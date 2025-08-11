@@ -92,7 +92,7 @@ func (s *NotificationsService) GetById(id uuid.UUID) (*models.Notification, erro
 		Where(&models.Notification{
 			Id: id,
 		}).
-		Preload("ModifiedBy").
+		Preload("ModifiedByUser").
 		Find(&notification).Error; err != nil {
 		return nil, err
 	}

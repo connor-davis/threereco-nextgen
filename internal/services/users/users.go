@@ -180,7 +180,7 @@ func (s *UsersService) GetById(id uuid.UUID) (*models.User, error) {
 		}).
 		Preload("Roles").
 		Preload("Organizations.Owner").
-		Preload("ModifiedBy").
+		Preload("ModifiedByUser").
 		Find(&user).Error; err != nil {
 		return nil, err
 	}
@@ -264,7 +264,7 @@ func (s *UsersService) GetByEmail(email string) (*models.User, error) {
 		}).
 		Preload("Roles").
 		Preload("Organizations.Owner").
-		Preload("ModifiedBy").
+		Preload("ModifiedByUser").
 		Find(&user).Error; err != nil {
 		return nil, err
 	}

@@ -122,7 +122,7 @@ func (s *ProductsService) GetById(id uuid.UUID) (*models.Product, error) {
 			Id: id,
 		}).
 		Preload("Materials").
-		Preload("ModifiedBy").
+		Preload("ModifiedByUser").
 		Find(&product).Error; err != nil {
 		return nil, err
 	}
