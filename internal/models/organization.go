@@ -39,6 +39,7 @@ type Organization struct {
 	Purchases        []Transaction `json:"purchases" gorm:"polymorphic:Buyer;constraint:OnDelete:CASCADE;"`
 	Materials        []Material    `json:"materials" gorm:"many2many:organizations_materials;constraint:OnDelete:CASCADE;"`
 	Products         []Product     `json:"products" gorm:"many2many:organizations_products;constraint:OnDelete:CASCADE;"`
+	AuditLogs        []AuditLog    `json:"auditLogs" gorm:"many2many:organizations_audit_logs;constraint:OnDelete:CASCADE;"`
 	ModifiedByUserId uuid.UUID     `json:"modifiedById" gorm:"type:uuid;"`
 	ModifiedByUser   *User         `json:"modifiedBy"`
 	CreatedAt        time.Time     `json:"createdAt" gorm:"autoCreateTime;"`
