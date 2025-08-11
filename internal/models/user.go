@@ -7,6 +7,7 @@ import (
 	"github.com/goccy/go-json"
 	"github.com/gofiber/fiber/v2/log"
 	"github.com/google/uuid"
+	"github.com/lib/pq"
 	"gorm.io/gorm"
 )
 
@@ -43,6 +44,7 @@ type User struct {
 	Sales                 []Transaction  `json:"sales" gorm:"polymorphic:Seller;constraint:OnDelete:CASCADE;"`
 	Purchases             []Transaction  `json:"purchases" gorm:"polymorphic:Buyer;constraint:OnDelete:CASCADE;"`
 	Notifications         []Notification `json:"notifications" gorm:"foreignKey:UserId;references:Id;constraint:OnDelete:CASCADE;"`
+	Tags                  pq.StringArray `json:"tags" gorm:"type:text[];default:'{}';"`
 	PrimaryOrganizationId uuid.UUID      `json:"primaryOrganizationId" gorm:"type:uuid;"`
 	ModifiedByUserId      uuid.UUID      `json:"modifiedById" gorm:"type:uuid;"`
 	ModifiedByUser        *User          `json:"modifiedBy"`
@@ -63,12 +65,13 @@ type User struct {
 //
 // All UUID references should be validated for existence before persistence.
 type CreateUserPayload struct {
-	Email    string  `json:"email"`
-	Password string  `json:"password"`
-	Name     *string `json:"name"`
-	Phone    *string `json:"phone"`
-	JobTitle *string `json:"jobTitle"`
-	Roles    []Role  `json:"roles"`
+	Email    string         `json:"email"`
+	Password string         `json:"password"`
+	Name     *string        `json:"name"`
+	Phone    *string        `json:"phone"`
+	JobTitle *string        `json:"jobTitle"`
+	Roles    []Role         `json:"roles"`
+	Tags     pq.StringArray `json:"tags"`
 }
 
 // UpdateUserPayload represents a partial update request for a user. Pointer
@@ -94,11 +97,12 @@ type CreateUserPayload struct {
 //     if the update handler implements that convention.
 //   - Callers must supply valid UUIDs for Roles and Organizations.
 type UpdateUserPayload struct {
-	Email    *string `json:"email"`
-	Name     *string `json:"name"`
-	Phone    *string `json:"phone"`
-	JobTitle *string `json:"jobTitle"`
-	Roles    []Role  `json:"roles"`
+	Email    *string        `json:"email"`
+	Name     *string        `json:"name"`
+	Phone    *string        `json:"phone"`
+	JobTitle *string        `json:"jobTitle"`
+	Roles    []Role         `json:"roles"`
+	Tags     pq.StringArray `json:"tags"`
 }
 
 // AfterCreate is a GORM hook that is triggered after a User record is created in the database.

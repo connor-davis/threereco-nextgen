@@ -49,6 +49,7 @@ func (s *UsersService) Create(auditId uuid.UUID, user models.CreateUserPayload) 
 	newUser.Name = user.Name
 	newUser.Phone = user.Phone
 	newUser.JobTitle = user.JobTitle
+	newUser.Tags = user.Tags
 
 	if err := s.Storage.Postgres.Set("one:audit_user_id", auditId).Create(&newUser).Error; err != nil {
 		return err
@@ -87,6 +88,10 @@ func (s *UsersService) Update(auditId uuid.UUID, id uuid.UUID, user models.Updat
 		existingUser.JobTitle = user.JobTitle
 	}
 
+	if user.Tags != nil {
+		existingUser.Tags = user.Tags
+	}
+
 	if err := s.Storage.Postgres.Set("one:audit_user_id", auditId).
 		Where(&models.User{
 			Id: id,
@@ -96,6 +101,7 @@ func (s *UsersService) Update(auditId uuid.UUID, id uuid.UUID, user models.Updat
 			"name":      existingUser.Name,
 			"phone":     existingUser.Phone,
 			"job_title": existingUser.JobTitle,
+			"tags":      existingUser.Tags,
 		}).Error; err != nil {
 		return err
 	}
