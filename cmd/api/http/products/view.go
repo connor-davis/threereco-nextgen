@@ -145,12 +145,6 @@ func (r *ProductsRouter) ViewRoute() routing.Route {
 					},
 					Value: "%" + search + "%",
 				},
-				clause.Like{
-					Column: clause.Column{
-						Name: "value",
-					},
-					Value: "%" + search + "%",
-				},
 			)
 
 			totalProducts, err := r.Services.Products.GetTotal(

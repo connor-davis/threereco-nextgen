@@ -38,13 +38,16 @@ func (s *ProductsService) Create(auditId uuid.UUID, organizationId uuid.UUID, pr
 			})
 		}
 
-		if err := s.Storage.Postgres.Model(&newProduct).Association("Materials").Append(materials); err != nil {
+		if err := s.Storage.Postgres.Set("one:audit_user_id", auditId).Model(&newProduct).Association("Materials").Append(materials); err != nil {
 			return err
 		}
 	}
 
-	if err := s.Storage.Postgres.Set("one:organization_id", organizationId).
-		Model(&models.Organization{}).
+	if err := s.Storage.Postgres.Set("one:audit_user_id", auditId).
+		Model(&models.Organization{
+			Id:               organizationId,
+			ModifiedByUserId: auditId,
+		}).
 		Association("Products").
 		Append(&newProduct); err != nil {
 		return err
@@ -91,7 +94,7 @@ func (s *ProductsService) Update(auditId uuid.UUID, id uuid.UUID, product models
 			})
 		}
 
-		if err := s.Storage.Postgres.Model(&existingProduct).Association("Materials").Replace(materials); err != nil {
+		if err := s.Storage.Postgres.Set("one:audit_user_id", auditId).Model(&existingProduct).Association("Materials").Replace(materials); err != nil {
 			return err
 		}
 	}

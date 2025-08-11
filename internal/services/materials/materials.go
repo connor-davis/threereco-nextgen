@@ -31,8 +31,11 @@ func (s *MaterialsService) Create(auditId uuid.UUID, organizationId uuid.UUID, m
 		return err
 	}
 
-	if err := s.Storage.Postgres.Set("one:organization_id", organizationId).
-		Model(&models.Organization{}).
+	if err := s.Storage.Postgres.Set("one:audit_user_id", auditId).
+		Model(&models.Organization{
+			Id:               organizationId,
+			ModifiedByUserId: auditId,
+		}).
 		Association("Materials").
 		Append(&newMaterial); err != nil {
 		return err

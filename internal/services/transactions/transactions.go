@@ -28,7 +28,7 @@ func (s *TransactionsService) Create(auditId uuid.UUID, organizationId uuid.UUID
 
 	newTransaction.ModifiedByUserId = auditId
 
-	if err := s.Storage.Postgres.Create(&newTransaction).Error; err != nil {
+	if err := s.Storage.Postgres.Set("one:audit_user_id", auditId).Create(&newTransaction).Error; err != nil {
 		return err
 	}
 
@@ -41,14 +41,17 @@ func (s *TransactionsService) Create(auditId uuid.UUID, organizationId uuid.UUID
 			})
 		}
 
-		if err := s.Storage.Postgres.Model(&newTransaction).Association("Products").Append(products); err != nil {
+		if err := s.Storage.Postgres.Set("one:audit_user_id", auditId).Model(&newTransaction).Association("Products").Append(products); err != nil {
 			return err
 		}
 	}
 
 	if newTransaction.SellerID == organizationId {
-		if err := s.Storage.Postgres.Set("one:organization_id", organizationId).
-			Model(&models.Organization{}).
+		if err := s.Storage.Postgres.Set("one:audit_user_id", auditId).
+			Model(&models.Organization{
+				Id:               organizationId,
+				ModifiedByUserId: auditId,
+			}).
 			Association("Sales").
 			Append(&newTransaction); err != nil {
 			return err
@@ -56,8 +59,11 @@ func (s *TransactionsService) Create(auditId uuid.UUID, organizationId uuid.UUID
 	}
 
 	if newTransaction.BuyerID == organizationId {
-		if err := s.Storage.Postgres.Set("one:organization_id", organizationId).
-			Model(&models.Organization{}).
+		if err := s.Storage.Postgres.Set("one:audit_user_id", auditId).
+			Model(&models.Organization{
+				Id:               organizationId,
+				ModifiedByUserId: auditId,
+			}).
 			Association("Purchases").
 			Append(&newTransaction); err != nil {
 			return err
@@ -130,7 +136,7 @@ func (s *TransactionsService) Update(auditId uuid.UUID, id uuid.UUID, transactio
 			})
 		}
 
-		if err := s.Storage.Postgres.Model(&existingTransaction).Association("Products").Replace(products); err != nil {
+		if err := s.Storage.Postgres.Set("one:audit_user_id", auditId).Model(&existingTransaction).Association("Products").Replace(products); err != nil {
 			return err
 		}
 	}

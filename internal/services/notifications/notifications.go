@@ -29,7 +29,7 @@ func (s *NotificationsService) Create(auditId uuid.UUID, notification models.Cre
 
 	newNotification.ModifiedByUserId = auditId
 
-	if err := s.Storage.Postgres.Create(&newNotification).Error; err != nil {
+	if err := s.Storage.Postgres.Set("one:audit_user_id", auditId).Create(&newNotification).Error; err != nil {
 		return err
 	}
 

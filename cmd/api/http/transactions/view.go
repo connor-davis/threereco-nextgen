@@ -145,18 +145,6 @@ func (r *TransactionsRouter) ViewRoute() routing.Route {
 					},
 					Value: "%" + search + "%",
 				},
-				clause.Like{
-					Column: clause.Column{
-						Name: "weight",
-					},
-					Value: "%" + search + "%",
-				},
-				clause.Like{
-					Column: clause.Column{
-						Name: "amount",
-					},
-					Value: "%" + search + "%",
-				},
 			)
 
 			totalTransactions, err := r.Services.Transactions.GetTotal(
