@@ -125,7 +125,10 @@ func (s *RolesService) Delete(auditId uuid.UUID, id uuid.UUID) error {
 func (s *RolesService) GetById(id uuid.UUID) (*models.Role, error) {
 	var role models.Role
 
-	if err := s.Storage.Postgres.Where("id = $1", id).Find(&role).Error; err != nil {
+	if err := s.Storage.Postgres.
+		Where("id = $1", id).
+		Preload("ModifiedBy").
+		Find(&role).Error; err != nil {
 		return nil, err
 	}
 

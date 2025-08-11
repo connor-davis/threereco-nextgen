@@ -153,7 +153,9 @@ func (s *OrganizationsService) Delete(auditId uuid.UUID, id uuid.UUID) error {
 func (s *OrganizationsService) GetById(id uuid.UUID) (*models.Organization, error) {
 	var organization models.Organization
 
-	if err := s.Storage.Postgres.Where("id = $1", id).
+	if err := s.Storage.Postgres.
+		Where("id = $1", id).
+		Preload("ModifiedBy").
 		Find(&organization).Error; err != nil {
 		return nil, err
 	}

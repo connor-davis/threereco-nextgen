@@ -163,7 +163,8 @@ func (s *TransactionsService) GetById(id uuid.UUID) (*models.Transaction, error)
 		Where(&models.Transaction{
 			Id: id,
 		}).
-		Preload("Products").
+		Preload("Products.Materials").
+		Preload("ModifiedBy").
 		Find(&transaction).Error; err != nil {
 		return nil, err
 	}

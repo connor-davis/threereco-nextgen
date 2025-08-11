@@ -100,6 +100,7 @@ func (s *MaterialsService) GetById(id uuid.UUID) (*models.Material, error) {
 		Where(&models.Material{
 			Id: id,
 		}).
+		Preload("ModifiedBy").
 		Find(&material).Error; err != nil {
 		return nil, err
 	}
