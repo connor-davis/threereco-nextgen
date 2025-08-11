@@ -3,10 +3,13 @@ package models
 import (
 	"database/sql/driver"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"time"
 
+	"github.com/gofiber/fiber/v2/log"
 	"github.com/google/uuid"
+	"gorm.io/gorm"
 )
 
 // NotificationAction describes a clickable action attached to a notification,
@@ -58,4 +61,159 @@ func (n *NotificationAction) Scan(value interface{}) error {
 	}
 
 	return json.Unmarshal(bytes, n)
+}
+
+// CreateNotificationPayload describes the JSON body for creating a notification.
+// All fields are required: Title and Message provide the visible content, and Action
+// supplies structured instructions for what should occur when the notification is
+// interacted with. Validation is enforced via `binding:"required"` tags.
+type CreateNotificationPayload struct {
+	Title   string              `json:"title" binding:"required"`
+	Message string              `json:"message" binding:"required"`
+	Action  *NotificationAction `json:"action" binding:"required"`
+}
+
+// UpdateNotificationPayload represents the JSON body for updating an existing notification.
+//
+// Fields:
+//   - title (required): Pointer to the notification title. Must be present; may be an empty string.
+//   - message (required): Pointer to the notification message body. Must be present; may be an empty string.
+//   - action (required): Pointer to the NotificationAction describing the behavior triggered by the notification.
+//
+// Notes:
+//   - All fields are pointers to distinguish explicitly provided empty values from absence.
+//     The `binding:"required"` tags enforce that each field is present and non-nil during validation.
+//   - Suitable for PUT/PATCH handlers to validate and apply updates from incoming JSON payloads.
+type UpdateNotificationPayload struct {
+	Title   *string             `json:"title" binding:"required"`
+	Message *string             `json:"message" binding:"required"`
+	Action  *NotificationAction `json:"action" binding:"required"`
+}
+
+// AfterCreate is a GORM hook that runs after a Notification is inserted.
+// It retrieves the auditing user ID from the transaction context (key "one:audit_user_id"),
+// marshals the new Notification to JSON, and records an INSERT operation in the AuditLog
+// with table "notifications" referencing the created Notification's ID.
+// It returns an error if the audit user ID is missing, marshaling fails, or the audit log
+// record cannot be created; otherwise it logs success and returns nil.
+func (n *Notification) AfterCreate(tx *gorm.DB) error {
+	auditUserId, ok := tx.Get("one:audit_user_id")
+
+	if !ok {
+		log.Errorf("❌ Failed to get audit user ID")
+
+		return errors.New("failed to get audit user ID")
+	}
+
+	notificationJSON, err := json.Marshal(n)
+
+	if err != nil {
+		log.Errorf("❌ Failed to marshal notification: %s", err.Error())
+
+		return err
+	}
+
+	auditLog := &AuditLog{
+		TableName:     "notifications",
+		OperationType: "INSERT",
+		ObjectId:      n.Id,
+		UserId:        auditUserId.(uuid.UUID),
+		Data:          notificationJSON,
+	}
+
+	if err := tx.Create(auditLog).Error; err != nil {
+		log.Errorf("❌ Failed to create audit log for notification creation: %s", err.Error())
+
+		return err
+	}
+
+	log.Infof("✅ Notification %s created successfully with ID %s", n.Title, n.Id)
+
+	return nil
+}
+
+// AfterUpdate is a GORM callback that runs after a Notification record is updated.
+// It retrieves the auditing user ID from the transaction context using the key
+// "one:audit_user_id", marshals the updated Notification to JSON, and creates an
+// AuditLog entry with OperationType "UPDATE" for the "notifications" table, linked
+// to the Notification's ID. It logs both failures and success, and returns an error
+// if the audit user ID is missing, JSON marshaling fails, or the audit log cannot
+// be persisted.
+func (n *Notification) AfterUpdate(tx *gorm.DB) error {
+	auditUserId, ok := tx.Get("one:audit_user_id")
+
+	if !ok {
+		log.Errorf("❌ Failed to get audit user ID")
+
+		return errors.New("failed to get audit user ID")
+	}
+
+	notificationJSON, err := json.Marshal(n)
+
+	if err != nil {
+		log.Errorf("❌ Failed to marshal notification: %s", err.Error())
+
+		return err
+	}
+
+	auditLog := &AuditLog{
+		TableName:     "notifications",
+		OperationType: "UPDATE",
+		ObjectId:      n.Id,
+		UserId:        auditUserId.(uuid.UUID),
+		Data:          notificationJSON,
+	}
+
+	if err := tx.Create(auditLog).Error; err != nil {
+		log.Errorf("❌ Failed to create audit log for notification update: %s", err.Error())
+
+		return err
+	}
+
+	log.Infof("✅ Notification %s updated successfully with ID %s", n.Title, n.Id)
+
+	return nil
+}
+
+// AfterDelete is a GORM hook that runs after a Notification is deleted.
+// It creates an audit log entry for the "DELETE" operation on the "notifications"
+// table, including the notification ID, the acting user's ID retrieved from the
+// transaction context key "one:audit_user_id", and a JSON snapshot of the deleted
+// notification. It logs and returns an error if the audit user ID is missing,
+// JSON marshaling fails, or persisting the audit log fails; otherwise it logs
+// a success message and returns nil.
+func (n *Notification) AfterDelete(tx *gorm.DB) error {
+	auditUserId, ok := tx.Get("one:audit_user_id")
+
+	if !ok {
+		log.Errorf("❌ Failed to get audit user ID")
+
+		return errors.New("failed to get audit user ID")
+	}
+
+	notificationJSON, err := json.Marshal(n)
+
+	if err != nil {
+		log.Errorf("❌ Failed to marshal notification: %s", err.Error())
+
+		return err
+	}
+
+	auditLog := &AuditLog{
+		TableName:     "notifications",
+		OperationType: "DELETE",
+		ObjectId:      n.Id,
+		UserId:        auditUserId.(uuid.UUID),
+		Data:          notificationJSON,
+	}
+
+	if err := tx.Create(auditLog).Error; err != nil {
+		log.Errorf("❌ Failed to create audit log for notification deletion: %s", err.Error())
+
+		return err
+	}
+
+	log.Infof("✅ Notification %s deleted successfully with ID %s", n.Title, n.Id)
+
+	return nil
 }
