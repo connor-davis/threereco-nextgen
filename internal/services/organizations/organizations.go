@@ -2,6 +2,7 @@ package organizations
 
 import (
 	"errors"
+	"fmt"
 
 	"github.com/connor-davis/threereco-nextgen/internal/models"
 	"github.com/connor-davis/threereco-nextgen/internal/storage"
@@ -29,6 +30,37 @@ func NewOrganizationsService(storage *storage.Storage) *OrganizationsService {
 	return &OrganizationsService{
 		Storage: storage,
 	}
+}
+
+func (s *OrganizationsService) SendInvite(auditId uuid.UUID, organizationId uuid.UUID, userId uuid.UUID) error {
+	if err := s.Storage.Postgres.Set("one:audit_user_id", auditId).
+		Create(&models.Notification{
+			Title:   "Organization Invite",
+			Message: "You have been invited to join an organization.",
+			Action: &models.NotificationAction{
+				Link:     fmt.Sprintf("/organizations/%s/invite", organizationId),
+				LinkText: "View Invitation",
+			},
+		}).Error; err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (s *OrganizationsService) AcceptInvite(auditId uuid.UUID, organizationId uuid.UUID, userId uuid.UUID) error {
+	if err := s.Storage.Postgres.Set("one:audit_user_id", auditId).
+		Model(&models.Organization{
+			Id: organizationId,
+		}).
+		Association("Users").
+		Append(&models.User{
+			Id: userId,
+		}); err != nil {
+		return err
+	}
+
+	return nil
 }
 
 // Create adds a new organization record to the database with the specified audit ID.

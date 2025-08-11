@@ -8,6 +8,7 @@ import (
 	"github.com/connor-davis/threereco-nextgen/cmd/api/http/materials"
 	"github.com/connor-davis/threereco-nextgen/cmd/api/http/middleware"
 	"github.com/connor-davis/threereco-nextgen/cmd/api/http/organizations"
+	"github.com/connor-davis/threereco-nextgen/cmd/api/http/organizations/invites"
 	"github.com/connor-davis/threereco-nextgen/cmd/api/http/products"
 	"github.com/connor-davis/threereco-nextgen/cmd/api/http/roles"
 	"github.com/connor-davis/threereco-nextgen/cmd/api/http/transactions"
@@ -57,6 +58,9 @@ func NewHttpRouter(storage *storage.Storage, sessions *session.Store, services *
 	organizationsRouter := organizations.NewOrganizationsRouter(storage, sessions, services, middleware)
 	organizationsRoutes := organizationsRouter.InitializeRoutes()
 
+	invitesRouter := invites.NewOrganizationsInvitesRouter(storage, sessions, services, middleware)
+	invitesRoutes := invitesRouter.InitializeRoutes()
+
 	materialsRouter := materials.NewMaterialsRouter(storage, sessions, services, middleware)
 	materialsRoutes := materialsRouter.InitializeRoutes()
 
@@ -72,6 +76,7 @@ func NewHttpRouter(storage *storage.Storage, sessions *session.Store, services *
 	routes = append(routes, usersRoutes...)
 	routes = append(routes, rolesRoutes...)
 	routes = append(routes, organizationsRoutes...)
+	routes = append(routes, invitesRoutes...)
 	routes = append(routes, materialsRoutes...)
 	routes = append(routes, productsRoutes...)
 	routes = append(routes, transactionsRoutes...)
