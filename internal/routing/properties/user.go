@@ -26,6 +26,7 @@ var UserProperties = map[string]*openapi3.Schema{
 	"jobTitle":              openapi3.NewStringSchema().WithNullable(),
 	"mfaEnabled":            openapi3.NewBoolSchema().WithDefault(false),
 	"mfaVerified":           openapi3.NewBoolSchema().WithDefault(false),
+	"tags":                  openapi3.NewArraySchema().WithItems(openapi3.NewStringSchema()).WithNullable(),
 	"primaryOrganizationId": openapi3.NewStringSchema().WithFormat("uuid").WithNullable(),
 	"modifiedById":          openapi3.NewStringSchema().WithFormat("uuid"),
 	"createdAt":             openapi3.NewDateTimeSchema(),
@@ -39,6 +40,7 @@ var CreateUserPayloadProperties = map[string]*openapi3.Schema{
 	"phone":    openapi3.NewStringSchema().WithNullable(),
 	"jobTitle": openapi3.NewStringSchema().WithNullable(),
 	"roles":    openapi3.NewArraySchema().WithItems(openapi3.NewStringSchema().WithFormat("uuid")).WithNullable(),
+	"tags":     openapi3.NewArraySchema().WithItems(openapi3.NewStringSchema()).WithNullable(),
 }
 
 var UpdateUserPayloadProperties = map[string]*openapi3.Schema{
@@ -48,4 +50,5 @@ var UpdateUserPayloadProperties = map[string]*openapi3.Schema{
 	"jobTitle":      openapi3.NewStringSchema().WithNullable(),
 	"organizations": openapi3.NewArraySchema().WithItems(openapi3.NewStringSchema().WithFormat("uuid")).WithNullable(),
 	"roles":         openapi3.NewArraySchema().WithItems(openapi3.NewStringSchema().WithFormat("uuid")).WithNullable(),
+	"tags":          openapi3.NewArraySchema().WithItems(openapi3.NewStringSchema()).WithNullable(),
 }
