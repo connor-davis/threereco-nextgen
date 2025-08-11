@@ -17,7 +17,7 @@ func NewMaterialsService(storage *storage.Storage) *MaterialsService {
 	}
 }
 
-func (s *MaterialsService) Create(auditId uuid.UUID, material models.CreateMaterialPayload) error {
+func (s *MaterialsService) Create(auditId uuid.UUID, organizationId uuid.UUID, material models.CreateMaterialPayload) error {
 	var newMaterial models.Material
 
 	newMaterial.Name = material.Name
@@ -26,7 +26,15 @@ func (s *MaterialsService) Create(auditId uuid.UUID, material models.CreateMater
 
 	newMaterial.ModifiedByUserId = auditId
 
-	if err := s.Storage.Postgres.Set("one:audit_user_id", auditId).Create(&newMaterial).Error; err != nil {
+	if err := s.Storage.Postgres.Set("one:audit_user_id", auditId).
+		Create(&newMaterial).Error; err != nil {
+		return err
+	}
+
+	if err := s.Storage.Postgres.Set("one:organization_id", organizationId).
+		Model(&models.Organization{}).
+		Association("Materials").
+		Append(&newMaterial); err != nil {
 		return err
 	}
 

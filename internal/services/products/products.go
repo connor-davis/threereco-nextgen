@@ -17,7 +17,7 @@ func NewProductsService(storage *storage.Storage) *ProductsService {
 	}
 }
 
-func (s *ProductsService) Create(auditId uuid.UUID, product models.CreateProductPayload) error {
+func (s *ProductsService) Create(auditId uuid.UUID, organizationId uuid.UUID, product models.CreateProductPayload) error {
 	var newProduct models.Product
 
 	newProduct.Name = product.Name
@@ -41,6 +41,13 @@ func (s *ProductsService) Create(auditId uuid.UUID, product models.CreateProduct
 		if err := s.Storage.Postgres.Model(&newProduct).Association("Materials").Append(materials); err != nil {
 			return err
 		}
+	}
+
+	if err := s.Storage.Postgres.Set("one:organization_id", organizationId).
+		Model(&models.Organization{}).
+		Association("Products").
+		Append(&newProduct); err != nil {
+		return err
 	}
 
 	return nil

@@ -17,7 +17,7 @@ func NewTransactionsService(storage *storage.Storage) *TransactionsService {
 	}
 }
 
-func (s *TransactionsService) Create(auditId uuid.UUID, transaction models.CreateTransactionPayload) error {
+func (s *TransactionsService) Create(auditId uuid.UUID, organizationId uuid.UUID, transaction models.CreateTransactionPayload) error {
 	var newTransaction models.Transaction
 
 	newTransaction.Type = transaction.Type
@@ -42,6 +42,24 @@ func (s *TransactionsService) Create(auditId uuid.UUID, transaction models.Creat
 		}
 
 		if err := s.Storage.Postgres.Model(&newTransaction).Association("Products").Append(products); err != nil {
+			return err
+		}
+	}
+
+	if newTransaction.SellerID == organizationId {
+		if err := s.Storage.Postgres.Set("one:organization_id", organizationId).
+			Model(&models.Organization{}).
+			Association("Sales").
+			Append(&newTransaction); err != nil {
+			return err
+		}
+	}
+
+	if newTransaction.BuyerID == organizationId {
+		if err := s.Storage.Postgres.Set("one:organization_id", organizationId).
+			Model(&models.Organization{}).
+			Association("Purchases").
+			Append(&newTransaction); err != nil {
 			return err
 		}
 	}
