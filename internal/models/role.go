@@ -83,7 +83,7 @@ func (r *Role) HasPermissions(permissions ...string) bool {
 	return false
 }
 
-// AfterCreate is a GORM hook that is triggered after a Role record is created in the database.
+// AfterCreate is a GORM hook that is triggered before a Role record is created in the database.
 // It retrieves the audit user ID from the transaction context, marshals the Role object to JSON,
 // and creates an audit log entry recording the creation event. If any step fails, it logs the error
 // and returns it to GORM, which may abort the transaction.
@@ -172,11 +172,11 @@ func (r *Role) AfterUpdate(tx *gorm.DB) error {
 	return nil
 }
 
-// AfterDelete is a GORM hook that is triggered after a Role record is deleted from the database.
+// BeforeDelete is a GORM hook that is triggered after a Role record is deleted from the database.
 // It logs the deletion event by creating an audit log entry containing details about the deleted role,
 // the operation type, and the user who performed the deletion. If the audit user ID cannot be retrieved
 // or if any error occurs during marshalling or audit log creation, the function returns an error.
-func (r *Role) AfterDelete(tx *gorm.DB) error {
+func (r *Role) BeforeDelete(tx *gorm.DB) error {
 	if _, ok := tx.Get("one:ignore_audit_log"); ok {
 		return nil
 	}

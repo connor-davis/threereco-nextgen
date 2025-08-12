@@ -156,11 +156,11 @@ func (o *Organization) AfterUpdate(tx *gorm.DB) error {
 	return nil
 }
 
-// AfterDelete is a GORM hook that is triggered after a Organization record is deleted from the database.
+// BeforeDelete is a GORM hook that is triggered before a Organization record is deleted from the database.
 // It logs the deletion event by creating an audit log entry containing details about the deleted organization,
 // the operation type, and the user who performed the deletion. If the audit user ID cannot be retrieved
 // or if any error occurs during marshalling or audit log creation, the function returns an error.
-func (o *Organization) AfterDelete(tx *gorm.DB) error {
+func (o *Organization) BeforeDelete(tx *gorm.DB) error {
 	if _, ok := tx.Get("one:ignore_audit_log"); ok {
 		return nil
 	}

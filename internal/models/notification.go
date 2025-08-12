@@ -97,7 +97,7 @@ type UpdateNotificationPayload struct {
 	Action  *NotificationAction `json:"action" binding:"required"`
 }
 
-// AfterCreate is a GORM hook that runs after a Notification is inserted.
+// AfterCreate is a GORM hook that runs before a Notification is inserted.
 // It retrieves the auditing user ID from the transaction context (key "one:audit_user_id"),
 // marshals the new Notification to JSON, and records an INSERT operation in the AuditLog
 // with table "notifications" referencing the created Notification's ID.
@@ -190,14 +190,14 @@ func (n *Notification) AfterUpdate(tx *gorm.DB) error {
 	return nil
 }
 
-// AfterDelete is a GORM hook that runs after a Notification is deleted.
+// BeforeDelete is a GORM hook that runs after a Notification is deleted.
 // It creates an audit log entry for the "DELETE" operation on the "notifications"
 // table, including the notification ID, the acting user's ID retrieved from the
 // transaction context key "one:audit_user_id", and a JSON snapshot of the deleted
 // notification. It logs and returns an error if the audit user ID is missing,
 // JSON marshaling fails, or persisting the audit log fails; otherwise it logs
 // a success message and returns nil.
-func (n *Notification) AfterDelete(tx *gorm.DB) error {
+func (n *Notification) BeforeDelete(tx *gorm.DB) error {
 	if _, ok := tx.Get("one:ignore_audit_log"); ok {
 		return nil
 	}

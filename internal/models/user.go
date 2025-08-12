@@ -107,7 +107,7 @@ type UpdateUserPayload struct {
 	Tags                  pq.StringArray `json:"tags"`
 }
 
-// AfterCreate is a GORM hook that is triggered after a User record is created in the database.
+// AfterCreate is a GORM hook that is triggered before a User record is created in the database.
 // It retrieves the audit user ID from the transaction context, marshals the User object to JSON,
 // and creates an audit log entry recording the creation event. If any step fails, it logs the error
 // and returns it to GORM, which may abort the transaction.
@@ -194,11 +194,11 @@ func (u *User) AfterUpdate(tx *gorm.DB) error {
 	return nil
 }
 
-// AfterDelete is a GORM hook that is triggered after a User record is deleted.
+// BeforeDelete is a GORM hook that is triggered after a User record is deleted.
 // It retrieves the audit user ID from the transaction context, marshals the User object to JSON,
 // and creates an audit log entry recording the deletion event. If any step fails, it logs the error
 // and returns it to GORM, which may abort the transaction.
-func (u *User) AfterDelete(tx *gorm.DB) error {
+func (u *User) BeforeDelete(tx *gorm.DB) error {
 	if _, ok := tx.Get("one:ignore_audit_log"); ok {
 		return nil
 	}

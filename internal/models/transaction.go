@@ -97,7 +97,7 @@ type UpdateTransactionPayload struct {
 	Products       []uuid.UUID      `json:"products"`
 }
 
-// AfterCreate is a GORM hook invoked after a Transaction has been inserted.
+// AfterCreate is a GORM hook invoked before a Transaction has been inserted.
 // It retrieves the audit user ID from the DB context key "one:audit_user_id",
 // serializes the Transaction to JSON, and records an AuditLog entry with
 // OperationType "INSERT" for the "transactions" table, including the Transaction
@@ -192,14 +192,14 @@ func (t *Transaction) AfterUpdate(tx *gorm.DB) error {
 	return nil
 }
 
-// AfterDelete is a GORM hook that runs after a Transaction is deleted.
+// BeforeDelete is a GORM hook that runs after a Transaction is deleted.
 // It retrieves the auditing user ID from the DB session context (key "one:audit_user_id"),
 // marshals the deleted Transaction into JSON, and creates an AuditLog entry for the
 // "transactions" table with operation type "DELETE" and the deleted record's ID.
 // The method returns an error if the audit user ID is missing, JSON marshaling fails,
 // or the audit log record cannot be persisted. It also emits logs for both failures
 // and a success message including the transaction title and ID.
-func (t *Transaction) AfterDelete(tx *gorm.DB) error {
+func (t *Transaction) BeforeDelete(tx *gorm.DB) error {
 	if _, ok := tx.Get("one:ignore_audit_log"); ok {
 		return nil
 	}
