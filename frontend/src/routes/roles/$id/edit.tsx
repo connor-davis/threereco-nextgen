@@ -1,4 +1,4 @@
-import { putApiUsersByIdMutation } from '@/api-client/@tanstack/react-query.gen';
+import { putApiRolesByIdMutation } from '@/api-client/@tanstack/react-query.gen';
 import { useMutation } from '@tanstack/react-query';
 import {
   ErrorComponent,
@@ -14,11 +14,11 @@ import { toast } from 'sonner';
 
 import {
   type ErrorResponse,
-  type UpdateUserPayload,
-  type User,
-  getApiUsersById,
+  type Role,
+  type UpdateRolePayload,
+  getApiRolesById,
 } from '@/api-client';
-import { zUpdateUserPayload } from '@/api-client/zod.gen';
+import { zUpdateRolePayload } from '@/api-client/zod.gen';
 import PermissionGuard from '@/components/guards/permission';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
@@ -32,20 +32,20 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { InputTags } from '@/components/ui/input-tags';
 import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
 import { apiClient } from '@/lib/utils';
 
-export const Route = createFileRoute('/users/$id/edit')({
+export const Route = createFileRoute('/roles/$id/edit')({
   component: () => (
-    <PermissionGuard value="users.update" isPage={true}>
+    <PermissionGuard value="roles.update" isPage={true}>
       <RouteComponent />
     </PermissionGuard>
   ),
   pendingComponent: () => (
     <div className="flex flex-col w-full h-full items-center justify-center">
       <Label className="text-muted-foreground">
-        Loading user information...
+        Loading role information...
       </Label>
     </div>
   ),
@@ -78,7 +78,7 @@ export const Route = createFileRoute('/users/$id/edit')({
   },
   wrapInSuspense: true,
   loader: async ({ params: { id } }) => {
-    const { data } = await getApiUsersById({
+    const { data } = await getApiRolesById({
       client: apiClient,
       path: {
         id,
@@ -86,22 +86,22 @@ export const Route = createFileRoute('/users/$id/edit')({
       throwOnError: true,
     });
 
-    return (data.item ?? {}) as User;
+    return (data.item ?? {}) as Role;
   },
 });
 
 function RouteComponent() {
   const router = useRouter();
   const { id } = Route.useParams();
-  const user = Route.useLoaderData();
+  const role = Route.useLoaderData();
 
-  const updateForm = useForm<UpdateUserPayload>({
-    resolver: zodResolver(zUpdateUserPayload),
-    values: { ...user },
+  const updateForm = useForm<UpdateRolePayload>({
+    resolver: zodResolver(zUpdateRolePayload),
+    values: { ...role },
   });
 
-  const updateUser = useMutation({
-    ...putApiUsersByIdMutation({
+  const updateRole = useMutation({
+    ...putApiRolesByIdMutation({
       client: apiClient,
     }),
     onError: (error: ErrorResponse) =>
@@ -111,7 +111,7 @@ function RouteComponent() {
       }),
     onSuccess: () => {
       toast.success('Success', {
-        description: 'The user has been updated successfully.',
+        description: 'The role has been updated successfully.',
         duration: 2000,
       });
 
@@ -123,13 +123,13 @@ function RouteComponent() {
     <div className="flex flex-col w-full h-full bg-popover border-t p-3 gap-3">
       <div className="flex items-center justify-between w-full h-auto">
         <div className="flex items-center gap-3">
-          <Link to="/users">
+          <Link to="/roles">
             <Button variant="ghost" size="icon">
               <ArrowLeftIcon className="size-4" />
             </Button>
           </Link>
 
-          <Label className="text-lg">Edit User</Label>
+          <Label className="text-lg">Edit Role</Label>
         </div>
         <div className="flex items-center gap-3"></div>
       </div>
@@ -137,7 +137,7 @@ function RouteComponent() {
       <Form {...updateForm}>
         <form
           onSubmit={updateForm.handleSubmit((values) =>
-            updateUser.mutate({
+            updateRole.mutate({
               path: {
                 id,
               },
@@ -146,28 +146,6 @@ function RouteComponent() {
           )}
           className="flex flex-col w-full h-auto gap-5"
         >
-          <FormField
-            control={updateForm.control}
-            name="email"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Email</FormLabel>
-                <FormControl>
-                  <Input
-                    type="email"
-                    placeholder="Email"
-                    {...field}
-                    value={field.value ?? undefined}
-                  />
-                </FormControl>
-                <FormDescription>
-                  Enter the user's email address.
-                </FormDescription>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
           <FormField
             control={updateForm.control}
             name="name"
@@ -182,7 +160,7 @@ function RouteComponent() {
                     value={field.value ?? undefined}
                   />
                 </FormControl>
-                <FormDescription>Enter the user's name.</FormDescription>
+                <FormDescription>Enter the role's name.</FormDescription>
                 <FormMessage />
               </FormItem>
             )}
@@ -190,67 +168,24 @@ function RouteComponent() {
 
           <FormField
             control={updateForm.control}
-            name="jobTitle"
+            name="description"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Job Title</FormLabel>
+                <FormLabel>Description</FormLabel>
                 <FormControl>
-                  <Input
-                    type="text"
-                    placeholder="Job Title"
+                  <Textarea
+                    placeholder="Description"
                     {...field}
                     value={field.value ?? undefined}
                   />
                 </FormControl>
-                <FormDescription>Enter the user's job title.</FormDescription>
+                <FormDescription>Enter the role's description.</FormDescription>
                 <FormMessage />
               </FormItem>
             )}
           />
 
-          <FormField
-            control={updateForm.control}
-            name="phone"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Phone Number</FormLabel>
-                <FormControl>
-                  <Input
-                    type="tel"
-                    placeholder="Phone Number"
-                    {...field}
-                    value={field.value ?? undefined}
-                  />
-                </FormControl>
-                <FormDescription>
-                  Enter the user's phone number.
-                </FormDescription>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={updateForm.control}
-            name="tags"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Tags</FormLabel>
-                <FormControl>
-                  <InputTags
-                    type="text"
-                    placeholder="Tags"
-                    {...field}
-                    value={field.value ?? []}
-                  />
-                </FormControl>
-                <FormDescription>Enter the user's tags.</FormDescription>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <Button type="submit">Update User</Button>
+          <Button type="submit">Update Role</Button>
         </form>
       </Form>
     </div>

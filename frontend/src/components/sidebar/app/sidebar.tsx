@@ -42,7 +42,7 @@ export default function AppSidebar() {
       </SidebarContent>
 
       <SidebarFooter className="px-0">
-        <PermissionGuard value={['users.view']}>
+        <PermissionGuard value={['users.view', 'roles.view']}>
           <SidebarSeparator className="mx-0" />
 
           <SidebarGroup className="py-0">
@@ -55,6 +55,16 @@ export default function AppSidebar() {
                       <Link to="/users">
                         <UsersIcon />
                         <span>Users</span>
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                </PermissionGuard>
+                <PermissionGuard value={['roles.view']}>
+                  <SidebarMenuItem>
+                    <SidebarMenuButton asChild>
+                      <Link to="/roles">
+                        <UsersIcon />
+                        <span>Roles</span>
                       </Link>
                     </SidebarMenuButton>
                   </SidebarMenuItem>

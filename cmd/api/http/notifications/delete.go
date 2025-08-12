@@ -110,7 +110,7 @@ func (r *NotificationsRouter) DeleteByIdRoute() routing.Route {
 			r.Middleware.Authorized(),
 		},
 		Handler: func(c *fiber.Ctx) error {
-			localNotification := c.Locals("notification").(*models.Notification)
+			currentUser := c.Locals("user").(*models.User)
 
 			id := c.Params("id")
 
@@ -154,7 +154,7 @@ func (r *NotificationsRouter) DeleteByIdRoute() routing.Route {
 				})
 			}
 
-			if err := r.Services.Notifications.Delete(localNotification.Id, idUUID); err != nil {
+			if err := r.Services.Notifications.Delete(currentUser.Id, idUUID); err != nil {
 				log.Errorf("🔥 Error deleting notification: %s", err.Error())
 
 				return c.Status(fiber.StatusInternalServerError).JSON(&fiber.Map{

@@ -6,9 +6,8 @@ import { useForm } from 'react-hook-form';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { toast } from 'sonner';
-import z from 'zod';
 
-import type { ErrorResponse } from '@/api-client';
+import type { CreateUserPayload, ErrorResponse } from '@/api-client';
 import { zCreateUserPayload } from '@/api-client/zod.gen';
 import PermissionGuard from '@/components/guards/permission';
 import { Button } from '@/components/ui/button';
@@ -37,7 +36,7 @@ export const Route = createFileRoute('/users/create')({
 function RouteComponent() {
   const router = useRouter();
 
-  const createForm = useForm<z.infer<typeof zCreateUserPayload>>({
+  const createForm = useForm<CreateUserPayload>({
     resolver: zodResolver(zCreateUserPayload),
   });
 

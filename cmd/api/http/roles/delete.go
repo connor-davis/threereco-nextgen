@@ -110,7 +110,7 @@ func (r *RolesRouter) DeleteByIdRoute() routing.Route {
 			r.Middleware.Authorized(),
 		},
 		Handler: func(c *fiber.Ctx) error {
-			localRole := c.Locals("role").(*models.Role)
+			currentUser := c.Locals("user").(*models.User)
 
 			id := c.Params("id")
 
@@ -154,7 +154,7 @@ func (r *RolesRouter) DeleteByIdRoute() routing.Route {
 				})
 			}
 
-			if err := r.Services.Roles.Delete(localRole.Id, idUUID); err != nil {
+			if err := r.Services.Roles.Delete(currentUser.Id, idUUID); err != nil {
 				log.Errorf("🔥 Error deleting role: %s", err.Error())
 
 				return c.Status(fiber.StatusInternalServerError).JSON(&fiber.Map{

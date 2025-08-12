@@ -110,7 +110,7 @@ func (r *OrganizationsRouter) DeleteByIdRoute() routing.Route {
 			r.Middleware.Authorized(),
 		},
 		Handler: func(c *fiber.Ctx) error {
-			localOrganization := c.Locals("organization").(*models.Organization)
+			currentUser := c.Locals("user").(*models.User)
 
 			id := c.Params("id")
 
@@ -154,7 +154,7 @@ func (r *OrganizationsRouter) DeleteByIdRoute() routing.Route {
 				})
 			}
 
-			if err := r.Services.Organizations.Delete(localOrganization.Id, idUUID); err != nil {
+			if err := r.Services.Organizations.Delete(currentUser.Id, idUUID); err != nil {
 				log.Errorf("🔥 Error deleting organization: %s", err.Error())
 
 				return c.Status(fiber.StatusInternalServerError).JSON(&fiber.Map{
