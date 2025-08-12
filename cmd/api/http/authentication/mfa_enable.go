@@ -74,19 +74,19 @@ func (r *AuthenticationRouter) MfaEnableRoute() routing.Route {
 			r.Middleware.Authorized(),
 		},
 		Handler: func(c *fiber.Ctx) error {
-			user := c.Locals("user").(*models.User)
+			currentUser := c.Locals("user").(*models.User)
 
-			if user == nil {
+			if currentUser == nil {
 				return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
 					"error":   constants.UnauthorizedError,
 					"message": constants.UnauthorizedErrorDetails,
 				})
 			}
 
-			if user.MfaSecret == nil {
+			if currentUser.MfaSecret == nil {
 				secret, err := totp.Generate(totp.GenerateOpts{
 					Issuer:      "Thusa MFA",
-					AccountName: user.Email,
+					AccountName: currentUser.Email,
 					Period:      30,
 					Digits:      otp.DigitsSix,
 					Algorithm:   otp.AlgorithmSHA1,
@@ -97,13 +97,15 @@ func (r *AuthenticationRouter) MfaEnableRoute() routing.Route {
 					return c.SendStatus(fiber.StatusInternalServerError)
 				}
 
-				user.MfaSecret = []byte(secret.Secret())
+				currentUser.MfaSecret = []byte(secret.Secret())
 
-				if err := r.Storage.Postgres.Where(&models.User{
-					Id: user.Id,
-				}).Updates(&models.User{
-					MfaSecret: user.MfaSecret,
-				}).Error; err != nil {
+				if err := r.Storage.Postgres.Set("one:audit_user_id", currentUser.Id).
+					Where(&models.User{
+						Id: currentUser.Id,
+					}).
+					Updates(&models.User{
+						MfaSecret: currentUser.MfaSecret,
+					}).Error; err != nil {
 					log.Infof("🔥 Failed to update user: %s", err.Error())
 
 					return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
@@ -114,7 +116,7 @@ func (r *AuthenticationRouter) MfaEnableRoute() routing.Route {
 			}
 
 			secretBytes, err := base32.StdEncoding.WithPadding(base32.NoPadding).
-				DecodeString(string(user.MfaSecret))
+				DecodeString(string(currentUser.MfaSecret))
 
 			if err != nil {
 				return c.SendStatus(fiber.StatusInternalServerError)
@@ -122,7 +124,7 @@ func (r *AuthenticationRouter) MfaEnableRoute() routing.Route {
 
 			secret, err := totp.Generate(totp.GenerateOpts{
 				Issuer:      "Thusa MFA",
-				AccountName: user.Email,
+				AccountName: currentUser.Email,
 				Period:      30,
 				Digits:      otp.DigitsSix,
 				Algorithm:   otp.AlgorithmSHA1,
