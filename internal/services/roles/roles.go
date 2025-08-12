@@ -59,7 +59,7 @@ func (s *RolesService) Create(auditId uuid.UUID, role models.CreateRolePayload) 
 func (s *RolesService) Update(auditId uuid.UUID, id uuid.UUID, role models.UpdateRolePayload) error {
 	var existingRole models.Role
 
-	if err := s.Storage.Postgres.Where("id = $1", id).Find(&existingRole).Error; err != nil {
+	if err := s.Storage.Postgres.Where("id = ?", id).Find(&existingRole).Error; err != nil {
 		return err
 	}
 
@@ -82,12 +82,13 @@ func (s *RolesService) Update(auditId uuid.UUID, id uuid.UUID, role models.Updat
 	existingRole.ModifiedByUserId = auditId
 
 	if err := s.Storage.Postgres.Set("one:audit_user_id", auditId).
-		Where("id = $1", id).
+		Model(&models.Role{}).
+		Where("id = ?", id).
 		Updates(&map[string]any{
 			"name":                existingRole.Name,
 			"description":         existingRole.Description,
 			"permissions":         existingRole.Permissions,
-			"modified_by_user_id": existingRole.ModifiedByUserId,
+			"modified_by_user_id": auditId,
 		}).Error; err != nil {
 		return err
 	}
@@ -109,7 +110,7 @@ func (s *RolesService) Delete(auditId uuid.UUID, id uuid.UUID) error {
 	var existingRole models.Role
 
 	if err := s.Storage.Postgres.
-		Where("id = $1", id).
+		Where("id = ?", id).
 		Find(&existingRole).Error; err != nil {
 		return err
 	}
@@ -140,7 +141,7 @@ func (s *RolesService) GetById(id uuid.UUID) (*models.Role, error) {
 	var role models.Role
 
 	if err := s.Storage.Postgres.
-		Where("id = $1", id).
+		Where("id = ?", id).
 		Preload("ModifiedByUser").
 		Find(&role).Error; err != nil {
 		return nil, err

@@ -76,7 +76,7 @@ func (s *TransactionsService) Create(auditId uuid.UUID, organizationId uuid.UUID
 func (s *TransactionsService) Update(auditId uuid.UUID, id uuid.UUID, transaction models.UpdateTransactionPayload) error {
 	var existingTransaction models.Transaction
 
-	if err := s.Storage.Postgres.Where("id = $1", id).Find(&existingTransaction).Error; err != nil {
+	if err := s.Storage.Postgres.Where("id = ?", id).Find(&existingTransaction).Error; err != nil {
 		return err
 	}
 
@@ -111,9 +111,8 @@ func (s *TransactionsService) Update(auditId uuid.UUID, id uuid.UUID, transactio
 	existingTransaction.ModifiedByUserId = auditId
 
 	if err := s.Storage.Postgres.Set("one:audit_user_id", auditId).
-		Where(&models.Transaction{
-			Id: id,
-		}).
+		Model(&models.Transaction{}).
+		Where("id = ?", id).
 		Updates(&map[string]any{
 			"type":                existingTransaction.Type,
 			"weight":              existingTransaction.Weight,
@@ -122,7 +121,7 @@ func (s *TransactionsService) Update(auditId uuid.UUID, id uuid.UUID, transactio
 			"buyer_id":            existingTransaction.BuyerID,
 			"seller_accepted":     existingTransaction.SellerAccepted,
 			"seller_declined":     existingTransaction.SellerDeclined,
-			"modified_by_user_id": existingTransaction.ModifiedByUserId,
+			"modified_by_user_id": auditId,
 		}).Error; err != nil {
 		return err
 	}
@@ -148,7 +147,7 @@ func (s *TransactionsService) Delete(auditId uuid.UUID, id uuid.UUID) error {
 	var existingTransaction models.Transaction
 
 	if err := s.Storage.Postgres.
-		Where("id = $1", id).
+		Where("id = ?", id).
 		Find(&existingTransaction).Error; err != nil {
 		return err
 	}

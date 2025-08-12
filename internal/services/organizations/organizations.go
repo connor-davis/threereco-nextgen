@@ -91,7 +91,7 @@ func (s *OrganizationsService) Create(auditId uuid.UUID, organization models.Cre
 func (s *OrganizationsService) Update(auditId uuid.UUID, id uuid.UUID, organization models.UpdateOrganizationPayload) error {
 	var existingOrganization models.Organization
 
-	if err := s.Storage.Postgres.Where("id = $1", id).
+	if err := s.Storage.Postgres.Where("id = ?", id).
 		Find(&existingOrganization).Error; err != nil {
 		return err
 	}
@@ -115,12 +115,13 @@ func (s *OrganizationsService) Update(auditId uuid.UUID, id uuid.UUID, organizat
 	existingOrganization.ModifiedByUserId = auditId
 
 	if err := s.Storage.Postgres.Set("one:audit_user_id", auditId).
-		Where("id = $1", id).
+		Model(&models.Organization{}).
+		Where("id = ?", id).
 		Updates(&map[string]any{
 			"name":                existingOrganization.Name,
 			"domain":              existingOrganization.Domain,
 			"owner_id":            existingOrganization.OwnerId,
-			"modified_by_user_id": existingOrganization.ModifiedByUserId,
+			"modified_by_user_id": auditId,
 		}).Error; err != nil {
 		return err
 	}
@@ -135,7 +136,7 @@ func (s *OrganizationsService) Delete(auditId uuid.UUID, id uuid.UUID) error {
 	var existingOrganization models.Organization
 
 	if err := s.Storage.Postgres.
-		Where("id = $1", id).
+		Where("id = ?", id).
 		Find(&existingOrganization).Error; err != nil {
 		return err
 	}
@@ -166,7 +167,7 @@ func (s *OrganizationsService) GetById(id uuid.UUID) (*models.Organization, erro
 	var organization models.Organization
 
 	if err := s.Storage.Postgres.
-		Where("id = $1", id).
+		Where("id = ?", id).
 		Preload("ModifiedByUser").
 		Find(&organization).Error; err != nil {
 		return nil, err

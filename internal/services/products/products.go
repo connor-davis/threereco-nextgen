@@ -59,7 +59,7 @@ func (s *ProductsService) Create(auditId uuid.UUID, organizationId uuid.UUID, pr
 func (s *ProductsService) Update(auditId uuid.UUID, id uuid.UUID, product models.UpdateProductPayload) error {
 	var existingProduct models.Product
 
-	if err := s.Storage.Postgres.Where("id = $1", id).Find(&existingProduct).Error; err != nil {
+	if err := s.Storage.Postgres.Where("id = ?", id).Find(&existingProduct).Error; err != nil {
 		return err
 	}
 
@@ -74,13 +74,12 @@ func (s *ProductsService) Update(auditId uuid.UUID, id uuid.UUID, product models
 	existingProduct.ModifiedByUserId = auditId
 
 	if err := s.Storage.Postgres.Set("one:audit_user_id", auditId).
-		Where(&models.Product{
-			Id: id,
-		}).
+		Model(&models.Product{}).
+		Where("id = ?", id).
 		Updates(&map[string]any{
 			"name":                existingProduct.Name,
 			"value":               existingProduct.Value,
-			"modified_by_user_id": existingProduct.ModifiedByUserId,
+			"modified_by_user_id": auditId,
 		}).Error; err != nil {
 		return err
 	}
@@ -106,7 +105,7 @@ func (s *ProductsService) Delete(auditId uuid.UUID, id uuid.UUID) error {
 	var existingProduct models.Product
 
 	if err := s.Storage.Postgres.
-		Where("id = $1", id).
+		Where("id = ?", id).
 		Find(&existingProduct).Error; err != nil {
 		return err
 	}

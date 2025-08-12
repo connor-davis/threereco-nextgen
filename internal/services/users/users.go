@@ -80,7 +80,7 @@ func (s *UsersService) Create(auditId uuid.UUID, user models.CreateUserPayload) 
 func (s *UsersService) Update(auditId uuid.UUID, id uuid.UUID, user models.UpdateUserPayload) error {
 	var existingUser models.User
 
-	if err := s.Storage.Postgres.Where("id = $1", id).Find(&existingUser).Error; err != nil {
+	if err := s.Storage.Postgres.Where("id = ?", id).Find(&existingUser).Error; err != nil {
 		return err
 	}
 
@@ -111,16 +111,15 @@ func (s *UsersService) Update(auditId uuid.UUID, id uuid.UUID, user models.Updat
 	existingUser.ModifiedByUserId = auditId
 
 	if err := s.Storage.Postgres.Set("one:audit_user_id", auditId).
-		Where(&models.User{
-			Id: id,
-		}).
+		Model(&models.User{}).
+		Where("id = ?", id).
 		Updates(&map[string]any{
 			"email":               existingUser.Email,
 			"name":                existingUser.Name,
 			"phone":               existingUser.Phone,
 			"job_title":           existingUser.JobTitle,
 			"tags":                existingUser.Tags,
-			"modified_by_user_id": existingUser.ModifiedByUserId,
+			"modified_by_user_id": auditId,
 		}).Error; err != nil {
 		return err
 	}
@@ -154,7 +153,7 @@ func (s *UsersService) Delete(auditId uuid.UUID, id uuid.UUID) error {
 	var existingUser models.User
 
 	if err := s.Storage.Postgres.
-		Where("id = $1", id).
+		Where("id = ?", id).
 		Find(&existingUser).Error; err != nil {
 		return err
 	}

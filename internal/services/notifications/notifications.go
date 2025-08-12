@@ -39,7 +39,7 @@ func (s *NotificationsService) Create(auditId uuid.UUID, notification models.Cre
 func (s *NotificationsService) Update(auditId uuid.UUID, id uuid.UUID, notification models.UpdateNotificationPayload) error {
 	var existingNotification models.Notification
 
-	if err := s.Storage.Postgres.Where("id = $1", id).Find(&existingNotification).Error; err != nil {
+	if err := s.Storage.Postgres.Where("id = ?", id).Find(&existingNotification).Error; err != nil {
 		return err
 	}
 
@@ -58,14 +58,13 @@ func (s *NotificationsService) Update(auditId uuid.UUID, id uuid.UUID, notificat
 	existingNotification.ModifiedByUserId = auditId
 
 	if err := s.Storage.Postgres.Set("one:audit_user_id", auditId).
-		Where(&models.Notification{
-			Id: id,
-		}).
+		Model(&models.Notification{}).
+		Where("id = ?", id).
 		Updates(&map[string]any{
 			"title":               existingNotification.Title,
 			"message":             existingNotification.Message,
 			"action":              existingNotification.Action,
-			"modified_by_user_id": existingNotification.ModifiedByUserId,
+			"modified_by_user_id": auditId,
 		}).Error; err != nil {
 		return err
 	}
@@ -77,7 +76,7 @@ func (s *NotificationsService) Delete(auditId uuid.UUID, id uuid.UUID) error {
 	var existingNotification models.Notification
 
 	if err := s.Storage.Postgres.
-		Where("id = $1", id).
+		Where("id = ?", id).
 		Find(&existingNotification).Error; err != nil {
 		return err
 	}

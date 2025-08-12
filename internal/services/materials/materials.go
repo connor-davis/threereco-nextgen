@@ -47,7 +47,7 @@ func (s *MaterialsService) Create(auditId uuid.UUID, organizationId uuid.UUID, m
 func (s *MaterialsService) Update(auditId uuid.UUID, id uuid.UUID, material models.UpdateMaterialPayload) error {
 	var existingMaterial models.Material
 
-	if err := s.Storage.Postgres.Where("id = $1", id).Find(&existingMaterial).Error; err != nil {
+	if err := s.Storage.Postgres.Where("id = ?", id).Find(&existingMaterial).Error; err != nil {
 		return err
 	}
 
@@ -66,14 +66,13 @@ func (s *MaterialsService) Update(auditId uuid.UUID, id uuid.UUID, material mode
 	existingMaterial.ModifiedByUserId = auditId
 
 	if err := s.Storage.Postgres.Set("one:audit_user_id", auditId).
-		Where(&models.Material{
-			Id: id,
-		}).
+		Model(&models.Material{}).
+		Where("id = ?", id).
 		Updates(&map[string]any{
 			"name":                existingMaterial.Name,
 			"gw_code":             existingMaterial.GwCode,
 			"carbon_factor":       existingMaterial.CarbonFactor,
-			"modified_by_user_id": existingMaterial.ModifiedByUserId,
+			"modified_by_user_id": auditId,
 		}).Error; err != nil {
 		return err
 	}
@@ -85,7 +84,7 @@ func (s *MaterialsService) Delete(auditId uuid.UUID, id uuid.UUID) error {
 	var existingMaterial models.Material
 
 	if err := s.Storage.Postgres.
-		Where("id = $1", id).
+		Where("id = ?", id).
 		Find(&existingMaterial).Error; err != nil {
 		return err
 	}
