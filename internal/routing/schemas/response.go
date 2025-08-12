@@ -18,6 +18,7 @@ var SuccessResponseSchema = openapi3.NewSchema().WithProperties(map[string]*open
 			ProductSchema.Value,
 			TransactionSchema.Value,
 			NotificationSchema.Value,
+			openapi3.NewStringSchema(),
 		),
 	),
 	"item": openapi3.NewAnyOfSchema(
