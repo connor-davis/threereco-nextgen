@@ -32,22 +32,22 @@ type User struct {
 	Id                    uuid.UUID      `json:"id" gorm:"type:uuid;default:gen_random_uuid();primaryKey;"`
 	Email                 string         `json:"email" gorm:"type:text;uniqueIndex;not null;"`
 	Password              []byte         `json:"-" gorm:"type:bytea;"`
-	Image                 *string        `json:"image" gorm:"type:text;"`
-	Name                  *string        `json:"name" gorm:"type:text;"`
-	Phone                 *string        `json:"phone" gorm:"type:text;"`
-	JobTitle              *string        `json:"jobTitle" gorm:"type:text;"`
+	Image                 *string        `json:"image,omitzero" gorm:"type:text;"`
+	Name                  *string        `json:"name,omitzero" gorm:"type:text;"`
+	Phone                 *string        `json:"phone,omitzero" gorm:"type:text;"`
+	JobTitle              *string        `json:"jobTitle,omitzero" gorm:"type:text;"`
 	MfaSecret             []byte         `json:"-" gorm:"type:bytea;"`
 	MfaEnabled            bool           `json:"mfaEnabled" gorm:"default:false;"`
 	MfaVerified           bool           `json:"mfaVerified" gorm:"default:false;"`
-	Roles                 []Role         `json:"roles" gorm:"many2many:users_roles;constraint:OnDelete:CASCADE;"`
-	Organizations         []Organization `json:"organizations" gorm:"many2many:organizations_users;constraint:OnDelete:CASCADE;"`
-	Sales                 []Transaction  `json:"sales" gorm:"polymorphic:Seller;constraint:OnDelete:CASCADE;"`
-	Purchases             []Transaction  `json:"purchases" gorm:"polymorphic:Buyer;constraint:OnDelete:CASCADE;"`
-	Notifications         []Notification `json:"notifications" gorm:"foreignKey:UserId;references:Id;constraint:OnDelete:CASCADE;"`
+	Roles                 []Role         `json:"-" gorm:"many2many:users_roles;constraint:OnDelete:CASCADE;"`
+	Organizations         []Organization `json:"-" gorm:"many2many:organizations_users;constraint:OnDelete:CASCADE;"`
+	Sales                 []Transaction  `json:"-" gorm:"polymorphic:Seller;constraint:OnDelete:CASCADE;"`
+	Purchases             []Transaction  `json:"-" gorm:"polymorphic:Buyer;constraint:OnDelete:CASCADE;"`
+	Notifications         []Notification `json:"-" gorm:"foreignKey:UserId;references:Id;constraint:OnDelete:CASCADE;"`
 	Tags                  pq.StringArray `json:"tags" gorm:"type:text[];default:'{}';"`
-	PrimaryOrganizationId *uuid.UUID     `json:"primaryOrganizationId" gorm:"type:uuid;"`
+	PrimaryOrganizationId *uuid.UUID     `json:"primaryOrganizationId,omitzero" gorm:"type:uuid;"`
 	ModifiedByUserId      uuid.UUID      `json:"modifiedById" gorm:"type:uuid;"`
-	ModifiedByUser        *User          `json:"modifiedBy"`
+	ModifiedByUser        *User          `json:"modifiedBy,omitzero"`
 	CreatedAt             time.Time      `json:"createdAt" gorm:"autoCreateTime;"`
 	UpdatedAt             time.Time      `json:"updatedAt" gorm:"autoUpdateTime;"`
 }

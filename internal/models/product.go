@@ -21,7 +21,7 @@ type Product struct {
 	Value            float64    `json:"value" gorm:"type:decimal(10,2);not null;default:0.0;"`
 	Materials        []Material `json:"materials" gorm:"many2many:products_materials;constraint:OnDelete:CASCADE;"`
 	ModifiedByUserId uuid.UUID  `json:"modifiedById" gorm:"type:uuid;"`
-	ModifiedByUser   *User      `json:"modifiedBy"`
+	ModifiedByUser   *User      `json:"modifiedBy,omitzero"`
 	CreatedAt        time.Time  `json:"createdAt" gorm:"autoCreateTime;"`
 	UpdatedAt        time.Time  `json:"updatedAt" gorm:"autoUpdateTime;"`
 }

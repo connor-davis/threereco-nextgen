@@ -45,11 +45,9 @@ export const AuditLogSchema = {
           type: 'string',
         },
         image: {
-          nullable: true,
           type: 'string',
         },
         jobTitle: {
-          nullable: true,
           type: 'string',
         },
         mfaEnabled: {
@@ -60,32 +58,135 @@ export const AuditLogSchema = {
           default: false,
           type: 'boolean',
         },
+        modifiedBy: {
+          properties: {
+            createdAt: {
+              format: 'date-time',
+              type: 'string',
+            },
+            email: {
+              format: 'email',
+              minLength: 1,
+              type: 'string',
+            },
+            id: {
+              format: 'uuid',
+              type: 'string',
+            },
+            image: {
+              type: 'string',
+            },
+            jobTitle: {
+              type: 'string',
+            },
+            mfaEnabled: {
+              default: false,
+              type: 'boolean',
+            },
+            mfaVerified: {
+              default: false,
+              type: 'boolean',
+            },
+            modifiedById: {
+              format: 'uuid',
+              type: 'string',
+            },
+            name: {
+              type: 'string',
+            },
+            phone: {
+              type: 'string',
+            },
+            primaryOrganizationId: {
+              format: 'uuid',
+              type: 'string',
+            },
+            tags: {
+              items: {
+                type: 'string',
+              },
+              type: 'array',
+            },
+            updatedAt: {
+              format: 'date-time',
+              type: 'string',
+            },
+          },
+          required: [
+            'id',
+            'email',
+            'mfaEnabled',
+            'mfaVerified',
+            'tags',
+            'modifiedById',
+            'createdAt',
+            'updatedAt',
+          ],
+          type: 'object',
+        },
         modifiedById: {
           format: 'uuid',
           type: 'string',
         },
         name: {
-          nullable: true,
           type: 'string',
         },
         phone: {
-          nullable: true,
           type: 'string',
         },
         primaryOrganizationId: {
           format: 'uuid',
-          nullable: true,
           type: 'string',
+        },
+        tags: {
+          items: {
+            type: 'string',
+          },
+          type: 'array',
         },
         updatedAt: {
           format: 'date-time',
           type: 'string',
         },
       },
-      type: 'object',
+      required: [
+        'id',
+        'email',
+        'mfaEnabled',
+        'mfaVerified',
+        'tags',
+        'modifiedById',
+        'createdAt',
+        'updatedAt',
+      ],
     },
     userId: {
       format: 'uuid',
+      type: 'string',
+    },
+  },
+  required: [
+    'id',
+    'tableName',
+    'objectId',
+    'operationType',
+    'data',
+    'organizationId',
+    'userId',
+    'createdAt',
+    'updatedAt',
+  ],
+} as const;
+
+export const CreateMaterialPayloadSchema = {
+  properties: {
+    carbonFactor: {
+      type: 'string',
+    },
+    gwCode: {
+      type: 'string',
+    },
+    name: {
       type: 'string',
     },
   },
@@ -108,6 +209,25 @@ export const CreateOrganizationPayloadSchema = {
   },
 } as const;
 
+export const CreateProductPayloadSchema = {
+  properties: {
+    materials: {
+      items: {
+        format: 'uuid',
+        type: 'string',
+      },
+      type: 'array',
+    },
+    name: {
+      type: 'string',
+    },
+    value: {
+      minimum: 0,
+      type: 'number',
+    },
+  },
+} as const;
+
 export const CreateRolePayloadSchema = {
   properties: {
     description: {
@@ -124,6 +244,37 @@ export const CreateRolePayloadSchema = {
         type: 'string',
       },
       type: 'array',
+    },
+  },
+} as const;
+
+export const CreateTransactionPayloadSchema = {
+  properties: {
+    amount: {
+      minimum: 0,
+      type: 'number',
+    },
+    buyerId: {
+      format: 'uuid',
+      type: 'string',
+    },
+    products: {
+      items: {
+        format: 'uuid',
+        type: 'string',
+      },
+      type: 'array',
+    },
+    sellerId: {
+      format: 'uuid',
+      type: 'string',
+    },
+    type: {
+      type: 'string',
+    },
+    weight: {
+      minimum: 0,
+      type: 'number',
     },
   },
 } as const;
@@ -159,6 +310,13 @@ export const CreateUserPayloadSchema = {
       nullable: true,
       type: 'array',
     },
+    tags: {
+      items: {
+        type: 'string',
+      },
+      nullable: true,
+      type: 'array',
+    },
   },
 } as const;
 
@@ -188,6 +346,113 @@ export const LoginPayloadSchema = {
       type: 'string',
     },
   },
+  required: ['email', 'password'],
+} as const;
+
+export const MaterialSchema = {
+  properties: {
+    carbonFactor: {
+      type: 'string',
+    },
+    createdAt: {
+      format: 'date-time',
+      type: 'string',
+    },
+    gwCode: {
+      type: 'string',
+    },
+    id: {
+      format: 'uuid',
+      type: 'string',
+    },
+    modifiedBy: {
+      properties: {
+        createdAt: {
+          format: 'date-time',
+          type: 'string',
+        },
+        email: {
+          format: 'email',
+          minLength: 1,
+          type: 'string',
+        },
+        id: {
+          format: 'uuid',
+          type: 'string',
+        },
+        image: {
+          type: 'string',
+        },
+        jobTitle: {
+          type: 'string',
+        },
+        mfaEnabled: {
+          default: false,
+          type: 'boolean',
+        },
+        mfaVerified: {
+          default: false,
+          type: 'boolean',
+        },
+        modifiedById: {
+          format: 'uuid',
+          type: 'string',
+        },
+        name: {
+          type: 'string',
+        },
+        phone: {
+          type: 'string',
+        },
+        primaryOrganizationId: {
+          format: 'uuid',
+          type: 'string',
+        },
+        tags: {
+          items: {
+            type: 'string',
+          },
+          type: 'array',
+        },
+        updatedAt: {
+          format: 'date-time',
+          type: 'string',
+        },
+      },
+      required: [
+        'id',
+        'email',
+        'mfaEnabled',
+        'mfaVerified',
+        'tags',
+        'modifiedById',
+        'createdAt',
+        'updatedAt',
+      ],
+      type: 'object',
+    },
+    modifiedById: {
+      format: 'uuid',
+      type: 'string',
+    },
+    name: {
+      type: 'string',
+    },
+    updatedAt: {
+      format: 'date-time',
+      type: 'string',
+    },
+  },
+  required: [
+    'id',
+    'name',
+    'gwCode',
+    'carbonFactor',
+    'products',
+    'modifiedById',
+    'createdAt',
+    'updatedAt',
+  ],
 } as const;
 
 export const MfaVerifyPayloadSchema = {
@@ -230,11 +495,9 @@ export const OrganizationSchema = {
           type: 'string',
         },
         image: {
-          nullable: true,
           type: 'string',
         },
         jobTitle: {
-          nullable: true,
           type: 'string',
         },
         mfaEnabled: {
@@ -250,23 +513,36 @@ export const OrganizationSchema = {
           type: 'string',
         },
         name: {
-          nullable: true,
           type: 'string',
         },
         phone: {
-          nullable: true,
           type: 'string',
         },
         primaryOrganizationId: {
           format: 'uuid',
-          nullable: true,
           type: 'string',
+        },
+        tags: {
+          items: {
+            type: 'string',
+          },
+          type: 'array',
         },
         updatedAt: {
           format: 'date-time',
           type: 'string',
         },
       },
+      required: [
+        'id',
+        'email',
+        'mfaEnabled',
+        'mfaVerified',
+        'tags',
+        'modifiedById',
+        'createdAt',
+        'updatedAt',
+      ],
       type: 'object',
     },
     modifiedById: {
@@ -293,11 +569,279 @@ export const OrganizationSchema = {
           type: 'string',
         },
         image: {
-          nullable: true,
           type: 'string',
         },
         jobTitle: {
-          nullable: true,
+          type: 'string',
+        },
+        mfaEnabled: {
+          default: false,
+          type: 'boolean',
+        },
+        mfaVerified: {
+          default: false,
+          type: 'boolean',
+        },
+        modifiedBy: {
+          properties: {
+            createdAt: {
+              format: 'date-time',
+              type: 'string',
+            },
+            email: {
+              format: 'email',
+              minLength: 1,
+              type: 'string',
+            },
+            id: {
+              format: 'uuid',
+              type: 'string',
+            },
+            image: {
+              type: 'string',
+            },
+            jobTitle: {
+              type: 'string',
+            },
+            mfaEnabled: {
+              default: false,
+              type: 'boolean',
+            },
+            mfaVerified: {
+              default: false,
+              type: 'boolean',
+            },
+            modifiedById: {
+              format: 'uuid',
+              type: 'string',
+            },
+            name: {
+              type: 'string',
+            },
+            phone: {
+              type: 'string',
+            },
+            primaryOrganizationId: {
+              format: 'uuid',
+              type: 'string',
+            },
+            tags: {
+              items: {
+                type: 'string',
+              },
+              type: 'array',
+            },
+            updatedAt: {
+              format: 'date-time',
+              type: 'string',
+            },
+          },
+          required: [
+            'id',
+            'email',
+            'mfaEnabled',
+            'mfaVerified',
+            'tags',
+            'modifiedById',
+            'createdAt',
+            'updatedAt',
+          ],
+          type: 'object',
+        },
+        modifiedById: {
+          format: 'uuid',
+          type: 'string',
+        },
+        name: {
+          type: 'string',
+        },
+        phone: {
+          type: 'string',
+        },
+        primaryOrganizationId: {
+          format: 'uuid',
+          type: 'string',
+        },
+        tags: {
+          items: {
+            type: 'string',
+          },
+          type: 'array',
+        },
+        updatedAt: {
+          format: 'date-time',
+          type: 'string',
+        },
+      },
+      required: [
+        'id',
+        'email',
+        'mfaEnabled',
+        'mfaVerified',
+        'tags',
+        'modifiedById',
+        'createdAt',
+        'updatedAt',
+      ],
+    },
+    ownerId: {
+      format: 'uuid',
+      type: 'string',
+    },
+    updatedAt: {
+      format: 'date-time',
+      type: 'string',
+    },
+  },
+  required: [
+    'id',
+    'name',
+    'domain',
+    'ownerId',
+    'owner',
+    'modifiedById',
+    'createdAt',
+    'updatedAt',
+  ],
+} as const;
+
+export const ProductSchema = {
+  properties: {
+    createdAt: {
+      format: 'date-time',
+      type: 'string',
+    },
+    id: {
+      format: 'uuid',
+      type: 'string',
+    },
+    materials: {
+      items: {
+        properties: {
+          carbonFactor: {
+            type: 'string',
+          },
+          createdAt: {
+            format: 'date-time',
+            type: 'string',
+          },
+          gwCode: {
+            type: 'string',
+          },
+          id: {
+            format: 'uuid',
+            type: 'string',
+          },
+          modifiedBy: {
+            properties: {
+              createdAt: {
+                format: 'date-time',
+                type: 'string',
+              },
+              email: {
+                format: 'email',
+                minLength: 1,
+                type: 'string',
+              },
+              id: {
+                format: 'uuid',
+                type: 'string',
+              },
+              image: {
+                type: 'string',
+              },
+              jobTitle: {
+                type: 'string',
+              },
+              mfaEnabled: {
+                default: false,
+                type: 'boolean',
+              },
+              mfaVerified: {
+                default: false,
+                type: 'boolean',
+              },
+              modifiedById: {
+                format: 'uuid',
+                type: 'string',
+              },
+              name: {
+                type: 'string',
+              },
+              phone: {
+                type: 'string',
+              },
+              primaryOrganizationId: {
+                format: 'uuid',
+                type: 'string',
+              },
+              tags: {
+                items: {
+                  type: 'string',
+                },
+                type: 'array',
+              },
+              updatedAt: {
+                format: 'date-time',
+                type: 'string',
+              },
+            },
+            required: [
+              'id',
+              'email',
+              'mfaEnabled',
+              'mfaVerified',
+              'tags',
+              'modifiedById',
+              'createdAt',
+              'updatedAt',
+            ],
+            type: 'object',
+          },
+          modifiedById: {
+            format: 'uuid',
+            type: 'string',
+          },
+          name: {
+            type: 'string',
+          },
+          updatedAt: {
+            format: 'date-time',
+            type: 'string',
+          },
+        },
+        required: [
+          'id',
+          'name',
+          'gwCode',
+          'carbonFactor',
+          'products',
+          'modifiedById',
+          'createdAt',
+          'updatedAt',
+        ],
+      },
+      type: 'array',
+    },
+    modifiedBy: {
+      properties: {
+        createdAt: {
+          format: 'date-time',
+          type: 'string',
+        },
+        email: {
+          format: 'email',
+          minLength: 1,
+          type: 'string',
+        },
+        id: {
+          format: 'uuid',
+          type: 'string',
+        },
+        image: {
+          type: 'string',
+        },
+        jobTitle: {
           type: 'string',
         },
         mfaEnabled: {
@@ -313,131 +857,63 @@ export const OrganizationSchema = {
           type: 'string',
         },
         name: {
-          nullable: true,
           type: 'string',
         },
         phone: {
-          nullable: true,
           type: 'string',
         },
         primaryOrganizationId: {
           format: 'uuid',
-          nullable: true,
           type: 'string',
+        },
+        tags: {
+          items: {
+            type: 'string',
+          },
+          type: 'array',
         },
         updatedAt: {
           format: 'date-time',
           type: 'string',
         },
       },
+      required: [
+        'id',
+        'email',
+        'mfaEnabled',
+        'mfaVerified',
+        'tags',
+        'modifiedById',
+        'createdAt',
+        'updatedAt',
+      ],
       type: 'object',
     },
-    ownerId: {
+    modifiedById: {
       format: 'uuid',
       type: 'string',
     },
-    roles: {
-      items: {
-        properties: {
-          createdAt: {
-            format: 'date-time',
-            type: 'string',
-          },
-          description: {
-            nullable: true,
-            type: 'string',
-          },
-          id: {
-            format: 'uuid',
-            type: 'string',
-          },
-          modifiedById: {
-            format: 'uuid',
-            type: 'string',
-          },
-          name: {
-            minLength: 1,
-            type: 'string',
-          },
-          permissions: {
-            default: [],
-            items: {
-              type: 'string',
-            },
-            type: 'array',
-          },
-          updatedAt: {
-            format: 'date-time',
-            type: 'string',
-          },
-        },
-        type: 'object',
-      },
-      type: 'array',
+    name: {
+      type: 'string',
     },
     updatedAt: {
       format: 'date-time',
       type: 'string',
     },
-    users: {
-      items: {
-        properties: {
-          createdAt: {
-            format: 'date-time',
-            type: 'string',
-          },
-          email: {
-            format: 'email',
-            minLength: 1,
-            type: 'string',
-          },
-          id: {
-            format: 'uuid',
-            type: 'string',
-          },
-          image: {
-            nullable: true,
-            type: 'string',
-          },
-          jobTitle: {
-            nullable: true,
-            type: 'string',
-          },
-          mfaEnabled: {
-            default: false,
-            type: 'boolean',
-          },
-          mfaVerified: {
-            default: false,
-            type: 'boolean',
-          },
-          modifiedById: {
-            format: 'uuid',
-            type: 'string',
-          },
-          name: {
-            nullable: true,
-            type: 'string',
-          },
-          phone: {
-            nullable: true,
-            type: 'string',
-          },
-          primaryOrganizationId: {
-            format: 'uuid',
-            nullable: true,
-            type: 'string',
-          },
-          updatedAt: {
-            format: 'date-time',
-            type: 'string',
-          },
-        },
-        type: 'object',
-      },
-      type: 'array',
+    value: {
+      minimum: 0,
+      type: 'number',
     },
   },
+  required: [
+    'id',
+    'name',
+    'value',
+    'materials',
+    'modifiedById',
+    'createdAt',
+    'updatedAt',
+  ],
 } as const;
 
 export const RoleSchema = {
@@ -447,7 +923,6 @@ export const RoleSchema = {
       type: 'string',
     },
     description: {
-      nullable: true,
       type: 'string',
     },
     id: {
@@ -470,11 +945,9 @@ export const RoleSchema = {
           type: 'string',
         },
         image: {
-          nullable: true,
           type: 'string',
         },
         jobTitle: {
-          nullable: true,
           type: 'string',
         },
         mfaEnabled: {
@@ -490,23 +963,36 @@ export const RoleSchema = {
           type: 'string',
         },
         name: {
-          nullable: true,
           type: 'string',
         },
         phone: {
-          nullable: true,
           type: 'string',
         },
         primaryOrganizationId: {
           format: 'uuid',
-          nullable: true,
           type: 'string',
+        },
+        tags: {
+          items: {
+            type: 'string',
+          },
+          type: 'array',
         },
         updatedAt: {
           format: 'date-time',
           type: 'string',
         },
       },
+      required: [
+        'id',
+        'email',
+        'mfaEnabled',
+        'mfaVerified',
+        'tags',
+        'modifiedById',
+        'createdAt',
+        'updatedAt',
+      ],
       type: 'object',
     },
     modifiedById: {
@@ -516,42 +1002,6 @@ export const RoleSchema = {
     name: {
       minLength: 1,
       type: 'string',
-    },
-    organizations: {
-      items: {
-        properties: {
-          createdAt: {
-            format: 'date-time',
-            type: 'string',
-          },
-          domain: {
-            minLength: 1,
-            type: 'string',
-          },
-          id: {
-            format: 'uuid',
-            type: 'string',
-          },
-          modifiedById: {
-            format: 'uuid',
-            type: 'string',
-          },
-          name: {
-            minLength: 1,
-            type: 'string',
-          },
-          ownerId: {
-            format: 'uuid',
-            type: 'string',
-          },
-          updatedAt: {
-            format: 'date-time',
-            type: 'string',
-          },
-        },
-        type: 'object',
-      },
-      type: 'array',
     },
     permissions: {
       default: [],
@@ -564,65 +1014,16 @@ export const RoleSchema = {
       format: 'date-time',
       type: 'string',
     },
-    users: {
-      items: {
-        properties: {
-          createdAt: {
-            format: 'date-time',
-            type: 'string',
-          },
-          email: {
-            format: 'email',
-            minLength: 1,
-            type: 'string',
-          },
-          id: {
-            format: 'uuid',
-            type: 'string',
-          },
-          image: {
-            nullable: true,
-            type: 'string',
-          },
-          jobTitle: {
-            nullable: true,
-            type: 'string',
-          },
-          mfaEnabled: {
-            default: false,
-            type: 'boolean',
-          },
-          mfaVerified: {
-            default: false,
-            type: 'boolean',
-          },
-          modifiedById: {
-            format: 'uuid',
-            type: 'string',
-          },
-          name: {
-            nullable: true,
-            type: 'string',
-          },
-          phone: {
-            nullable: true,
-            type: 'string',
-          },
-          primaryOrganizationId: {
-            format: 'uuid',
-            nullable: true,
-            type: 'string',
-          },
-          updatedAt: {
-            format: 'date-time',
-            type: 'string',
-          },
-        },
-        type: 'object',
-      },
-      type: 'array',
-    },
   },
+  required: [
+    'id',
+    'name',
+    'description',
+    'permissions',
+    'modifiedById',
+    'createdAt',
+    'updatedAt',
+  ],
 } as const;
 
 export const SuccessResponseSchema = {
@@ -645,11 +1046,9 @@ export const SuccessResponseSchema = {
               type: 'string',
             },
             image: {
-              nullable: true,
               type: 'string',
             },
             jobTitle: {
-              nullable: true,
               type: 'string',
             },
             mfaEnabled: {
@@ -676,11 +1075,9 @@ export const SuccessResponseSchema = {
                   type: 'string',
                 },
                 image: {
-                  nullable: true,
                   type: 'string',
                 },
                 jobTitle: {
-                  nullable: true,
                   type: 'string',
                 },
                 mfaEnabled: {
@@ -696,23 +1093,36 @@ export const SuccessResponseSchema = {
                   type: 'string',
                 },
                 name: {
-                  nullable: true,
                   type: 'string',
                 },
                 phone: {
-                  nullable: true,
                   type: 'string',
                 },
                 primaryOrganizationId: {
                   format: 'uuid',
-                  nullable: true,
                   type: 'string',
+                },
+                tags: {
+                  items: {
+                    type: 'string',
+                  },
+                  type: 'array',
                 },
                 updatedAt: {
                   format: 'date-time',
                   type: 'string',
                 },
               },
+              required: [
+                'id',
+                'email',
+                'mfaEnabled',
+                'mfaVerified',
+                'tags',
+                'modifiedById',
+                'createdAt',
+                'updatedAt',
+              ],
               type: 'object',
             },
             modifiedById: {
@@ -720,90 +1130,18 @@ export const SuccessResponseSchema = {
               type: 'string',
             },
             name: {
-              nullable: true,
               type: 'string',
             },
-            organizations: {
-              items: {
-                properties: {
-                  createdAt: {
-                    format: 'date-time',
-                    type: 'string',
-                  },
-                  domain: {
-                    minLength: 1,
-                    type: 'string',
-                  },
-                  id: {
-                    format: 'uuid',
-                    type: 'string',
-                  },
-                  modifiedById: {
-                    format: 'uuid',
-                    type: 'string',
-                  },
-                  name: {
-                    minLength: 1,
-                    type: 'string',
-                  },
-                  ownerId: {
-                    format: 'uuid',
-                    type: 'string',
-                  },
-                  updatedAt: {
-                    format: 'date-time',
-                    type: 'string',
-                  },
-                },
-                type: 'object',
-              },
-              type: 'array',
-            },
             phone: {
-              nullable: true,
               type: 'string',
             },
             primaryOrganizationId: {
               format: 'uuid',
-              nullable: true,
               type: 'string',
             },
-            roles: {
+            tags: {
               items: {
-                properties: {
-                  createdAt: {
-                    format: 'date-time',
-                    type: 'string',
-                  },
-                  description: {
-                    nullable: true,
-                    type: 'string',
-                  },
-                  id: {
-                    format: 'uuid',
-                    type: 'string',
-                  },
-                  modifiedById: {
-                    format: 'uuid',
-                    type: 'string',
-                  },
-                  name: {
-                    minLength: 1,
-                    type: 'string',
-                  },
-                  permissions: {
-                    default: [],
-                    items: {
-                      type: 'string',
-                    },
-                    type: 'array',
-                  },
-                  updatedAt: {
-                    format: 'date-time',
-                    type: 'string',
-                  },
-                },
-                type: 'object',
+                type: 'string',
               },
               type: 'array',
             },
@@ -812,6 +1150,16 @@ export const SuccessResponseSchema = {
               type: 'string',
             },
           },
+          required: [
+            'id',
+            'email',
+            'mfaEnabled',
+            'mfaVerified',
+            'tags',
+            'modifiedById',
+            'createdAt',
+            'updatedAt',
+          ],
         },
         {
           properties: {
@@ -843,11 +1191,9 @@ export const SuccessResponseSchema = {
                   type: 'string',
                 },
                 image: {
-                  nullable: true,
                   type: 'string',
                 },
                 jobTitle: {
-                  nullable: true,
                   type: 'string',
                 },
                 mfaEnabled: {
@@ -863,23 +1209,36 @@ export const SuccessResponseSchema = {
                   type: 'string',
                 },
                 name: {
-                  nullable: true,
                   type: 'string',
                 },
                 phone: {
-                  nullable: true,
                   type: 'string',
                 },
                 primaryOrganizationId: {
                   format: 'uuid',
-                  nullable: true,
                   type: 'string',
+                },
+                tags: {
+                  items: {
+                    type: 'string',
+                  },
+                  type: 'array',
                 },
                 updatedAt: {
                   format: 'date-time',
                   type: 'string',
                 },
               },
+              required: [
+                'id',
+                'email',
+                'mfaEnabled',
+                'mfaVerified',
+                'tags',
+                'modifiedById',
+                'createdAt',
+                'updatedAt',
+              ],
               type: 'object',
             },
             modifiedById: {
@@ -906,11 +1265,9 @@ export const SuccessResponseSchema = {
                   type: 'string',
                 },
                 image: {
-                  nullable: true,
                   type: 'string',
                 },
                 jobTitle: {
-                  nullable: true,
                   type: 'string',
                 },
                 mfaEnabled: {
@@ -921,136 +1278,127 @@ export const SuccessResponseSchema = {
                   default: false,
                   type: 'boolean',
                 },
+                modifiedBy: {
+                  properties: {
+                    createdAt: {
+                      format: 'date-time',
+                      type: 'string',
+                    },
+                    email: {
+                      format: 'email',
+                      minLength: 1,
+                      type: 'string',
+                    },
+                    id: {
+                      format: 'uuid',
+                      type: 'string',
+                    },
+                    image: {
+                      type: 'string',
+                    },
+                    jobTitle: {
+                      type: 'string',
+                    },
+                    mfaEnabled: {
+                      default: false,
+                      type: 'boolean',
+                    },
+                    mfaVerified: {
+                      default: false,
+                      type: 'boolean',
+                    },
+                    modifiedById: {
+                      format: 'uuid',
+                      type: 'string',
+                    },
+                    name: {
+                      type: 'string',
+                    },
+                    phone: {
+                      type: 'string',
+                    },
+                    primaryOrganizationId: {
+                      format: 'uuid',
+                      type: 'string',
+                    },
+                    tags: {
+                      items: {
+                        type: 'string',
+                      },
+                      type: 'array',
+                    },
+                    updatedAt: {
+                      format: 'date-time',
+                      type: 'string',
+                    },
+                  },
+                  required: [
+                    'id',
+                    'email',
+                    'mfaEnabled',
+                    'mfaVerified',
+                    'tags',
+                    'modifiedById',
+                    'createdAt',
+                    'updatedAt',
+                  ],
+                  type: 'object',
+                },
                 modifiedById: {
                   format: 'uuid',
                   type: 'string',
                 },
                 name: {
-                  nullable: true,
                   type: 'string',
                 },
                 phone: {
-                  nullable: true,
                   type: 'string',
                 },
                 primaryOrganizationId: {
                   format: 'uuid',
-                  nullable: true,
                   type: 'string',
+                },
+                tags: {
+                  items: {
+                    type: 'string',
+                  },
+                  type: 'array',
                 },
                 updatedAt: {
                   format: 'date-time',
                   type: 'string',
                 },
               },
-              type: 'object',
+              required: [
+                'id',
+                'email',
+                'mfaEnabled',
+                'mfaVerified',
+                'tags',
+                'modifiedById',
+                'createdAt',
+                'updatedAt',
+              ],
             },
             ownerId: {
               format: 'uuid',
               type: 'string',
             },
-            roles: {
-              items: {
-                properties: {
-                  createdAt: {
-                    format: 'date-time',
-                    type: 'string',
-                  },
-                  description: {
-                    nullable: true,
-                    type: 'string',
-                  },
-                  id: {
-                    format: 'uuid',
-                    type: 'string',
-                  },
-                  modifiedById: {
-                    format: 'uuid',
-                    type: 'string',
-                  },
-                  name: {
-                    minLength: 1,
-                    type: 'string',
-                  },
-                  permissions: {
-                    default: [],
-                    items: {
-                      type: 'string',
-                    },
-                    type: 'array',
-                  },
-                  updatedAt: {
-                    format: 'date-time',
-                    type: 'string',
-                  },
-                },
-                type: 'object',
-              },
-              type: 'array',
-            },
             updatedAt: {
               format: 'date-time',
               type: 'string',
             },
-            users: {
-              items: {
-                properties: {
-                  createdAt: {
-                    format: 'date-time',
-                    type: 'string',
-                  },
-                  email: {
-                    format: 'email',
-                    minLength: 1,
-                    type: 'string',
-                  },
-                  id: {
-                    format: 'uuid',
-                    type: 'string',
-                  },
-                  image: {
-                    nullable: true,
-                    type: 'string',
-                  },
-                  jobTitle: {
-                    nullable: true,
-                    type: 'string',
-                  },
-                  mfaEnabled: {
-                    default: false,
-                    type: 'boolean',
-                  },
-                  mfaVerified: {
-                    default: false,
-                    type: 'boolean',
-                  },
-                  modifiedById: {
-                    format: 'uuid',
-                    type: 'string',
-                  },
-                  name: {
-                    nullable: true,
-                    type: 'string',
-                  },
-                  phone: {
-                    nullable: true,
-                    type: 'string',
-                  },
-                  primaryOrganizationId: {
-                    format: 'uuid',
-                    nullable: true,
-                    type: 'string',
-                  },
-                  updatedAt: {
-                    format: 'date-time',
-                    type: 'string',
-                  },
-                },
-                type: 'object',
-              },
-              type: 'array',
-            },
           },
+          required: [
+            'id',
+            'name',
+            'domain',
+            'ownerId',
+            'owner',
+            'modifiedById',
+            'createdAt',
+            'updatedAt',
+          ],
         },
         {
           properties: {
@@ -1059,7 +1407,6 @@ export const SuccessResponseSchema = {
               type: 'string',
             },
             description: {
-              nullable: true,
               type: 'string',
             },
             id: {
@@ -1082,11 +1429,9 @@ export const SuccessResponseSchema = {
                   type: 'string',
                 },
                 image: {
-                  nullable: true,
                   type: 'string',
                 },
                 jobTitle: {
-                  nullable: true,
                   type: 'string',
                 },
                 mfaEnabled: {
@@ -1102,23 +1447,36 @@ export const SuccessResponseSchema = {
                   type: 'string',
                 },
                 name: {
-                  nullable: true,
                   type: 'string',
                 },
                 phone: {
-                  nullable: true,
                   type: 'string',
                 },
                 primaryOrganizationId: {
                   format: 'uuid',
-                  nullable: true,
                   type: 'string',
+                },
+                tags: {
+                  items: {
+                    type: 'string',
+                  },
+                  type: 'array',
                 },
                 updatedAt: {
                   format: 'date-time',
                   type: 'string',
                 },
               },
+              required: [
+                'id',
+                'email',
+                'mfaEnabled',
+                'mfaVerified',
+                'tags',
+                'modifiedById',
+                'createdAt',
+                'updatedAt',
+              ],
               type: 'object',
             },
             modifiedById: {
@@ -1128,42 +1486,6 @@ export const SuccessResponseSchema = {
             name: {
               minLength: 1,
               type: 'string',
-            },
-            organizations: {
-              items: {
-                properties: {
-                  createdAt: {
-                    format: 'date-time',
-                    type: 'string',
-                  },
-                  domain: {
-                    minLength: 1,
-                    type: 'string',
-                  },
-                  id: {
-                    format: 'uuid',
-                    type: 'string',
-                  },
-                  modifiedById: {
-                    format: 'uuid',
-                    type: 'string',
-                  },
-                  name: {
-                    minLength: 1,
-                    type: 'string',
-                  },
-                  ownerId: {
-                    format: 'uuid',
-                    type: 'string',
-                  },
-                  updatedAt: {
-                    format: 'date-time',
-                    type: 'string',
-                  },
-                },
-                type: 'object',
-              },
-              type: 'array',
             },
             permissions: {
               default: [],
@@ -1176,65 +1498,16 @@ export const SuccessResponseSchema = {
               format: 'date-time',
               type: 'string',
             },
-            users: {
-              items: {
-                properties: {
-                  createdAt: {
-                    format: 'date-time',
-                    type: 'string',
-                  },
-                  email: {
-                    format: 'email',
-                    minLength: 1,
-                    type: 'string',
-                  },
-                  id: {
-                    format: 'uuid',
-                    type: 'string',
-                  },
-                  image: {
-                    nullable: true,
-                    type: 'string',
-                  },
-                  jobTitle: {
-                    nullable: true,
-                    type: 'string',
-                  },
-                  mfaEnabled: {
-                    default: false,
-                    type: 'boolean',
-                  },
-                  mfaVerified: {
-                    default: false,
-                    type: 'boolean',
-                  },
-                  modifiedById: {
-                    format: 'uuid',
-                    type: 'string',
-                  },
-                  name: {
-                    nullable: true,
-                    type: 'string',
-                  },
-                  phone: {
-                    nullable: true,
-                    type: 'string',
-                  },
-                  primaryOrganizationId: {
-                    format: 'uuid',
-                    nullable: true,
-                    type: 'string',
-                  },
-                  updatedAt: {
-                    format: 'date-time',
-                    type: 'string',
-                  },
-                },
-                type: 'object',
-              },
-              type: 'array',
-            },
           },
+          required: [
+            'id',
+            'name',
+            'description',
+            'permissions',
+            'modifiedById',
+            'createdAt',
+            'updatedAt',
+          ],
         },
         {
           properties: {
@@ -1281,11 +1554,173 @@ export const SuccessResponseSchema = {
                   type: 'string',
                 },
                 image: {
-                  nullable: true,
                   type: 'string',
                 },
                 jobTitle: {
-                  nullable: true,
+                  type: 'string',
+                },
+                mfaEnabled: {
+                  default: false,
+                  type: 'boolean',
+                },
+                mfaVerified: {
+                  default: false,
+                  type: 'boolean',
+                },
+                modifiedBy: {
+                  properties: {
+                    createdAt: {
+                      format: 'date-time',
+                      type: 'string',
+                    },
+                    email: {
+                      format: 'email',
+                      minLength: 1,
+                      type: 'string',
+                    },
+                    id: {
+                      format: 'uuid',
+                      type: 'string',
+                    },
+                    image: {
+                      type: 'string',
+                    },
+                    jobTitle: {
+                      type: 'string',
+                    },
+                    mfaEnabled: {
+                      default: false,
+                      type: 'boolean',
+                    },
+                    mfaVerified: {
+                      default: false,
+                      type: 'boolean',
+                    },
+                    modifiedById: {
+                      format: 'uuid',
+                      type: 'string',
+                    },
+                    name: {
+                      type: 'string',
+                    },
+                    phone: {
+                      type: 'string',
+                    },
+                    primaryOrganizationId: {
+                      format: 'uuid',
+                      type: 'string',
+                    },
+                    tags: {
+                      items: {
+                        type: 'string',
+                      },
+                      type: 'array',
+                    },
+                    updatedAt: {
+                      format: 'date-time',
+                      type: 'string',
+                    },
+                  },
+                  required: [
+                    'id',
+                    'email',
+                    'mfaEnabled',
+                    'mfaVerified',
+                    'tags',
+                    'modifiedById',
+                    'createdAt',
+                    'updatedAt',
+                  ],
+                  type: 'object',
+                },
+                modifiedById: {
+                  format: 'uuid',
+                  type: 'string',
+                },
+                name: {
+                  type: 'string',
+                },
+                phone: {
+                  type: 'string',
+                },
+                primaryOrganizationId: {
+                  format: 'uuid',
+                  type: 'string',
+                },
+                tags: {
+                  items: {
+                    type: 'string',
+                  },
+                  type: 'array',
+                },
+                updatedAt: {
+                  format: 'date-time',
+                  type: 'string',
+                },
+              },
+              required: [
+                'id',
+                'email',
+                'mfaEnabled',
+                'mfaVerified',
+                'tags',
+                'modifiedById',
+                'createdAt',
+                'updatedAt',
+              ],
+            },
+            userId: {
+              format: 'uuid',
+              type: 'string',
+            },
+          },
+          required: [
+            'id',
+            'tableName',
+            'objectId',
+            'operationType',
+            'data',
+            'organizationId',
+            'userId',
+            'createdAt',
+            'updatedAt',
+          ],
+        },
+        {
+          properties: {
+            carbonFactor: {
+              type: 'string',
+            },
+            createdAt: {
+              format: 'date-time',
+              type: 'string',
+            },
+            gwCode: {
+              type: 'string',
+            },
+            id: {
+              format: 'uuid',
+              type: 'string',
+            },
+            modifiedBy: {
+              properties: {
+                createdAt: {
+                  format: 'date-time',
+                  type: 'string',
+                },
+                email: {
+                  format: 'email',
+                  minLength: 1,
+                  type: 'string',
+                },
+                id: {
+                  format: 'uuid',
+                  type: 'string',
+                },
+                image: {
+                  type: 'string',
+                },
+                jobTitle: {
                   type: 'string',
                 },
                 mfaEnabled: {
@@ -1301,30 +1736,733 @@ export const SuccessResponseSchema = {
                   type: 'string',
                 },
                 name: {
-                  nullable: true,
                   type: 'string',
                 },
                 phone: {
-                  nullable: true,
                   type: 'string',
                 },
                 primaryOrganizationId: {
                   format: 'uuid',
-                  nullable: true,
                   type: 'string',
+                },
+                tags: {
+                  items: {
+                    type: 'string',
+                  },
+                  type: 'array',
                 },
                 updatedAt: {
                   format: 'date-time',
                   type: 'string',
                 },
               },
+              required: [
+                'id',
+                'email',
+                'mfaEnabled',
+                'mfaVerified',
+                'tags',
+                'modifiedById',
+                'createdAt',
+                'updatedAt',
+              ],
               type: 'object',
+            },
+            modifiedById: {
+              format: 'uuid',
+              type: 'string',
+            },
+            name: {
+              type: 'string',
+            },
+            updatedAt: {
+              format: 'date-time',
+              type: 'string',
+            },
+          },
+          required: [
+            'id',
+            'name',
+            'gwCode',
+            'carbonFactor',
+            'products',
+            'modifiedById',
+            'createdAt',
+            'updatedAt',
+          ],
+        },
+        {
+          properties: {
+            createdAt: {
+              format: 'date-time',
+              type: 'string',
+            },
+            id: {
+              format: 'uuid',
+              type: 'string',
+            },
+            materials: {
+              items: {
+                properties: {
+                  carbonFactor: {
+                    type: 'string',
+                  },
+                  createdAt: {
+                    format: 'date-time',
+                    type: 'string',
+                  },
+                  gwCode: {
+                    type: 'string',
+                  },
+                  id: {
+                    format: 'uuid',
+                    type: 'string',
+                  },
+                  modifiedBy: {
+                    properties: {
+                      createdAt: {
+                        format: 'date-time',
+                        type: 'string',
+                      },
+                      email: {
+                        format: 'email',
+                        minLength: 1,
+                        type: 'string',
+                      },
+                      id: {
+                        format: 'uuid',
+                        type: 'string',
+                      },
+                      image: {
+                        type: 'string',
+                      },
+                      jobTitle: {
+                        type: 'string',
+                      },
+                      mfaEnabled: {
+                        default: false,
+                        type: 'boolean',
+                      },
+                      mfaVerified: {
+                        default: false,
+                        type: 'boolean',
+                      },
+                      modifiedById: {
+                        format: 'uuid',
+                        type: 'string',
+                      },
+                      name: {
+                        type: 'string',
+                      },
+                      phone: {
+                        type: 'string',
+                      },
+                      primaryOrganizationId: {
+                        format: 'uuid',
+                        type: 'string',
+                      },
+                      tags: {
+                        items: {
+                          type: 'string',
+                        },
+                        type: 'array',
+                      },
+                      updatedAt: {
+                        format: 'date-time',
+                        type: 'string',
+                      },
+                    },
+                    required: [
+                      'id',
+                      'email',
+                      'mfaEnabled',
+                      'mfaVerified',
+                      'tags',
+                      'modifiedById',
+                      'createdAt',
+                      'updatedAt',
+                    ],
+                    type: 'object',
+                  },
+                  modifiedById: {
+                    format: 'uuid',
+                    type: 'string',
+                  },
+                  name: {
+                    type: 'string',
+                  },
+                  updatedAt: {
+                    format: 'date-time',
+                    type: 'string',
+                  },
+                },
+                required: [
+                  'id',
+                  'name',
+                  'gwCode',
+                  'carbonFactor',
+                  'products',
+                  'modifiedById',
+                  'createdAt',
+                  'updatedAt',
+                ],
+              },
+              type: 'array',
+            },
+            modifiedBy: {
+              properties: {
+                createdAt: {
+                  format: 'date-time',
+                  type: 'string',
+                },
+                email: {
+                  format: 'email',
+                  minLength: 1,
+                  type: 'string',
+                },
+                id: {
+                  format: 'uuid',
+                  type: 'string',
+                },
+                image: {
+                  type: 'string',
+                },
+                jobTitle: {
+                  type: 'string',
+                },
+                mfaEnabled: {
+                  default: false,
+                  type: 'boolean',
+                },
+                mfaVerified: {
+                  default: false,
+                  type: 'boolean',
+                },
+                modifiedById: {
+                  format: 'uuid',
+                  type: 'string',
+                },
+                name: {
+                  type: 'string',
+                },
+                phone: {
+                  type: 'string',
+                },
+                primaryOrganizationId: {
+                  format: 'uuid',
+                  type: 'string',
+                },
+                tags: {
+                  items: {
+                    type: 'string',
+                  },
+                  type: 'array',
+                },
+                updatedAt: {
+                  format: 'date-time',
+                  type: 'string',
+                },
+              },
+              required: [
+                'id',
+                'email',
+                'mfaEnabled',
+                'mfaVerified',
+                'tags',
+                'modifiedById',
+                'createdAt',
+                'updatedAt',
+              ],
+              type: 'object',
+            },
+            modifiedById: {
+              format: 'uuid',
+              type: 'string',
+            },
+            name: {
+              type: 'string',
+            },
+            updatedAt: {
+              format: 'date-time',
+              type: 'string',
+            },
+            value: {
+              minimum: 0,
+              type: 'number',
+            },
+          },
+          required: [
+            'id',
+            'name',
+            'value',
+            'materials',
+            'modifiedById',
+            'createdAt',
+            'updatedAt',
+          ],
+        },
+        {
+          properties: {
+            amount: {
+              minimum: 0,
+              type: 'number',
+            },
+            buyerId: {
+              format: 'uuid',
+              type: 'string',
+            },
+            buyerType: {
+              type: 'string',
+            },
+            createdAt: {
+              format: 'date-time',
+              type: 'string',
+            },
+            id: {
+              format: 'uuid',
+              type: 'string',
+            },
+            modifiedBy: {
+              properties: {
+                createdAt: {
+                  format: 'date-time',
+                  type: 'string',
+                },
+                email: {
+                  format: 'email',
+                  minLength: 1,
+                  type: 'string',
+                },
+                id: {
+                  format: 'uuid',
+                  type: 'string',
+                },
+                image: {
+                  type: 'string',
+                },
+                jobTitle: {
+                  type: 'string',
+                },
+                mfaEnabled: {
+                  default: false,
+                  type: 'boolean',
+                },
+                mfaVerified: {
+                  default: false,
+                  type: 'boolean',
+                },
+                modifiedById: {
+                  format: 'uuid',
+                  type: 'string',
+                },
+                name: {
+                  type: 'string',
+                },
+                phone: {
+                  type: 'string',
+                },
+                primaryOrganizationId: {
+                  format: 'uuid',
+                  type: 'string',
+                },
+                tags: {
+                  items: {
+                    type: 'string',
+                  },
+                  type: 'array',
+                },
+                updatedAt: {
+                  format: 'date-time',
+                  type: 'string',
+                },
+              },
+              required: [
+                'id',
+                'email',
+                'mfaEnabled',
+                'mfaVerified',
+                'tags',
+                'modifiedById',
+                'createdAt',
+                'updatedAt',
+              ],
+              type: 'object',
+            },
+            modifiedById: {
+              format: 'uuid',
+              type: 'string',
+            },
+            products: {
+              properties: {
+                createdAt: {
+                  format: 'date-time',
+                  type: 'string',
+                },
+                id: {
+                  format: 'uuid',
+                  type: 'string',
+                },
+                materials: {
+                  items: {
+                    properties: {
+                      carbonFactor: {
+                        type: 'string',
+                      },
+                      createdAt: {
+                        format: 'date-time',
+                        type: 'string',
+                      },
+                      gwCode: {
+                        type: 'string',
+                      },
+                      id: {
+                        format: 'uuid',
+                        type: 'string',
+                      },
+                      modifiedBy: {
+                        properties: {
+                          createdAt: {
+                            format: 'date-time',
+                            type: 'string',
+                          },
+                          email: {
+                            format: 'email',
+                            minLength: 1,
+                            type: 'string',
+                          },
+                          id: {
+                            format: 'uuid',
+                            type: 'string',
+                          },
+                          image: {
+                            type: 'string',
+                          },
+                          jobTitle: {
+                            type: 'string',
+                          },
+                          mfaEnabled: {
+                            default: false,
+                            type: 'boolean',
+                          },
+                          mfaVerified: {
+                            default: false,
+                            type: 'boolean',
+                          },
+                          modifiedById: {
+                            format: 'uuid',
+                            type: 'string',
+                          },
+                          name: {
+                            type: 'string',
+                          },
+                          phone: {
+                            type: 'string',
+                          },
+                          primaryOrganizationId: {
+                            format: 'uuid',
+                            type: 'string',
+                          },
+                          tags: {
+                            items: {
+                              type: 'string',
+                            },
+                            type: 'array',
+                          },
+                          updatedAt: {
+                            format: 'date-time',
+                            type: 'string',
+                          },
+                        },
+                        required: [
+                          'id',
+                          'email',
+                          'mfaEnabled',
+                          'mfaVerified',
+                          'tags',
+                          'modifiedById',
+                          'createdAt',
+                          'updatedAt',
+                        ],
+                        type: 'object',
+                      },
+                      modifiedById: {
+                        format: 'uuid',
+                        type: 'string',
+                      },
+                      name: {
+                        type: 'string',
+                      },
+                      updatedAt: {
+                        format: 'date-time',
+                        type: 'string',
+                      },
+                    },
+                    required: [
+                      'id',
+                      'name',
+                      'gwCode',
+                      'carbonFactor',
+                      'products',
+                      'modifiedById',
+                      'createdAt',
+                      'updatedAt',
+                    ],
+                  },
+                  type: 'array',
+                },
+                modifiedBy: {
+                  properties: {
+                    createdAt: {
+                      format: 'date-time',
+                      type: 'string',
+                    },
+                    email: {
+                      format: 'email',
+                      minLength: 1,
+                      type: 'string',
+                    },
+                    id: {
+                      format: 'uuid',
+                      type: 'string',
+                    },
+                    image: {
+                      type: 'string',
+                    },
+                    jobTitle: {
+                      type: 'string',
+                    },
+                    mfaEnabled: {
+                      default: false,
+                      type: 'boolean',
+                    },
+                    mfaVerified: {
+                      default: false,
+                      type: 'boolean',
+                    },
+                    modifiedById: {
+                      format: 'uuid',
+                      type: 'string',
+                    },
+                    name: {
+                      type: 'string',
+                    },
+                    phone: {
+                      type: 'string',
+                    },
+                    primaryOrganizationId: {
+                      format: 'uuid',
+                      type: 'string',
+                    },
+                    tags: {
+                      items: {
+                        type: 'string',
+                      },
+                      type: 'array',
+                    },
+                    updatedAt: {
+                      format: 'date-time',
+                      type: 'string',
+                    },
+                  },
+                  required: [
+                    'id',
+                    'email',
+                    'mfaEnabled',
+                    'mfaVerified',
+                    'tags',
+                    'modifiedById',
+                    'createdAt',
+                    'updatedAt',
+                  ],
+                  type: 'object',
+                },
+                modifiedById: {
+                  format: 'uuid',
+                  type: 'string',
+                },
+                name: {
+                  type: 'string',
+                },
+                updatedAt: {
+                  format: 'date-time',
+                  type: 'string',
+                },
+                value: {
+                  minimum: 0,
+                  type: 'number',
+                },
+              },
+              required: [
+                'id',
+                'name',
+                'value',
+                'materials',
+                'modifiedById',
+                'createdAt',
+                'updatedAt',
+              ],
+            },
+            sellerAccepted: {
+              type: 'boolean',
+            },
+            sellerDeclined: {
+              type: 'boolean',
+            },
+            sellerId: {
+              format: 'uuid',
+              type: 'string',
+            },
+            sellerType: {
+              type: 'string',
+            },
+            type: {
+              type: 'string',
+            },
+            updatedAt: {
+              format: 'date-time',
+              type: 'string',
+            },
+            weight: {
+              minimum: 0,
+              type: 'number',
+            },
+          },
+          required: [
+            'id',
+            'type',
+            'weight',
+            'amount',
+            'sellerAccepted',
+            'sellerDeclined',
+            'sellerId',
+            'sellerType',
+            'buyerId',
+            'buyerType',
+            'products',
+            'modifedById',
+            'createdAt',
+            'updatedAt',
+          ],
+        },
+        {
+          properties: {
+            action: {
+              properties: {
+                link: {
+                  format: 'uri',
+                  type: 'string',
+                },
+                linkText: {
+                  type: 'string',
+                },
+              },
+            },
+            closed: {
+              type: 'boolean',
+            },
+            createdAt: {
+              format: 'date-time',
+              type: 'string',
+            },
+            id: {
+              format: 'uuid',
+              type: 'string',
+            },
+            message: {
+              type: 'string',
+            },
+            modifiedBy: {
+              properties: {
+                createdAt: {
+                  format: 'date-time',
+                  type: 'string',
+                },
+                email: {
+                  format: 'email',
+                  minLength: 1,
+                  type: 'string',
+                },
+                id: {
+                  format: 'uuid',
+                  type: 'string',
+                },
+                image: {
+                  type: 'string',
+                },
+                jobTitle: {
+                  type: 'string',
+                },
+                mfaEnabled: {
+                  default: false,
+                  type: 'boolean',
+                },
+                mfaVerified: {
+                  default: false,
+                  type: 'boolean',
+                },
+                modifiedById: {
+                  format: 'uuid',
+                  type: 'string',
+                },
+                name: {
+                  type: 'string',
+                },
+                phone: {
+                  type: 'string',
+                },
+                primaryOrganizationId: {
+                  format: 'uuid',
+                  type: 'string',
+                },
+                tags: {
+                  items: {
+                    type: 'string',
+                  },
+                  type: 'array',
+                },
+                updatedAt: {
+                  format: 'date-time',
+                  type: 'string',
+                },
+              },
+              required: [
+                'id',
+                'email',
+                'mfaEnabled',
+                'mfaVerified',
+                'tags',
+                'modifiedById',
+                'createdAt',
+                'updatedAt',
+              ],
+              type: 'object',
+            },
+            modifiedById: {
+              format: 'uuid',
+              type: 'string',
+            },
+            title: {
+              type: 'string',
+            },
+            updatedAt: {
+              format: 'date-time',
+              type: 'string',
             },
             userId: {
               format: 'uuid',
               type: 'string',
             },
           },
+          required: [
+            'id',
+            'title',
+            'message',
+            'userId',
+            'closed',
+            'modifiedById',
+            'createdAt',
+            'updatedAt',
+          ],
         },
       ],
     },
@@ -1347,11 +2485,9 @@ export const SuccessResponseSchema = {
                 type: 'string',
               },
               image: {
-                nullable: true,
                 type: 'string',
               },
               jobTitle: {
-                nullable: true,
                 type: 'string',
               },
               mfaEnabled: {
@@ -1378,11 +2514,9 @@ export const SuccessResponseSchema = {
                     type: 'string',
                   },
                   image: {
-                    nullable: true,
                     type: 'string',
                   },
                   jobTitle: {
-                    nullable: true,
                     type: 'string',
                   },
                   mfaEnabled: {
@@ -1398,23 +2532,36 @@ export const SuccessResponseSchema = {
                     type: 'string',
                   },
                   name: {
-                    nullable: true,
                     type: 'string',
                   },
                   phone: {
-                    nullable: true,
                     type: 'string',
                   },
                   primaryOrganizationId: {
                     format: 'uuid',
-                    nullable: true,
                     type: 'string',
+                  },
+                  tags: {
+                    items: {
+                      type: 'string',
+                    },
+                    type: 'array',
                   },
                   updatedAt: {
                     format: 'date-time',
                     type: 'string',
                   },
                 },
+                required: [
+                  'id',
+                  'email',
+                  'mfaEnabled',
+                  'mfaVerified',
+                  'tags',
+                  'modifiedById',
+                  'createdAt',
+                  'updatedAt',
+                ],
                 type: 'object',
               },
               modifiedById: {
@@ -1422,90 +2569,18 @@ export const SuccessResponseSchema = {
                 type: 'string',
               },
               name: {
-                nullable: true,
                 type: 'string',
               },
-              organizations: {
-                items: {
-                  properties: {
-                    createdAt: {
-                      format: 'date-time',
-                      type: 'string',
-                    },
-                    domain: {
-                      minLength: 1,
-                      type: 'string',
-                    },
-                    id: {
-                      format: 'uuid',
-                      type: 'string',
-                    },
-                    modifiedById: {
-                      format: 'uuid',
-                      type: 'string',
-                    },
-                    name: {
-                      minLength: 1,
-                      type: 'string',
-                    },
-                    ownerId: {
-                      format: 'uuid',
-                      type: 'string',
-                    },
-                    updatedAt: {
-                      format: 'date-time',
-                      type: 'string',
-                    },
-                  },
-                  type: 'object',
-                },
-                type: 'array',
-              },
               phone: {
-                nullable: true,
                 type: 'string',
               },
               primaryOrganizationId: {
                 format: 'uuid',
-                nullable: true,
                 type: 'string',
               },
-              roles: {
+              tags: {
                 items: {
-                  properties: {
-                    createdAt: {
-                      format: 'date-time',
-                      type: 'string',
-                    },
-                    description: {
-                      nullable: true,
-                      type: 'string',
-                    },
-                    id: {
-                      format: 'uuid',
-                      type: 'string',
-                    },
-                    modifiedById: {
-                      format: 'uuid',
-                      type: 'string',
-                    },
-                    name: {
-                      minLength: 1,
-                      type: 'string',
-                    },
-                    permissions: {
-                      default: [],
-                      items: {
-                        type: 'string',
-                      },
-                      type: 'array',
-                    },
-                    updatedAt: {
-                      format: 'date-time',
-                      type: 'string',
-                    },
-                  },
-                  type: 'object',
+                  type: 'string',
                 },
                 type: 'array',
               },
@@ -1514,6 +2589,16 @@ export const SuccessResponseSchema = {
                 type: 'string',
               },
             },
+            required: [
+              'id',
+              'email',
+              'mfaEnabled',
+              'mfaVerified',
+              'tags',
+              'modifiedById',
+              'createdAt',
+              'updatedAt',
+            ],
           },
           {
             properties: {
@@ -1545,11 +2630,9 @@ export const SuccessResponseSchema = {
                     type: 'string',
                   },
                   image: {
-                    nullable: true,
                     type: 'string',
                   },
                   jobTitle: {
-                    nullable: true,
                     type: 'string',
                   },
                   mfaEnabled: {
@@ -1565,23 +2648,36 @@ export const SuccessResponseSchema = {
                     type: 'string',
                   },
                   name: {
-                    nullable: true,
                     type: 'string',
                   },
                   phone: {
-                    nullable: true,
                     type: 'string',
                   },
                   primaryOrganizationId: {
                     format: 'uuid',
-                    nullable: true,
                     type: 'string',
+                  },
+                  tags: {
+                    items: {
+                      type: 'string',
+                    },
+                    type: 'array',
                   },
                   updatedAt: {
                     format: 'date-time',
                     type: 'string',
                   },
                 },
+                required: [
+                  'id',
+                  'email',
+                  'mfaEnabled',
+                  'mfaVerified',
+                  'tags',
+                  'modifiedById',
+                  'createdAt',
+                  'updatedAt',
+                ],
                 type: 'object',
               },
               modifiedById: {
@@ -1608,11 +2704,9 @@ export const SuccessResponseSchema = {
                     type: 'string',
                   },
                   image: {
-                    nullable: true,
                     type: 'string',
                   },
                   jobTitle: {
-                    nullable: true,
                     type: 'string',
                   },
                   mfaEnabled: {
@@ -1623,136 +2717,127 @@ export const SuccessResponseSchema = {
                     default: false,
                     type: 'boolean',
                   },
+                  modifiedBy: {
+                    properties: {
+                      createdAt: {
+                        format: 'date-time',
+                        type: 'string',
+                      },
+                      email: {
+                        format: 'email',
+                        minLength: 1,
+                        type: 'string',
+                      },
+                      id: {
+                        format: 'uuid',
+                        type: 'string',
+                      },
+                      image: {
+                        type: 'string',
+                      },
+                      jobTitle: {
+                        type: 'string',
+                      },
+                      mfaEnabled: {
+                        default: false,
+                        type: 'boolean',
+                      },
+                      mfaVerified: {
+                        default: false,
+                        type: 'boolean',
+                      },
+                      modifiedById: {
+                        format: 'uuid',
+                        type: 'string',
+                      },
+                      name: {
+                        type: 'string',
+                      },
+                      phone: {
+                        type: 'string',
+                      },
+                      primaryOrganizationId: {
+                        format: 'uuid',
+                        type: 'string',
+                      },
+                      tags: {
+                        items: {
+                          type: 'string',
+                        },
+                        type: 'array',
+                      },
+                      updatedAt: {
+                        format: 'date-time',
+                        type: 'string',
+                      },
+                    },
+                    required: [
+                      'id',
+                      'email',
+                      'mfaEnabled',
+                      'mfaVerified',
+                      'tags',
+                      'modifiedById',
+                      'createdAt',
+                      'updatedAt',
+                    ],
+                    type: 'object',
+                  },
                   modifiedById: {
                     format: 'uuid',
                     type: 'string',
                   },
                   name: {
-                    nullable: true,
                     type: 'string',
                   },
                   phone: {
-                    nullable: true,
                     type: 'string',
                   },
                   primaryOrganizationId: {
                     format: 'uuid',
-                    nullable: true,
                     type: 'string',
+                  },
+                  tags: {
+                    items: {
+                      type: 'string',
+                    },
+                    type: 'array',
                   },
                   updatedAt: {
                     format: 'date-time',
                     type: 'string',
                   },
                 },
-                type: 'object',
+                required: [
+                  'id',
+                  'email',
+                  'mfaEnabled',
+                  'mfaVerified',
+                  'tags',
+                  'modifiedById',
+                  'createdAt',
+                  'updatedAt',
+                ],
               },
               ownerId: {
                 format: 'uuid',
                 type: 'string',
               },
-              roles: {
-                items: {
-                  properties: {
-                    createdAt: {
-                      format: 'date-time',
-                      type: 'string',
-                    },
-                    description: {
-                      nullable: true,
-                      type: 'string',
-                    },
-                    id: {
-                      format: 'uuid',
-                      type: 'string',
-                    },
-                    modifiedById: {
-                      format: 'uuid',
-                      type: 'string',
-                    },
-                    name: {
-                      minLength: 1,
-                      type: 'string',
-                    },
-                    permissions: {
-                      default: [],
-                      items: {
-                        type: 'string',
-                      },
-                      type: 'array',
-                    },
-                    updatedAt: {
-                      format: 'date-time',
-                      type: 'string',
-                    },
-                  },
-                  type: 'object',
-                },
-                type: 'array',
-              },
               updatedAt: {
                 format: 'date-time',
                 type: 'string',
               },
-              users: {
-                items: {
-                  properties: {
-                    createdAt: {
-                      format: 'date-time',
-                      type: 'string',
-                    },
-                    email: {
-                      format: 'email',
-                      minLength: 1,
-                      type: 'string',
-                    },
-                    id: {
-                      format: 'uuid',
-                      type: 'string',
-                    },
-                    image: {
-                      nullable: true,
-                      type: 'string',
-                    },
-                    jobTitle: {
-                      nullable: true,
-                      type: 'string',
-                    },
-                    mfaEnabled: {
-                      default: false,
-                      type: 'boolean',
-                    },
-                    mfaVerified: {
-                      default: false,
-                      type: 'boolean',
-                    },
-                    modifiedById: {
-                      format: 'uuid',
-                      type: 'string',
-                    },
-                    name: {
-                      nullable: true,
-                      type: 'string',
-                    },
-                    phone: {
-                      nullable: true,
-                      type: 'string',
-                    },
-                    primaryOrganizationId: {
-                      format: 'uuid',
-                      nullable: true,
-                      type: 'string',
-                    },
-                    updatedAt: {
-                      format: 'date-time',
-                      type: 'string',
-                    },
-                  },
-                  type: 'object',
-                },
-                type: 'array',
-              },
             },
+            required: [
+              'id',
+              'name',
+              'domain',
+              'ownerId',
+              'owner',
+              'modifiedById',
+              'createdAt',
+              'updatedAt',
+            ],
           },
           {
             properties: {
@@ -1761,7 +2846,6 @@ export const SuccessResponseSchema = {
                 type: 'string',
               },
               description: {
-                nullable: true,
                 type: 'string',
               },
               id: {
@@ -1784,11 +2868,9 @@ export const SuccessResponseSchema = {
                     type: 'string',
                   },
                   image: {
-                    nullable: true,
                     type: 'string',
                   },
                   jobTitle: {
-                    nullable: true,
                     type: 'string',
                   },
                   mfaEnabled: {
@@ -1804,23 +2886,36 @@ export const SuccessResponseSchema = {
                     type: 'string',
                   },
                   name: {
-                    nullable: true,
                     type: 'string',
                   },
                   phone: {
-                    nullable: true,
                     type: 'string',
                   },
                   primaryOrganizationId: {
                     format: 'uuid',
-                    nullable: true,
                     type: 'string',
+                  },
+                  tags: {
+                    items: {
+                      type: 'string',
+                    },
+                    type: 'array',
                   },
                   updatedAt: {
                     format: 'date-time',
                     type: 'string',
                   },
                 },
+                required: [
+                  'id',
+                  'email',
+                  'mfaEnabled',
+                  'mfaVerified',
+                  'tags',
+                  'modifiedById',
+                  'createdAt',
+                  'updatedAt',
+                ],
                 type: 'object',
               },
               modifiedById: {
@@ -1830,42 +2925,6 @@ export const SuccessResponseSchema = {
               name: {
                 minLength: 1,
                 type: 'string',
-              },
-              organizations: {
-                items: {
-                  properties: {
-                    createdAt: {
-                      format: 'date-time',
-                      type: 'string',
-                    },
-                    domain: {
-                      minLength: 1,
-                      type: 'string',
-                    },
-                    id: {
-                      format: 'uuid',
-                      type: 'string',
-                    },
-                    modifiedById: {
-                      format: 'uuid',
-                      type: 'string',
-                    },
-                    name: {
-                      minLength: 1,
-                      type: 'string',
-                    },
-                    ownerId: {
-                      format: 'uuid',
-                      type: 'string',
-                    },
-                    updatedAt: {
-                      format: 'date-time',
-                      type: 'string',
-                    },
-                  },
-                  type: 'object',
-                },
-                type: 'array',
               },
               permissions: {
                 default: [],
@@ -1878,65 +2937,16 @@ export const SuccessResponseSchema = {
                 format: 'date-time',
                 type: 'string',
               },
-              users: {
-                items: {
-                  properties: {
-                    createdAt: {
-                      format: 'date-time',
-                      type: 'string',
-                    },
-                    email: {
-                      format: 'email',
-                      minLength: 1,
-                      type: 'string',
-                    },
-                    id: {
-                      format: 'uuid',
-                      type: 'string',
-                    },
-                    image: {
-                      nullable: true,
-                      type: 'string',
-                    },
-                    jobTitle: {
-                      nullable: true,
-                      type: 'string',
-                    },
-                    mfaEnabled: {
-                      default: false,
-                      type: 'boolean',
-                    },
-                    mfaVerified: {
-                      default: false,
-                      type: 'boolean',
-                    },
-                    modifiedById: {
-                      format: 'uuid',
-                      type: 'string',
-                    },
-                    name: {
-                      nullable: true,
-                      type: 'string',
-                    },
-                    phone: {
-                      nullable: true,
-                      type: 'string',
-                    },
-                    primaryOrganizationId: {
-                      format: 'uuid',
-                      nullable: true,
-                      type: 'string',
-                    },
-                    updatedAt: {
-                      format: 'date-time',
-                      type: 'string',
-                    },
-                  },
-                  type: 'object',
-                },
-                type: 'array',
-              },
             },
+            required: [
+              'id',
+              'name',
+              'description',
+              'permissions',
+              'modifiedById',
+              'createdAt',
+              'updatedAt',
+            ],
           },
           {
             properties: {
@@ -1983,11 +2993,173 @@ export const SuccessResponseSchema = {
                     type: 'string',
                   },
                   image: {
-                    nullable: true,
                     type: 'string',
                   },
                   jobTitle: {
-                    nullable: true,
+                    type: 'string',
+                  },
+                  mfaEnabled: {
+                    default: false,
+                    type: 'boolean',
+                  },
+                  mfaVerified: {
+                    default: false,
+                    type: 'boolean',
+                  },
+                  modifiedBy: {
+                    properties: {
+                      createdAt: {
+                        format: 'date-time',
+                        type: 'string',
+                      },
+                      email: {
+                        format: 'email',
+                        minLength: 1,
+                        type: 'string',
+                      },
+                      id: {
+                        format: 'uuid',
+                        type: 'string',
+                      },
+                      image: {
+                        type: 'string',
+                      },
+                      jobTitle: {
+                        type: 'string',
+                      },
+                      mfaEnabled: {
+                        default: false,
+                        type: 'boolean',
+                      },
+                      mfaVerified: {
+                        default: false,
+                        type: 'boolean',
+                      },
+                      modifiedById: {
+                        format: 'uuid',
+                        type: 'string',
+                      },
+                      name: {
+                        type: 'string',
+                      },
+                      phone: {
+                        type: 'string',
+                      },
+                      primaryOrganizationId: {
+                        format: 'uuid',
+                        type: 'string',
+                      },
+                      tags: {
+                        items: {
+                          type: 'string',
+                        },
+                        type: 'array',
+                      },
+                      updatedAt: {
+                        format: 'date-time',
+                        type: 'string',
+                      },
+                    },
+                    required: [
+                      'id',
+                      'email',
+                      'mfaEnabled',
+                      'mfaVerified',
+                      'tags',
+                      'modifiedById',
+                      'createdAt',
+                      'updatedAt',
+                    ],
+                    type: 'object',
+                  },
+                  modifiedById: {
+                    format: 'uuid',
+                    type: 'string',
+                  },
+                  name: {
+                    type: 'string',
+                  },
+                  phone: {
+                    type: 'string',
+                  },
+                  primaryOrganizationId: {
+                    format: 'uuid',
+                    type: 'string',
+                  },
+                  tags: {
+                    items: {
+                      type: 'string',
+                    },
+                    type: 'array',
+                  },
+                  updatedAt: {
+                    format: 'date-time',
+                    type: 'string',
+                  },
+                },
+                required: [
+                  'id',
+                  'email',
+                  'mfaEnabled',
+                  'mfaVerified',
+                  'tags',
+                  'modifiedById',
+                  'createdAt',
+                  'updatedAt',
+                ],
+              },
+              userId: {
+                format: 'uuid',
+                type: 'string',
+              },
+            },
+            required: [
+              'id',
+              'tableName',
+              'objectId',
+              'operationType',
+              'data',
+              'organizationId',
+              'userId',
+              'createdAt',
+              'updatedAt',
+            ],
+          },
+          {
+            properties: {
+              carbonFactor: {
+                type: 'string',
+              },
+              createdAt: {
+                format: 'date-time',
+                type: 'string',
+              },
+              gwCode: {
+                type: 'string',
+              },
+              id: {
+                format: 'uuid',
+                type: 'string',
+              },
+              modifiedBy: {
+                properties: {
+                  createdAt: {
+                    format: 'date-time',
+                    type: 'string',
+                  },
+                  email: {
+                    format: 'email',
+                    minLength: 1,
+                    type: 'string',
+                  },
+                  id: {
+                    format: 'uuid',
+                    type: 'string',
+                  },
+                  image: {
+                    type: 'string',
+                  },
+                  jobTitle: {
                     type: 'string',
                   },
                   mfaEnabled: {
@@ -2003,30 +3175,733 @@ export const SuccessResponseSchema = {
                     type: 'string',
                   },
                   name: {
-                    nullable: true,
                     type: 'string',
                   },
                   phone: {
-                    nullable: true,
                     type: 'string',
                   },
                   primaryOrganizationId: {
                     format: 'uuid',
-                    nullable: true,
                     type: 'string',
+                  },
+                  tags: {
+                    items: {
+                      type: 'string',
+                    },
+                    type: 'array',
                   },
                   updatedAt: {
                     format: 'date-time',
                     type: 'string',
                   },
                 },
+                required: [
+                  'id',
+                  'email',
+                  'mfaEnabled',
+                  'mfaVerified',
+                  'tags',
+                  'modifiedById',
+                  'createdAt',
+                  'updatedAt',
+                ],
                 type: 'object',
+              },
+              modifiedById: {
+                format: 'uuid',
+                type: 'string',
+              },
+              name: {
+                type: 'string',
+              },
+              updatedAt: {
+                format: 'date-time',
+                type: 'string',
+              },
+            },
+            required: [
+              'id',
+              'name',
+              'gwCode',
+              'carbonFactor',
+              'products',
+              'modifiedById',
+              'createdAt',
+              'updatedAt',
+            ],
+          },
+          {
+            properties: {
+              createdAt: {
+                format: 'date-time',
+                type: 'string',
+              },
+              id: {
+                format: 'uuid',
+                type: 'string',
+              },
+              materials: {
+                items: {
+                  properties: {
+                    carbonFactor: {
+                      type: 'string',
+                    },
+                    createdAt: {
+                      format: 'date-time',
+                      type: 'string',
+                    },
+                    gwCode: {
+                      type: 'string',
+                    },
+                    id: {
+                      format: 'uuid',
+                      type: 'string',
+                    },
+                    modifiedBy: {
+                      properties: {
+                        createdAt: {
+                          format: 'date-time',
+                          type: 'string',
+                        },
+                        email: {
+                          format: 'email',
+                          minLength: 1,
+                          type: 'string',
+                        },
+                        id: {
+                          format: 'uuid',
+                          type: 'string',
+                        },
+                        image: {
+                          type: 'string',
+                        },
+                        jobTitle: {
+                          type: 'string',
+                        },
+                        mfaEnabled: {
+                          default: false,
+                          type: 'boolean',
+                        },
+                        mfaVerified: {
+                          default: false,
+                          type: 'boolean',
+                        },
+                        modifiedById: {
+                          format: 'uuid',
+                          type: 'string',
+                        },
+                        name: {
+                          type: 'string',
+                        },
+                        phone: {
+                          type: 'string',
+                        },
+                        primaryOrganizationId: {
+                          format: 'uuid',
+                          type: 'string',
+                        },
+                        tags: {
+                          items: {
+                            type: 'string',
+                          },
+                          type: 'array',
+                        },
+                        updatedAt: {
+                          format: 'date-time',
+                          type: 'string',
+                        },
+                      },
+                      required: [
+                        'id',
+                        'email',
+                        'mfaEnabled',
+                        'mfaVerified',
+                        'tags',
+                        'modifiedById',
+                        'createdAt',
+                        'updatedAt',
+                      ],
+                      type: 'object',
+                    },
+                    modifiedById: {
+                      format: 'uuid',
+                      type: 'string',
+                    },
+                    name: {
+                      type: 'string',
+                    },
+                    updatedAt: {
+                      format: 'date-time',
+                      type: 'string',
+                    },
+                  },
+                  required: [
+                    'id',
+                    'name',
+                    'gwCode',
+                    'carbonFactor',
+                    'products',
+                    'modifiedById',
+                    'createdAt',
+                    'updatedAt',
+                  ],
+                },
+                type: 'array',
+              },
+              modifiedBy: {
+                properties: {
+                  createdAt: {
+                    format: 'date-time',
+                    type: 'string',
+                  },
+                  email: {
+                    format: 'email',
+                    minLength: 1,
+                    type: 'string',
+                  },
+                  id: {
+                    format: 'uuid',
+                    type: 'string',
+                  },
+                  image: {
+                    type: 'string',
+                  },
+                  jobTitle: {
+                    type: 'string',
+                  },
+                  mfaEnabled: {
+                    default: false,
+                    type: 'boolean',
+                  },
+                  mfaVerified: {
+                    default: false,
+                    type: 'boolean',
+                  },
+                  modifiedById: {
+                    format: 'uuid',
+                    type: 'string',
+                  },
+                  name: {
+                    type: 'string',
+                  },
+                  phone: {
+                    type: 'string',
+                  },
+                  primaryOrganizationId: {
+                    format: 'uuid',
+                    type: 'string',
+                  },
+                  tags: {
+                    items: {
+                      type: 'string',
+                    },
+                    type: 'array',
+                  },
+                  updatedAt: {
+                    format: 'date-time',
+                    type: 'string',
+                  },
+                },
+                required: [
+                  'id',
+                  'email',
+                  'mfaEnabled',
+                  'mfaVerified',
+                  'tags',
+                  'modifiedById',
+                  'createdAt',
+                  'updatedAt',
+                ],
+                type: 'object',
+              },
+              modifiedById: {
+                format: 'uuid',
+                type: 'string',
+              },
+              name: {
+                type: 'string',
+              },
+              updatedAt: {
+                format: 'date-time',
+                type: 'string',
+              },
+              value: {
+                minimum: 0,
+                type: 'number',
+              },
+            },
+            required: [
+              'id',
+              'name',
+              'value',
+              'materials',
+              'modifiedById',
+              'createdAt',
+              'updatedAt',
+            ],
+          },
+          {
+            properties: {
+              amount: {
+                minimum: 0,
+                type: 'number',
+              },
+              buyerId: {
+                format: 'uuid',
+                type: 'string',
+              },
+              buyerType: {
+                type: 'string',
+              },
+              createdAt: {
+                format: 'date-time',
+                type: 'string',
+              },
+              id: {
+                format: 'uuid',
+                type: 'string',
+              },
+              modifiedBy: {
+                properties: {
+                  createdAt: {
+                    format: 'date-time',
+                    type: 'string',
+                  },
+                  email: {
+                    format: 'email',
+                    minLength: 1,
+                    type: 'string',
+                  },
+                  id: {
+                    format: 'uuid',
+                    type: 'string',
+                  },
+                  image: {
+                    type: 'string',
+                  },
+                  jobTitle: {
+                    type: 'string',
+                  },
+                  mfaEnabled: {
+                    default: false,
+                    type: 'boolean',
+                  },
+                  mfaVerified: {
+                    default: false,
+                    type: 'boolean',
+                  },
+                  modifiedById: {
+                    format: 'uuid',
+                    type: 'string',
+                  },
+                  name: {
+                    type: 'string',
+                  },
+                  phone: {
+                    type: 'string',
+                  },
+                  primaryOrganizationId: {
+                    format: 'uuid',
+                    type: 'string',
+                  },
+                  tags: {
+                    items: {
+                      type: 'string',
+                    },
+                    type: 'array',
+                  },
+                  updatedAt: {
+                    format: 'date-time',
+                    type: 'string',
+                  },
+                },
+                required: [
+                  'id',
+                  'email',
+                  'mfaEnabled',
+                  'mfaVerified',
+                  'tags',
+                  'modifiedById',
+                  'createdAt',
+                  'updatedAt',
+                ],
+                type: 'object',
+              },
+              modifiedById: {
+                format: 'uuid',
+                type: 'string',
+              },
+              products: {
+                properties: {
+                  createdAt: {
+                    format: 'date-time',
+                    type: 'string',
+                  },
+                  id: {
+                    format: 'uuid',
+                    type: 'string',
+                  },
+                  materials: {
+                    items: {
+                      properties: {
+                        carbonFactor: {
+                          type: 'string',
+                        },
+                        createdAt: {
+                          format: 'date-time',
+                          type: 'string',
+                        },
+                        gwCode: {
+                          type: 'string',
+                        },
+                        id: {
+                          format: 'uuid',
+                          type: 'string',
+                        },
+                        modifiedBy: {
+                          properties: {
+                            createdAt: {
+                              format: 'date-time',
+                              type: 'string',
+                            },
+                            email: {
+                              format: 'email',
+                              minLength: 1,
+                              type: 'string',
+                            },
+                            id: {
+                              format: 'uuid',
+                              type: 'string',
+                            },
+                            image: {
+                              type: 'string',
+                            },
+                            jobTitle: {
+                              type: 'string',
+                            },
+                            mfaEnabled: {
+                              default: false,
+                              type: 'boolean',
+                            },
+                            mfaVerified: {
+                              default: false,
+                              type: 'boolean',
+                            },
+                            modifiedById: {
+                              format: 'uuid',
+                              type: 'string',
+                            },
+                            name: {
+                              type: 'string',
+                            },
+                            phone: {
+                              type: 'string',
+                            },
+                            primaryOrganizationId: {
+                              format: 'uuid',
+                              type: 'string',
+                            },
+                            tags: {
+                              items: {
+                                type: 'string',
+                              },
+                              type: 'array',
+                            },
+                            updatedAt: {
+                              format: 'date-time',
+                              type: 'string',
+                            },
+                          },
+                          required: [
+                            'id',
+                            'email',
+                            'mfaEnabled',
+                            'mfaVerified',
+                            'tags',
+                            'modifiedById',
+                            'createdAt',
+                            'updatedAt',
+                          ],
+                          type: 'object',
+                        },
+                        modifiedById: {
+                          format: 'uuid',
+                          type: 'string',
+                        },
+                        name: {
+                          type: 'string',
+                        },
+                        updatedAt: {
+                          format: 'date-time',
+                          type: 'string',
+                        },
+                      },
+                      required: [
+                        'id',
+                        'name',
+                        'gwCode',
+                        'carbonFactor',
+                        'products',
+                        'modifiedById',
+                        'createdAt',
+                        'updatedAt',
+                      ],
+                    },
+                    type: 'array',
+                  },
+                  modifiedBy: {
+                    properties: {
+                      createdAt: {
+                        format: 'date-time',
+                        type: 'string',
+                      },
+                      email: {
+                        format: 'email',
+                        minLength: 1,
+                        type: 'string',
+                      },
+                      id: {
+                        format: 'uuid',
+                        type: 'string',
+                      },
+                      image: {
+                        type: 'string',
+                      },
+                      jobTitle: {
+                        type: 'string',
+                      },
+                      mfaEnabled: {
+                        default: false,
+                        type: 'boolean',
+                      },
+                      mfaVerified: {
+                        default: false,
+                        type: 'boolean',
+                      },
+                      modifiedById: {
+                        format: 'uuid',
+                        type: 'string',
+                      },
+                      name: {
+                        type: 'string',
+                      },
+                      phone: {
+                        type: 'string',
+                      },
+                      primaryOrganizationId: {
+                        format: 'uuid',
+                        type: 'string',
+                      },
+                      tags: {
+                        items: {
+                          type: 'string',
+                        },
+                        type: 'array',
+                      },
+                      updatedAt: {
+                        format: 'date-time',
+                        type: 'string',
+                      },
+                    },
+                    required: [
+                      'id',
+                      'email',
+                      'mfaEnabled',
+                      'mfaVerified',
+                      'tags',
+                      'modifiedById',
+                      'createdAt',
+                      'updatedAt',
+                    ],
+                    type: 'object',
+                  },
+                  modifiedById: {
+                    format: 'uuid',
+                    type: 'string',
+                  },
+                  name: {
+                    type: 'string',
+                  },
+                  updatedAt: {
+                    format: 'date-time',
+                    type: 'string',
+                  },
+                  value: {
+                    minimum: 0,
+                    type: 'number',
+                  },
+                },
+                required: [
+                  'id',
+                  'name',
+                  'value',
+                  'materials',
+                  'modifiedById',
+                  'createdAt',
+                  'updatedAt',
+                ],
+              },
+              sellerAccepted: {
+                type: 'boolean',
+              },
+              sellerDeclined: {
+                type: 'boolean',
+              },
+              sellerId: {
+                format: 'uuid',
+                type: 'string',
+              },
+              sellerType: {
+                type: 'string',
+              },
+              type: {
+                type: 'string',
+              },
+              updatedAt: {
+                format: 'date-time',
+                type: 'string',
+              },
+              weight: {
+                minimum: 0,
+                type: 'number',
+              },
+            },
+            required: [
+              'id',
+              'type',
+              'weight',
+              'amount',
+              'sellerAccepted',
+              'sellerDeclined',
+              'sellerId',
+              'sellerType',
+              'buyerId',
+              'buyerType',
+              'products',
+              'modifedById',
+              'createdAt',
+              'updatedAt',
+            ],
+          },
+          {
+            properties: {
+              action: {
+                properties: {
+                  link: {
+                    format: 'uri',
+                    type: 'string',
+                  },
+                  linkText: {
+                    type: 'string',
+                  },
+                },
+              },
+              closed: {
+                type: 'boolean',
+              },
+              createdAt: {
+                format: 'date-time',
+                type: 'string',
+              },
+              id: {
+                format: 'uuid',
+                type: 'string',
+              },
+              message: {
+                type: 'string',
+              },
+              modifiedBy: {
+                properties: {
+                  createdAt: {
+                    format: 'date-time',
+                    type: 'string',
+                  },
+                  email: {
+                    format: 'email',
+                    minLength: 1,
+                    type: 'string',
+                  },
+                  id: {
+                    format: 'uuid',
+                    type: 'string',
+                  },
+                  image: {
+                    type: 'string',
+                  },
+                  jobTitle: {
+                    type: 'string',
+                  },
+                  mfaEnabled: {
+                    default: false,
+                    type: 'boolean',
+                  },
+                  mfaVerified: {
+                    default: false,
+                    type: 'boolean',
+                  },
+                  modifiedById: {
+                    format: 'uuid',
+                    type: 'string',
+                  },
+                  name: {
+                    type: 'string',
+                  },
+                  phone: {
+                    type: 'string',
+                  },
+                  primaryOrganizationId: {
+                    format: 'uuid',
+                    type: 'string',
+                  },
+                  tags: {
+                    items: {
+                      type: 'string',
+                    },
+                    type: 'array',
+                  },
+                  updatedAt: {
+                    format: 'date-time',
+                    type: 'string',
+                  },
+                },
+                required: [
+                  'id',
+                  'email',
+                  'mfaEnabled',
+                  'mfaVerified',
+                  'tags',
+                  'modifiedById',
+                  'createdAt',
+                  'updatedAt',
+                ],
+                type: 'object',
+              },
+              modifiedById: {
+                format: 'uuid',
+                type: 'string',
+              },
+              title: {
+                type: 'string',
+              },
+              updatedAt: {
+                format: 'date-time',
+                type: 'string',
               },
               userId: {
                 format: 'uuid',
                 type: 'string',
               },
             },
+            required: [
+              'id',
+              'title',
+              'message',
+              'userId',
+              'closed',
+              'modifiedById',
+              'createdAt',
+              'updatedAt',
+            ],
           },
         ],
       },
@@ -2061,6 +3936,367 @@ export const SuccessResponseSchema = {
   },
 } as const;
 
+export const TransactionSchema = {
+  properties: {
+    amount: {
+      minimum: 0,
+      type: 'number',
+    },
+    buyerId: {
+      format: 'uuid',
+      type: 'string',
+    },
+    buyerType: {
+      type: 'string',
+    },
+    createdAt: {
+      format: 'date-time',
+      type: 'string',
+    },
+    id: {
+      format: 'uuid',
+      type: 'string',
+    },
+    modifiedBy: {
+      properties: {
+        createdAt: {
+          format: 'date-time',
+          type: 'string',
+        },
+        email: {
+          format: 'email',
+          minLength: 1,
+          type: 'string',
+        },
+        id: {
+          format: 'uuid',
+          type: 'string',
+        },
+        image: {
+          type: 'string',
+        },
+        jobTitle: {
+          type: 'string',
+        },
+        mfaEnabled: {
+          default: false,
+          type: 'boolean',
+        },
+        mfaVerified: {
+          default: false,
+          type: 'boolean',
+        },
+        modifiedById: {
+          format: 'uuid',
+          type: 'string',
+        },
+        name: {
+          type: 'string',
+        },
+        phone: {
+          type: 'string',
+        },
+        primaryOrganizationId: {
+          format: 'uuid',
+          type: 'string',
+        },
+        tags: {
+          items: {
+            type: 'string',
+          },
+          type: 'array',
+        },
+        updatedAt: {
+          format: 'date-time',
+          type: 'string',
+        },
+      },
+      required: [
+        'id',
+        'email',
+        'mfaEnabled',
+        'mfaVerified',
+        'tags',
+        'modifiedById',
+        'createdAt',
+        'updatedAt',
+      ],
+      type: 'object',
+    },
+    modifiedById: {
+      format: 'uuid',
+      type: 'string',
+    },
+    products: {
+      properties: {
+        createdAt: {
+          format: 'date-time',
+          type: 'string',
+        },
+        id: {
+          format: 'uuid',
+          type: 'string',
+        },
+        materials: {
+          items: {
+            properties: {
+              carbonFactor: {
+                type: 'string',
+              },
+              createdAt: {
+                format: 'date-time',
+                type: 'string',
+              },
+              gwCode: {
+                type: 'string',
+              },
+              id: {
+                format: 'uuid',
+                type: 'string',
+              },
+              modifiedBy: {
+                properties: {
+                  createdAt: {
+                    format: 'date-time',
+                    type: 'string',
+                  },
+                  email: {
+                    format: 'email',
+                    minLength: 1,
+                    type: 'string',
+                  },
+                  id: {
+                    format: 'uuid',
+                    type: 'string',
+                  },
+                  image: {
+                    type: 'string',
+                  },
+                  jobTitle: {
+                    type: 'string',
+                  },
+                  mfaEnabled: {
+                    default: false,
+                    type: 'boolean',
+                  },
+                  mfaVerified: {
+                    default: false,
+                    type: 'boolean',
+                  },
+                  modifiedById: {
+                    format: 'uuid',
+                    type: 'string',
+                  },
+                  name: {
+                    type: 'string',
+                  },
+                  phone: {
+                    type: 'string',
+                  },
+                  primaryOrganizationId: {
+                    format: 'uuid',
+                    type: 'string',
+                  },
+                  tags: {
+                    items: {
+                      type: 'string',
+                    },
+                    type: 'array',
+                  },
+                  updatedAt: {
+                    format: 'date-time',
+                    type: 'string',
+                  },
+                },
+                required: [
+                  'id',
+                  'email',
+                  'mfaEnabled',
+                  'mfaVerified',
+                  'tags',
+                  'modifiedById',
+                  'createdAt',
+                  'updatedAt',
+                ],
+                type: 'object',
+              },
+              modifiedById: {
+                format: 'uuid',
+                type: 'string',
+              },
+              name: {
+                type: 'string',
+              },
+              updatedAt: {
+                format: 'date-time',
+                type: 'string',
+              },
+            },
+            required: [
+              'id',
+              'name',
+              'gwCode',
+              'carbonFactor',
+              'products',
+              'modifiedById',
+              'createdAt',
+              'updatedAt',
+            ],
+          },
+          type: 'array',
+        },
+        modifiedBy: {
+          properties: {
+            createdAt: {
+              format: 'date-time',
+              type: 'string',
+            },
+            email: {
+              format: 'email',
+              minLength: 1,
+              type: 'string',
+            },
+            id: {
+              format: 'uuid',
+              type: 'string',
+            },
+            image: {
+              type: 'string',
+            },
+            jobTitle: {
+              type: 'string',
+            },
+            mfaEnabled: {
+              default: false,
+              type: 'boolean',
+            },
+            mfaVerified: {
+              default: false,
+              type: 'boolean',
+            },
+            modifiedById: {
+              format: 'uuid',
+              type: 'string',
+            },
+            name: {
+              type: 'string',
+            },
+            phone: {
+              type: 'string',
+            },
+            primaryOrganizationId: {
+              format: 'uuid',
+              type: 'string',
+            },
+            tags: {
+              items: {
+                type: 'string',
+              },
+              type: 'array',
+            },
+            updatedAt: {
+              format: 'date-time',
+              type: 'string',
+            },
+          },
+          required: [
+            'id',
+            'email',
+            'mfaEnabled',
+            'mfaVerified',
+            'tags',
+            'modifiedById',
+            'createdAt',
+            'updatedAt',
+          ],
+          type: 'object',
+        },
+        modifiedById: {
+          format: 'uuid',
+          type: 'string',
+        },
+        name: {
+          type: 'string',
+        },
+        updatedAt: {
+          format: 'date-time',
+          type: 'string',
+        },
+        value: {
+          minimum: 0,
+          type: 'number',
+        },
+      },
+      required: [
+        'id',
+        'name',
+        'value',
+        'materials',
+        'modifiedById',
+        'createdAt',
+        'updatedAt',
+      ],
+    },
+    sellerAccepted: {
+      type: 'boolean',
+    },
+    sellerDeclined: {
+      type: 'boolean',
+    },
+    sellerId: {
+      format: 'uuid',
+      type: 'string',
+    },
+    sellerType: {
+      type: 'string',
+    },
+    type: {
+      type: 'string',
+    },
+    updatedAt: {
+      format: 'date-time',
+      type: 'string',
+    },
+    weight: {
+      minimum: 0,
+      type: 'number',
+    },
+  },
+  required: [
+    'id',
+    'type',
+    'weight',
+    'amount',
+    'sellerAccepted',
+    'sellerDeclined',
+    'sellerId',
+    'sellerType',
+    'buyerId',
+    'buyerType',
+    'products',
+    'modifedById',
+    'createdAt',
+    'updatedAt',
+  ],
+} as const;
+
+export const UpdateMaterialPayloadSchema = {
+  properties: {
+    carbonFactor: {
+      nullable: true,
+      type: 'string',
+    },
+    gwCode: {
+      nullable: true,
+      type: 'string',
+    },
+    name: {
+      nullable: true,
+      type: 'string',
+    },
+  },
+} as const;
+
 export const UpdateOrganizationPayloadSchema = {
   properties: {
     domain: {
@@ -2077,6 +4313,27 @@ export const UpdateOrganizationPayloadSchema = {
       format: 'uuid',
       nullable: true,
       type: 'string',
+    },
+  },
+} as const;
+
+export const UpdateProductPayloadSchema = {
+  properties: {
+    materials: {
+      items: {
+        format: 'uuid',
+        type: 'string',
+      },
+      type: 'array',
+    },
+    name: {
+      nullable: true,
+      type: 'string',
+    },
+    value: {
+      minimum: 0,
+      nullable: true,
+      type: 'number',
     },
   },
 } as const;
@@ -2098,6 +4355,50 @@ export const UpdateRolePayloadSchema = {
         type: 'string',
       },
       type: 'array',
+    },
+  },
+} as const;
+
+export const UpdateTransactionPayloadSchema = {
+  properties: {
+    amount: {
+      minimum: 0,
+      nullable: true,
+      type: 'number',
+    },
+    buyerId: {
+      format: 'uuid',
+      nullable: true,
+      type: 'string',
+    },
+    products: {
+      items: {
+        format: 'uuid',
+        type: 'string',
+      },
+      type: 'array',
+    },
+    sellerAccepted: {
+      nullable: true,
+      type: 'boolean',
+    },
+    sellerDeclined: {
+      nullable: true,
+      type: 'boolean',
+    },
+    sellerId: {
+      format: 'uuid',
+      nullable: true,
+      type: 'string',
+    },
+    type: {
+      nullable: true,
+      type: 'string',
+    },
+    weight: {
+      minimum: 0,
+      nullable: true,
+      type: 'number',
     },
   },
 } as const;
@@ -2130,9 +4431,21 @@ export const UpdateUserPayloadSchema = {
       nullable: true,
       type: 'string',
     },
+    primaryOrganizationId: {
+      format: 'uuid',
+      nullable: true,
+      type: 'string',
+    },
     roles: {
       items: {
         format: 'uuid',
+        type: 'string',
+      },
+      nullable: true,
+      type: 'array',
+    },
+    tags: {
+      items: {
         type: 'string',
       },
       nullable: true,
@@ -2157,11 +4470,9 @@ export const UserSchema = {
       type: 'string',
     },
     image: {
-      nullable: true,
       type: 'string',
     },
     jobTitle: {
-      nullable: true,
       type: 'string',
     },
     mfaEnabled: {
@@ -2188,11 +4499,9 @@ export const UserSchema = {
           type: 'string',
         },
         image: {
-          nullable: true,
           type: 'string',
         },
         jobTitle: {
-          nullable: true,
           type: 'string',
         },
         mfaEnabled: {
@@ -2208,23 +4517,36 @@ export const UserSchema = {
           type: 'string',
         },
         name: {
-          nullable: true,
           type: 'string',
         },
         phone: {
-          nullable: true,
           type: 'string',
         },
         primaryOrganizationId: {
           format: 'uuid',
-          nullable: true,
           type: 'string',
+        },
+        tags: {
+          items: {
+            type: 'string',
+          },
+          type: 'array',
         },
         updatedAt: {
           format: 'date-time',
           type: 'string',
         },
       },
+      required: [
+        'id',
+        'email',
+        'mfaEnabled',
+        'mfaVerified',
+        'tags',
+        'modifiedById',
+        'createdAt',
+        'updatedAt',
+      ],
       type: 'object',
     },
     modifiedById: {
@@ -2232,90 +4554,18 @@ export const UserSchema = {
       type: 'string',
     },
     name: {
-      nullable: true,
       type: 'string',
     },
-    organizations: {
-      items: {
-        properties: {
-          createdAt: {
-            format: 'date-time',
-            type: 'string',
-          },
-          domain: {
-            minLength: 1,
-            type: 'string',
-          },
-          id: {
-            format: 'uuid',
-            type: 'string',
-          },
-          modifiedById: {
-            format: 'uuid',
-            type: 'string',
-          },
-          name: {
-            minLength: 1,
-            type: 'string',
-          },
-          ownerId: {
-            format: 'uuid',
-            type: 'string',
-          },
-          updatedAt: {
-            format: 'date-time',
-            type: 'string',
-          },
-        },
-        type: 'object',
-      },
-      type: 'array',
-    },
     phone: {
-      nullable: true,
       type: 'string',
     },
     primaryOrganizationId: {
       format: 'uuid',
-      nullable: true,
       type: 'string',
     },
-    roles: {
+    tags: {
       items: {
-        properties: {
-          createdAt: {
-            format: 'date-time',
-            type: 'string',
-          },
-          description: {
-            nullable: true,
-            type: 'string',
-          },
-          id: {
-            format: 'uuid',
-            type: 'string',
-          },
-          modifiedById: {
-            format: 'uuid',
-            type: 'string',
-          },
-          name: {
-            minLength: 1,
-            type: 'string',
-          },
-          permissions: {
-            default: [],
-            items: {
-              type: 'string',
-            },
-            type: 'array',
-          },
-          updatedAt: {
-            format: 'date-time',
-            type: 'string',
-          },
-        },
-        type: 'object',
+        type: 'string',
       },
       type: 'array',
     },
@@ -2324,4 +4574,14 @@ export const UserSchema = {
       type: 'string',
     },
   },
+  required: [
+    'id',
+    'email',
+    'mfaEnabled',
+    'mfaVerified',
+    'tags',
+    'modifiedById',
+    'createdAt',
+    'updatedAt',
+  ],
 } as const;

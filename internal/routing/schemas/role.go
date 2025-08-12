@@ -12,24 +12,21 @@ import (
 //   - modifiedBy: a user object representing the last user who modified the role, defined by UserProperties.
 //
 // The base properties for the role are provided by RoleProperties.
-var RoleSchema = openapi3.NewSchema().WithProperties(properties.RoleProperties).
-	WithProperty(
-		"users",
-		openapi3.NewArraySchema().
-			WithItems(openapi3.NewObjectSchema().
-				WithProperties(properties.UserProperties)),
-	).
-	WithProperty(
-		"organizations",
-		openapi3.NewArraySchema().
-			WithItems(openapi3.NewObjectSchema().
-				WithProperties(properties.OrganizationProperties)),
-	).
+var RoleSchema = openapi3.NewSchema().
+	WithProperties(properties.RoleProperties).
 	WithProperty(
 		"modifiedBy",
-		openapi3.NewObjectSchema().
-			WithProperties(properties.UserProperties),
-	).NewRef()
+		ModifiedByUserSchema.Value,
+	).
+	WithRequired([]string{
+		"id",
+		"name",
+		"description",
+		"permissions",
+		"modifiedById",
+		"createdAt",
+		"updatedAt",
+	}).NewRef()
 
 // RoleArraySchema defines an OpenAPI array schema for roles, where each item in the array
 // conforms to the RoleSchema specification. This schema can be used to describe API endpoints

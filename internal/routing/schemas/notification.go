@@ -5,7 +5,22 @@ import (
 	"github.com/getkin/kin-openapi/openapi3"
 )
 
-var NotificationSchema = openapi3.NewSchema().WithProperties(properties.NotificationProperties).NewRef()
+var NotificationSchema = openapi3.NewSchema().
+	WithProperties(properties.NotificationProperties).
+	WithProperty(
+		"modifiedBy",
+		ModifiedByUserSchema.Value,
+	).
+	WithRequired([]string{
+		"id",
+		"title",
+		"message",
+		"userId",
+		"closed",
+		"modifiedById",
+		"createdAt",
+		"updatedAt",
+	}).NewRef()
 
 var NotificationArraySchema = openapi3.NewArraySchema().
 	WithItems(NotificationSchema.Value).NewRef()

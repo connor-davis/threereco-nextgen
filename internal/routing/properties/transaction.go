@@ -10,7 +10,10 @@ var TransactionProperties = map[string]*openapi3.Schema{
 	"sellerAccepted": openapi3.NewBoolSchema(),
 	"sellerDeclined": openapi3.NewBoolSchema(),
 	"sellerId":       openapi3.NewStringSchema().WithFormat("uuid"),
+	"sellerType":     openapi3.NewStringSchema(),
 	"buyerId":        openapi3.NewStringSchema().WithFormat("uuid"),
+	"buyerType":      openapi3.NewStringSchema(),
+	"modifiedById":   openapi3.NewStringSchema().WithFormat("uuid"),
 	"createdAt":      openapi3.NewDateTimeSchema(),
 	"updatedAt":      openapi3.NewDateTimeSchema(),
 }

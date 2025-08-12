@@ -5,11 +5,32 @@ import (
 	"github.com/getkin/kin-openapi/openapi3"
 )
 
-var TransactionSchema = openapi3.NewSchema().WithProperties(properties.TransactionProperties).
+var TransactionSchema = openapi3.NewSchema().
+	WithProperties(properties.TransactionProperties).
 	WithProperty(
 		"products",
-		openapi3.NewArraySchema().WithItems(ProductSchema.Value),
-	).NewRef()
+		ProductSchema.Value,
+	).
+	WithProperty(
+		"modifiedBy",
+		ModifiedByUserSchema.Value,
+	).
+	WithRequired([]string{
+		"id",
+		"type",
+		"weight",
+		"amount",
+		"sellerAccepted",
+		"sellerDeclined",
+		"sellerId",
+		"sellerType",
+		"buyerId",
+		"buyerType",
+		"products",
+		"modifedById",
+		"createdAt",
+		"updatedAt",
+	}).NewRef()
 
 var TransactionArraySchema = openapi3.NewArraySchema().
 	WithItems(TransactionSchema.Value).NewRef()

@@ -14,6 +14,10 @@ var SuccessResponseSchema = openapi3.NewSchema().WithProperties(map[string]*open
 			OrganizationSchema.Value,
 			RoleSchema.Value,
 			AuditLogSchema.Value,
+			MaterialSchema.Value,
+			ProductSchema.Value,
+			TransactionSchema.Value,
+			NotificationSchema.Value,
 		),
 	),
 	"item": openapi3.NewAnyOfSchema(
@@ -21,6 +25,10 @@ var SuccessResponseSchema = openapi3.NewSchema().WithProperties(map[string]*open
 		OrganizationSchema.Value,
 		RoleSchema.Value,
 		AuditLogSchema.Value,
+		MaterialSchema.Value,
+		ProductSchema.Value,
+		TransactionSchema.Value,
+		NotificationSchema.Value,
 	),
 	"pageDetails": openapi3.NewObjectSchema().WithProperties(map[string]*openapi3.Schema{
 		"count":        openapi3.NewIntegerSchema().WithMin(0),

@@ -16,26 +16,22 @@ import (
 var OrganizationSchema = openapi3.NewSchema().WithProperties(properties.OrganizationProperties).
 	WithProperty(
 		"owner",
-		openapi3.NewObjectSchema().
-			WithProperties(properties.UserProperties),
-	).
-	WithProperty(
-		"users",
-		openapi3.NewArraySchema().
-			WithItems(openapi3.NewObjectSchema().
-				WithProperties(properties.UserProperties)),
-	).
-	WithProperty(
-		"roles",
-		openapi3.NewArraySchema().
-			WithItems(openapi3.NewObjectSchema().
-				WithProperties(properties.RoleProperties)),
+		UserSchema.Value,
 	).
 	WithProperty(
 		"modifiedBy",
-		openapi3.NewObjectSchema().
-			WithProperties(properties.UserProperties),
-	).NewRef()
+		ModifiedByUserSchema.Value,
+	).
+	WithRequired([]string{
+		"id",
+		"name",
+		"domain",
+		"ownerId",
+		"owner",
+		"modifiedById",
+		"createdAt",
+		"updatedAt",
+	}).NewRef()
 
 // OrganizationArraySchema defines an OpenAPI schema reference for an array of Organization objects.
 // It is constructed using the OrganizationSchema as the item type, allowing validation and documentation

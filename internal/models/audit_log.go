@@ -33,7 +33,7 @@ type AuditLog struct {
 	Data           datatypes.JSON `json:"data"`
 	OrganizationId uuid.UUID      `json:"organizationId" gorm:"type:uuid;"`
 	UserId         uuid.UUID      `json:"userId"`
-	User           *User          `json:"user" gorm:"foreignKey:UserId;references:Id;constraint:OnDelete:CASCADE;"`
+	User           *User          `json:"user,omitzero" gorm:"foreignKey:UserId;references:Id;constraint:OnDelete:CASCADE;"`
 	CreatedAt      time.Time      `json:"createdAt" gorm:"autoCreateTime;"`
 	UpdatedAt      time.Time      `json:"updatedAt" gorm:"autoUpdateTime;"`
 }

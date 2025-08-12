@@ -7,6 +7,7 @@ var MaterialProperties = map[string]*openapi3.Schema{
 	"name":         openapi3.NewStringSchema(),
 	"gwCode":       openapi3.NewStringSchema(),
 	"carbonFactor": openapi3.NewStringSchema(),
+	"modifiedById": openapi3.NewStringSchema().WithFormat("uuid"),
 	"createdAt":    openapi3.NewDateTimeSchema(),
 	"updatedAt":    openapi3.NewDateTimeSchema(),
 }

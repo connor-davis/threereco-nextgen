@@ -28,12 +28,12 @@ import (
 type Role struct {
 	Id               uuid.UUID      `json:"id" gorm:"type:uuid;default:uuid_generate_v4();primaryKey;"`
 	Name             string         `json:"name" gorm:"type:text;not null;"`
-	Description      *string        `json:"description" gorm:"type:text;"`
+	Description      *string        `json:"description,omitzero" gorm:"type:text;"`
 	Permissions      pq.StringArray `json:"permissions" gorm:"type:text[];default:array[]::text[];"`
-	Users            []User         `json:"users" gorm:"many2many:users_roles;constraint:OnDelete:CASCADE;"`
-	Organizations    []Organization `json:"organizations" gorm:"many2many:organizations_roles;constraint:OnDelete:CASCADE;"`
+	Users            []User         `json:"-" gorm:"many2many:users_roles;constraint:OnDelete:CASCADE;"`
+	Organizations    []Organization `json:"-" gorm:"many2many:organizations_roles;constraint:OnDelete:CASCADE;"`
 	ModifiedByUserId uuid.UUID      `json:"modifiedById" gorm:"type:uuid;"`
-	ModifiedByUser   *User          `json:"modifiedBy"`
+	ModifiedByUser   *User          `json:"modifiedBy,omitzero"`
 	CreatedAt        time.Time      `json:"createdAt" gorm:"autoCreateTime;"`
 	UpdatedAt        time.Time      `json:"updatedAt" gorm:"autoUpdateTime;"`
 }

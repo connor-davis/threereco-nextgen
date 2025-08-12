@@ -2,33 +2,75 @@
 import type { Client, Options as ClientOptions, TDataShape } from './client';
 import { client as _heyApiClient } from './client.gen';
 import type {
+  DeleteApiMaterialsByIdData,
+  DeleteApiMaterialsByIdErrors,
+  DeleteApiMaterialsByIdResponses,
+  DeleteApiNotificationsByIdData,
+  DeleteApiNotificationsByIdErrors,
+  DeleteApiNotificationsByIdResponses,
   DeleteApiOrganizationsByIdData,
   DeleteApiOrganizationsByIdErrors,
   DeleteApiOrganizationsByIdResponses,
+  DeleteApiProductsByIdData,
+  DeleteApiProductsByIdErrors,
+  DeleteApiProductsByIdResponses,
   DeleteApiRolesByIdData,
   DeleteApiRolesByIdErrors,
   DeleteApiRolesByIdResponses,
+  DeleteApiTransactionsByIdData,
+  DeleteApiTransactionsByIdErrors,
+  DeleteApiTransactionsByIdResponses,
   DeleteApiUsersByIdData,
   DeleteApiUsersByIdErrors,
   DeleteApiUsersByIdResponses,
+  GetApiAuditlogsByIdData,
+  GetApiAuditlogsByIdErrors,
+  GetApiAuditlogsByIdResponses,
+  GetApiAuditlogsData,
+  GetApiAuditlogsErrors,
+  GetApiAuditlogsResponses,
   GetApiAuthenticationCheckData,
   GetApiAuthenticationCheckErrors,
   GetApiAuthenticationCheckResponses,
   GetApiAuthenticationMfaEnableData,
   GetApiAuthenticationMfaEnableErrors,
   GetApiAuthenticationMfaEnableResponses,
+  GetApiMaterialsByIdData,
+  GetApiMaterialsByIdErrors,
+  GetApiMaterialsByIdResponses,
+  GetApiMaterialsData,
+  GetApiMaterialsErrors,
+  GetApiMaterialsResponses,
+  GetApiNotificationsByIdData,
+  GetApiNotificationsByIdErrors,
+  GetApiNotificationsByIdResponses,
+  GetApiNotificationsData,
+  GetApiNotificationsErrors,
+  GetApiNotificationsResponses,
   GetApiOrganizationsByIdData,
   GetApiOrganizationsByIdErrors,
   GetApiOrganizationsByIdResponses,
   GetApiOrganizationsData,
   GetApiOrganizationsErrors,
   GetApiOrganizationsResponses,
+  GetApiProductsByIdData,
+  GetApiProductsByIdErrors,
+  GetApiProductsByIdResponses,
+  GetApiProductsData,
+  GetApiProductsErrors,
+  GetApiProductsResponses,
   GetApiRolesByIdData,
   GetApiRolesByIdErrors,
   GetApiRolesByIdResponses,
   GetApiRolesData,
   GetApiRolesErrors,
   GetApiRolesResponses,
+  GetApiTransactionsByIdData,
+  GetApiTransactionsByIdErrors,
+  GetApiTransactionsByIdResponses,
+  GetApiTransactionsData,
+  GetApiTransactionsErrors,
+  GetApiTransactionsResponses,
   GetApiUsersByIdData,
   GetApiUsersByIdErrors,
   GetApiUsersByIdResponses,
@@ -44,21 +86,51 @@ import type {
   PostApiAuthenticationMfaVerifyData,
   PostApiAuthenticationMfaVerifyErrors,
   PostApiAuthenticationMfaVerifyResponses,
+  PostApiMaterialsData,
+  PostApiMaterialsErrors,
+  PostApiMaterialsResponses,
+  PostApiNotificationsData,
+  PostApiNotificationsErrors,
+  PostApiNotificationsResponses,
+  PostApiOrganizationsByIdInvitesAcceptData,
+  PostApiOrganizationsByIdInvitesAcceptErrors,
+  PostApiOrganizationsByIdInvitesAcceptResponses,
   PostApiOrganizationsData,
   PostApiOrganizationsErrors,
+  PostApiOrganizationsInvitesSendByEmailData,
+  PostApiOrganizationsInvitesSendByEmailErrors,
+  PostApiOrganizationsInvitesSendByEmailResponses,
   PostApiOrganizationsResponses,
+  PostApiProductsData,
+  PostApiProductsErrors,
+  PostApiProductsResponses,
   PostApiRolesData,
   PostApiRolesErrors,
   PostApiRolesResponses,
+  PostApiTransactionsData,
+  PostApiTransactionsErrors,
+  PostApiTransactionsResponses,
   PostApiUsersData,
   PostApiUsersErrors,
   PostApiUsersResponses,
+  PutApiMaterialsByIdData,
+  PutApiMaterialsByIdErrors,
+  PutApiMaterialsByIdResponses,
+  PutApiNotificationsByIdData,
+  PutApiNotificationsByIdErrors,
+  PutApiNotificationsByIdResponses,
   PutApiOrganizationsByIdData,
   PutApiOrganizationsByIdErrors,
   PutApiOrganizationsByIdResponses,
+  PutApiProductsByIdData,
+  PutApiProductsByIdErrors,
+  PutApiProductsByIdResponses,
   PutApiRolesByIdData,
   PutApiRolesByIdErrors,
   PutApiRolesByIdResponses,
+  PutApiTransactionsByIdData,
+  PutApiTransactionsByIdErrors,
+  PutApiTransactionsByIdResponses,
   PutApiUsersByIdData,
   PutApiUsersByIdErrors,
   PutApiUsersByIdResponses,
@@ -79,6 +151,40 @@ export type Options<
    * used to access values that aren't defined as part of the SDK function.
    */
   meta?: Record<string, unknown>;
+};
+
+/**
+ * View AuditLogs
+ * Endpoint to retrieve a list of auditlogs with pagination and optional search query
+ */
+export const getApiAuditlogs = <ThrowOnError extends boolean = false>(
+  options?: Options<GetApiAuditlogsData, ThrowOnError>
+) => {
+  return (options?.client ?? _heyApiClient).get<
+    GetApiAuditlogsResponses,
+    GetApiAuditlogsErrors,
+    ThrowOnError
+  >({
+    url: '/api/auditlogs',
+    ...options,
+  });
+};
+
+/**
+ * View AuditLog
+ * Endpoint to retrieve a auditlog by their ID
+ */
+export const getApiAuditlogsById = <ThrowOnError extends boolean = false>(
+  options: Options<GetApiAuditlogsByIdData, ThrowOnError>
+) => {
+  return (options.client ?? _heyApiClient).get<
+    GetApiAuditlogsByIdResponses,
+    GetApiAuditlogsByIdErrors,
+    ThrowOnError
+  >({
+    url: '/api/auditlogs/{id}',
+    ...options,
+  });
 };
 
 /**
@@ -183,6 +289,194 @@ export const postApiAuthenticationMfaVerify = <
 };
 
 /**
+ * View Materials
+ * Endpoint to retrieve a list of materials with pagination and optional search query
+ */
+export const getApiMaterials = <ThrowOnError extends boolean = false>(
+  options?: Options<GetApiMaterialsData, ThrowOnError>
+) => {
+  return (options?.client ?? _heyApiClient).get<
+    GetApiMaterialsResponses,
+    GetApiMaterialsErrors,
+    ThrowOnError
+  >({
+    url: '/api/materials',
+    ...options,
+  });
+};
+
+/**
+ * Create Material
+ * Creates a new material.
+ */
+export const postApiMaterials = <ThrowOnError extends boolean = false>(
+  options: Options<PostApiMaterialsData, ThrowOnError>
+) => {
+  return (options.client ?? _heyApiClient).post<
+    PostApiMaterialsResponses,
+    PostApiMaterialsErrors,
+    ThrowOnError
+  >({
+    url: '/api/materials',
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...options.headers,
+    },
+  });
+};
+
+/**
+ * Delete Material by ID
+ * Deletes a material by by their id.
+ */
+export const deleteApiMaterialsById = <ThrowOnError extends boolean = false>(
+  options: Options<DeleteApiMaterialsByIdData, ThrowOnError>
+) => {
+  return (options.client ?? _heyApiClient).delete<
+    DeleteApiMaterialsByIdResponses,
+    DeleteApiMaterialsByIdErrors,
+    ThrowOnError
+  >({
+    url: '/api/materials/{id}',
+    ...options,
+  });
+};
+
+/**
+ * View Material
+ * Endpoint to retrieve a material by their ID
+ */
+export const getApiMaterialsById = <ThrowOnError extends boolean = false>(
+  options: Options<GetApiMaterialsByIdData, ThrowOnError>
+) => {
+  return (options.client ?? _heyApiClient).get<
+    GetApiMaterialsByIdResponses,
+    GetApiMaterialsByIdErrors,
+    ThrowOnError
+  >({
+    url: '/api/materials/{id}',
+    ...options,
+  });
+};
+
+/**
+ * Update Material by ID
+ * Updates the material information for a specific material identified by their id.
+ */
+export const putApiMaterialsById = <ThrowOnError extends boolean = false>(
+  options: Options<PutApiMaterialsByIdData, ThrowOnError>
+) => {
+  return (options.client ?? _heyApiClient).put<
+    PutApiMaterialsByIdResponses,
+    PutApiMaterialsByIdErrors,
+    ThrowOnError
+  >({
+    url: '/api/materials/{id}',
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...options.headers,
+    },
+  });
+};
+
+/**
+ * View Notifications
+ * Endpoint to retrieve a list of notifications with pagination and optional search query
+ */
+export const getApiNotifications = <ThrowOnError extends boolean = false>(
+  options?: Options<GetApiNotificationsData, ThrowOnError>
+) => {
+  return (options?.client ?? _heyApiClient).get<
+    GetApiNotificationsResponses,
+    GetApiNotificationsErrors,
+    ThrowOnError
+  >({
+    url: '/api/notifications',
+    ...options,
+  });
+};
+
+/**
+ * Create Notification
+ * Creates a new notification.
+ */
+export const postApiNotifications = <ThrowOnError extends boolean = false>(
+  options: Options<PostApiNotificationsData, ThrowOnError>
+) => {
+  return (options.client ?? _heyApiClient).post<
+    PostApiNotificationsResponses,
+    PostApiNotificationsErrors,
+    ThrowOnError
+  >({
+    url: '/api/notifications',
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...options.headers,
+    },
+  });
+};
+
+/**
+ * Delete Notification by ID
+ * Deletes a notification by by their id.
+ */
+export const deleteApiNotificationsById = <
+  ThrowOnError extends boolean = false,
+>(
+  options: Options<DeleteApiNotificationsByIdData, ThrowOnError>
+) => {
+  return (options.client ?? _heyApiClient).delete<
+    DeleteApiNotificationsByIdResponses,
+    DeleteApiNotificationsByIdErrors,
+    ThrowOnError
+  >({
+    url: '/api/notifications/{id}',
+    ...options,
+  });
+};
+
+/**
+ * View Notification
+ * Endpoint to retrieve a notification by their ID
+ */
+export const getApiNotificationsById = <ThrowOnError extends boolean = false>(
+  options: Options<GetApiNotificationsByIdData, ThrowOnError>
+) => {
+  return (options.client ?? _heyApiClient).get<
+    GetApiNotificationsByIdResponses,
+    GetApiNotificationsByIdErrors,
+    ThrowOnError
+  >({
+    url: '/api/notifications/{id}',
+    ...options,
+  });
+};
+
+/**
+ * Update Notification by ID
+ * Updates the notification information for a specific notification identified by their id.
+ */
+export const putApiNotificationsById = <ThrowOnError extends boolean = false>(
+  options: Options<PutApiNotificationsByIdData, ThrowOnError>
+) => {
+  return (options.client ?? _heyApiClient).put<
+    PutApiNotificationsByIdResponses,
+    PutApiNotificationsByIdErrors,
+    ThrowOnError
+  >({
+    url: '/api/notifications/{id}',
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...options.headers,
+    },
+  });
+};
+
+/**
  * View Organizations
  * Endpoint to retrieve a list of organizations with pagination and optional search query
  */
@@ -217,6 +511,25 @@ export const postApiOrganizations = <ThrowOnError extends boolean = false>(
       'Content-Type': 'application/json',
       ...options.headers,
     },
+  });
+};
+
+/**
+ * Send Organization Invite
+ * Sends an invitation to join the organization.
+ */
+export const postApiOrganizationsInvitesSendByEmail = <
+  ThrowOnError extends boolean = false,
+>(
+  options?: Options<PostApiOrganizationsInvitesSendByEmailData, ThrowOnError>
+) => {
+  return (options?.client ?? _heyApiClient).post<
+    PostApiOrganizationsInvitesSendByEmailResponses,
+    PostApiOrganizationsInvitesSendByEmailErrors,
+    ThrowOnError
+  >({
+    url: '/api/organizations/invites/send/{email}',
+    ...options,
   });
 };
 
@@ -269,6 +582,118 @@ export const putApiOrganizationsById = <ThrowOnError extends boolean = false>(
     ThrowOnError
   >({
     url: '/api/organizations/{id}',
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...options.headers,
+    },
+  });
+};
+
+/**
+ * Accept Organization Invite
+ * Accepts an invitation to join the organization.
+ */
+export const postApiOrganizationsByIdInvitesAccept = <
+  ThrowOnError extends boolean = false,
+>(
+  options?: Options<PostApiOrganizationsByIdInvitesAcceptData, ThrowOnError>
+) => {
+  return (options?.client ?? _heyApiClient).post<
+    PostApiOrganizationsByIdInvitesAcceptResponses,
+    PostApiOrganizationsByIdInvitesAcceptErrors,
+    ThrowOnError
+  >({
+    url: '/api/organizations/{id}/invites/accept',
+    ...options,
+  });
+};
+
+/**
+ * View Products
+ * Endpoint to retrieve a list of products with pagination and optional search query
+ */
+export const getApiProducts = <ThrowOnError extends boolean = false>(
+  options?: Options<GetApiProductsData, ThrowOnError>
+) => {
+  return (options?.client ?? _heyApiClient).get<
+    GetApiProductsResponses,
+    GetApiProductsErrors,
+    ThrowOnError
+  >({
+    url: '/api/products',
+    ...options,
+  });
+};
+
+/**
+ * Create Product
+ * Creates a new product.
+ */
+export const postApiProducts = <ThrowOnError extends boolean = false>(
+  options: Options<PostApiProductsData, ThrowOnError>
+) => {
+  return (options.client ?? _heyApiClient).post<
+    PostApiProductsResponses,
+    PostApiProductsErrors,
+    ThrowOnError
+  >({
+    url: '/api/products',
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...options.headers,
+    },
+  });
+};
+
+/**
+ * Delete Product by ID
+ * Deletes a product by by their id.
+ */
+export const deleteApiProductsById = <ThrowOnError extends boolean = false>(
+  options: Options<DeleteApiProductsByIdData, ThrowOnError>
+) => {
+  return (options.client ?? _heyApiClient).delete<
+    DeleteApiProductsByIdResponses,
+    DeleteApiProductsByIdErrors,
+    ThrowOnError
+  >({
+    url: '/api/products/{id}',
+    ...options,
+  });
+};
+
+/**
+ * View Product
+ * Endpoint to retrieve a product by their ID
+ */
+export const getApiProductsById = <ThrowOnError extends boolean = false>(
+  options: Options<GetApiProductsByIdData, ThrowOnError>
+) => {
+  return (options.client ?? _heyApiClient).get<
+    GetApiProductsByIdResponses,
+    GetApiProductsByIdErrors,
+    ThrowOnError
+  >({
+    url: '/api/products/{id}',
+    ...options,
+  });
+};
+
+/**
+ * Update Product by ID
+ * Updates the product information for a specific product identified by their id.
+ */
+export const putApiProductsById = <ThrowOnError extends boolean = false>(
+  options: Options<PutApiProductsByIdData, ThrowOnError>
+) => {
+  return (options.client ?? _heyApiClient).put<
+    PutApiProductsByIdResponses,
+    PutApiProductsByIdErrors,
+    ThrowOnError
+  >({
+    url: '/api/products/{id}',
     ...options,
     headers: {
       'Content-Type': 'application/json',
@@ -362,6 +787,99 @@ export const putApiRolesById = <ThrowOnError extends boolean = false>(
     ThrowOnError
   >({
     url: '/api/roles/{id}',
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...options.headers,
+    },
+  });
+};
+
+/**
+ * View Transactions
+ * Endpoint to retrieve a list of transactions with pagination and optional search query
+ */
+export const getApiTransactions = <ThrowOnError extends boolean = false>(
+  options?: Options<GetApiTransactionsData, ThrowOnError>
+) => {
+  return (options?.client ?? _heyApiClient).get<
+    GetApiTransactionsResponses,
+    GetApiTransactionsErrors,
+    ThrowOnError
+  >({
+    url: '/api/transactions',
+    ...options,
+  });
+};
+
+/**
+ * Create Transaction
+ * Creates a new transaction.
+ */
+export const postApiTransactions = <ThrowOnError extends boolean = false>(
+  options: Options<PostApiTransactionsData, ThrowOnError>
+) => {
+  return (options.client ?? _heyApiClient).post<
+    PostApiTransactionsResponses,
+    PostApiTransactionsErrors,
+    ThrowOnError
+  >({
+    url: '/api/transactions',
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...options.headers,
+    },
+  });
+};
+
+/**
+ * Delete Transaction by ID
+ * Deletes a transaction by by their id.
+ */
+export const deleteApiTransactionsById = <ThrowOnError extends boolean = false>(
+  options: Options<DeleteApiTransactionsByIdData, ThrowOnError>
+) => {
+  return (options.client ?? _heyApiClient).delete<
+    DeleteApiTransactionsByIdResponses,
+    DeleteApiTransactionsByIdErrors,
+    ThrowOnError
+  >({
+    url: '/api/transactions/{id}',
+    ...options,
+  });
+};
+
+/**
+ * View Transaction
+ * Endpoint to retrieve a transaction by their ID
+ */
+export const getApiTransactionsById = <ThrowOnError extends boolean = false>(
+  options: Options<GetApiTransactionsByIdData, ThrowOnError>
+) => {
+  return (options.client ?? _heyApiClient).get<
+    GetApiTransactionsByIdResponses,
+    GetApiTransactionsByIdErrors,
+    ThrowOnError
+  >({
+    url: '/api/transactions/{id}',
+    ...options,
+  });
+};
+
+/**
+ * Update Transaction by ID
+ * Updates the transaction information for a specific transaction identified by their id.
+ */
+export const putApiTransactionsById = <ThrowOnError extends boolean = false>(
+  options: Options<PutApiTransactionsByIdData, ThrowOnError>
+) => {
+  return (options.client ?? _heyApiClient).put<
+    PutApiTransactionsByIdResponses,
+    PutApiTransactionsByIdErrors,
+    ThrowOnError
+  >({
+    url: '/api/transactions/{id}',
     ...options,
     headers: {
       'Content-Type': 'application/json',

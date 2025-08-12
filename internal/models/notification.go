@@ -38,11 +38,11 @@ type Notification struct {
 	Id               uuid.UUID           `json:"id" gorm:"primaryKey;type:uuid;default:uuid_generate_v4();"`
 	Title            string              `json:"title" gorm:"type:text;not null;"`
 	Message          string              `json:"message" gorm:"type:text;not null;"`
-	Action           *NotificationAction `json:"action" gorm:"type:jsonb;"`
+	Action           *NotificationAction `json:"action,omitzero" gorm:"type:jsonb;"`
 	UserId           uuid.UUID           `json:"userId" gorm:"type:uuid;not null;"`
 	Closed           bool                `json:"closed" gorm:"type:boolean;default:false;"`
 	ModifiedByUserId uuid.UUID           `json:"modifiedById" gorm:"type:uuid;"`
-	ModifiedByUser   *User               `json:"modifiedBy"`
+	ModifiedByUser   *User               `json:"modifiedBy,omitzero"`
 	CreatedAt        time.Time           `json:"created_at" gorm:"autoCreateTime;"`
 	UpdatedAt        time.Time           `json:"updated_at" gorm:"autoUpdateTime;"`
 }

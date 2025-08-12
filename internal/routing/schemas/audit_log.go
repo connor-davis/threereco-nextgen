@@ -12,9 +12,19 @@ import (
 var AuditLogSchema = openapi3.NewSchema().WithProperties(properties.AuditLogProperties).
 	WithProperty(
 		"user",
-		openapi3.NewObjectSchema().
-			WithProperties(properties.UserProperties),
-	).NewRef()
+		UserSchema.Value,
+	).
+	WithRequired([]string{
+		"id",
+		"tableName",
+		"objectId",
+		"operationType",
+		"data",
+		"organizationId",
+		"userId",
+		"createdAt",
+		"updatedAt",
+	}).NewRef()
 
 // AuditLogArraySchema defines an OpenAPI array schema for audit log entries.
 // Each item in the array conforms to the AuditLogSchema specification.

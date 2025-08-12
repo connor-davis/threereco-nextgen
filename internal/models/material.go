@@ -27,9 +27,9 @@ type Material struct {
 	Name             string    `json:"name" gorm:"type:text;not null;"`
 	GwCode           string    `json:"gwCode" gorm:"type:text;not null;"`
 	CarbonFactor     string    `json:"carbonFactor" gorm:"type:text;not null;"`
-	Products         []Product `json:"products" gorm:"many2many:products_materials;constraint:OnDelete:CASCADE;"`
+	Products         []Product `json:"-" gorm:"many2many:products_materials;constraint:OnDelete:CASCADE;"`
 	ModifiedByUserId uuid.UUID `json:"modifiedById" gorm:"type:uuid;"`
-	ModifiedByUser   *User     `json:"modifiedBy"`
+	ModifiedByUser   *User     `json:"modifiedBy,omitzero"`
 	CreatedAt        time.Time `json:"createdAt" gorm:"autoCreateTime;"`
 	UpdatedAt        time.Time `json:"updatedAt" gorm:"autoUpdateTime;"`
 }

@@ -12,24 +12,22 @@ import (
 //   - modifiedBy: a User object representing the user who last modified this record, defined by UserProperties.
 //
 // The base properties for the User object are provided by UserProperties.
-var UserSchema = openapi3.NewSchema().WithProperties(properties.UserProperties).
-	WithProperty(
-		"organizations",
-		openapi3.NewArraySchema().
-			WithItems(openapi3.NewObjectSchema().
-				WithProperties(properties.OrganizationProperties)),
-	).
-	WithProperty(
-		"roles",
-		openapi3.NewArraySchema().
-			WithItems(openapi3.NewObjectSchema().
-				WithProperties(properties.RoleProperties)),
-	).
+var UserSchema = openapi3.NewSchema().
+	WithProperties(properties.UserProperties).
 	WithProperty(
 		"modifiedBy",
-		openapi3.NewObjectSchema().
-			WithProperties(properties.UserProperties),
-	).NewRef()
+		ModifiedByUserSchema.Value,
+	).
+	WithRequired([]string{
+		"id",
+		"email",
+		"mfaEnabled",
+		"mfaVerified",
+		"tags",
+		"modifiedById",
+		"createdAt",
+		"updatedAt",
+	}).NewRef()
 
 // UserArraySchema defines an OpenAPI array schema for a collection of User objects.
 // Each item in the array conforms to the UserSchema specification.
@@ -37,6 +35,19 @@ var UserSchema = openapi3.NewSchema().WithProperties(properties.UserProperties).
 // multiple users in a single payload.
 var UserArraySchema = openapi3.NewArraySchema().
 	WithItems(UserSchema.Value).NewRef()
+
+var ModifiedByUserSchema = openapi3.NewObjectSchema().
+	WithProperties(properties.UserProperties).
+	WithRequired([]string{
+		"id",
+		"email",
+		"mfaEnabled",
+		"mfaVerified",
+		"tags",
+		"modifiedById",
+		"createdAt",
+		"updatedAt",
+	}).NewRef()
 
 var CreateUserPayloadSchema = openapi3.NewSchema().WithProperties(properties.CreateUserPayloadProperties).NewRef()
 

@@ -15,7 +15,7 @@ import "github.com/getkin/kin-openapi/openapi3"
 var RoleProperties = map[string]*openapi3.Schema{
 	"id":           openapi3.NewStringSchema().WithFormat("uuid"),
 	"name":         openapi3.NewStringSchema().WithMinLength(1),
-	"description":  openapi3.NewStringSchema().WithNullable(),
+	"description":  openapi3.NewStringSchema(),
 	"permissions":  openapi3.NewArraySchema().WithItems(openapi3.NewStringSchema()).WithDefault([]string{}),
 	"modifiedById": openapi3.NewStringSchema().WithFormat("uuid"),
 	"createdAt":    openapi3.NewDateTimeSchema(),

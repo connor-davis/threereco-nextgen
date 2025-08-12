@@ -5,7 +5,22 @@ import (
 	"github.com/getkin/kin-openapi/openapi3"
 )
 
-var MaterialSchema = openapi3.NewSchema().WithProperties(properties.MaterialProperties).NewRef()
+var MaterialSchema = openapi3.NewSchema().
+	WithProperties(properties.MaterialProperties).
+	WithProperty(
+		"modifiedBy",
+		ModifiedByUserSchema.Value,
+	).
+	WithRequired([]string{
+		"id",
+		"name",
+		"gwCode",
+		"carbonFactor",
+		"products",
+		"modifiedById",
+		"createdAt",
+		"updatedAt",
+	}).NewRef()
 
 var MaterialArraySchema = openapi3.NewArraySchema().
 	WithItems(MaterialSchema.Value).NewRef()

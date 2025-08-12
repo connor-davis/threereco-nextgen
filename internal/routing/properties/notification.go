@@ -15,8 +15,8 @@ var NotificationProperties = map[string]*openapi3.Schema{
 	"userId":       openapi3.NewStringSchema().WithFormat("uuid"),
 	"closed":       openapi3.NewBoolSchema(),
 	"modifiedById": openapi3.NewStringSchema().WithFormat("uuid"),
-	"created_at":   openapi3.NewDateTimeSchema(),
-	"updated_at":   openapi3.NewDateTimeSchema(),
+	"createdAt":    openapi3.NewDateTimeSchema(),
+	"updatedAt":    openapi3.NewDateTimeSchema(),
 }
 
 var CreateNotificationPayloadProperties = map[string]*openapi3.Schema{

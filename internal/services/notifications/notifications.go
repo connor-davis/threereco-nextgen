@@ -110,7 +110,7 @@ func (s *NotificationsService) GetById(id uuid.UUID) (*models.Notification, erro
 	return &notification, nil
 }
 
-func (s *NotificationsService) GetAll(clauses ...clause.Expression) ([]models.Notification, error) {
+func (s *NotificationsService) GetAll(userId uuid.UUID, clauses ...clause.Expression) ([]models.Notification, error) {
 	var notifications []models.Notification
 
 	notificationsClauses := []clause.Expression{
@@ -124,6 +124,12 @@ func (s *NotificationsService) GetAll(clauses ...clause.Expression) ([]models.No
 				},
 			},
 		},
+		clause.Eq{
+			Column: clause.Column{
+				Name: "user_id",
+			},
+			Value: userId,
+		},
 	}
 
 	notificationsClauses = append(notificationsClauses, clauses...)
@@ -135,10 +141,21 @@ func (s *NotificationsService) GetAll(clauses ...clause.Expression) ([]models.No
 	return notifications, nil
 }
 
-func (s *NotificationsService) GetTotal(clauses ...clause.Expression) (int64, error) {
+func (s *NotificationsService) GetTotal(userId uuid.UUID, clauses ...clause.Expression) (int64, error) {
 	var total int64
 
-	if err := s.Storage.Postgres.Clauses(clauses...).Model(&models.Notification{}).Count(&total).Error; err != nil {
+	notificationsClauses := []clause.Expression{
+		clause.Eq{
+			Column: clause.Column{
+				Name: "user_id",
+			},
+			Value: userId,
+		},
+	}
+
+	notificationsClauses = append(notificationsClauses, clauses...)
+
+	if err := s.Storage.Postgres.Clauses(notificationsClauses...).Model(&models.Notification{}).Count(&total).Error; err != nil {
 		return 0, err
 	}
 

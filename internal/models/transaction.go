@@ -48,7 +48,7 @@ type Transaction struct {
 	BuyerType        string          `json:"buyerType" gorm:"type:text;not null;"`
 	Products         []Product       `json:"products" gorm:"many2many:transactions_products;constraint:OnDelete:CASCADE;"`
 	ModifiedByUserId uuid.UUID       `json:"modifiedById" gorm:"type:uuid;"`
-	ModifiedByUser   *User           `json:"modifiedBy"`
+	ModifiedByUser   *User           `json:"modifiedBy,omitzero"`
 	CreatedAt        time.Time       `json:"createdAt" gorm:"autoCreateTime;"`
 	UpdatedAt        time.Time       `json:"updatedAt" gorm:"autoUpdateTime;"`
 }

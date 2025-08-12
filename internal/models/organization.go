@@ -33,15 +33,15 @@ type Organization struct {
 	Domain           string        `json:"domain" gorm:"type:text;uniqueIndex;not null;"`
 	OwnerId          uuid.UUID     `json:"ownerId" gorm:"type:uuid;not null;"`
 	Owner            User          `json:"owner"`
-	Users            []User        `json:"users" gorm:"many2many:organizations_users;constraint:OnDelete:CASCADE;"`
-	Roles            []Role        `json:"roles" gorm:"many2many:organizations_roles;constraint:OnDelete:CASCADE;"`
-	Sales            []Transaction `json:"sales" gorm:"polymorphic:Seller;constraint:OnDelete:CASCADE;"`
-	Purchases        []Transaction `json:"purchases" gorm:"polymorphic:Buyer;constraint:OnDelete:CASCADE;"`
-	Materials        []Material    `json:"materials" gorm:"many2many:organizations_materials;constraint:OnDelete:CASCADE;"`
-	Products         []Product     `json:"products" gorm:"many2many:organizations_products;constraint:OnDelete:CASCADE;"`
-	AuditLogs        []AuditLog    `json:"auditLogs" gorm:"foreignKey:OrganizationId;references:Id;constraint:OnDelete:CASCADE;"`
+	Users            []User        `json:"-" gorm:"many2many:organizations_users;constraint:OnDelete:CASCADE;"`
+	Roles            []Role        `json:"-" gorm:"many2many:organizations_roles;constraint:OnDelete:CASCADE;"`
+	Sales            []Transaction `json:"-" gorm:"polymorphic:Seller;constraint:OnDelete:CASCADE;"`
+	Purchases        []Transaction `json:"-" gorm:"polymorphic:Buyer;constraint:OnDelete:CASCADE;"`
+	Materials        []Material    `json:"-" gorm:"many2many:organizations_materials;constraint:OnDelete:CASCADE;"`
+	Products         []Product     `json:"-" gorm:"many2many:organizations_products;constraint:OnDelete:CASCADE;"`
+	AuditLogs        []AuditLog    `json:"-" gorm:"foreignKey:OrganizationId;references:Id;constraint:OnDelete:CASCADE;"`
 	ModifiedByUserId uuid.UUID     `json:"modifiedById" gorm:"type:uuid;"`
-	ModifiedByUser   *User         `json:"modifiedBy"`
+	ModifiedByUser   *User         `json:"modifiedBy,omitzero"`
 	CreatedAt        time.Time     `json:"createdAt" gorm:"autoCreateTime;"`
 	UpdatedAt        time.Time     `json:"updatedAt" gorm:"autoUpdateTime;"`
 }
