@@ -34,19 +34,25 @@ func NewRolesService(storage *storage.Storage) *RolesService {
 // Create inserts a new role record into the database using the provided Role model.
 // It associates the operation with the given auditId for auditing purposes.
 // Returns an error if the creation fails.
-func (s *RolesService) Create(auditId uuid.UUID, role models.CreateRolePayload) error {
+func (s *RolesService) Create(auditId uuid.UUID, organizationId uuid.UUID, role models.CreateRolePayload) error {
+	var newRole models.Role
+
+	newRole.Name = role.Name
+	newRole.Description = role.Description
+	newRole.Permissions = role.Permissions
+	newRole.ModifiedByUserId = auditId
+
 	if err := s.Storage.Postgres.Set("one:audit_user_id", auditId).
-		Create(&models.Role{
-			Name:        role.Name,
-			Description: role.Description,
-			Permissions: role.Permissions,
-			Organizations: []models.Organization{
-				{
-					Id: role.OrganizationId,
-				},
-			},
-			ModifiedByUserId: auditId,
-		}).Error; err != nil {
+		Create(&newRole).Error; err != nil {
+		return err
+	}
+
+	if err := s.Storage.Postgres.Set("one:audit_user_id", auditId).
+		Model(&models.Organization{
+			Id: organizationId,
+		}).
+		Association("Roles").
+		Append(&newRole); err != nil {
 		return err
 	}
 

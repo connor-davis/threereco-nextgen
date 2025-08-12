@@ -45,10 +45,9 @@ type Role struct {
 // Permissions is the list of permission identifiers (e.g., action or resource codes) that
 // will be assigned to the role; it should typically be non-empty to grant capabilities.
 type CreateRolePayload struct {
-	Name           string    `json:"name"`
-	Description    *string   `json:"description"`
-	Permissions    []string  `json:"permissions"`
-	OrganizationId uuid.UUID `json:"organizationId"`
+	Name        string   `json:"name"`
+	Description *string  `json:"description"`
+	Permissions []string `json:"permissions"`
 }
 
 // UpdateRolePayload represents the set of mutable fields that can be supplied to update an existing role.
