@@ -90,6 +90,15 @@ func (r *UsersRouter) CreateRoute() routing.Route {
 		Handler: func(c *fiber.Ctx) error {
 			currentUser := c.Locals("user").(*models.User)
 
+			if currentUser.PrimaryOrganizationId == nil {
+				log.Errorf("🔥 Current user does not belong to any organization.")
+
+				return c.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
+					"error":   constants.BadRequestError,
+					"details": "You must belong to and have selected an organization to create transactions.",
+				})
+			}
+
 			var payload models.CreateUserPayload
 
 			if err := c.BodyParser(&payload); err != nil {
@@ -98,15 +107,6 @@ func (r *UsersRouter) CreateRoute() routing.Route {
 				return c.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
 					"error":   constants.BadRequestError,
 					"details": constants.BadRequestErrorDetails,
-				})
-			}
-
-			if currentUser.PrimaryOrganizationId == nil {
-				log.Errorf("🔥 Current user does not belong to any organization.")
-
-				return c.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
-					"error":   constants.BadRequestError,
-					"details": "You must belong to and have selected an organization to create transactions.",
 				})
 			}
 
