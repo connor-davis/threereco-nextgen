@@ -10,6 +10,7 @@ import z from 'zod';
 import { type ErrorResponse, type User, getApiUsers } from '@/api-client';
 import PermissionGuard from '@/components/guards/permission';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { DebounceInput } from '@/components/ui/debounce-input';
 import { Label } from '@/components/ui/label';
@@ -127,7 +128,7 @@ function RouteComponent() {
                 index + 1 < users.length ? 'border-b' : ''
               )}
             >
-              <div className="flex items-center gap-3">
+              <div className="flex w-full h-auto items-center justify-between gap-3">
                 {user.name && (
                   <div className="flex flex-col">
                     <Label className="text-sm">{user.name}</Label>
@@ -142,6 +143,9 @@ function RouteComponent() {
                     <Label className="text-sm">{user.email}</Label>
                   </div>
                 )}
+
+                {user.tags.length > 0 &&
+                  user.tags.map((tag) => <Badge key={tag}>{tag}</Badge>)}
               </div>
               <div className="flex items-center gap-3">
                 <PermissionGuard value="users.update">
