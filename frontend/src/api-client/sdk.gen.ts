@@ -35,6 +35,12 @@ import type {
   GetApiAuthenticationMfaEnableData,
   GetApiAuthenticationMfaEnableErrors,
   GetApiAuthenticationMfaEnableResponses,
+  GetApiAuthenticationOrganizationsData,
+  GetApiAuthenticationOrganizationsErrors,
+  GetApiAuthenticationOrganizationsResponses,
+  GetApiAuthenticationPermissionsData,
+  GetApiAuthenticationPermissionsErrors,
+  GetApiAuthenticationPermissionsResponses,
   GetApiMaterialsByIdData,
   GetApiMaterialsByIdErrors,
   GetApiMaterialsByIdResponses,
@@ -285,6 +291,44 @@ export const postApiAuthenticationMfaVerify = <
       'Content-Type': 'application/json',
       ...options.headers,
     },
+  });
+};
+
+/**
+ * Organizations
+ * Return the user's organizations.
+ */
+export const getApiAuthenticationOrganizations = <
+  ThrowOnError extends boolean = false,
+>(
+  options?: Options<GetApiAuthenticationOrganizationsData, ThrowOnError>
+) => {
+  return (options?.client ?? _heyApiClient).get<
+    GetApiAuthenticationOrganizationsResponses,
+    GetApiAuthenticationOrganizationsErrors,
+    ThrowOnError
+  >({
+    url: '/api/authentication/organizations',
+    ...options,
+  });
+};
+
+/**
+ * Permissions
+ * Return the user's permissions.
+ */
+export const getApiAuthenticationPermissions = <
+  ThrowOnError extends boolean = false,
+>(
+  options?: Options<GetApiAuthenticationPermissionsData, ThrowOnError>
+) => {
+  return (options?.client ?? _heyApiClient).get<
+    GetApiAuthenticationPermissionsResponses,
+    GetApiAuthenticationPermissionsErrors,
+    ThrowOnError
+  >({
+    url: '/api/authentication/permissions',
+    ...options,
   });
 };
 

@@ -910,6 +910,7 @@ export type SuccessResponse = {
         updatedAt: string;
         userId: string;
       }
+    | string
   >;
   pageDetails?: {
     count?: number;
@@ -1774,6 +1775,7 @@ export type GetApiAuditlogsResponses = {
           updatedAt: string;
           userId: string;
         }
+      | string
     >;
     pageDetails?: {
       count?: number;
@@ -2493,6 +2495,7 @@ export type GetApiAuditlogsByIdResponses = {
           updatedAt: string;
           userId: string;
         }
+      | string
     >;
     pageDetails?: {
       count?: number;
@@ -3196,6 +3199,7 @@ export type GetApiAuthenticationCheckResponses = {
           updatedAt: string;
           userId: string;
         }
+      | string
     >;
     pageDetails?: {
       count?: number;
@@ -3368,6 +3372,1414 @@ export type PostApiAuthenticationMfaVerifyResponses = {
    */
   200: unknown;
 };
+
+export type GetApiAuthenticationOrganizationsData = {
+  body?: never;
+  path?: never;
+  query?: never;
+  url: '/api/authentication/organizations';
+};
+
+export type GetApiAuthenticationOrganizationsErrors = {
+  /**
+   * Unauthorized
+   */
+  401: {
+    error?: string;
+    message?: string;
+  };
+  /**
+   * Internal server error.
+   */
+  500: {
+    error?: string;
+    message?: string;
+  };
+  default: unknown;
+};
+
+export type GetApiAuthenticationOrganizationsError =
+  GetApiAuthenticationOrganizationsErrors[keyof GetApiAuthenticationOrganizationsErrors];
+
+export type GetApiAuthenticationOrganizationsResponses = {
+  /**
+   * Successful organizations retrieval.
+   */
+  200: {
+    item?:
+      | {
+          createdAt: string;
+          email: string;
+          id: string;
+          image?: string;
+          jobTitle?: string;
+          mfaEnabled: boolean;
+          mfaVerified: boolean;
+          modifiedBy?: {
+            createdAt: string;
+            email: string;
+            id: string;
+            image?: string;
+            jobTitle?: string;
+            mfaEnabled: boolean;
+            mfaVerified: boolean;
+            modifiedById: string;
+            name?: string;
+            phone?: string;
+            primaryOrganizationId?: string;
+            tags: Array<string>;
+            updatedAt: string;
+          };
+          modifiedById: string;
+          name?: string;
+          phone?: string;
+          primaryOrganizationId?: string;
+          tags: Array<string>;
+          updatedAt: string;
+        }
+      | {
+          createdAt: string;
+          domain: string;
+          id: string;
+          modifiedBy?: {
+            createdAt: string;
+            email: string;
+            id: string;
+            image?: string;
+            jobTitle?: string;
+            mfaEnabled: boolean;
+            mfaVerified: boolean;
+            modifiedById: string;
+            name?: string;
+            phone?: string;
+            primaryOrganizationId?: string;
+            tags: Array<string>;
+            updatedAt: string;
+          };
+          modifiedById: string;
+          name: string;
+          owner: {
+            createdAt: string;
+            email: string;
+            id: string;
+            image?: string;
+            jobTitle?: string;
+            mfaEnabled: boolean;
+            mfaVerified: boolean;
+            modifiedBy?: {
+              createdAt: string;
+              email: string;
+              id: string;
+              image?: string;
+              jobTitle?: string;
+              mfaEnabled: boolean;
+              mfaVerified: boolean;
+              modifiedById: string;
+              name?: string;
+              phone?: string;
+              primaryOrganizationId?: string;
+              tags: Array<string>;
+              updatedAt: string;
+            };
+            modifiedById: string;
+            name?: string;
+            phone?: string;
+            primaryOrganizationId?: string;
+            tags: Array<string>;
+            updatedAt: string;
+          };
+          ownerId: string;
+          updatedAt: string;
+        }
+      | {
+          createdAt: string;
+          description: string;
+          id: string;
+          modifiedBy?: {
+            createdAt: string;
+            email: string;
+            id: string;
+            image?: string;
+            jobTitle?: string;
+            mfaEnabled: boolean;
+            mfaVerified: boolean;
+            modifiedById: string;
+            name?: string;
+            phone?: string;
+            primaryOrganizationId?: string;
+            tags: Array<string>;
+            updatedAt: string;
+          };
+          modifiedById: string;
+          name: string;
+          permissions: Array<string>;
+          updatedAt: string;
+        }
+      | {
+          createdAt: string;
+          data: {
+            [key: string]: unknown;
+          };
+          id: string;
+          objectId: string;
+          operationType: string;
+          tableName: string;
+          updatedAt: string;
+          user?: {
+            createdAt: string;
+            email: string;
+            id: string;
+            image?: string;
+            jobTitle?: string;
+            mfaEnabled: boolean;
+            mfaVerified: boolean;
+            modifiedBy?: {
+              createdAt: string;
+              email: string;
+              id: string;
+              image?: string;
+              jobTitle?: string;
+              mfaEnabled: boolean;
+              mfaVerified: boolean;
+              modifiedById: string;
+              name?: string;
+              phone?: string;
+              primaryOrganizationId?: string;
+              tags: Array<string>;
+              updatedAt: string;
+            };
+            modifiedById: string;
+            name?: string;
+            phone?: string;
+            primaryOrganizationId?: string;
+            tags: Array<string>;
+            updatedAt: string;
+          };
+          userId: string;
+        }
+      | {
+          carbonFactor: string;
+          createdAt: string;
+          gwCode: string;
+          id: string;
+          modifiedBy?: {
+            createdAt: string;
+            email: string;
+            id: string;
+            image?: string;
+            jobTitle?: string;
+            mfaEnabled: boolean;
+            mfaVerified: boolean;
+            modifiedById: string;
+            name?: string;
+            phone?: string;
+            primaryOrganizationId?: string;
+            tags: Array<string>;
+            updatedAt: string;
+          };
+          modifiedById: string;
+          name: string;
+          updatedAt: string;
+        }
+      | {
+          createdAt: string;
+          id: string;
+          materials: Array<{
+            carbonFactor: string;
+            createdAt: string;
+            gwCode: string;
+            id: string;
+            modifiedBy?: {
+              createdAt: string;
+              email: string;
+              id: string;
+              image?: string;
+              jobTitle?: string;
+              mfaEnabled: boolean;
+              mfaVerified: boolean;
+              modifiedById: string;
+              name?: string;
+              phone?: string;
+              primaryOrganizationId?: string;
+              tags: Array<string>;
+              updatedAt: string;
+            };
+            modifiedById: string;
+            name: string;
+            updatedAt: string;
+          }>;
+          modifiedBy?: {
+            createdAt: string;
+            email: string;
+            id: string;
+            image?: string;
+            jobTitle?: string;
+            mfaEnabled: boolean;
+            mfaVerified: boolean;
+            modifiedById: string;
+            name?: string;
+            phone?: string;
+            primaryOrganizationId?: string;
+            tags: Array<string>;
+            updatedAt: string;
+          };
+          modifiedById: string;
+          name: string;
+          updatedAt: string;
+          value: number;
+        }
+      | {
+          amount: number;
+          buyerId: string;
+          buyerType: string;
+          createdAt: string;
+          id: string;
+          modifiedBy?: {
+            createdAt: string;
+            email: string;
+            id: string;
+            image?: string;
+            jobTitle?: string;
+            mfaEnabled: boolean;
+            mfaVerified: boolean;
+            modifiedById: string;
+            name?: string;
+            phone?: string;
+            primaryOrganizationId?: string;
+            tags: Array<string>;
+            updatedAt: string;
+          };
+          modifiedById?: string;
+          products: {
+            createdAt: string;
+            id: string;
+            materials: Array<{
+              carbonFactor: string;
+              createdAt: string;
+              gwCode: string;
+              id: string;
+              modifiedBy?: {
+                createdAt: string;
+                email: string;
+                id: string;
+                image?: string;
+                jobTitle?: string;
+                mfaEnabled: boolean;
+                mfaVerified: boolean;
+                modifiedById: string;
+                name?: string;
+                phone?: string;
+                primaryOrganizationId?: string;
+                tags: Array<string>;
+                updatedAt: string;
+              };
+              modifiedById: string;
+              name: string;
+              updatedAt: string;
+            }>;
+            modifiedBy?: {
+              createdAt: string;
+              email: string;
+              id: string;
+              image?: string;
+              jobTitle?: string;
+              mfaEnabled: boolean;
+              mfaVerified: boolean;
+              modifiedById: string;
+              name?: string;
+              phone?: string;
+              primaryOrganizationId?: string;
+              tags: Array<string>;
+              updatedAt: string;
+            };
+            modifiedById: string;
+            name: string;
+            updatedAt: string;
+            value: number;
+          };
+          sellerAccepted: boolean;
+          sellerDeclined: boolean;
+          sellerId: string;
+          sellerType: string;
+          type: string;
+          updatedAt: string;
+          weight: number;
+        }
+      | {
+          action?: {
+            link?: string;
+            linkText?: string;
+          };
+          closed: boolean;
+          createdAt: string;
+          id: string;
+          message: string;
+          modifiedBy?: {
+            createdAt: string;
+            email: string;
+            id: string;
+            image?: string;
+            jobTitle?: string;
+            mfaEnabled: boolean;
+            mfaVerified: boolean;
+            modifiedById: string;
+            name?: string;
+            phone?: string;
+            primaryOrganizationId?: string;
+            tags: Array<string>;
+            updatedAt: string;
+          };
+          modifiedById: string;
+          title: string;
+          updatedAt: string;
+          userId: string;
+        };
+    items?: Array<
+      | {
+          createdAt: string;
+          email: string;
+          id: string;
+          image?: string;
+          jobTitle?: string;
+          mfaEnabled: boolean;
+          mfaVerified: boolean;
+          modifiedBy?: {
+            createdAt: string;
+            email: string;
+            id: string;
+            image?: string;
+            jobTitle?: string;
+            mfaEnabled: boolean;
+            mfaVerified: boolean;
+            modifiedById: string;
+            name?: string;
+            phone?: string;
+            primaryOrganizationId?: string;
+            tags: Array<string>;
+            updatedAt: string;
+          };
+          modifiedById: string;
+          name?: string;
+          phone?: string;
+          primaryOrganizationId?: string;
+          tags: Array<string>;
+          updatedAt: string;
+        }
+      | {
+          createdAt: string;
+          domain: string;
+          id: string;
+          modifiedBy?: {
+            createdAt: string;
+            email: string;
+            id: string;
+            image?: string;
+            jobTitle?: string;
+            mfaEnabled: boolean;
+            mfaVerified: boolean;
+            modifiedById: string;
+            name?: string;
+            phone?: string;
+            primaryOrganizationId?: string;
+            tags: Array<string>;
+            updatedAt: string;
+          };
+          modifiedById: string;
+          name: string;
+          owner: {
+            createdAt: string;
+            email: string;
+            id: string;
+            image?: string;
+            jobTitle?: string;
+            mfaEnabled: boolean;
+            mfaVerified: boolean;
+            modifiedBy?: {
+              createdAt: string;
+              email: string;
+              id: string;
+              image?: string;
+              jobTitle?: string;
+              mfaEnabled: boolean;
+              mfaVerified: boolean;
+              modifiedById: string;
+              name?: string;
+              phone?: string;
+              primaryOrganizationId?: string;
+              tags: Array<string>;
+              updatedAt: string;
+            };
+            modifiedById: string;
+            name?: string;
+            phone?: string;
+            primaryOrganizationId?: string;
+            tags: Array<string>;
+            updatedAt: string;
+          };
+          ownerId: string;
+          updatedAt: string;
+        }
+      | {
+          createdAt: string;
+          description: string;
+          id: string;
+          modifiedBy?: {
+            createdAt: string;
+            email: string;
+            id: string;
+            image?: string;
+            jobTitle?: string;
+            mfaEnabled: boolean;
+            mfaVerified: boolean;
+            modifiedById: string;
+            name?: string;
+            phone?: string;
+            primaryOrganizationId?: string;
+            tags: Array<string>;
+            updatedAt: string;
+          };
+          modifiedById: string;
+          name: string;
+          permissions: Array<string>;
+          updatedAt: string;
+        }
+      | {
+          createdAt: string;
+          data: {
+            [key: string]: unknown;
+          };
+          id: string;
+          objectId: string;
+          operationType: string;
+          tableName: string;
+          updatedAt: string;
+          user?: {
+            createdAt: string;
+            email: string;
+            id: string;
+            image?: string;
+            jobTitle?: string;
+            mfaEnabled: boolean;
+            mfaVerified: boolean;
+            modifiedBy?: {
+              createdAt: string;
+              email: string;
+              id: string;
+              image?: string;
+              jobTitle?: string;
+              mfaEnabled: boolean;
+              mfaVerified: boolean;
+              modifiedById: string;
+              name?: string;
+              phone?: string;
+              primaryOrganizationId?: string;
+              tags: Array<string>;
+              updatedAt: string;
+            };
+            modifiedById: string;
+            name?: string;
+            phone?: string;
+            primaryOrganizationId?: string;
+            tags: Array<string>;
+            updatedAt: string;
+          };
+          userId: string;
+        }
+      | {
+          carbonFactor: string;
+          createdAt: string;
+          gwCode: string;
+          id: string;
+          modifiedBy?: {
+            createdAt: string;
+            email: string;
+            id: string;
+            image?: string;
+            jobTitle?: string;
+            mfaEnabled: boolean;
+            mfaVerified: boolean;
+            modifiedById: string;
+            name?: string;
+            phone?: string;
+            primaryOrganizationId?: string;
+            tags: Array<string>;
+            updatedAt: string;
+          };
+          modifiedById: string;
+          name: string;
+          updatedAt: string;
+        }
+      | {
+          createdAt: string;
+          id: string;
+          materials: Array<{
+            carbonFactor: string;
+            createdAt: string;
+            gwCode: string;
+            id: string;
+            modifiedBy?: {
+              createdAt: string;
+              email: string;
+              id: string;
+              image?: string;
+              jobTitle?: string;
+              mfaEnabled: boolean;
+              mfaVerified: boolean;
+              modifiedById: string;
+              name?: string;
+              phone?: string;
+              primaryOrganizationId?: string;
+              tags: Array<string>;
+              updatedAt: string;
+            };
+            modifiedById: string;
+            name: string;
+            updatedAt: string;
+          }>;
+          modifiedBy?: {
+            createdAt: string;
+            email: string;
+            id: string;
+            image?: string;
+            jobTitle?: string;
+            mfaEnabled: boolean;
+            mfaVerified: boolean;
+            modifiedById: string;
+            name?: string;
+            phone?: string;
+            primaryOrganizationId?: string;
+            tags: Array<string>;
+            updatedAt: string;
+          };
+          modifiedById: string;
+          name: string;
+          updatedAt: string;
+          value: number;
+        }
+      | {
+          amount: number;
+          buyerId: string;
+          buyerType: string;
+          createdAt: string;
+          id: string;
+          modifiedBy?: {
+            createdAt: string;
+            email: string;
+            id: string;
+            image?: string;
+            jobTitle?: string;
+            mfaEnabled: boolean;
+            mfaVerified: boolean;
+            modifiedById: string;
+            name?: string;
+            phone?: string;
+            primaryOrganizationId?: string;
+            tags: Array<string>;
+            updatedAt: string;
+          };
+          modifiedById?: string;
+          products: {
+            createdAt: string;
+            id: string;
+            materials: Array<{
+              carbonFactor: string;
+              createdAt: string;
+              gwCode: string;
+              id: string;
+              modifiedBy?: {
+                createdAt: string;
+                email: string;
+                id: string;
+                image?: string;
+                jobTitle?: string;
+                mfaEnabled: boolean;
+                mfaVerified: boolean;
+                modifiedById: string;
+                name?: string;
+                phone?: string;
+                primaryOrganizationId?: string;
+                tags: Array<string>;
+                updatedAt: string;
+              };
+              modifiedById: string;
+              name: string;
+              updatedAt: string;
+            }>;
+            modifiedBy?: {
+              createdAt: string;
+              email: string;
+              id: string;
+              image?: string;
+              jobTitle?: string;
+              mfaEnabled: boolean;
+              mfaVerified: boolean;
+              modifiedById: string;
+              name?: string;
+              phone?: string;
+              primaryOrganizationId?: string;
+              tags: Array<string>;
+              updatedAt: string;
+            };
+            modifiedById: string;
+            name: string;
+            updatedAt: string;
+            value: number;
+          };
+          sellerAccepted: boolean;
+          sellerDeclined: boolean;
+          sellerId: string;
+          sellerType: string;
+          type: string;
+          updatedAt: string;
+          weight: number;
+        }
+      | {
+          action?: {
+            link?: string;
+            linkText?: string;
+          };
+          closed: boolean;
+          createdAt: string;
+          id: string;
+          message: string;
+          modifiedBy?: {
+            createdAt: string;
+            email: string;
+            id: string;
+            image?: string;
+            jobTitle?: string;
+            mfaEnabled: boolean;
+            mfaVerified: boolean;
+            modifiedById: string;
+            name?: string;
+            phone?: string;
+            primaryOrganizationId?: string;
+            tags: Array<string>;
+            updatedAt: string;
+          };
+          modifiedById: string;
+          title: string;
+          updatedAt: string;
+          userId: string;
+        }
+      | string
+    >;
+    pageDetails?: {
+      count?: number;
+      currentPage?: number;
+      nextPage?: number;
+      pages?: number;
+      previousPage?: number;
+    } | null;
+  };
+};
+
+export type GetApiAuthenticationOrganizationsResponse =
+  GetApiAuthenticationOrganizationsResponses[keyof GetApiAuthenticationOrganizationsResponses];
+
+export type GetApiAuthenticationPermissionsData = {
+  body?: never;
+  path?: never;
+  query?: never;
+  url: '/api/authentication/permissions';
+};
+
+export type GetApiAuthenticationPermissionsErrors = {
+  /**
+   * Unauthorized
+   */
+  401: {
+    error?: string;
+    message?: string;
+  };
+  /**
+   * Internal server error.
+   */
+  500: {
+    error?: string;
+    message?: string;
+  };
+  default: unknown;
+};
+
+export type GetApiAuthenticationPermissionsError =
+  GetApiAuthenticationPermissionsErrors[keyof GetApiAuthenticationPermissionsErrors];
+
+export type GetApiAuthenticationPermissionsResponses = {
+  /**
+   * Successful permissions retrieval.
+   */
+  200: {
+    item?:
+      | {
+          createdAt: string;
+          email: string;
+          id: string;
+          image?: string;
+          jobTitle?: string;
+          mfaEnabled: boolean;
+          mfaVerified: boolean;
+          modifiedBy?: {
+            createdAt: string;
+            email: string;
+            id: string;
+            image?: string;
+            jobTitle?: string;
+            mfaEnabled: boolean;
+            mfaVerified: boolean;
+            modifiedById: string;
+            name?: string;
+            phone?: string;
+            primaryOrganizationId?: string;
+            tags: Array<string>;
+            updatedAt: string;
+          };
+          modifiedById: string;
+          name?: string;
+          phone?: string;
+          primaryOrganizationId?: string;
+          tags: Array<string>;
+          updatedAt: string;
+        }
+      | {
+          createdAt: string;
+          domain: string;
+          id: string;
+          modifiedBy?: {
+            createdAt: string;
+            email: string;
+            id: string;
+            image?: string;
+            jobTitle?: string;
+            mfaEnabled: boolean;
+            mfaVerified: boolean;
+            modifiedById: string;
+            name?: string;
+            phone?: string;
+            primaryOrganizationId?: string;
+            tags: Array<string>;
+            updatedAt: string;
+          };
+          modifiedById: string;
+          name: string;
+          owner: {
+            createdAt: string;
+            email: string;
+            id: string;
+            image?: string;
+            jobTitle?: string;
+            mfaEnabled: boolean;
+            mfaVerified: boolean;
+            modifiedBy?: {
+              createdAt: string;
+              email: string;
+              id: string;
+              image?: string;
+              jobTitle?: string;
+              mfaEnabled: boolean;
+              mfaVerified: boolean;
+              modifiedById: string;
+              name?: string;
+              phone?: string;
+              primaryOrganizationId?: string;
+              tags: Array<string>;
+              updatedAt: string;
+            };
+            modifiedById: string;
+            name?: string;
+            phone?: string;
+            primaryOrganizationId?: string;
+            tags: Array<string>;
+            updatedAt: string;
+          };
+          ownerId: string;
+          updatedAt: string;
+        }
+      | {
+          createdAt: string;
+          description: string;
+          id: string;
+          modifiedBy?: {
+            createdAt: string;
+            email: string;
+            id: string;
+            image?: string;
+            jobTitle?: string;
+            mfaEnabled: boolean;
+            mfaVerified: boolean;
+            modifiedById: string;
+            name?: string;
+            phone?: string;
+            primaryOrganizationId?: string;
+            tags: Array<string>;
+            updatedAt: string;
+          };
+          modifiedById: string;
+          name: string;
+          permissions: Array<string>;
+          updatedAt: string;
+        }
+      | {
+          createdAt: string;
+          data: {
+            [key: string]: unknown;
+          };
+          id: string;
+          objectId: string;
+          operationType: string;
+          tableName: string;
+          updatedAt: string;
+          user?: {
+            createdAt: string;
+            email: string;
+            id: string;
+            image?: string;
+            jobTitle?: string;
+            mfaEnabled: boolean;
+            mfaVerified: boolean;
+            modifiedBy?: {
+              createdAt: string;
+              email: string;
+              id: string;
+              image?: string;
+              jobTitle?: string;
+              mfaEnabled: boolean;
+              mfaVerified: boolean;
+              modifiedById: string;
+              name?: string;
+              phone?: string;
+              primaryOrganizationId?: string;
+              tags: Array<string>;
+              updatedAt: string;
+            };
+            modifiedById: string;
+            name?: string;
+            phone?: string;
+            primaryOrganizationId?: string;
+            tags: Array<string>;
+            updatedAt: string;
+          };
+          userId: string;
+        }
+      | {
+          carbonFactor: string;
+          createdAt: string;
+          gwCode: string;
+          id: string;
+          modifiedBy?: {
+            createdAt: string;
+            email: string;
+            id: string;
+            image?: string;
+            jobTitle?: string;
+            mfaEnabled: boolean;
+            mfaVerified: boolean;
+            modifiedById: string;
+            name?: string;
+            phone?: string;
+            primaryOrganizationId?: string;
+            tags: Array<string>;
+            updatedAt: string;
+          };
+          modifiedById: string;
+          name: string;
+          updatedAt: string;
+        }
+      | {
+          createdAt: string;
+          id: string;
+          materials: Array<{
+            carbonFactor: string;
+            createdAt: string;
+            gwCode: string;
+            id: string;
+            modifiedBy?: {
+              createdAt: string;
+              email: string;
+              id: string;
+              image?: string;
+              jobTitle?: string;
+              mfaEnabled: boolean;
+              mfaVerified: boolean;
+              modifiedById: string;
+              name?: string;
+              phone?: string;
+              primaryOrganizationId?: string;
+              tags: Array<string>;
+              updatedAt: string;
+            };
+            modifiedById: string;
+            name: string;
+            updatedAt: string;
+          }>;
+          modifiedBy?: {
+            createdAt: string;
+            email: string;
+            id: string;
+            image?: string;
+            jobTitle?: string;
+            mfaEnabled: boolean;
+            mfaVerified: boolean;
+            modifiedById: string;
+            name?: string;
+            phone?: string;
+            primaryOrganizationId?: string;
+            tags: Array<string>;
+            updatedAt: string;
+          };
+          modifiedById: string;
+          name: string;
+          updatedAt: string;
+          value: number;
+        }
+      | {
+          amount: number;
+          buyerId: string;
+          buyerType: string;
+          createdAt: string;
+          id: string;
+          modifiedBy?: {
+            createdAt: string;
+            email: string;
+            id: string;
+            image?: string;
+            jobTitle?: string;
+            mfaEnabled: boolean;
+            mfaVerified: boolean;
+            modifiedById: string;
+            name?: string;
+            phone?: string;
+            primaryOrganizationId?: string;
+            tags: Array<string>;
+            updatedAt: string;
+          };
+          modifiedById?: string;
+          products: {
+            createdAt: string;
+            id: string;
+            materials: Array<{
+              carbonFactor: string;
+              createdAt: string;
+              gwCode: string;
+              id: string;
+              modifiedBy?: {
+                createdAt: string;
+                email: string;
+                id: string;
+                image?: string;
+                jobTitle?: string;
+                mfaEnabled: boolean;
+                mfaVerified: boolean;
+                modifiedById: string;
+                name?: string;
+                phone?: string;
+                primaryOrganizationId?: string;
+                tags: Array<string>;
+                updatedAt: string;
+              };
+              modifiedById: string;
+              name: string;
+              updatedAt: string;
+            }>;
+            modifiedBy?: {
+              createdAt: string;
+              email: string;
+              id: string;
+              image?: string;
+              jobTitle?: string;
+              mfaEnabled: boolean;
+              mfaVerified: boolean;
+              modifiedById: string;
+              name?: string;
+              phone?: string;
+              primaryOrganizationId?: string;
+              tags: Array<string>;
+              updatedAt: string;
+            };
+            modifiedById: string;
+            name: string;
+            updatedAt: string;
+            value: number;
+          };
+          sellerAccepted: boolean;
+          sellerDeclined: boolean;
+          sellerId: string;
+          sellerType: string;
+          type: string;
+          updatedAt: string;
+          weight: number;
+        }
+      | {
+          action?: {
+            link?: string;
+            linkText?: string;
+          };
+          closed: boolean;
+          createdAt: string;
+          id: string;
+          message: string;
+          modifiedBy?: {
+            createdAt: string;
+            email: string;
+            id: string;
+            image?: string;
+            jobTitle?: string;
+            mfaEnabled: boolean;
+            mfaVerified: boolean;
+            modifiedById: string;
+            name?: string;
+            phone?: string;
+            primaryOrganizationId?: string;
+            tags: Array<string>;
+            updatedAt: string;
+          };
+          modifiedById: string;
+          title: string;
+          updatedAt: string;
+          userId: string;
+        };
+    items?: Array<
+      | {
+          createdAt: string;
+          email: string;
+          id: string;
+          image?: string;
+          jobTitle?: string;
+          mfaEnabled: boolean;
+          mfaVerified: boolean;
+          modifiedBy?: {
+            createdAt: string;
+            email: string;
+            id: string;
+            image?: string;
+            jobTitle?: string;
+            mfaEnabled: boolean;
+            mfaVerified: boolean;
+            modifiedById: string;
+            name?: string;
+            phone?: string;
+            primaryOrganizationId?: string;
+            tags: Array<string>;
+            updatedAt: string;
+          };
+          modifiedById: string;
+          name?: string;
+          phone?: string;
+          primaryOrganizationId?: string;
+          tags: Array<string>;
+          updatedAt: string;
+        }
+      | {
+          createdAt: string;
+          domain: string;
+          id: string;
+          modifiedBy?: {
+            createdAt: string;
+            email: string;
+            id: string;
+            image?: string;
+            jobTitle?: string;
+            mfaEnabled: boolean;
+            mfaVerified: boolean;
+            modifiedById: string;
+            name?: string;
+            phone?: string;
+            primaryOrganizationId?: string;
+            tags: Array<string>;
+            updatedAt: string;
+          };
+          modifiedById: string;
+          name: string;
+          owner: {
+            createdAt: string;
+            email: string;
+            id: string;
+            image?: string;
+            jobTitle?: string;
+            mfaEnabled: boolean;
+            mfaVerified: boolean;
+            modifiedBy?: {
+              createdAt: string;
+              email: string;
+              id: string;
+              image?: string;
+              jobTitle?: string;
+              mfaEnabled: boolean;
+              mfaVerified: boolean;
+              modifiedById: string;
+              name?: string;
+              phone?: string;
+              primaryOrganizationId?: string;
+              tags: Array<string>;
+              updatedAt: string;
+            };
+            modifiedById: string;
+            name?: string;
+            phone?: string;
+            primaryOrganizationId?: string;
+            tags: Array<string>;
+            updatedAt: string;
+          };
+          ownerId: string;
+          updatedAt: string;
+        }
+      | {
+          createdAt: string;
+          description: string;
+          id: string;
+          modifiedBy?: {
+            createdAt: string;
+            email: string;
+            id: string;
+            image?: string;
+            jobTitle?: string;
+            mfaEnabled: boolean;
+            mfaVerified: boolean;
+            modifiedById: string;
+            name?: string;
+            phone?: string;
+            primaryOrganizationId?: string;
+            tags: Array<string>;
+            updatedAt: string;
+          };
+          modifiedById: string;
+          name: string;
+          permissions: Array<string>;
+          updatedAt: string;
+        }
+      | {
+          createdAt: string;
+          data: {
+            [key: string]: unknown;
+          };
+          id: string;
+          objectId: string;
+          operationType: string;
+          tableName: string;
+          updatedAt: string;
+          user?: {
+            createdAt: string;
+            email: string;
+            id: string;
+            image?: string;
+            jobTitle?: string;
+            mfaEnabled: boolean;
+            mfaVerified: boolean;
+            modifiedBy?: {
+              createdAt: string;
+              email: string;
+              id: string;
+              image?: string;
+              jobTitle?: string;
+              mfaEnabled: boolean;
+              mfaVerified: boolean;
+              modifiedById: string;
+              name?: string;
+              phone?: string;
+              primaryOrganizationId?: string;
+              tags: Array<string>;
+              updatedAt: string;
+            };
+            modifiedById: string;
+            name?: string;
+            phone?: string;
+            primaryOrganizationId?: string;
+            tags: Array<string>;
+            updatedAt: string;
+          };
+          userId: string;
+        }
+      | {
+          carbonFactor: string;
+          createdAt: string;
+          gwCode: string;
+          id: string;
+          modifiedBy?: {
+            createdAt: string;
+            email: string;
+            id: string;
+            image?: string;
+            jobTitle?: string;
+            mfaEnabled: boolean;
+            mfaVerified: boolean;
+            modifiedById: string;
+            name?: string;
+            phone?: string;
+            primaryOrganizationId?: string;
+            tags: Array<string>;
+            updatedAt: string;
+          };
+          modifiedById: string;
+          name: string;
+          updatedAt: string;
+        }
+      | {
+          createdAt: string;
+          id: string;
+          materials: Array<{
+            carbonFactor: string;
+            createdAt: string;
+            gwCode: string;
+            id: string;
+            modifiedBy?: {
+              createdAt: string;
+              email: string;
+              id: string;
+              image?: string;
+              jobTitle?: string;
+              mfaEnabled: boolean;
+              mfaVerified: boolean;
+              modifiedById: string;
+              name?: string;
+              phone?: string;
+              primaryOrganizationId?: string;
+              tags: Array<string>;
+              updatedAt: string;
+            };
+            modifiedById: string;
+            name: string;
+            updatedAt: string;
+          }>;
+          modifiedBy?: {
+            createdAt: string;
+            email: string;
+            id: string;
+            image?: string;
+            jobTitle?: string;
+            mfaEnabled: boolean;
+            mfaVerified: boolean;
+            modifiedById: string;
+            name?: string;
+            phone?: string;
+            primaryOrganizationId?: string;
+            tags: Array<string>;
+            updatedAt: string;
+          };
+          modifiedById: string;
+          name: string;
+          updatedAt: string;
+          value: number;
+        }
+      | {
+          amount: number;
+          buyerId: string;
+          buyerType: string;
+          createdAt: string;
+          id: string;
+          modifiedBy?: {
+            createdAt: string;
+            email: string;
+            id: string;
+            image?: string;
+            jobTitle?: string;
+            mfaEnabled: boolean;
+            mfaVerified: boolean;
+            modifiedById: string;
+            name?: string;
+            phone?: string;
+            primaryOrganizationId?: string;
+            tags: Array<string>;
+            updatedAt: string;
+          };
+          modifiedById?: string;
+          products: {
+            createdAt: string;
+            id: string;
+            materials: Array<{
+              carbonFactor: string;
+              createdAt: string;
+              gwCode: string;
+              id: string;
+              modifiedBy?: {
+                createdAt: string;
+                email: string;
+                id: string;
+                image?: string;
+                jobTitle?: string;
+                mfaEnabled: boolean;
+                mfaVerified: boolean;
+                modifiedById: string;
+                name?: string;
+                phone?: string;
+                primaryOrganizationId?: string;
+                tags: Array<string>;
+                updatedAt: string;
+              };
+              modifiedById: string;
+              name: string;
+              updatedAt: string;
+            }>;
+            modifiedBy?: {
+              createdAt: string;
+              email: string;
+              id: string;
+              image?: string;
+              jobTitle?: string;
+              mfaEnabled: boolean;
+              mfaVerified: boolean;
+              modifiedById: string;
+              name?: string;
+              phone?: string;
+              primaryOrganizationId?: string;
+              tags: Array<string>;
+              updatedAt: string;
+            };
+            modifiedById: string;
+            name: string;
+            updatedAt: string;
+            value: number;
+          };
+          sellerAccepted: boolean;
+          sellerDeclined: boolean;
+          sellerId: string;
+          sellerType: string;
+          type: string;
+          updatedAt: string;
+          weight: number;
+        }
+      | {
+          action?: {
+            link?: string;
+            linkText?: string;
+          };
+          closed: boolean;
+          createdAt: string;
+          id: string;
+          message: string;
+          modifiedBy?: {
+            createdAt: string;
+            email: string;
+            id: string;
+            image?: string;
+            jobTitle?: string;
+            mfaEnabled: boolean;
+            mfaVerified: boolean;
+            modifiedById: string;
+            name?: string;
+            phone?: string;
+            primaryOrganizationId?: string;
+            tags: Array<string>;
+            updatedAt: string;
+          };
+          modifiedById: string;
+          title: string;
+          updatedAt: string;
+          userId: string;
+        }
+      | string
+    >;
+    pageDetails?: {
+      count?: number;
+      currentPage?: number;
+      nextPage?: number;
+      pages?: number;
+      previousPage?: number;
+    } | null;
+  };
+};
+
+export type GetApiAuthenticationPermissionsResponse =
+  GetApiAuthenticationPermissionsResponses[keyof GetApiAuthenticationPermissionsResponses];
 
 export type GetApiMaterialsData = {
   body?: never;
@@ -4068,6 +5480,7 @@ export type GetApiMaterialsResponses = {
           updatedAt: string;
           userId: string;
         }
+      | string
     >;
     pageDetails?: {
       count?: number;
@@ -4884,6 +6297,7 @@ export type GetApiMaterialsByIdResponses = {
           updatedAt: string;
           userId: string;
         }
+      | string
     >;
     pageDetails?: {
       count?: number;
@@ -5652,6 +7066,7 @@ export type GetApiNotificationsResponses = {
           updatedAt: string;
           userId: string;
         }
+      | string
     >;
     pageDetails?: {
       count?: number;
@@ -6473,6 +7888,7 @@ export type GetApiNotificationsByIdResponses = {
           updatedAt: string;
           userId: string;
         }
+      | string
     >;
     pageDetails?: {
       count?: number;
@@ -7246,6 +8662,7 @@ export type GetApiOrganizationsResponses = {
           updatedAt: string;
           userId: string;
         }
+      | string
     >;
     pageDetails?: {
       count?: number;
@@ -8104,6 +9521,7 @@ export type GetApiOrganizationsByIdResponses = {
           updatedAt: string;
           userId: string;
         }
+      | string
     >;
     pageDetails?: {
       count?: number;
@@ -8914,6 +10332,7 @@ export type GetApiProductsResponses = {
           updatedAt: string;
           userId: string;
         }
+      | string
     >;
     pageDetails?: {
       count?: number;
@@ -9730,6 +11149,7 @@ export type GetApiProductsByIdResponses = {
           updatedAt: string;
           userId: string;
         }
+      | string
     >;
     pageDetails?: {
       count?: number;
@@ -10497,6 +11917,7 @@ export type GetApiRolesResponses = {
           updatedAt: string;
           userId: string;
         }
+      | string
     >;
     pageDetails?: {
       count?: number;
@@ -11312,6 +12733,7 @@ export type GetApiRolesByIdResponses = {
           updatedAt: string;
           userId: string;
         }
+      | string
     >;
     pageDetails?: {
       count?: number;
@@ -12080,6 +13502,7 @@ export type GetApiTransactionsResponses = {
           updatedAt: string;
           userId: string;
         }
+      | string
     >;
     pageDetails?: {
       count?: number;
@@ -12899,6 +14322,7 @@ export type GetApiTransactionsByIdResponses = {
           updatedAt: string;
           userId: string;
         }
+      | string
     >;
     pageDetails?: {
       count?: number;
@@ -13671,6 +15095,7 @@ export type GetApiUsersResponses = {
           updatedAt: string;
           userId: string;
         }
+      | string
     >;
     pageDetails?: {
       count?: number;
@@ -14490,6 +15915,7 @@ export type GetApiUsersByIdResponses = {
           updatedAt: string;
           userId: string;
         }
+      | string
     >;
     pageDetails?: {
       count?: number;

@@ -20,6 +20,8 @@ import {
   getApiAuditlogsById,
   getApiAuthenticationCheck,
   getApiAuthenticationMfaEnable,
+  getApiAuthenticationOrganizations,
+  getApiAuthenticationPermissions,
   getApiMaterials,
   getApiMaterialsById,
   getApiNotifications,
@@ -75,6 +77,8 @@ import type {
   GetApiAuditlogsResponse,
   GetApiAuthenticationCheckData,
   GetApiAuthenticationMfaEnableData,
+  GetApiAuthenticationOrganizationsData,
+  GetApiAuthenticationPermissionsData,
   GetApiMaterialsByIdData,
   GetApiMaterialsData,
   GetApiMaterialsError,
@@ -524,6 +528,56 @@ export const postApiAuthenticationMfaVerifyMutation = (
     },
   };
   return mutationOptions;
+};
+
+export const getApiAuthenticationOrganizationsQueryKey = (
+  options?: Options<GetApiAuthenticationOrganizationsData>
+) => createQueryKey('getApiAuthenticationOrganizations', options);
+
+/**
+ * Organizations
+ * Return the user's organizations.
+ */
+export const getApiAuthenticationOrganizationsOptions = (
+  options?: Options<GetApiAuthenticationOrganizationsData>
+) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await getApiAuthenticationOrganizations({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: getApiAuthenticationOrganizationsQueryKey(options),
+  });
+};
+
+export const getApiAuthenticationPermissionsQueryKey = (
+  options?: Options<GetApiAuthenticationPermissionsData>
+) => createQueryKey('getApiAuthenticationPermissions', options);
+
+/**
+ * Permissions
+ * Return the user's permissions.
+ */
+export const getApiAuthenticationPermissionsOptions = (
+  options?: Options<GetApiAuthenticationPermissionsData>
+) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await getApiAuthenticationPermissions({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: getApiAuthenticationPermissionsQueryKey(options),
+  });
 };
 
 export const getApiMaterialsQueryKey = (

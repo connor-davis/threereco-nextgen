@@ -3903,6 +3903,9 @@ export const SuccessResponseSchema = {
               'updatedAt',
             ],
           },
+          {
+            type: 'string',
+          },
         ],
       },
       type: 'array',

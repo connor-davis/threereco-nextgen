@@ -19,7 +19,7 @@ export default function PermissionGuard({
 }>) {
   if (disabled) return children;
 
-  const { user, isLoading, isError } = useAuthentication();
+  const { user, permissions, isLoading, isError } = useAuthentication();
 
   if (isLoading || isError) return fallback;
 
@@ -40,7 +40,7 @@ export default function PermissionGuard({
 
   if (!user && !isPage) return fallback;
 
-  if (user && !hasPermission(value, user) && isPage)
+  if (user && !hasPermission(value, permissions) && isPage)
     return (
       <div className="flex flex-col items-center justify-center w-full h-full p-3">
         <div className="flex flex-col w-full space-y-10 lg:max-w-96">
@@ -55,7 +55,7 @@ export default function PermissionGuard({
       </div>
     );
 
-  if (user && !hasPermission(value, user)) return fallback;
+  if (user && !hasPermission(value, permissions)) return fallback;
 
   return children;
 }

@@ -1,14 +1,11 @@
-import type { User } from '@/api-client';
-
 export const hasPermission = (
-  value: string | string[],
-  user: User
+  value: string | Array<string>,
+  availablePermissions: Array<string>
 ): boolean => {
-  if (!user.roles) return false;
+  if (availablePermissions.length === 0) return false;
 
   for (const perm of Array.isArray(value) ? value : [value]) {
-    return user.roles
-      .flatMap((role) => role.permissions)
+    return availablePermissions
       .filter((permission) => permission !== undefined)
       .map((permission) => permission.replaceAll('.*', '').replaceAll('*', ''))
       .some((permission) => permission === perm || perm.startsWith(permission));
