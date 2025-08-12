@@ -35,7 +35,7 @@ func NewUsersService(storage *storage.Storage) *UsersService {
 // Create adds a new user to the database with the provided audit ID.
 // It sets the audit ID in the database context for tracking purposes.
 // Returns an error if the user creation fails.
-func (s *UsersService) Create(auditId uuid.UUID, user models.CreateUserPayload) error {
+func (s *UsersService) Create(auditId uuid.UUID, organizationId uuid.UUID, user models.CreateUserPayload) error {
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(user.Password), bcrypt.DefaultCost)
 
 	if err != nil {
@@ -57,6 +57,10 @@ func (s *UsersService) Create(auditId uuid.UUID, user models.CreateUserPayload) 
 		return err
 	}
 
+	if err := s.Storage.Postgres.Set("one:audit_user_id", auditId).Model(&models.Organization{Id: organizationId}).Association("Users").Append(&newUser); err != nil {
+		return err
+	}
+
 	if len(user.Roles) > 0 {
 		roles := []models.Role{}
 
@@ -66,7 +70,7 @@ func (s *UsersService) Create(auditId uuid.UUID, user models.CreateUserPayload) 
 			})
 		}
 
-		if err := s.Storage.Postgres.Model(&newUser).Association("Roles").Append(roles); err != nil {
+		if err := s.Storage.Postgres.Set("one:audit_user_id", auditId).Model(&newUser).Association("Roles").Append(roles); err != nil {
 			return err
 		}
 	}
@@ -133,7 +137,7 @@ func (s *UsersService) Update(auditId uuid.UUID, id uuid.UUID, user models.Updat
 			})
 		}
 
-		if err := s.Storage.Postgres.Model(&existingUser).Association("Roles").Replace(roles); err != nil {
+		if err := s.Storage.Postgres.Set("one:audit_user_id", auditId).Model(&existingUser).Association("Roles").Replace(roles); err != nil {
 			return err
 		}
 	}

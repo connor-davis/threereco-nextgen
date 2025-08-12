@@ -9,7 +9,7 @@ import { toast } from 'sonner';
 import z from 'zod';
 
 import type { ErrorResponse } from '@/api-client';
-import { zUpdateUserPayload } from '@/api-client/zod.gen';
+import { zCreateUserPayload } from '@/api-client/zod.gen';
 import PermissionGuard from '@/components/guards/permission';
 import { Button } from '@/components/ui/button';
 import {
@@ -22,6 +22,7 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import { InputTags } from '@/components/ui/input-tags';
 import { Label } from '@/components/ui/label';
 import { apiClient } from '@/lib/utils';
 
@@ -36,8 +37,8 @@ export const Route = createFileRoute('/users/create')({
 function RouteComponent() {
   const router = useRouter();
 
-  const createForm = useForm<z.infer<typeof zUpdateUserPayload>>({
-    resolver: zodResolver(zUpdateUserPayload),
+  const createForm = useForm<z.infer<typeof zCreateUserPayload>>({
+    resolver: zodResolver(zCreateUserPayload),
   });
 
   const createUser = useMutation({
@@ -81,86 +82,131 @@ function RouteComponent() {
               body: values,
             })
           )}
-          className="flex flex-col w-full h-auto gap-5"
+          className="flex flex-col w-full h-auto gap-10"
         >
-          <FormField
-            control={createForm.control}
-            name="email"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Email</FormLabel>
-                <FormControl>
-                  <Input type="email" placeholder="Email" {...field} />
-                </FormControl>
-                <FormDescription>
-                  Enter the user's email address.
-                </FormDescription>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+          <div className="flex flex-col w-full h-auto gap-5">
+            <Label className="text-muted-foreground">
+              Authentication Details
+            </Label>
 
-          <FormField
-            control={createForm.control}
-            name="name"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Name</FormLabel>
-                <FormControl>
-                  <Input
-                    type="text"
-                    placeholder="Name"
-                    {...field}
-                    value={field.value ?? ''}
-                  />
-                </FormControl>
-                <FormDescription>Enter the user's name.</FormDescription>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+            <FormField
+              control={createForm.control}
+              name="email"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Email</FormLabel>
+                  <FormControl>
+                    <Input type="email" placeholder="Email" {...field} />
+                  </FormControl>
+                  <FormDescription>
+                    Enter the user's email address.
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-          <FormField
-            control={createForm.control}
-            name="jobTitle"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Job Title</FormLabel>
-                <FormControl>
-                  <Input
-                    type="text"
-                    placeholder="Job Title"
-                    {...field}
-                    value={field.value ?? ''}
-                  />
-                </FormControl>
-                <FormDescription>Enter the user's job title.</FormDescription>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+            <FormField
+              control={createForm.control}
+              name="password"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Password</FormLabel>
+                  <FormControl>
+                    <Input type="password" placeholder="Password" {...field} />
+                  </FormControl>
+                  <FormDescription>Enter the user's password.</FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
 
-          <FormField
-            control={createForm.control}
-            name="phone"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Phone Number</FormLabel>
-                <FormControl>
-                  <Input
-                    type="tel"
-                    placeholder="Phone Number"
-                    {...field}
-                    value={field.value ?? ''}
-                  />
-                </FormControl>
-                <FormDescription>
-                  Enter the user's phone number.
-                </FormDescription>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+          <div className="flex flex-col w-full h-auto gap-5">
+            <Label className="text-muted-foreground">Profile Details</Label>
+
+            <FormField
+              control={createForm.control}
+              name="name"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Name</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="text"
+                      placeholder="Name"
+                      {...field}
+                      value={field.value ?? undefined}
+                    />
+                  </FormControl>
+                  <FormDescription>Enter the user's name.</FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={createForm.control}
+              name="jobTitle"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Job Title</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="text"
+                      placeholder="Job Title"
+                      {...field}
+                      value={field.value ?? undefined}
+                    />
+                  </FormControl>
+                  <FormDescription>Enter the user's job title.</FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={createForm.control}
+              name="phone"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Phone Number</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="tel"
+                      placeholder="Phone Number"
+                      {...field}
+                      value={field.value ?? undefined}
+                    />
+                  </FormControl>
+                  <FormDescription>
+                    Enter the user's phone number.
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={createForm.control}
+              name="tags"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Tags</FormLabel>
+                  <FormControl>
+                    <InputTags
+                      type="text"
+                      placeholder="Tags"
+                      {...field}
+                      value={field.value ?? []}
+                    />
+                  </FormControl>
+                  <FormDescription>Enter the user's tags.</FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
 
           <Button type="submit">Create User</Button>
         </form>

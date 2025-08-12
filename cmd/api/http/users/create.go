@@ -101,7 +101,16 @@ func (r *UsersRouter) CreateRoute() routing.Route {
 				})
 			}
 
-			if err := r.Services.Users.Create(currentUser.Id, payload); err != nil {
+			if currentUser.PrimaryOrganizationId == nil {
+				log.Errorf("🔥 Current user does not belong to any organization.")
+
+				return c.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
+					"error":   constants.BadRequestError,
+					"details": "You must belong to and have selected an organization to create transactions.",
+				})
+			}
+
+			if err := r.Services.Users.Create(currentUser.Id, *currentUser.PrimaryOrganizationId, payload); err != nil {
 				log.Errorf("🔥 Error creating user: %s", err.Error())
 
 				return c.Status(fiber.StatusInternalServerError).JSON(&fiber.Map{

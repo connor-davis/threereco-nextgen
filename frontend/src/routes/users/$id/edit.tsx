@@ -28,6 +28,7 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import { InputTags } from '@/components/ui/input-tags';
 import { Label } from '@/components/ui/label';
 import { apiClient } from '@/lib/utils';
 
@@ -148,7 +149,12 @@ function RouteComponent() {
               <FormItem>
                 <FormLabel>Email</FormLabel>
                 <FormControl>
-                  <Input type="email" placeholder="Email" {...field} />
+                  <Input
+                    type="email"
+                    placeholder="Email"
+                    {...field}
+                    value={field.value ?? undefined}
+                  />
                 </FormControl>
                 <FormDescription>
                   Enter the user's email address.
@@ -169,7 +175,7 @@ function RouteComponent() {
                     type="text"
                     placeholder="Name"
                     {...field}
-                    value={field.value ?? ''}
+                    value={field.value ?? undefined}
                   />
                 </FormControl>
                 <FormDescription>Enter the user's name.</FormDescription>
@@ -189,7 +195,7 @@ function RouteComponent() {
                     type="text"
                     placeholder="Job Title"
                     {...field}
-                    value={field.value ?? ''}
+                    value={field.value ?? undefined}
                   />
                 </FormControl>
                 <FormDescription>Enter the user's job title.</FormDescription>
@@ -209,12 +215,32 @@ function RouteComponent() {
                     type="tel"
                     placeholder="Phone Number"
                     {...field}
-                    value={field.value ?? ''}
+                    value={field.value ?? undefined}
                   />
                 </FormControl>
                 <FormDescription>
                   Enter the user's phone number.
                 </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={updateForm.control}
+            name="tags"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Tags</FormLabel>
+                <FormControl>
+                  <InputTags
+                    type="text"
+                    placeholder="Tags"
+                    {...field}
+                    value={field.value ?? []}
+                  />
+                </FormControl>
+                <FormDescription>Enter the user's tags.</FormDescription>
                 <FormMessage />
               </FormItem>
             )}
