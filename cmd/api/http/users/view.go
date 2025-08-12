@@ -5,6 +5,7 @@ import (
 	"strconv"
 
 	"github.com/connor-davis/threereco-nextgen/internal/constants"
+	"github.com/connor-davis/threereco-nextgen/internal/models"
 	"github.com/connor-davis/threereco-nextgen/internal/routing"
 	"github.com/connor-davis/threereco-nextgen/internal/routing/schemas"
 	"github.com/getkin/kin-openapi/openapi3"
@@ -130,6 +131,17 @@ func (r *UsersRouter) ViewRoute() routing.Route {
 			r.Middleware.Authorized(),
 		},
 		Handler: func(c *fiber.Ctx) error {
+			currentUser := c.Locals("user").(*models.User)
+
+			if currentUser.PrimaryOrganizationId == nil {
+				log.Errorf("🔥 Current user does not belong to any organization.")
+
+				return c.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
+					"error":   constants.BadRequestError,
+					"details": "You must belong to and have selected an organization to view users.",
+				})
+			}
+
 			search := c.Query("search")
 
 			page, err := strconv.Atoi(c.Query("page"))
@@ -160,6 +172,7 @@ func (r *UsersRouter) ViewRoute() routing.Route {
 			)
 
 			totalUsers, err := r.Services.Users.GetTotal(
+				*currentUser.PrimaryOrganizationId,
 				searchClauses,
 			)
 
@@ -188,6 +201,7 @@ func (r *UsersRouter) ViewRoute() routing.Route {
 			offset := (page - 1) * 10
 
 			users, err := r.Services.Users.GetAll(
+				*currentUser.PrimaryOrganizationId,
 				clause.Limit{
 					Limit:  &limit,
 					Offset: offset,

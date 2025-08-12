@@ -108,7 +108,7 @@ func (s *MaterialsService) GetById(id uuid.UUID) (*models.Material, error) {
 	return &material, nil
 }
 
-func (s *MaterialsService) GetAll(clauses ...clause.Expression) ([]models.Material, error) {
+func (s *MaterialsService) GetAll(organizationId uuid.UUID, clauses ...clause.Expression) ([]models.Material, error) {
 	var materials []models.Material
 
 	if err := s.Storage.Postgres.Clauses(clauses...).Find(&materials).Error; err != nil {
@@ -118,7 +118,7 @@ func (s *MaterialsService) GetAll(clauses ...clause.Expression) ([]models.Materi
 	return materials, nil
 }
 
-func (s *MaterialsService) GetTotal(clauses ...clause.Expression) (int64, error) {
+func (s *MaterialsService) GetTotal(organizationId uuid.UUID, clauses ...clause.Expression) (int64, error) {
 	var total int64
 
 	if err := s.Storage.Postgres.Clauses(clauses...).Model(&models.Material{}).Count(&total).Error; err != nil {

@@ -146,7 +146,7 @@ func (s *RolesService) GetById(id uuid.UUID) (*models.Role, error) {
 //
 //	[]models.Role - A slice containing the retrieved roles.
 //	error         - An error if the database query fails, otherwise nil.
-func (s *RolesService) GetAll(clauses ...clause.Expression) ([]models.Role, error) {
+func (s *RolesService) GetAll(organizationId uuid.UUID, clauses ...clause.Expression) ([]models.Role, error) {
 	var roles []models.Role
 
 	if err := s.Storage.Postgres.Clauses(clauses...).Find(&roles).Error; err != nil {
@@ -159,7 +159,7 @@ func (s *RolesService) GetAll(clauses ...clause.Expression) ([]models.Role, erro
 // GetTotal returns the total number of Role records in the database that match the provided GORM clause expressions.
 // It accepts a variable number of clause.Expression arguments to filter the query.
 // Returns the count as int64 and an error if the query fails.
-func (s *RolesService) GetTotal(clauses ...clause.Expression) (int64, error) {
+func (s *RolesService) GetTotal(organizationId uuid.UUID, clauses ...clause.Expression) (int64, error) {
 	var total int64
 
 	if err := s.Storage.Postgres.Model(&models.Role{}).Clauses(clauses...).Count(&total).Error; err != nil {

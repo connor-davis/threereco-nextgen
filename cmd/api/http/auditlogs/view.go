@@ -1,4 +1,4 @@
-package products
+package auditlogs
 
 import (
 	"math"
@@ -15,7 +15,7 @@ import (
 	"gorm.io/gorm/clause"
 )
 
-func (r *ProductsRouter) ViewRoute() routing.Route {
+func (r *AuditLogsRouter) ViewRoute() routing.Route {
 	responses := openapi3.NewResponses()
 
 	responses.Set("200", &openapi3.ResponseRef{
@@ -23,7 +23,7 @@ func (r *ProductsRouter) ViewRoute() routing.Route {
 			WithJSONSchema(
 				schemas.SuccessResponseSchema.Value,
 			).
-			WithDescription("The list of products for the specified page and search query.").
+			WithDescription("The list of auditlogs for the specified page and search query.").
 			WithContent(openapi3.Content{
 				"application/json": &openapi3.MediaType{
 					Example: map[string]any{
@@ -118,15 +118,15 @@ func (r *ProductsRouter) ViewRoute() routing.Route {
 
 	return routing.Route{
 		OpenAPIMetadata: routing.OpenAPIMetadata{
-			Summary:     "View Products",
-			Description: "Endpoint to retrieve a list of products with pagination and optional search query",
-			Tags:        []string{"Products"},
+			Summary:     "View AuditLogs",
+			Description: "Endpoint to retrieve a list of auditlogs with pagination and optional search query",
+			Tags:        []string{"AuditLogs"},
 			Parameters:  parameters,
 			RequestBody: nil,
 			Responses:   responses,
 		},
 		Method: routing.GetMethod,
-		Path:   "/products",
+		Path:   "/auditlogs",
 		Middlewares: []fiber.Handler{
 			r.Middleware.Authorized(),
 		},
@@ -138,7 +138,7 @@ func (r *ProductsRouter) ViewRoute() routing.Route {
 
 				return c.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
 					"error":   constants.BadRequestError,
-					"details": "You must belong to and have selected an organization to view products.",
+					"details": "You must belong to and have selected an organization to view auditlogs.",
 				})
 			}
 
@@ -157,15 +157,27 @@ func (r *ProductsRouter) ViewRoute() routing.Route {
 					},
 					Value: "%" + search + "%",
 				},
+				clause.Like{
+					Column: clause.Column{
+						Name: "gw_code",
+					},
+					Value: "%" + search + "%",
+				},
+				clause.Like{
+					Column: clause.Column{
+						Name: "carbon_factor",
+					},
+					Value: "%" + search + "%",
+				},
 			)
 
-			totalProducts, err := r.Services.Products.GetTotal(
+			totalAuditLogs, err := r.Services.AuditLogs.GetTotal(
 				*currentUser.PrimaryOrganizationId,
 				searchClauses,
 			)
 
 			if err != nil {
-				log.Errorf("🔥 Failed to get total products: %v", err)
+				log.Errorf("🔥 Failed to get total auditlogs: %v", err)
 
 				return c.Status(fiber.StatusInternalServerError).JSON(&fiber.Map{
 					"error":   constants.InternalServerError,
@@ -173,12 +185,12 @@ func (r *ProductsRouter) ViewRoute() routing.Route {
 				})
 			}
 
-			pages := max(int(math.Ceil(float64(totalProducts)/10)), 1)
+			pages := max(int(math.Ceil(float64(totalAuditLogs)/10)), 1)
 			nextPage := min(page+1, pages)
 			previousPage := max(page-1, 1)
 
 			pageDetails := fiber.Map{
-				"count":        totalProducts,
+				"count":        totalAuditLogs,
 				"nextPage":     nextPage,
 				"previousPage": previousPage,
 				"currentPage":  page,
@@ -188,7 +200,7 @@ func (r *ProductsRouter) ViewRoute() routing.Route {
 			limit := 10
 			offset := (page - 1) * 10
 
-			products, err := r.Services.Products.GetAll(
+			auditlogs, err := r.Services.AuditLogs.GetAll(
 				*currentUser.PrimaryOrganizationId,
 				clause.Limit{
 					Limit:  &limit,
@@ -198,7 +210,7 @@ func (r *ProductsRouter) ViewRoute() routing.Route {
 			)
 
 			if err != nil {
-				log.Errorf("🔥 Failed to get products: %v", err)
+				log.Errorf("🔥 Failed to get auditlogs: %v", err)
 
 				return c.Status(fiber.StatusInternalServerError).JSON(&fiber.Map{
 					"error":   constants.InternalServerError,
@@ -207,14 +219,14 @@ func (r *ProductsRouter) ViewRoute() routing.Route {
 			}
 
 			return c.Status(fiber.StatusOK).JSON(&fiber.Map{
-				"items":       products,
+				"items":       auditlogs,
 				"pageDetails": pageDetails,
 			})
 		},
 	}
 }
 
-func (r *ProductsRouter) ViewByIdRoute() routing.Route {
+func (r *AuditLogsRouter) ViewByIdRoute() routing.Route {
 	responses := openapi3.NewResponses()
 
 	responses.Set("200", &openapi3.ResponseRef{
@@ -222,7 +234,7 @@ func (r *ProductsRouter) ViewByIdRoute() routing.Route {
 			WithJSONSchema(
 				schemas.SuccessResponseSchema.Value,
 			).
-			WithDescription("The product was retrieved successfully.").
+			WithDescription("The auditlog was retrieved successfully.").
 			WithContent(openapi3.Content{
 				"application/json": &openapi3.MediaType{
 					Example: map[string]any{
@@ -273,7 +285,7 @@ func (r *ProductsRouter) ViewByIdRoute() routing.Route {
 			WithJSONSchema(
 				schemas.ErrorResponseSchema.Value,
 			).
-			WithDescription("Product not found.").
+			WithDescription("AuditLog not found.").
 			WithContent(openapi3.Content{
 				"application/json": &openapi3.MediaType{
 					Example: map[string]any{
@@ -321,15 +333,15 @@ func (r *ProductsRouter) ViewByIdRoute() routing.Route {
 
 	return routing.Route{
 		OpenAPIMetadata: routing.OpenAPIMetadata{
-			Summary:     "View Product",
-			Description: "Endpoint to retrieve a product by their ID",
-			Tags:        []string{"Products"},
+			Summary:     "View AuditLog",
+			Description: "Endpoint to retrieve a auditlog by their ID",
+			Tags:        []string{"AuditLogs"},
 			Parameters:  parameters,
 			RequestBody: nil,
 			Responses:   responses,
 		},
 		Method: routing.GetMethod,
-		Path:   "/products/{id}",
+		Path:   "/auditlogs/{id}",
 		Middlewares: []fiber.Handler{
 			r.Middleware.Authorized(),
 		},
@@ -352,7 +364,7 @@ func (r *ProductsRouter) ViewByIdRoute() routing.Route {
 				})
 			}
 
-			product, err := r.Services.Products.GetById(idUUID)
+			auditlog, err := r.Services.AuditLogs.GetById(idUUID)
 
 			if err != nil {
 				return c.Status(fiber.StatusInternalServerError).JSON(&fiber.Map{
@@ -361,7 +373,7 @@ func (r *ProductsRouter) ViewByIdRoute() routing.Route {
 				})
 			}
 
-			if product.Id == uuid.Nil {
+			if auditlog.Id == uuid.Nil {
 				return c.Status(fiber.StatusNotFound).JSON(&fiber.Map{
 					"error":   constants.NotFoundError,
 					"details": constants.NotFoundErrorDetails,
@@ -369,7 +381,7 @@ func (r *ProductsRouter) ViewByIdRoute() routing.Route {
 			}
 
 			return c.Status(fiber.StatusOK).JSON(&fiber.Map{
-				"item": product,
+				"item": auditlog,
 			})
 		},
 	}

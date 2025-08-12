@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"regexp"
 
+	"github.com/connor-davis/threereco-nextgen/cmd/api/http/auditlogs"
 	"github.com/connor-davis/threereco-nextgen/cmd/api/http/authentication"
 	"github.com/connor-davis/threereco-nextgen/cmd/api/http/materials"
 	"github.com/connor-davis/threereco-nextgen/cmd/api/http/middleware"
@@ -74,6 +75,9 @@ func NewHttpRouter(storage *storage.Storage, sessions *session.Store, services *
 	notificationsRouter := notifications.NewNotificationsRouter(storage, sessions, services, middleware)
 	notificationsRoutes := notificationsRouter.InitializeRoutes()
 
+	auditLogsRouter := auditlogs.NewAuditLogsRouter(storage, sessions, services, middleware)
+	auditLogsRoutes := auditLogsRouter.InitializeRoutes()
+
 	routes := []routing.Route{}
 
 	routes = append(routes, authenticationRoutes...)
@@ -85,6 +89,7 @@ func NewHttpRouter(storage *storage.Storage, sessions *session.Store, services *
 	routes = append(routes, productsRoutes...)
 	routes = append(routes, transactionsRoutes...)
 	routes = append(routes, notificationsRoutes...)
+	routes = append(routes, auditLogsRoutes...)
 
 	return &HttpRouter{
 		Storage:    storage,

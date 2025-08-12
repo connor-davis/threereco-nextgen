@@ -130,7 +130,7 @@ func (s *ProductsService) GetById(id uuid.UUID) (*models.Product, error) {
 	return &product, nil
 }
 
-func (s *ProductsService) GetAll(clauses ...clause.Expression) ([]models.Product, error) {
+func (s *ProductsService) GetAll(organizationId uuid.UUID, clauses ...clause.Expression) ([]models.Product, error) {
 	var products []models.Product
 
 	if err := s.Storage.Postgres.Clauses(clauses...).Find(&products).Error; err != nil {
@@ -140,7 +140,7 @@ func (s *ProductsService) GetAll(clauses ...clause.Expression) ([]models.Product
 	return products, nil
 }
 
-func (s *ProductsService) GetTotal(clauses ...clause.Expression) (int64, error) {
+func (s *ProductsService) GetTotal(organizationId uuid.UUID, clauses ...clause.Expression) (int64, error) {
 	var total int64
 
 	if err := s.Storage.Postgres.Clauses(clauses...).Model(&models.Product{}).Count(&total).Error; err != nil {

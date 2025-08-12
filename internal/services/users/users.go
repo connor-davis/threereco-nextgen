@@ -283,7 +283,7 @@ func (s *UsersService) GetByEmail(email string) (*models.User, error) {
 //
 //	[]models.User - A slice containing the retrieved user records.
 //	error         - An error if the database query fails, otherwise nil.
-func (s *UsersService) GetAll(clauses ...clause.Expression) ([]models.User, error) {
+func (s *UsersService) GetAll(organizationId uuid.UUID, clauses ...clause.Expression) ([]models.User, error) {
 	var users []models.User
 
 	if err := s.Storage.Postgres.Clauses(clauses...).Find(&users).Error; err != nil {
@@ -296,7 +296,7 @@ func (s *UsersService) GetAll(clauses ...clause.Expression) ([]models.User, erro
 // GetTotal returns the total number of User records in the database that match the provided GORM clause expressions.
 // It accepts a variadic number of clause.Expression arguments to filter the query.
 // Returns the count as int64 and an error if the query fails.
-func (s *UsersService) GetTotal(clauses ...clause.Expression) (int64, error) {
+func (s *UsersService) GetTotal(organizationId uuid.UUID, clauses ...clause.Expression) (int64, error) {
 	var total int64
 
 	if err := s.Storage.Postgres.Clauses(clauses...).Model(&models.User{}).Count(&total).Error; err != nil {

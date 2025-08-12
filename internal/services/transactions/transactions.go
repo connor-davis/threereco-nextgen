@@ -172,7 +172,7 @@ func (s *TransactionsService) GetById(id uuid.UUID) (*models.Transaction, error)
 	return &transaction, nil
 }
 
-func (s *TransactionsService) GetAll(clauses ...clause.Expression) ([]models.Transaction, error) {
+func (s *TransactionsService) GetAll(organizationId uuid.UUID, clauses ...clause.Expression) ([]models.Transaction, error) {
 	var transactions []models.Transaction
 
 	if err := s.Storage.Postgres.Clauses(clauses...).Find(&transactions).Error; err != nil {
@@ -182,7 +182,7 @@ func (s *TransactionsService) GetAll(clauses ...clause.Expression) ([]models.Tra
 	return transactions, nil
 }
 
-func (s *TransactionsService) GetTotal(clauses ...clause.Expression) (int64, error) {
+func (s *TransactionsService) GetTotal(organizationId uuid.UUID, clauses ...clause.Expression) (int64, error) {
 	var total int64
 
 	if err := s.Storage.Postgres.Clauses(clauses...).Model(&models.Transaction{}).Count(&total).Error; err != nil {
