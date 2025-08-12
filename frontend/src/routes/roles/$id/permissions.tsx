@@ -123,7 +123,7 @@ function RouteComponent() {
   });
 
   return (
-    <div className="flex flex-col w-full h-full bg-popover border-t p-3 gap-3">
+    <div className="flex flex-col w-full h-full bg-popover border-t p-3 gap-3 overflow-hidden">
       <div className="flex items-center justify-between w-full h-auto">
         <div className="flex items-center gap-3">
           <Link to="/roles/$id/edit" params={{ id }}>
@@ -137,7 +137,7 @@ function RouteComponent() {
         <div className="flex items-center gap-3"></div>
       </div>
 
-      <div className="flex flex-col w-full h-auto gap-10 overflow-y-auto">
+      <div className="flex flex-col w-full h-full gap-10 overflow-y-auto">
         {availablePermissions
           .sort((permissionGroupA, permissionGroupB) => {
             return permissionGroupA.name.localeCompare(permissionGroupB.name);
