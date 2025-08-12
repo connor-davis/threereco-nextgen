@@ -32,7 +32,7 @@ export const AuthenticationProvider = ({
 
   return (
     <AuthenticationContext.Provider
-      value={{ user: data?.item, isLoading, isError }}
+      value={{ user: data?.item as User | undefined, isLoading, isError }}
     >
       {children}
     </AuthenticationContext.Provider>
