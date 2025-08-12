@@ -124,7 +124,7 @@ function RouteComponent() {
             <div
               key={user.id}
               className={cn(
-                'flex items-center justify-between p-3',
+                'flex items-center justify-between p-3 gap-3',
                 index + 1 < users.length ? 'border-b' : ''
               )}
             >
