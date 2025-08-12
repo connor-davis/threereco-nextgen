@@ -149,7 +149,12 @@ func (s *RolesService) GetById(id uuid.UUID) (*models.Role, error) {
 func (s *RolesService) GetAll(organizationId uuid.UUID, clauses ...clause.Expression) ([]models.Role, error) {
 	var roles []models.Role
 
-	if err := s.Storage.Postgres.Clauses(clauses...).Find(&roles).Error; err != nil {
+	if err := s.Storage.Postgres.
+		Model(&models.Role{}).
+		Joins("JOIN organizations_roles oro ON oro.role_id = roles.id").
+		Where("oro.organization_id = ?", organizationId).
+		Clauses(clauses...).
+		Find(&roles).Error; err != nil {
 		return nil, err
 	}
 
@@ -162,7 +167,12 @@ func (s *RolesService) GetAll(organizationId uuid.UUID, clauses ...clause.Expres
 func (s *RolesService) GetTotal(organizationId uuid.UUID, clauses ...clause.Expression) (int64, error) {
 	var total int64
 
-	if err := s.Storage.Postgres.Model(&models.Role{}).Clauses(clauses...).Count(&total).Error; err != nil {
+	if err := s.Storage.Postgres.
+		Model(&models.Role{}).
+		Joins("JOIN organizations_roles oro ON oro.role_id = roles.id").
+		Where("oro.organization_id = ?", organizationId).
+		Clauses(clauses...).
+		Count(&total).Error; err != nil {
 		return 0, err
 	}
 

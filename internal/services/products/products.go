@@ -133,7 +133,12 @@ func (s *ProductsService) GetById(id uuid.UUID) (*models.Product, error) {
 func (s *ProductsService) GetAll(organizationId uuid.UUID, clauses ...clause.Expression) ([]models.Product, error) {
 	var products []models.Product
 
-	if err := s.Storage.Postgres.Clauses(clauses...).Find(&products).Error; err != nil {
+	if err := s.Storage.Postgres.
+		Model(&models.Product{}).
+		Joins("JOIN organizations_products op ON op.product_id = products.id").
+		Where("op.organization_id = ?", organizationId).
+		Clauses(clauses...).
+		Find(&products).Error; err != nil {
 		return nil, err
 	}
 
@@ -143,7 +148,12 @@ func (s *ProductsService) GetAll(organizationId uuid.UUID, clauses ...clause.Exp
 func (s *ProductsService) GetTotal(organizationId uuid.UUID, clauses ...clause.Expression) (int64, error) {
 	var total int64
 
-	if err := s.Storage.Postgres.Clauses(clauses...).Model(&models.Product{}).Count(&total).Error; err != nil {
+	if err := s.Storage.Postgres.
+		Model(&models.Product{}).
+		Joins("JOIN organizations_products op ON op.product_id = products.id").
+		Where("op.organization_id = ?", organizationId).
+		Clauses(clauses...).
+		Model(&models.Product{}).Count(&total).Error; err != nil {
 		return 0, err
 	}
 

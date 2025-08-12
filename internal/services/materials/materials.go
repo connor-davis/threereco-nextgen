@@ -111,7 +111,12 @@ func (s *MaterialsService) GetById(id uuid.UUID) (*models.Material, error) {
 func (s *MaterialsService) GetAll(organizationId uuid.UUID, clauses ...clause.Expression) ([]models.Material, error) {
 	var materials []models.Material
 
-	if err := s.Storage.Postgres.Clauses(clauses...).Find(&materials).Error; err != nil {
+	if err := s.Storage.Postgres.
+		Model(&models.Material{}).
+		Joins("JOIN organizations_materials om ON om.material_id = materials.id").
+		Where("om.organization_id = ?", organizationId).
+		Clauses(clauses...).
+		Find(&materials).Error; err != nil {
 		return nil, err
 	}
 
@@ -121,7 +126,12 @@ func (s *MaterialsService) GetAll(organizationId uuid.UUID, clauses ...clause.Ex
 func (s *MaterialsService) GetTotal(organizationId uuid.UUID, clauses ...clause.Expression) (int64, error) {
 	var total int64
 
-	if err := s.Storage.Postgres.Clauses(clauses...).Model(&models.Material{}).Count(&total).Error; err != nil {
+	if err := s.Storage.Postgres.
+		Model(&models.Material{}).
+		Joins("JOIN organizations_materials om ON om.material_id = materials.id").
+		Where("om.organization_id = ?", organizationId).
+		Clauses(clauses...).
+		Count(&total).Error; err != nil {
 		return 0, err
 	}
 

@@ -72,7 +72,7 @@ type UpdateOrganizationPayload struct {
 // and creates an audit log entry recording the creation event. If any step fails, it logs the error
 // and returns it to GORM, which may abort the transaction.
 func (o *Organization) AfterCreate(tx *gorm.DB) error {
-	if _, ok := tx.Get("one:ignore_audit_log"); !ok {
+	if _, ok := tx.Get("one:ignore_audit_log"); ok {
 		return nil
 	}
 
@@ -117,7 +117,7 @@ func (o *Organization) AfterCreate(tx *gorm.DB) error {
 // If any step fails (retrieving the user ID, marshaling the Organization, or creating the audit log),
 // it logs the error and returns it.
 func (o *Organization) AfterUpdate(tx *gorm.DB) error {
-	if _, ok := tx.Get("one:ignore_audit_log"); !ok {
+	if _, ok := tx.Get("one:ignore_audit_log"); ok {
 		return nil
 	}
 
@@ -161,7 +161,7 @@ func (o *Organization) AfterUpdate(tx *gorm.DB) error {
 // the operation type, and the user who performed the deletion. If the audit user ID cannot be retrieved
 // or if any error occurs during marshalling or audit log creation, the function returns an error.
 func (o *Organization) AfterDelete(tx *gorm.DB) error {
-	if _, ok := tx.Get("one:ignore_audit_log"); !ok {
+	if _, ok := tx.Get("one:ignore_audit_log"); ok {
 		return nil
 	}
 

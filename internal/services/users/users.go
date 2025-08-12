@@ -286,7 +286,12 @@ func (s *UsersService) GetByEmail(email string) (*models.User, error) {
 func (s *UsersService) GetAll(organizationId uuid.UUID, clauses ...clause.Expression) ([]models.User, error) {
 	var users []models.User
 
-	if err := s.Storage.Postgres.Clauses(clauses...).Find(&users).Error; err != nil {
+	if err := s.Storage.Postgres.
+		Model(&models.User{}).
+		Joins("JOIN organizations_users ou ON ou.user_id = users.id").
+		Where("ou.organization_id = ?", organizationId).
+		Clauses(clauses...).
+		Find(&users).Error; err != nil {
 		return nil, err
 	}
 
@@ -299,7 +304,12 @@ func (s *UsersService) GetAll(organizationId uuid.UUID, clauses ...clause.Expres
 func (s *UsersService) GetTotal(organizationId uuid.UUID, clauses ...clause.Expression) (int64, error) {
 	var total int64
 
-	if err := s.Storage.Postgres.Clauses(clauses...).Model(&models.User{}).Count(&total).Error; err != nil {
+	if err := s.Storage.Postgres.
+		Model(&models.User{}).
+		Joins("JOIN organizations_users ou ON ou.user_id = users.id").
+		Where("ou.organization_id = ?", organizationId).
+		Clauses(clauses...).
+		Count(&total).Error; err != nil {
 		return 0, err
 	}
 

@@ -161,6 +161,7 @@ func (r *TransactionsRouter) ViewRoute() routing.Route {
 
 			totalTransactions, err := r.Services.Transactions.GetTotal(
 				*currentUser.PrimaryOrganizationId,
+				currentUser.Id,
 				searchClauses,
 			)
 
@@ -190,6 +191,7 @@ func (r *TransactionsRouter) ViewRoute() routing.Route {
 
 			transactions, err := r.Services.Transactions.GetAll(
 				*currentUser.PrimaryOrganizationId,
+				currentUser.Id,
 				clause.Limit{
 					Limit:  &limit,
 					Offset: offset,

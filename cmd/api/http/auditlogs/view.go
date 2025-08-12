@@ -153,19 +153,13 @@ func (r *AuditLogsRouter) ViewRoute() routing.Route {
 			searchClauses := clause.Or(
 				clause.Like{
 					Column: clause.Column{
-						Name: "name",
+						Name: "table_name",
 					},
 					Value: "%" + search + "%",
 				},
 				clause.Like{
 					Column: clause.Column{
-						Name: "gw_code",
-					},
-					Value: "%" + search + "%",
-				},
-				clause.Like{
-					Column: clause.Column{
-						Name: "carbon_factor",
+						Name: "operation_type",
 					},
 					Value: "%" + search + "%",
 				},

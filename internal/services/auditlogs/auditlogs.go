@@ -35,7 +35,20 @@ func (s *AuditLogsService) GetById(id uuid.UUID) (*models.AuditLog, error) {
 func (s *AuditLogsService) GetAll(organizationId uuid.UUID, clauses ...clause.Expression) ([]models.AuditLog, error) {
 	var auditlogs []models.AuditLog
 
-	if err := s.Storage.Postgres.Clauses(clauses...).Find(&auditlogs).Error; err != nil {
+	auditLogsClauses := []clause.Expression{
+		clause.Eq{
+			Column: clause.Column{
+				Name: "organization_id",
+			},
+			Value: organizationId,
+		},
+	}
+
+	auditLogsClauses = append(auditLogsClauses, clauses...)
+
+	if err := s.Storage.Postgres.
+		Clauses(auditLogsClauses...).
+		Find(&auditlogs).Error; err != nil {
 		return nil, err
 	}
 
@@ -45,7 +58,21 @@ func (s *AuditLogsService) GetAll(organizationId uuid.UUID, clauses ...clause.Ex
 func (s *AuditLogsService) GetTotal(organizationId uuid.UUID, clauses ...clause.Expression) (int64, error) {
 	var total int64
 
-	if err := s.Storage.Postgres.Clauses(clauses...).Model(&models.AuditLog{}).Count(&total).Error; err != nil {
+	auditLogsClauses := []clause.Expression{
+		clause.Eq{
+			Column: clause.Column{
+				Name: "organization_id",
+			},
+			Value: organizationId,
+		},
+	}
+
+	auditLogsClauses = append(auditLogsClauses, clauses...)
+
+	if err := s.Storage.Postgres.
+		Model(&models.AuditLog{}).
+		Clauses(auditLogsClauses...).
+		Count(&total).Error; err != nil {
 		return 0, err
 	}
 

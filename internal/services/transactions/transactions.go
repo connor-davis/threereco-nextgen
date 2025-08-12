@@ -172,20 +172,82 @@ func (s *TransactionsService) GetById(id uuid.UUID) (*models.Transaction, error)
 	return &transaction, nil
 }
 
-func (s *TransactionsService) GetAll(organizationId uuid.UUID, clauses ...clause.Expression) ([]models.Transaction, error) {
+func (s *TransactionsService) GetAll(organizationId uuid.UUID, userId uuid.UUID, clauses ...clause.Expression) ([]models.Transaction, error) {
 	var transactions []models.Transaction
 
-	if err := s.Storage.Postgres.Clauses(clauses...).Find(&transactions).Error; err != nil {
+	organizationClauses := []clause.Expression{
+		clause.Or(clause.Eq{
+			Column: clause.Column{
+				Name: "seller_id",
+			},
+			Value: organizationId,
+		},
+			clause.Eq{
+				Column: clause.Column{
+					Name: "seller_id",
+				},
+				Value: userId,
+			},
+			clause.Eq{
+				Column: clause.Column{
+					Name: "buyer_id",
+				},
+				Value: organizationId,
+			},
+			clause.Eq{
+				Column: clause.Column{
+					Name: "buyer_id",
+				},
+				Value: userId,
+			},
+		),
+	}
+
+	organizationClauses = append(organizationClauses, clauses...)
+
+	if err := s.Storage.Postgres.
+		Clauses(organizationClauses...).
+		Find(&transactions).Error; err != nil {
 		return nil, err
 	}
 
 	return transactions, nil
 }
 
-func (s *TransactionsService) GetTotal(organizationId uuid.UUID, clauses ...clause.Expression) (int64, error) {
+func (s *TransactionsService) GetTotal(organizationId uuid.UUID, userId uuid.UUID, clauses ...clause.Expression) (int64, error) {
 	var total int64
 
-	if err := s.Storage.Postgres.Clauses(clauses...).Model(&models.Transaction{}).Count(&total).Error; err != nil {
+	organizationClauses := []clause.Expression{
+		clause.Or(clause.Eq{
+			Column: clause.Column{
+				Name: "seller_id",
+			},
+			Value: organizationId,
+		},
+			clause.Eq{
+				Column: clause.Column{
+					Name: "seller_id",
+				},
+				Value: userId,
+			},
+			clause.Eq{
+				Column: clause.Column{
+					Name: "buyer_id",
+				},
+				Value: organizationId,
+			},
+			clause.Eq{
+				Column: clause.Column{
+					Name: "buyer_id",
+				},
+				Value: userId,
+			},
+		),
+	}
+
+	organizationClauses = append(organizationClauses, clauses...)
+
+	if err := s.Storage.Postgres.Clauses(organizationClauses...).Model(&models.Transaction{}).Count(&total).Error; err != nil {
 		return 0, err
 	}
 

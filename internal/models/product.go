@@ -53,7 +53,7 @@ type UpdateProductPayload struct {
 // and creates an audit log entry recording the creation event. If any step fails, it logs the error
 // and returns it to GORM, which may abort the transaction.
 func (p *Product) AfterCreate(tx *gorm.DB) error {
-	if _, ok := tx.Get("one:ignore_audit_log"); !ok {
+	if _, ok := tx.Get("one:ignore_audit_log"); ok {
 		return nil
 	}
 
@@ -96,7 +96,7 @@ func (p *Product) AfterCreate(tx *gorm.DB) error {
 // It retrieves the audit user ID from the transaction context, marshals the updated Product
 // into JSON, and creates an audit log entry recording the update operation.
 func (p *Product) AfterUpdate(tx *gorm.DB) error {
-	if _, ok := tx.Get("one:ignore_audit_log"); !ok {
+	if _, ok := tx.Get("one:ignore_audit_log"); ok {
 		return nil
 	}
 
@@ -140,7 +140,7 @@ func (p *Product) AfterUpdate(tx *gorm.DB) error {
 // and creates an audit log entry recording the deletion event. If any step fails, it logs the error
 // and returns it to GORM, which may abort the transaction.
 func (p *Product) AfterDelete(tx *gorm.DB) error {
-	if _, ok := tx.Get("one:ignore_audit_log"); !ok {
+	if _, ok := tx.Get("one:ignore_audit_log"); ok {
 		return nil
 	}
 
