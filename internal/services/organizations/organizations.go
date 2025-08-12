@@ -177,7 +177,23 @@ func (s *OrganizationsService) GetById(id uuid.UUID) (*models.Organization, erro
 func (s *OrganizationsService) GetAll(clauses ...clause.Expression) ([]models.Organization, error) {
 	var organizations []models.Organization
 
-	if err := s.Storage.Postgres.Clauses(clauses...).
+	organizationsClauses := []clause.Expression{
+		clause.OrderBy{
+			Columns: []clause.OrderByColumn{
+				{
+					Column: clause.Column{
+						Name: "created_at",
+					},
+					Desc: true,
+				},
+			},
+		},
+	}
+
+	organizationsClauses = append(organizationsClauses, clauses...)
+
+	if err := s.Storage.Postgres.
+		Clauses(organizationsClauses...).
 		Find(&organizations).Error; err != nil {
 		return nil, err
 	}
@@ -191,7 +207,8 @@ func (s *OrganizationsService) GetAll(clauses ...clause.Expression) ([]models.Or
 func (s *OrganizationsService) GetTotal(clauses ...clause.Expression) (int64, error) {
 	var count int64
 
-	if err := s.Storage.Postgres.Model(&models.Organization{}).
+	if err := s.Storage.Postgres.
+		Model(&models.Organization{}).
 		Clauses(clauses...).
 		Count(&count).Error; err != nil {
 		return 0, err

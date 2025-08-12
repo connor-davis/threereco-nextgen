@@ -286,11 +286,26 @@ func (s *UsersService) GetByEmail(email string) (*models.User, error) {
 func (s *UsersService) GetAll(organizationId uuid.UUID, clauses ...clause.Expression) ([]models.User, error) {
 	var users []models.User
 
+	usersClauses := []clause.Expression{
+		clause.OrderBy{
+			Columns: []clause.OrderByColumn{
+				{
+					Column: clause.Column{
+						Name: "created_at",
+					},
+					Desc: true,
+				},
+			},
+		},
+	}
+
+	usersClauses = append(usersClauses, clauses...)
+
 	if err := s.Storage.Postgres.
 		Model(&models.User{}).
 		Joins("JOIN organizations_users ou ON ou.user_id = users.id").
 		Where("ou.organization_id = ?", organizationId).
-		Clauses(clauses...).
+		Clauses(usersClauses...).
 		Find(&users).Error; err != nil {
 		return nil, err
 	}

@@ -42,6 +42,16 @@ func (s *AuditLogsService) GetAll(organizationId uuid.UUID, clauses ...clause.Ex
 			},
 			Value: organizationId,
 		},
+		clause.OrderBy{
+			Columns: []clause.OrderByColumn{
+				{
+					Column: clause.Column{
+						Name: "created_at",
+					},
+					Desc: true,
+				},
+			},
+		},
 	}
 
 	auditLogsClauses = append(auditLogsClauses, clauses...)

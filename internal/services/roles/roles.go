@@ -149,11 +149,26 @@ func (s *RolesService) GetById(id uuid.UUID) (*models.Role, error) {
 func (s *RolesService) GetAll(organizationId uuid.UUID, clauses ...clause.Expression) ([]models.Role, error) {
 	var roles []models.Role
 
+	rolesClauses := []clause.Expression{
+		clause.OrderBy{
+			Columns: []clause.OrderByColumn{
+				{
+					Column: clause.Column{
+						Name: "created_at",
+					},
+					Desc: true,
+				},
+			},
+		},
+	}
+
+	rolesClauses = append(rolesClauses, clauses...)
+
 	if err := s.Storage.Postgres.
 		Model(&models.Role{}).
 		Joins("JOIN organizations_roles oro ON oro.role_id = roles.id").
 		Where("oro.organization_id = ?", organizationId).
-		Clauses(clauses...).
+		Clauses(rolesClauses...).
 		Find(&roles).Error; err != nil {
 		return nil, err
 	}

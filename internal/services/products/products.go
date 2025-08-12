@@ -133,11 +133,26 @@ func (s *ProductsService) GetById(id uuid.UUID) (*models.Product, error) {
 func (s *ProductsService) GetAll(organizationId uuid.UUID, clauses ...clause.Expression) ([]models.Product, error) {
 	var products []models.Product
 
+	productsClauses := []clause.Expression{
+		clause.OrderBy{
+			Columns: []clause.OrderByColumn{
+				{
+					Column: clause.Column{
+						Name: "created_at",
+					},
+					Desc: true,
+				},
+			},
+		},
+	}
+
+	productsClauses = append(productsClauses, clauses...)
+
 	if err := s.Storage.Postgres.
 		Model(&models.Product{}).
 		Joins("JOIN organizations_products op ON op.product_id = products.id").
 		Where("op.organization_id = ?", organizationId).
-		Clauses(clauses...).
+		Clauses(productsClauses...).
 		Find(&products).Error; err != nil {
 		return nil, err
 	}

@@ -103,7 +103,22 @@ func (s *NotificationsService) GetById(id uuid.UUID) (*models.Notification, erro
 func (s *NotificationsService) GetAll(clauses ...clause.Expression) ([]models.Notification, error) {
 	var notifications []models.Notification
 
-	if err := s.Storage.Postgres.Clauses(clauses...).Find(&notifications).Error; err != nil {
+	notificationsClauses := []clause.Expression{
+		clause.OrderBy{
+			Columns: []clause.OrderByColumn{
+				{
+					Column: clause.Column{
+						Name: "created_at",
+					},
+					Desc: true,
+				},
+			},
+		},
+	}
+
+	notificationsClauses = append(notificationsClauses, clauses...)
+
+	if err := s.Storage.Postgres.Clauses(notificationsClauses...).Find(&notifications).Error; err != nil {
 		return nil, err
 	}
 

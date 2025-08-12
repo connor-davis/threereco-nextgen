@@ -243,6 +243,16 @@ func (s *TransactionsService) GetTotal(organizationId uuid.UUID, userId uuid.UUI
 				Value: userId,
 			},
 		),
+		clause.OrderBy{
+			Columns: []clause.OrderByColumn{
+				{
+					Column: clause.Column{
+						Name: "created_at",
+					},
+					Desc: true,
+				},
+			},
+		},
 	}
 
 	organizationClauses = append(organizationClauses, clauses...)
