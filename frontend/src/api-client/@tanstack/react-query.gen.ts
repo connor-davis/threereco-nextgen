@@ -31,6 +31,7 @@ import {
   getApiProducts,
   getApiProductsById,
   getApiRoles,
+  getApiRolesAvailablePermissions,
   getApiRolesById,
   getApiTransactions,
   getApiTransactionsById,
@@ -95,6 +96,7 @@ import type {
   GetApiProductsData,
   GetApiProductsError,
   GetApiProductsResponse,
+  GetApiRolesAvailablePermissionsData,
   GetApiRolesByIdData,
   GetApiRolesData,
   GetApiRolesError,
@@ -1651,6 +1653,31 @@ export const postApiRolesMutation = (
     },
   };
   return mutationOptions;
+};
+
+export const getApiRolesAvailablePermissionsQueryKey = (
+  options?: Options<GetApiRolesAvailablePermissionsData>
+) => createQueryKey('getApiRolesAvailablePermissions', options);
+
+/**
+ * Available Permissions
+ * Return the available permissions for roles.
+ */
+export const getApiRolesAvailablePermissionsOptions = (
+  options?: Options<GetApiRolesAvailablePermissionsData>
+) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await getApiRolesAvailablePermissions({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: getApiRolesAvailablePermissionsQueryKey(options),
+  });
 };
 
 /**

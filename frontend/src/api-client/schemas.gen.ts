@@ -178,6 +178,42 @@ export const AuditLogSchema = {
   ],
 } as const;
 
+export const AvailablePermissionSchema = {
+  properties: {
+    description: {
+      type: 'string',
+    },
+    value: {
+      type: 'string',
+    },
+  },
+  required: ['value', 'description'],
+} as const;
+
+export const AvailablePermissionGroupSchema = {
+  properties: {
+    name: {
+      minLength: 1,
+      type: 'string',
+    },
+    permissions: {
+      items: {
+        properties: {
+          description: {
+            type: 'string',
+          },
+          value: {
+            type: 'string',
+          },
+        },
+        required: ['value', 'description'],
+      },
+      type: 'array',
+    },
+  },
+  required: ['name', 'permissions'],
+} as const;
+
 export const CreateMaterialPayloadSchema = {
   properties: {
     carbonFactor: {
@@ -463,6 +499,127 @@ export const MfaVerifyPayloadSchema = {
       type: 'string',
     },
   },
+} as const;
+
+export const NotificationSchema = {
+  properties: {
+    action: {
+      properties: {
+        link: {
+          format: 'uri',
+          type: 'string',
+        },
+        linkText: {
+          type: 'string',
+        },
+      },
+    },
+    closed: {
+      type: 'boolean',
+    },
+    createdAt: {
+      format: 'date-time',
+      type: 'string',
+    },
+    id: {
+      format: 'uuid',
+      type: 'string',
+    },
+    message: {
+      type: 'string',
+    },
+    modifiedBy: {
+      properties: {
+        createdAt: {
+          format: 'date-time',
+          type: 'string',
+        },
+        email: {
+          format: 'email',
+          minLength: 1,
+          type: 'string',
+        },
+        id: {
+          format: 'uuid',
+          type: 'string',
+        },
+        image: {
+          type: 'string',
+        },
+        jobTitle: {
+          type: 'string',
+        },
+        mfaEnabled: {
+          default: false,
+          type: 'boolean',
+        },
+        mfaVerified: {
+          default: false,
+          type: 'boolean',
+        },
+        modifiedById: {
+          format: 'uuid',
+          type: 'string',
+        },
+        name: {
+          type: 'string',
+        },
+        phone: {
+          type: 'string',
+        },
+        primaryOrganizationId: {
+          format: 'uuid',
+          type: 'string',
+        },
+        tags: {
+          items: {
+            type: 'string',
+          },
+          type: 'array',
+        },
+        updatedAt: {
+          format: 'date-time',
+          type: 'string',
+        },
+      },
+      required: [
+        'id',
+        'email',
+        'mfaEnabled',
+        'mfaVerified',
+        'tags',
+        'modifiedById',
+        'createdAt',
+        'updatedAt',
+      ],
+      type: 'object',
+    },
+    modifiedById: {
+      format: 'uuid',
+      type: 'string',
+    },
+    title: {
+      type: 'string',
+    },
+    updatedAt: {
+      format: 'date-time',
+      type: 'string',
+    },
+    userId: {
+      format: 'uuid',
+      type: 'string',
+    },
+  },
+  required: [
+    'id',
+    'title',
+    'message',
+    'userId',
+    'closed',
+    'modifiedById',
+    'createdAt',
+    'updatedAt',
+  ],
 } as const;
 
 export const OrganizationSchema = {
@@ -2464,6 +2621,29 @@ export const SuccessResponseSchema = {
             'updatedAt',
           ],
         },
+        {
+          properties: {
+            name: {
+              minLength: 1,
+              type: 'string',
+            },
+            permissions: {
+              items: {
+                properties: {
+                  description: {
+                    type: 'string',
+                  },
+                  value: {
+                    type: 'string',
+                  },
+                },
+                required: ['value', 'description'],
+              },
+              type: 'array',
+            },
+          },
+          required: ['name', 'permissions'],
+        },
       ],
     },
     items: {
@@ -3902,6 +4082,29 @@ export const SuccessResponseSchema = {
               'createdAt',
               'updatedAt',
             ],
+          },
+          {
+            properties: {
+              name: {
+                minLength: 1,
+                type: 'string',
+              },
+              permissions: {
+                items: {
+                  properties: {
+                    description: {
+                      type: 'string',
+                    },
+                    value: {
+                      type: 'string',
+                    },
+                  },
+                  required: ['value', 'description'],
+                },
+                type: 'array',
+              },
+            },
+            required: ['name', 'permissions'],
           },
           {
             type: 'string',

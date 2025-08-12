@@ -25,6 +25,8 @@ func NewRolesRouter(storage *storage.Storage, sessions *session.Store, services 
 }
 
 func (r *RolesRouter) InitializeRoutes() []routing.Route {
+	availablePermissionsRoute := r.AvailablePermissionsRoute()
+
 	viewRoute := r.ViewRoute()
 	viewByIdRoute := r.ViewByIdRoute()
 
@@ -32,14 +34,12 @@ func (r *RolesRouter) InitializeRoutes() []routing.Route {
 	updateByIdRoute := r.UpdateByIdRoute()
 	deleteByIdRoute := r.DeleteByIdRoute()
 
-	availablePermissionsRoute := r.AvailablePermissionsRoute()
-
 	return []routing.Route{
+		availablePermissionsRoute,
 		viewRoute,
 		viewByIdRoute,
 		createRoute,
 		updateByIdRoute,
 		deleteByIdRoute,
-		availablePermissionsRoute,
 	}
 }

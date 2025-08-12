@@ -65,6 +65,9 @@ import type {
   GetApiProductsData,
   GetApiProductsErrors,
   GetApiProductsResponses,
+  GetApiRolesAvailablePermissionsData,
+  GetApiRolesAvailablePermissionsErrors,
+  GetApiRolesAvailablePermissionsResponses,
   GetApiRolesByIdData,
   GetApiRolesByIdErrors,
   GetApiRolesByIdResponses,
@@ -781,6 +784,25 @@ export const postApiRoles = <ThrowOnError extends boolean = false>(
       'Content-Type': 'application/json',
       ...options.headers,
     },
+  });
+};
+
+/**
+ * Available Permissions
+ * Return the available permissions for roles.
+ */
+export const getApiRolesAvailablePermissions = <
+  ThrowOnError extends boolean = false,
+>(
+  options?: Options<GetApiRolesAvailablePermissionsData, ThrowOnError>
+) => {
+  return (options?.client ?? _heyApiClient).get<
+    GetApiRolesAvailablePermissionsResponses,
+    GetApiRolesAvailablePermissionsErrors,
+    ThrowOnError
+  >({
+    url: '/api/roles/available-permissions',
+    ...options,
   });
 };
 

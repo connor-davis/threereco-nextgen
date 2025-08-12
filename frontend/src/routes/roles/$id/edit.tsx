@@ -131,7 +131,13 @@ function RouteComponent() {
 
           <Label className="text-lg">Edit Role</Label>
         </div>
-        <div className="flex items-center gap-3"></div>
+        <div className="flex items-center gap-3">
+          <PermissionGuard value={'roles.update'}>
+            <Link to="/roles/$id/permissions" params={{ id }}>
+              <Button>Manage Permissions</Button>
+            </Link>
+          </PermissionGuard>
+        </div>
       </div>
 
       <Form {...updateForm}>
