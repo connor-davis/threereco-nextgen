@@ -106,7 +106,21 @@ func (s *RolesService) Update(auditId uuid.UUID, id uuid.UUID, role models.Updat
 // Returns:
 //   - error: Non-nil if the deletion fails, nil otherwise.
 func (s *RolesService) Delete(auditId uuid.UUID, id uuid.UUID) error {
-	if err := s.Storage.Postgres.Set("one:audit_user_id", auditId).Where("id = $1", id).Delete(&models.Role{}).Error; err != nil {
+	var existingRole models.Role
+
+	if err := s.Storage.Postgres.
+		Where("id = $1", id).
+		Find(&existingRole).Error; err != nil {
+		return err
+	}
+
+	if existingRole.Id == uuid.Nil {
+		return nil
+	}
+
+	if err := s.Storage.Postgres.
+		Set("one:audit_user_id", auditId).
+		Delete(&existingRole).Error; err != nil {
 		return err
 	}
 

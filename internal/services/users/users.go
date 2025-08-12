@@ -151,11 +151,21 @@ func (s *UsersService) Update(auditId uuid.UUID, id uuid.UUID, user models.Updat
 // Returns:
 //   - error: An error if the deletion fails, otherwise nil.
 func (s *UsersService) Delete(auditId uuid.UUID, id uuid.UUID) error {
-	if err := s.Storage.Postgres.Set("one:audit_user_id", auditId).
-		Where(&models.User{
-			Id: id,
-		}).
-		Delete(&models.User{}).Error; err != nil {
+	var existingUser models.User
+
+	if err := s.Storage.Postgres.
+		Where("id = $1", id).
+		Find(&existingUser).Error; err != nil {
+		return err
+	}
+
+	if existingUser.Id == uuid.Nil {
+		return nil
+	}
+
+	if err := s.Storage.Postgres.
+		Set("one:audit_user_id", auditId).
+		Delete(&existingUser).Error; err != nil {
 		return err
 	}
 

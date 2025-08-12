@@ -145,11 +145,21 @@ func (s *TransactionsService) Update(auditId uuid.UUID, id uuid.UUID, transactio
 }
 
 func (s *TransactionsService) Delete(auditId uuid.UUID, id uuid.UUID) error {
-	if err := s.Storage.Postgres.Set("one:audit_user_id", auditId).
-		Where(&models.Transaction{
-			Id: id,
-		}).
-		Delete(&models.Transaction{}).Error; err != nil {
+	var existingTransaction models.Transaction
+
+	if err := s.Storage.Postgres.
+		Where("id = $1", id).
+		Find(&existingTransaction).Error; err != nil {
+		return err
+	}
+
+	if existingTransaction.Id == uuid.Nil {
+		return nil
+	}
+
+	if err := s.Storage.Postgres.
+		Set("one:audit_user_id", auditId).
+		Delete(&existingTransaction).Error; err != nil {
 		return err
 	}
 

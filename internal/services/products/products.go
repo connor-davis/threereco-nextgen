@@ -103,11 +103,21 @@ func (s *ProductsService) Update(auditId uuid.UUID, id uuid.UUID, product models
 }
 
 func (s *ProductsService) Delete(auditId uuid.UUID, id uuid.UUID) error {
-	if err := s.Storage.Postgres.Set("one:audit_user_id", auditId).
-		Where(&models.Product{
-			Id: id,
-		}).
-		Delete(&models.Product{}).Error; err != nil {
+	var existingProduct models.Product
+
+	if err := s.Storage.Postgres.
+		Where("id = $1", id).
+		Find(&existingProduct).Error; err != nil {
+		return err
+	}
+
+	if existingProduct.Id == uuid.Nil {
+		return nil
+	}
+
+	if err := s.Storage.Postgres.
+		Set("one:audit_user_id", auditId).
+		Delete(&existingProduct).Error; err != nil {
 		return err
 	}
 

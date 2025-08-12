@@ -74,11 +74,21 @@ func (s *NotificationsService) Update(auditId uuid.UUID, id uuid.UUID, notificat
 }
 
 func (s *NotificationsService) Delete(auditId uuid.UUID, id uuid.UUID) error {
-	if err := s.Storage.Postgres.Set("one:audit_user_id", auditId).
-		Where(&models.Notification{
-			Id: id,
-		}).
-		Delete(&models.Notification{}).Error; err != nil {
+	var existingNotification models.Notification
+
+	if err := s.Storage.Postgres.
+		Where("id = $1", id).
+		Find(&existingNotification).Error; err != nil {
+		return err
+	}
+
+	if existingNotification.Id == uuid.Nil {
+		return nil
+	}
+
+	if err := s.Storage.Postgres.
+		Set("one:audit_user_id", auditId).
+		Delete(&existingNotification).Error; err != nil {
 		return err
 	}
 

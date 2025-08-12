@@ -132,9 +132,21 @@ func (s *OrganizationsService) Update(auditId uuid.UUID, id uuid.UUID, organizat
 // It associates the deletion with the provided auditId for auditing purposes.
 // Returns an error if the deletion fails.
 func (s *OrganizationsService) Delete(auditId uuid.UUID, id uuid.UUID) error {
-	if err := s.Storage.Postgres.Set("one:audit_user_id", auditId).
+	var existingOrganization models.Organization
+
+	if err := s.Storage.Postgres.
 		Where("id = $1", id).
-		Delete(&models.Organization{}).Error; err != nil {
+		Find(&existingOrganization).Error; err != nil {
+		return err
+	}
+
+	if existingOrganization.Id == uuid.Nil {
+		return nil
+	}
+
+	if err := s.Storage.Postgres.
+		Set("one:audit_user_id", auditId).
+		Delete(&existingOrganization).Error; err != nil {
 		return err
 	}
 

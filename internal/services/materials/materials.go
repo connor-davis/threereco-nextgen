@@ -82,11 +82,21 @@ func (s *MaterialsService) Update(auditId uuid.UUID, id uuid.UUID, material mode
 }
 
 func (s *MaterialsService) Delete(auditId uuid.UUID, id uuid.UUID) error {
-	if err := s.Storage.Postgres.Set("one:audit_user_id", auditId).
-		Where(&models.Material{
-			Id: id,
-		}).
-		Delete(&models.Material{}).Error; err != nil {
+	var existingMaterial models.Material
+
+	if err := s.Storage.Postgres.
+		Where("id = $1", id).
+		Find(&existingMaterial).Error; err != nil {
+		return err
+	}
+
+	if existingMaterial.Id == uuid.Nil {
+		return nil
+	}
+
+	if err := s.Storage.Postgres.
+		Set("one:audit_user_id", auditId).
+		Delete(&existingMaterial).Error; err != nil {
 		return err
 	}
 
