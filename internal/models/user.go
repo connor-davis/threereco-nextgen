@@ -112,6 +112,10 @@ type UpdateUserPayload struct {
 // and creates an audit log entry recording the creation event. If any step fails, it logs the error
 // and returns it to GORM, which may abort the transaction.
 func (u *User) AfterCreate(tx *gorm.DB) error {
+	if _, ok := tx.Get("one:ignore_audit_log"); !ok {
+		return nil
+	}
+
 	auditUserId, ok := tx.Get("one:audit_user_id")
 
 	if !ok {
@@ -151,6 +155,10 @@ func (u *User) AfterCreate(tx *gorm.DB) error {
 // It retrieves the audit user ID from the transaction context, marshals the updated User
 // into JSON, and creates an audit log entry recording the update operation.
 func (u *User) AfterUpdate(tx *gorm.DB) error {
+	if _, ok := tx.Get("one:ignore_audit_log"); !ok {
+		return nil
+	}
+
 	auditUserId, ok := tx.Get("one:audit_user_id")
 
 	if !ok {
@@ -191,6 +199,10 @@ func (u *User) AfterUpdate(tx *gorm.DB) error {
 // and creates an audit log entry recording the deletion event. If any step fails, it logs the error
 // and returns it to GORM, which may abort the transaction.
 func (u *User) AfterDelete(tx *gorm.DB) error {
+	if _, ok := tx.Get("one:ignore_audit_log"); !ok {
+		return nil
+	}
+
 	auditUserId, ok := tx.Get("one:audit_user_id")
 
 	if !ok {

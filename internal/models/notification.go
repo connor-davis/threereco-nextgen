@@ -104,6 +104,10 @@ type UpdateNotificationPayload struct {
 // It returns an error if the audit user ID is missing, marshaling fails, or the audit log
 // record cannot be created; otherwise it logs success and returns nil.
 func (n *Notification) AfterCreate(tx *gorm.DB) error {
+	if _, ok := tx.Get("one:ignore_audit_log"); !ok {
+		return nil
+	}
+
 	auditUserId, ok := tx.Get("one:audit_user_id")
 
 	if !ok {
@@ -147,6 +151,10 @@ func (n *Notification) AfterCreate(tx *gorm.DB) error {
 // if the audit user ID is missing, JSON marshaling fails, or the audit log cannot
 // be persisted.
 func (n *Notification) AfterUpdate(tx *gorm.DB) error {
+	if _, ok := tx.Get("one:ignore_audit_log"); !ok {
+		return nil
+	}
+
 	auditUserId, ok := tx.Get("one:audit_user_id")
 
 	if !ok {
@@ -190,6 +198,10 @@ func (n *Notification) AfterUpdate(tx *gorm.DB) error {
 // JSON marshaling fails, or persisting the audit log fails; otherwise it logs
 // a success message and returns nil.
 func (n *Notification) AfterDelete(tx *gorm.DB) error {
+	if _, ok := tx.Get("one:ignore_audit_log"); !ok {
+		return nil
+	}
+
 	auditUserId, ok := tx.Get("one:audit_user_id")
 
 	if !ok {

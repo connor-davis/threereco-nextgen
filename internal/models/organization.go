@@ -39,7 +39,7 @@ type Organization struct {
 	Purchases        []Transaction `json:"purchases" gorm:"polymorphic:Buyer;constraint:OnDelete:CASCADE;"`
 	Materials        []Material    `json:"materials" gorm:"many2many:organizations_materials;constraint:OnDelete:CASCADE;"`
 	Products         []Product     `json:"products" gorm:"many2many:organizations_products;constraint:OnDelete:CASCADE;"`
-	AuditLogs        []AuditLog    `json:"auditLogs" gorm:"many2many:organizations_audit_logs;constraint:OnDelete:CASCADE;"`
+	AuditLogs        []AuditLog    `json:"auditLogs" gorm:"foreignKey:OrganizationId;references:Id;constraint:OnDelete:CASCADE;"`
 	ModifiedByUserId uuid.UUID     `json:"modifiedById" gorm:"type:uuid;"`
 	ModifiedByUser   *User         `json:"modifiedBy"`
 	CreatedAt        time.Time     `json:"createdAt" gorm:"autoCreateTime;"`
@@ -72,6 +72,10 @@ type UpdateOrganizationPayload struct {
 // and creates an audit log entry recording the creation event. If any step fails, it logs the error
 // and returns it to GORM, which may abort the transaction.
 func (o *Organization) AfterCreate(tx *gorm.DB) error {
+	if _, ok := tx.Get("one:ignore_audit_log"); !ok {
+		return nil
+	}
+
 	auditUserId, ok := tx.Get("one:audit_user_id")
 
 	if !ok {
@@ -113,6 +117,10 @@ func (o *Organization) AfterCreate(tx *gorm.DB) error {
 // If any step fails (retrieving the user ID, marshaling the Organization, or creating the audit log),
 // it logs the error and returns it.
 func (o *Organization) AfterUpdate(tx *gorm.DB) error {
+	if _, ok := tx.Get("one:ignore_audit_log"); !ok {
+		return nil
+	}
+
 	auditUserId, ok := tx.Get("one:audit_user_id")
 
 	if !ok {
@@ -153,6 +161,10 @@ func (o *Organization) AfterUpdate(tx *gorm.DB) error {
 // the operation type, and the user who performed the deletion. If the audit user ID cannot be retrieved
 // or if any error occurs during marshalling or audit log creation, the function returns an error.
 func (o *Organization) AfterDelete(tx *gorm.DB) error {
+	if _, ok := tx.Get("one:ignore_audit_log"); !ok {
+		return nil
+	}
+
 	auditUserId, ok := tx.Get("one:audit_user_id")
 
 	if !ok {

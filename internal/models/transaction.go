@@ -105,6 +105,10 @@ type UpdateTransactionPayload struct {
 // or the audit log cannot be created, it logs the error and returns it; otherwise,
 // it logs a success message and returns nil.
 func (t *Transaction) AfterCreate(tx *gorm.DB) error {
+	if _, ok := tx.Get("one:ignore_audit_log"); !ok {
+		return nil
+	}
+
 	auditUserId, ok := tx.Get("one:audit_user_id")
 
 	if !ok {
@@ -149,6 +153,10 @@ func (t *Transaction) AfterCreate(tx *gorm.DB) error {
 // and success. This method is called automatically by GORM and should not be
 // invoked directly.
 func (t *Transaction) AfterUpdate(tx *gorm.DB) error {
+	if _, ok := tx.Get("one:ignore_audit_log"); !ok {
+		return nil
+	}
+
 	auditUserId, ok := tx.Get("one:audit_user_id")
 
 	if !ok {
@@ -192,6 +200,10 @@ func (t *Transaction) AfterUpdate(tx *gorm.DB) error {
 // or the audit log record cannot be persisted. It also emits logs for both failures
 // and a success message including the transaction title and ID.
 func (t *Transaction) AfterDelete(tx *gorm.DB) error {
+	if _, ok := tx.Get("one:ignore_audit_log"); !ok {
+		return nil
+	}
+
 	auditUserId, ok := tx.Get("one:audit_user_id")
 
 	if !ok {
