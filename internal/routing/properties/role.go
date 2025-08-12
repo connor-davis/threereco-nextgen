@@ -22,6 +22,15 @@ var RoleProperties = map[string]*openapi3.Schema{
 	"updatedAt":    openapi3.NewDateTimeSchema(),
 }
 
+var AvailablePermissionProperties = map[string]*openapi3.Schema{
+	"value":       openapi3.NewStringSchema(),
+	"description": openapi3.NewStringSchema(),
+}
+
+var AvailablePermissionsGroupProperties = map[string]*openapi3.Schema{
+	"name": openapi3.NewStringSchema().WithMinLength(1),
+}
+
 var CreateRolePayloadProperties = map[string]*openapi3.Schema{
 	"name":        openapi3.NewStringSchema().WithMinLength(1),
 	"description": openapi3.NewStringSchema().WithNullable(),

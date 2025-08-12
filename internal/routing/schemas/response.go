@@ -18,6 +18,7 @@ var SuccessResponseSchema = openapi3.NewSchema().WithProperties(map[string]*open
 			ProductSchema.Value,
 			TransactionSchema.Value,
 			NotificationSchema.Value,
+			AvailablePermissionGroupSchema.Value,
 			openapi3.NewStringSchema(),
 		),
 	),
@@ -30,6 +31,7 @@ var SuccessResponseSchema = openapi3.NewSchema().WithProperties(map[string]*open
 		ProductSchema.Value,
 		TransactionSchema.Value,
 		NotificationSchema.Value,
+		AvailablePermissionGroupSchema.Value,
 	),
 	"pageDetails": openapi3.NewObjectSchema().WithProperties(map[string]*openapi3.Schema{
 		"count":        openapi3.NewIntegerSchema().WithMin(0),

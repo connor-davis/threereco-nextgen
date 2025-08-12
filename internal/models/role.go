@@ -38,6 +38,16 @@ type Role struct {
 	UpdatedAt        time.Time      `json:"updatedAt" gorm:"autoUpdateTime;"`
 }
 
+type AvailablePermission struct {
+	Value       string `json:"value"`
+	Description string `json:"description"`
+}
+
+type AvailablePermissionsGroup struct {
+	Name        string                `json:"name"`
+	Permissions []AvailablePermission `json:"permissions"`
+}
+
 // CreateRolePayload represents the input payload used to create a new role.
 // Name is the required unique name of the role.
 // Description is an optional human-readable description; if nil, no description was provided,

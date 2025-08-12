@@ -258,6 +258,9 @@ func (h *HttpRouter) InitializeOpenAPI() *openapi3.T {
 				"CreateTransactionPayload":  schemas.CreateTransactionPayloadSchema,
 				"UpdateTransactionPayload":  schemas.UpdateTransactionPayloadSchema,
 				"Transaction":               schemas.TransactionSchema,
+				"Notification":              schemas.NotificationSchema,
+				"AvailablePermissionGroup":  schemas.AvailablePermissionGroupSchema,
+				"AvailablePermission":       schemas.AvailablePermissionSchema,
 			},
 		},
 	}

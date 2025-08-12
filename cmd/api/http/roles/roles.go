@@ -32,11 +32,14 @@ func (r *RolesRouter) InitializeRoutes() []routing.Route {
 	updateByIdRoute := r.UpdateByIdRoute()
 	deleteByIdRoute := r.DeleteByIdRoute()
 
+	availablePermissionsRoute := r.AvailablePermissionsRoute()
+
 	return []routing.Route{
 		viewRoute,
 		viewByIdRoute,
 		createRoute,
 		updateByIdRoute,
 		deleteByIdRoute,
+		availablePermissionsRoute,
 	}
 }

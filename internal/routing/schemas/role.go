@@ -28,11 +28,34 @@ var RoleSchema = openapi3.NewSchema().
 		"updatedAt",
 	}).NewRef()
 
+var AvailablePermissionSchema = openapi3.NewSchema().
+	WithProperties(properties.AvailablePermissionProperties).
+	WithRequired([]string{
+		"value",
+		"description",
+	}).
+	NewRef()
+
+var AvailablePermissionGroupSchema = openapi3.NewSchema().
+	WithProperties(properties.AvailablePermissionsGroupProperties).
+	WithProperty(
+		"permissions",
+		openapi3.NewArraySchema().WithItems(AvailablePermissionSchema.Value),
+	).
+	WithRequired([]string{
+		"name",
+		"permissions",
+	}).
+	NewRef()
+
 // RoleArraySchema defines an OpenAPI array schema for roles, where each item in the array
 // conforms to the RoleSchema specification. This schema can be used to describe API endpoints
 // that accept or return a list of roles.
 var RoleArraySchema = openapi3.NewArraySchema().
 	WithItems(RoleSchema.Value).NewRef()
+
+var AvailablePermissionsGroupArraySchema = openapi3.NewArraySchema().
+	WithItems(AvailablePermissionGroupSchema.Value).NewRef()
 
 var CreateRolePayloadSchema = openapi3.NewSchema().WithProperties(properties.CreateRolePayloadProperties).NewRef()
 
