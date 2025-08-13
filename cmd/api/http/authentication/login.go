@@ -37,7 +37,7 @@ func (r *AuthenticationRouter) LoginRoute() routing.Route {
 				"application/json": &openapi3.MediaType{
 					Example: map[string]any{
 						"error":   constants.BadRequestError,
-						"details": constants.BadRequestErrorDetails,
+						"message": constants.BadRequestErrorDetails,
 					},
 					Schema: schemas.ErrorResponseSchema,
 				},
@@ -51,7 +51,7 @@ func (r *AuthenticationRouter) LoginRoute() routing.Route {
 			"application/json": &openapi3.MediaType{
 				Example: map[string]any{
 					"error":   constants.UnauthorizedError,
-					"details": constants.UnauthorizedErrorDetails,
+					"message": constants.UnauthorizedErrorDetails,
 				},
 				Schema: schemas.ErrorResponseSchema,
 			},
@@ -65,7 +65,7 @@ func (r *AuthenticationRouter) LoginRoute() routing.Route {
 			"application/json": &openapi3.MediaType{
 				Example: map[string]any{
 					"error":   constants.InternalServerError,
-					"details": constants.InternalServerErrorDetails,
+					"message": constants.InternalServerErrorDetails,
 				},
 				Schema: schemas.ErrorResponseSchema,
 			},
@@ -92,7 +92,7 @@ func (r *AuthenticationRouter) LoginRoute() routing.Route {
 
 				return c.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
 					"error":   constants.BadRequestError,
-					"details": constants.BadRequestErrorDetails,
+					"message": constants.BadRequestErrorDetails,
 				})
 			}
 
@@ -103,7 +103,7 @@ func (r *AuthenticationRouter) LoginRoute() routing.Route {
 
 				return c.Status(fiber.StatusInternalServerError).JSON(&fiber.Map{
 					"error":   constants.InternalServerError,
-					"details": constants.InternalServerErrorDetails,
+					"message": constants.InternalServerErrorDetails,
 				})
 			}
 
@@ -112,7 +112,7 @@ func (r *AuthenticationRouter) LoginRoute() routing.Route {
 
 				return c.Status(fiber.StatusUnauthorized).JSON(&fiber.Map{
 					"error":   constants.UnauthorizedError,
-					"details": constants.UnauthorizedErrorDetails,
+					"message": constants.UnauthorizedErrorDetails,
 				})
 			}
 
@@ -123,7 +123,7 @@ func (r *AuthenticationRouter) LoginRoute() routing.Route {
 
 				return c.Status(fiber.StatusUnauthorized).JSON(&fiber.Map{
 					"error":   constants.UnauthorizedError,
-					"details": constants.UnauthorizedErrorDetails,
+					"message": constants.UnauthorizedErrorDetails,
 				})
 			}
 
@@ -134,7 +134,7 @@ func (r *AuthenticationRouter) LoginRoute() routing.Route {
 
 				return c.Status(fiber.StatusInternalServerError).JSON(&fiber.Map{
 					"error":   constants.InternalServerError,
-					"details": constants.InternalServerErrorDetails,
+					"message": constants.InternalServerErrorDetails,
 				})
 			}
 
@@ -146,12 +146,12 @@ func (r *AuthenticationRouter) LoginRoute() routing.Route {
 
 				return c.Status(fiber.StatusInternalServerError).JSON(&fiber.Map{
 					"error":   constants.InternalServerError,
-					"details": constants.InternalServerErrorDetails,
+					"message": constants.InternalServerErrorDetails,
 				})
 			}
 
 			if err := r.Storage.Postgres.
-				Set("one:audit_user_id", user.Id).
+				Set("one:ignore_audit_log", true).
 				Model(&user).
 				Updates(map[string]any{
 					"mfa_verified": false,
@@ -160,7 +160,7 @@ func (r *AuthenticationRouter) LoginRoute() routing.Route {
 
 				return c.Status(fiber.StatusInternalServerError).JSON(&fiber.Map{
 					"error":   constants.InternalServerError,
-					"details": constants.InternalServerErrorDetails,
+					"message": constants.InternalServerErrorDetails,
 				})
 			}
 

@@ -1,4 +1,4 @@
-import { deleteApiUsersByIdMutation } from '@/api-client/@tanstack/react-query.gen';
+import { deleteApiOrganizationsUsersByIdMutation } from '@/api-client/@tanstack/react-query.gen';
 import { useMutation } from '@tanstack/react-query';
 import { useRouter } from '@tanstack/react-router';
 import { TrashIcon } from 'lucide-react';
@@ -37,7 +37,7 @@ export default function DeleteUserByIdDialog({
   const [confirmationValue, setConfirmationValue] = useState<string>('');
 
   const deleteUser = useMutation({
-    ...deleteApiUsersByIdMutation({
+    ...deleteApiOrganizationsUsersByIdMutation({
       client: apiClient,
     }),
     onError: (error: ErrorResponse) =>
@@ -47,7 +47,7 @@ export default function DeleteUserByIdDialog({
       }),
     onSuccess: () => {
       toast.success('Success', {
-        description: 'The user has been deleted successfully.',
+        description: 'The user has been removed successfully.',
         duration: 2000,
       });
 
@@ -68,9 +68,7 @@ export default function DeleteUserByIdDialog({
         <AlertDialogHeader>
           <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
           <AlertDialogDescription>
-            This action will permanently remove the user from the system, along
-            with all data that belongs to the user. Please enter the users email
-            to confirm.
+            This action will permanently remove the user from the organization.
           </AlertDialogDescription>
         </AlertDialogHeader>
 
@@ -94,7 +92,7 @@ export default function DeleteUserByIdDialog({
               })
             }
           >
-            Delete User
+            Remove User
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

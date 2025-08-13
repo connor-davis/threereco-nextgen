@@ -9064,6 +9064,14 @@ export const zPostApiOrganizationsInvitesSendByEmailData = z.object({
   query: z.optional(z.never()),
 });
 
+export const zDeleteApiOrganizationsUsersByIdData = z.object({
+  body: z.optional(z.never()),
+  path: z.object({
+    id: z.unknown(),
+  }),
+  query: z.optional(z.never()),
+});
+
 export const zDeleteApiOrganizationsByIdData = z.object({
   body: z.optional(z.never()),
   path: z.object({

@@ -123,7 +123,7 @@ func (r *AuthenticationRouter) MfaVerifyRoute() routing.Route {
 			currentUser.MfaEnabled = true
 			currentUser.MfaVerified = true
 
-			if err := r.Storage.Postgres.Set("one:audit_user_id", currentUser.Id).
+			if err := r.Storage.Postgres.Set("one:ignore_audit_log", true).
 				Where(&models.User{
 					Id: currentUser.Id,
 				}).

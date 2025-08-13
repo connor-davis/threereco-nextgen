@@ -29,7 +29,7 @@ func (r *RolesRouter) DeleteByIdRoute() routing.Route {
 				"application/json": &openapi3.MediaType{
 					Example: map[string]any{
 						"error":   constants.BadRequestError,
-						"details": constants.BadRequestErrorDetails,
+						"message": constants.BadRequestErrorDetails,
 					},
 					Schema: schemas.ErrorResponseSchema,
 				},
@@ -43,7 +43,7 @@ func (r *RolesRouter) DeleteByIdRoute() routing.Route {
 			"application/json": &openapi3.MediaType{
 				Example: map[string]any{
 					"error":   constants.UnauthorizedError,
-					"details": constants.UnauthorizedErrorDetails,
+					"message": constants.UnauthorizedErrorDetails,
 				},
 				Schema: schemas.ErrorResponseSchema,
 			},
@@ -57,7 +57,7 @@ func (r *RolesRouter) DeleteByIdRoute() routing.Route {
 			"application/json": &openapi3.MediaType{
 				Example: map[string]any{
 					"error":   constants.NotFoundError,
-					"details": constants.NotFoundErrorDetails,
+					"message": constants.NotFoundErrorDetails,
 				},
 				Schema: schemas.ErrorResponseSchema,
 			},
@@ -71,7 +71,7 @@ func (r *RolesRouter) DeleteByIdRoute() routing.Route {
 			"application/json": &openapi3.MediaType{
 				Example: map[string]any{
 					"error":   constants.InternalServerError,
-					"details": constants.InternalServerErrorDetails,
+					"message": constants.InternalServerErrorDetails,
 				},
 				Schema: schemas.ErrorResponseSchema,
 			},
@@ -119,7 +119,7 @@ func (r *RolesRouter) DeleteByIdRoute() routing.Route {
 
 				return c.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
 					"error":   constants.BadRequestError,
-					"details": constants.BadRequestErrorDetails,
+					"message": constants.BadRequestErrorDetails,
 				})
 			}
 
@@ -130,7 +130,7 @@ func (r *RolesRouter) DeleteByIdRoute() routing.Route {
 
 				return c.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
 					"error":   constants.BadRequestError,
-					"details": constants.BadRequestErrorDetails,
+					"message": constants.BadRequestErrorDetails,
 				})
 			}
 
@@ -141,7 +141,7 @@ func (r *RolesRouter) DeleteByIdRoute() routing.Route {
 
 				return c.Status(fiber.StatusNotFound).JSON(&fiber.Map{
 					"error":   constants.InternalServerError,
-					"details": constants.InternalServerErrorDetails,
+					"message": constants.InternalServerErrorDetails,
 				})
 			}
 
@@ -150,7 +150,7 @@ func (r *RolesRouter) DeleteByIdRoute() routing.Route {
 
 				return c.Status(fiber.StatusNotFound).JSON(&fiber.Map{
 					"error":   constants.NotFoundError,
-					"details": constants.NotFoundErrorDetails,
+					"message": constants.NotFoundErrorDetails,
 				})
 			}
 
@@ -159,7 +159,7 @@ func (r *RolesRouter) DeleteByIdRoute() routing.Route {
 
 				return c.Status(fiber.StatusInternalServerError).JSON(&fiber.Map{
 					"error":   constants.InternalServerError,
-					"details": constants.InternalServerErrorDetails,
+					"message": constants.InternalServerErrorDetails,
 				})
 			}
 

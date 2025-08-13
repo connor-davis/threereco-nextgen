@@ -28,7 +28,7 @@ func (r *OrganizationsInvitesRouter) SendInvite() routing.Route {
 				"application/json": &openapi3.MediaType{
 					Example: map[string]any{
 						"error":   constants.BadRequestError,
-						"details": constants.BadRequestErrorDetails,
+						"message": constants.BadRequestErrorDetails,
 					},
 					Schema: schemas.ErrorResponseSchema,
 				},
@@ -42,7 +42,7 @@ func (r *OrganizationsInvitesRouter) SendInvite() routing.Route {
 			"application/json": &openapi3.MediaType{
 				Example: map[string]any{
 					"error":   constants.UnauthorizedError,
-					"details": constants.UnauthorizedErrorDetails,
+					"message": constants.UnauthorizedErrorDetails,
 				},
 				Schema: schemas.ErrorResponseSchema,
 			},
@@ -56,7 +56,7 @@ func (r *OrganizationsInvitesRouter) SendInvite() routing.Route {
 			"application/json": &openapi3.MediaType{
 				Example: map[string]any{
 					"error":   constants.InternalServerError,
-					"details": constants.InternalServerErrorDetails,
+					"message": constants.InternalServerErrorDetails,
 				},
 				Schema: schemas.ErrorResponseSchema,
 			},
@@ -87,28 +87,28 @@ func (r *OrganizationsInvitesRouter) SendInvite() routing.Route {
 			if err != nil {
 				return c.Status(fiber.StatusInternalServerError).JSON(&fiber.Map{
 					"error":   constants.InternalServerError,
-					"details": constants.InternalServerErrorDetails,
+					"message": constants.InternalServerErrorDetails,
 				})
 			}
 
 			if existingUser == nil || existingUser.Id == uuid.Nil {
 				return c.Status(fiber.StatusNotFound).JSON(&fiber.Map{
 					"error":   constants.NotFoundError,
-					"details": constants.NotFoundErrorDetails,
+					"message": constants.NotFoundErrorDetails,
 				})
 			}
 
 			if currentUser.PrimaryOrganizationId == nil {
 				return c.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
 					"error":   constants.BadRequestError,
-					"details": "You must belong to an organization to send invites.",
+					"message": "You must belong to an organization to send invites.",
 				})
 			}
 
 			if err := r.Services.Organizations.SendInvite(currentUser.Id, *currentUser.PrimaryOrganizationId, existingUser.Id); err != nil {
 				return c.Status(fiber.StatusInternalServerError).JSON(&fiber.Map{
 					"error":   constants.InternalServerError,
-					"details": constants.InternalServerErrorDetails,
+					"message": constants.InternalServerErrorDetails,
 				})
 			}
 

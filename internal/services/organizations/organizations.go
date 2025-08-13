@@ -154,6 +154,63 @@ func (s *OrganizationsService) Delete(auditId uuid.UUID, id uuid.UUID) error {
 	return nil
 }
 
+func (s *OrganizationsService) RemoveUser(auditId uuid.UUID, organizationId uuid.UUID, userId uuid.UUID) error {
+	var existingUser models.User
+
+	if err := s.Storage.Postgres.
+		Where("id = ?", userId).
+		Find(&existingUser).Error; err != nil {
+		return err
+	}
+
+	if existingUser.Id == uuid.Nil {
+		return nil
+	}
+
+	var existingOrganization models.Organization
+
+	if err := s.Storage.Postgres.
+		Where("id = ?", organizationId).
+		Find(&existingOrganization).Error; err != nil {
+		return err
+	}
+
+	if existingOrganization.Id == uuid.Nil {
+		return nil
+	}
+
+	if err := s.Storage.Postgres.Set("one:audit_user_id", auditId).
+		Model(&existingOrganization).
+		Association("Users").
+		Delete(&existingUser); err != nil {
+		return err
+	}
+
+	for _, role := range existingOrganization.Roles {
+		if err := s.Storage.Postgres.Set("one:audit_user_id", auditId).
+			Model(&existingUser).
+			Association("Roles").
+			Delete(&role); err != nil {
+			continue
+		}
+	}
+
+	if existingUser.PrimaryOrganizationId != nil &&
+		*existingUser.PrimaryOrganizationId != uuid.Nil &&
+		*existingUser.PrimaryOrganizationId == organizationId {
+		if err := s.Storage.Postgres.Set("one:audit_user_id", auditId).
+			Model(&existingUser).
+			Where("id = ?", existingUser.Id).
+			Updates(&map[string]any{
+				"primary_organization_id": nil,
+			}).Error; err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
+
 // GetById retrieves an organization by its unique identifier from the database.
 // It returns a pointer to the Organization model and an error if the operation fails.
 //

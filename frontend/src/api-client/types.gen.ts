@@ -8962,6 +8962,57 @@ export type PostApiOrganizationsInvitesSendByEmailResponses = {
   200: unknown;
 };
 
+export type DeleteApiOrganizationsUsersByIdData = {
+  body?: never;
+  path: {
+    id: unknown;
+  };
+  query?: never;
+  url: '/api/organizations/users/{id}';
+};
+
+export type DeleteApiOrganizationsUsersByIdErrors = {
+  /**
+   * Invalid request.
+   */
+  400: {
+    error?: string;
+    message?: string;
+  };
+  /**
+   * Unauthorized.
+   */
+  401: {
+    error?: string;
+    message?: string;
+  };
+  /**
+   * Organization not found.
+   */
+  404: {
+    error?: string;
+    message?: string;
+  };
+  /**
+   * Internal server error.
+   */
+  500: {
+    error?: string;
+    message?: string;
+  };
+  default: unknown;
+};
+
+export type DeleteApiOrganizationsUsersByIdError =
+  DeleteApiOrganizationsUsersByIdErrors[keyof DeleteApiOrganizationsUsersByIdErrors];
+
+export type DeleteApiOrganizationsUsersByIdResponses = {
+  /**
+   * The user has been successfully removed.
+   */
+  200: unknown;
+};
+
 export type DeleteApiOrganizationsByIdData = {
   body?: never;
   path: {

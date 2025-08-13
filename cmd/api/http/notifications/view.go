@@ -44,7 +44,7 @@ func (r *NotificationsRouter) ViewRoute() routing.Route {
 				"application/json": &openapi3.MediaType{
 					Example: map[string]any{
 						"error":   constants.BadRequestError,
-						"details": constants.BadRequestErrorDetails,
+						"message": constants.BadRequestErrorDetails,
 					},
 					Schema: schemas.ErrorResponseSchema,
 				},
@@ -61,7 +61,7 @@ func (r *NotificationsRouter) ViewRoute() routing.Route {
 				"application/json": &openapi3.MediaType{
 					Example: map[string]any{
 						"error":   constants.UnauthorizedError,
-						"details": constants.UnauthorizedErrorDetails,
+						"message": constants.UnauthorizedErrorDetails,
 					},
 					Schema: schemas.ErrorResponseSchema,
 				},
@@ -78,7 +78,7 @@ func (r *NotificationsRouter) ViewRoute() routing.Route {
 				"application/json": &openapi3.MediaType{
 					Example: map[string]any{
 						"error":   constants.InternalServerError,
-						"details": constants.InternalServerErrorDetails,
+						"message": constants.InternalServerErrorDetails,
 					},
 					Schema: schemas.ErrorResponseSchema,
 				},
@@ -138,7 +138,7 @@ func (r *NotificationsRouter) ViewRoute() routing.Route {
 
 				return c.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
 					"error":   constants.BadRequestError,
-					"details": "You must belong to and have selected an organization to view products.",
+					"message": "You must belong to and have selected an organization to view products.",
 				})
 			}
 
@@ -175,7 +175,7 @@ func (r *NotificationsRouter) ViewRoute() routing.Route {
 
 				return c.Status(fiber.StatusInternalServerError).JSON(&fiber.Map{
 					"error":   constants.InternalServerError,
-					"details": constants.InternalServerErrorDetails,
+					"message": constants.InternalServerErrorDetails,
 				})
 			}
 
@@ -208,7 +208,7 @@ func (r *NotificationsRouter) ViewRoute() routing.Route {
 
 				return c.Status(fiber.StatusInternalServerError).JSON(&fiber.Map{
 					"error":   constants.InternalServerError,
-					"details": constants.InternalServerErrorDetails,
+					"message": constants.InternalServerErrorDetails,
 				})
 			}
 
@@ -233,7 +233,6 @@ func (r *NotificationsRouter) ViewByIdRoute() routing.Route {
 				"application/json": &openapi3.MediaType{
 					Example: map[string]any{
 						"message": constants.Success,
-						"details": constants.SuccessDetails,
 					},
 					Schema: schemas.SuccessResponseSchema,
 				},
@@ -250,7 +249,7 @@ func (r *NotificationsRouter) ViewByIdRoute() routing.Route {
 				"application/json": &openapi3.MediaType{
 					Example: map[string]any{
 						"error":   constants.BadRequestError,
-						"details": constants.BadRequestErrorDetails,
+						"message": constants.BadRequestErrorDetails,
 					},
 					Schema: schemas.ErrorResponseSchema,
 				},
@@ -267,7 +266,7 @@ func (r *NotificationsRouter) ViewByIdRoute() routing.Route {
 				"application/json": &openapi3.MediaType{
 					Example: map[string]any{
 						"error":   constants.UnauthorizedError,
-						"details": constants.UnauthorizedErrorDetails,
+						"message": constants.UnauthorizedErrorDetails,
 					},
 					Schema: schemas.ErrorResponseSchema,
 				},
@@ -284,7 +283,7 @@ func (r *NotificationsRouter) ViewByIdRoute() routing.Route {
 				"application/json": &openapi3.MediaType{
 					Example: map[string]any{
 						"error":   constants.NotFoundError,
-						"details": constants.NotFoundErrorDetails,
+						"message": constants.NotFoundErrorDetails,
 					},
 					Schema: schemas.ErrorResponseSchema,
 				},
@@ -301,7 +300,7 @@ func (r *NotificationsRouter) ViewByIdRoute() routing.Route {
 				"application/json": &openapi3.MediaType{
 					Example: map[string]any{
 						"error":   constants.InternalServerError,
-						"details": constants.InternalServerErrorDetails,
+						"message": constants.InternalServerErrorDetails,
 					},
 					Schema: schemas.ErrorResponseSchema,
 				},
@@ -345,7 +344,7 @@ func (r *NotificationsRouter) ViewByIdRoute() routing.Route {
 			if id == "" {
 				return c.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
 					"error":   constants.BadRequestError,
-					"details": constants.BadRequestErrorDetails,
+					"message": constants.BadRequestErrorDetails,
 				})
 			}
 
@@ -354,7 +353,7 @@ func (r *NotificationsRouter) ViewByIdRoute() routing.Route {
 			if err != nil {
 				return c.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
 					"error":   constants.BadRequestError,
-					"details": constants.BadRequestErrorDetails,
+					"message": constants.BadRequestErrorDetails,
 				})
 			}
 
@@ -363,14 +362,14 @@ func (r *NotificationsRouter) ViewByIdRoute() routing.Route {
 			if err != nil {
 				return c.Status(fiber.StatusInternalServerError).JSON(&fiber.Map{
 					"error":   constants.InternalServerError,
-					"details": constants.InternalServerErrorDetails,
+					"message": constants.InternalServerErrorDetails,
 				})
 			}
 
 			if notification.Id == uuid.Nil {
 				return c.Status(fiber.StatusNotFound).JSON(&fiber.Map{
 					"error":   constants.NotFoundError,
-					"details": constants.NotFoundErrorDetails,
+					"message": constants.NotFoundErrorDetails,
 				})
 			}
 

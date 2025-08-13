@@ -4,7 +4,6 @@ import (
 	"github.com/connor-davis/threereco-nextgen/internal/constants"
 	"github.com/connor-davis/threereco-nextgen/internal/models"
 	"github.com/connor-davis/threereco-nextgen/internal/routing"
-	"github.com/connor-davis/threereco-nextgen/internal/routing/bodies"
 	"github.com/connor-davis/threereco-nextgen/internal/routing/schemas"
 	"github.com/getkin/kin-openapi/openapi3"
 	"github.com/gofiber/fiber/v2"
@@ -12,12 +11,12 @@ import (
 	"github.com/google/uuid"
 )
 
-func (r *UsersRouter) UpdateByIdRoute() routing.Route {
+func (r *OrganizationUsersRouter) RemoveByIdRoute() routing.Route {
 	responses := openapi3.NewResponses()
 
 	responses.Set("200", &openapi3.ResponseRef{
 		Value: openapi3.NewResponse().
-			WithDescription("The user has been successfully updated."),
+			WithDescription("The user has been successfully removed."),
 	})
 
 	responses.Set("400", &openapi3.ResponseRef{
@@ -25,7 +24,7 @@ func (r *UsersRouter) UpdateByIdRoute() routing.Route {
 			WithJSONSchema(
 				schemas.ErrorResponseSchema.Value,
 			).
-			WithDescription("Bad Request.").
+			WithDescription("Invalid request.").
 			WithContent(openapi3.Content{
 				"application/json": &openapi3.MediaType{
 					Example: map[string]any{
@@ -38,26 +37,23 @@ func (r *UsersRouter) UpdateByIdRoute() routing.Route {
 	})
 
 	responses.Set("401", &openapi3.ResponseRef{
-		Value: openapi3.NewResponse().
-			WithJSONSchema(
-				schemas.ErrorResponseSchema.Value,
-			).
-			WithDescription("Unauthorized.").
-			WithContent(openapi3.Content{
-				"application/json": &openapi3.MediaType{
-					Example: map[string]any{
-						"error":   constants.UnauthorizedError,
-						"message": constants.UnauthorizedErrorDetails,
-					},
-					Schema: schemas.ErrorResponseSchema,
+		Value: openapi3.NewResponse().WithJSONSchema(
+			schemas.ErrorResponseSchema.Value,
+		).WithDescription("Unauthorized.").WithContent(openapi3.Content{
+			"application/json": &openapi3.MediaType{
+				Example: map[string]any{
+					"error":   constants.UnauthorizedError,
+					"message": constants.UnauthorizedErrorDetails,
 				},
-			}),
+				Schema: schemas.ErrorResponseSchema,
+			},
+		}),
 	})
 
 	responses.Set("404", &openapi3.ResponseRef{
 		Value: openapi3.NewResponse().WithJSONSchema(
 			schemas.ErrorResponseSchema.Value,
-		).WithDescription("User not found.").WithContent(openapi3.Content{
+		).WithDescription("Organization not found.").WithContent(openapi3.Content{
 			"application/json": &openapi3.MediaType{
 				Example: map[string]any{
 					"error":   constants.NotFoundError,
@@ -69,20 +65,17 @@ func (r *UsersRouter) UpdateByIdRoute() routing.Route {
 	})
 
 	responses.Set("500", &openapi3.ResponseRef{
-		Value: openapi3.NewResponse().
-			WithJSONSchema(
-				schemas.ErrorResponseSchema.Value,
-			).
-			WithDescription("Internal Server Error.").
-			WithContent(openapi3.Content{
-				"application/json": &openapi3.MediaType{
-					Example: map[string]any{
-						"error":   constants.InternalServerError,
-						"message": constants.InternalServerErrorDetails,
-					},
-					Schema: schemas.ErrorResponseSchema,
+		Value: openapi3.NewResponse().WithJSONSchema(
+			schemas.ErrorResponseSchema.Value,
+		).WithDescription("Internal server error.").WithContent(openapi3.Content{
+			"application/json": &openapi3.MediaType{
+				Example: map[string]any{
+					"error":   constants.InternalServerError,
+					"message": constants.InternalServerErrorDetails,
 				},
-			}),
+				Schema: schemas.ErrorResponseSchema,
+			},
+		}),
 	})
 
 	parameters := []*openapi3.ParameterRef{
@@ -104,25 +97,34 @@ func (r *UsersRouter) UpdateByIdRoute() routing.Route {
 
 	return routing.Route{
 		OpenAPIMetadata: routing.OpenAPIMetadata{
-			Summary:     "Update User by ID",
-			Description: "Updates the user information for a specific user identified by their id.",
-			Tags:        []string{"Users"},
+			Summary:     "Remove User by ID",
+			Description: "Removes a user by their id.",
+			Tags:        []string{"Organizations"},
 			Parameters:  parameters,
-			RequestBody: bodies.UpdateUserPayloadBody,
+			RequestBody: nil,
 			Responses:   responses,
 		},
-		Method: routing.PutMethod,
-		Path:   "/users/{id}",
+		Method: routing.DeleteMethod,
+		Path:   "/organizations/users/{id}",
 		Middlewares: []fiber.Handler{
 			r.Middleware.Authorized(),
 		},
 		Handler: func(c *fiber.Ctx) error {
-			user := c.Locals("user").(*models.User)
+			currentUser := c.Locals("user").(*models.User)
+
+			if currentUser.PrimaryOrganizationId == nil {
+				log.Errorf("🔥 Current user does not belong to any organization.")
+
+				return c.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
+					"error":   constants.BadRequestError,
+					"message": "You must belong to and have selected an organization to create transactions.",
+				})
+			}
 
 			id := c.Params("id")
 
 			if id == "" {
-				log.Infof("🔥 Missing user ID in request path")
+				log.Infof("🔥 Organization id is required.")
 
 				return c.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
 					"error":   constants.BadRequestError,
@@ -133,7 +135,7 @@ func (r *UsersRouter) UpdateByIdRoute() routing.Route {
 			idUUID, err := uuid.Parse(id)
 
 			if err != nil {
-				log.Infof("🔥 Invalid user ID format: %v", err)
+				log.Errorf("🔥 Error parsing organization id: %s", err.Error())
 
 				return c.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
 					"error":   constants.BadRequestError,
@@ -141,19 +143,28 @@ func (r *UsersRouter) UpdateByIdRoute() routing.Route {
 				})
 			}
 
-			var payload models.UpdateUserPayload
+			existingUser, err := r.Services.Users.GetById(idUUID)
 
-			if err := c.BodyParser(&payload); err != nil {
-				log.Infof("🔥 Failed to parse request body: %v", err)
+			if err != nil {
+				log.Errorf("🔥 Error retrieving user: %s", err.Error())
 
-				return c.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
-					"error":   constants.BadRequestError,
-					"message": constants.BadRequestErrorDetails,
+				return c.Status(fiber.StatusNotFound).JSON(&fiber.Map{
+					"error":   constants.InternalServerError,
+					"message": constants.InternalServerErrorDetails,
 				})
 			}
 
-			if err := r.Services.Users.Update(user.Id, idUUID, payload); err != nil {
-				log.Errorf("🔥 Error updating user: %v", err)
+			if existingUser.Id == uuid.Nil {
+				log.Infof("🔥 User with ID %s not found", id)
+
+				return c.Status(fiber.StatusNotFound).JSON(&fiber.Map{
+					"error":   constants.NotFoundError,
+					"message": constants.NotFoundErrorDetails,
+				})
+			}
+
+			if err := r.Services.Organizations.RemoveUser(currentUser.Id, *currentUser.PrimaryOrganizationId, idUUID); err != nil {
+				log.Errorf("🔥 Error removing user: %s", err.Error())
 
 				return c.Status(fiber.StatusInternalServerError).JSON(&fiber.Map{
 					"error":   constants.InternalServerError,

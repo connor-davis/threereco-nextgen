@@ -12,6 +12,7 @@ import {
   deleteApiMaterialsById,
   deleteApiNotificationsById,
   deleteApiOrganizationsById,
+  deleteApiOrganizationsUsersById,
   deleteApiProductsById,
   deleteApiRolesById,
   deleteApiTransactionsById,
@@ -64,6 +65,8 @@ import type {
   DeleteApiNotificationsByIdError,
   DeleteApiOrganizationsByIdData,
   DeleteApiOrganizationsByIdError,
+  DeleteApiOrganizationsUsersByIdData,
+  DeleteApiOrganizationsUsersByIdError,
   DeleteApiProductsByIdData,
   DeleteApiProductsByIdError,
   DeleteApiRolesByIdData,
@@ -1177,6 +1180,34 @@ export const postApiOrganizationsInvitesSendByEmailMutation = (
   > = {
     mutationFn: async (localOptions) => {
       const { data } = await postApiOrganizationsInvitesSendByEmail({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
+};
+
+/**
+ * Remove User by ID
+ * Removes a user by their id.
+ */
+export const deleteApiOrganizationsUsersByIdMutation = (
+  options?: Partial<Options<DeleteApiOrganizationsUsersByIdData>>
+): UseMutationOptions<
+  unknown,
+  DeleteApiOrganizationsUsersByIdError,
+  Options<DeleteApiOrganizationsUsersByIdData>
+> => {
+  const mutationOptions: UseMutationOptions<
+    unknown,
+    DeleteApiOrganizationsUsersByIdError,
+    Options<DeleteApiOrganizationsUsersByIdData>
+  > = {
+    mutationFn: async (localOptions) => {
+      const { data } = await deleteApiOrganizationsUsersById({
         ...options,
         ...localOptions,
         throwOnError: true,

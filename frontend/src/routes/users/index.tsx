@@ -45,17 +45,6 @@ export const Route = createFileRoute('/users/')({
       );
     }
 
-    if ('name' in error) {
-      return (
-        <div className="flex flex-col w-full h-full items-center justify-center">
-          <Alert variant="destructive" className="w-full max-w-lg">
-            <AlertTitle>{error.name}</AlertTitle>
-            <AlertDescription>{error.message}</AlertDescription>
-          </Alert>
-        </div>
-      );
-    }
-
     // Fallback to the default ErrorComponent
     return <ErrorComponent error={error} />;
   },
@@ -155,7 +144,7 @@ function RouteComponent() {
                 </PermissionGuard>
                 <PermissionGuard value="users.delete">
                   <DeleteUserByIdDialog id={user.id!} email={user.email!}>
-                    <Button>Delete</Button>
+                    <Button>Remove</Button>
                   </DeleteUserByIdDialog>
                 </PermissionGuard>
               </div>

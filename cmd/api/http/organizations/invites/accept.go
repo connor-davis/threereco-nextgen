@@ -28,7 +28,7 @@ func (r *OrganizationsInvitesRouter) AcceptInvite() routing.Route {
 				"application/json": &openapi3.MediaType{
 					Example: map[string]any{
 						"error":   constants.BadRequestError,
-						"details": constants.BadRequestErrorDetails,
+						"message": constants.BadRequestErrorDetails,
 					},
 					Schema: schemas.ErrorResponseSchema,
 				},
@@ -42,7 +42,7 @@ func (r *OrganizationsInvitesRouter) AcceptInvite() routing.Route {
 			"application/json": &openapi3.MediaType{
 				Example: map[string]any{
 					"error":   constants.UnauthorizedError,
-					"details": constants.UnauthorizedErrorDetails,
+					"message": constants.UnauthorizedErrorDetails,
 				},
 				Schema: schemas.ErrorResponseSchema,
 			},
@@ -56,7 +56,7 @@ func (r *OrganizationsInvitesRouter) AcceptInvite() routing.Route {
 			"application/json": &openapi3.MediaType{
 				Example: map[string]any{
 					"error":   constants.InternalServerError,
-					"details": constants.InternalServerErrorDetails,
+					"message": constants.InternalServerErrorDetails,
 				},
 				Schema: schemas.ErrorResponseSchema,
 			},
@@ -87,28 +87,28 @@ func (r *OrganizationsInvitesRouter) AcceptInvite() routing.Route {
 			if err != nil {
 				return c.Status(fiber.StatusInternalServerError).JSON(&fiber.Map{
 					"error":   constants.InternalServerError,
-					"details": constants.InternalServerErrorDetails,
+					"message": constants.InternalServerErrorDetails,
 				})
 			}
 
 			if existingOrganization == nil || existingOrganization.Id == uuid.Nil {
 				return c.Status(fiber.StatusNotFound).JSON(&fiber.Map{
 					"error":   constants.NotFoundError,
-					"details": constants.NotFoundErrorDetails,
+					"message": constants.NotFoundErrorDetails,
 				})
 			}
 
 			if currentUser.PrimaryOrganizationId != nil && currentUser.PrimaryOrganizationId.String() == organizationId {
 				return c.Status(fiber.StatusConflict).JSON(&fiber.Map{
 					"error":   constants.ConflictError,
-					"details": "You can not accept an invite to an organization you are already a member of.",
+					"message": "You can not accept an invite to an organization you are already a member of.",
 				})
 			}
 
 			if err := r.Services.Organizations.AcceptInvite(currentUser.Id, existingOrganization.Id, currentUser.Id); err != nil {
 				return c.Status(fiber.StatusInternalServerError).JSON(&fiber.Map{
 					"error":   constants.InternalServerError,
-					"details": constants.InternalServerErrorDetails,
+					"message": constants.InternalServerErrorDetails,
 				})
 			}
 

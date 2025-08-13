@@ -11,6 +11,9 @@ import type {
   DeleteApiOrganizationsByIdData,
   DeleteApiOrganizationsByIdErrors,
   DeleteApiOrganizationsByIdResponses,
+  DeleteApiOrganizationsUsersByIdData,
+  DeleteApiOrganizationsUsersByIdErrors,
+  DeleteApiOrganizationsUsersByIdResponses,
   DeleteApiProductsByIdData,
   DeleteApiProductsByIdErrors,
   DeleteApiProductsByIdResponses,
@@ -576,6 +579,25 @@ export const postApiOrganizationsInvitesSendByEmail = <
     ThrowOnError
   >({
     url: '/api/organizations/invites/send/{email}',
+    ...options,
+  });
+};
+
+/**
+ * Remove User by ID
+ * Removes a user by their id.
+ */
+export const deleteApiOrganizationsUsersById = <
+  ThrowOnError extends boolean = false,
+>(
+  options: Options<DeleteApiOrganizationsUsersByIdData, ThrowOnError>
+) => {
+  return (options.client ?? _heyApiClient).delete<
+    DeleteApiOrganizationsUsersByIdResponses,
+    DeleteApiOrganizationsUsersByIdErrors,
+    ThrowOnError
+  >({
+    url: '/api/organizations/users/{id}',
     ...options,
   });
 };
