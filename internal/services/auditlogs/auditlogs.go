@@ -24,7 +24,7 @@ func (s *AuditLogsService) GetById(id uuid.UUID) (*models.AuditLog, error) {
 		Where(&models.AuditLog{
 			Id: id,
 		}).
-		Preload("ModifiedByUser").
+		Preload("User").
 		Find(&auditlog).Error; err != nil {
 		return nil, err
 	}
@@ -58,6 +58,7 @@ func (s *AuditLogsService) GetAll(organizationId uuid.UUID, clauses ...clause.Ex
 
 	if err := s.Storage.Postgres.
 		Clauses(auditLogsClauses...).
+		Preload("User").
 		Find(&auditlogs).Error; err != nil {
 		return nil, err
 	}

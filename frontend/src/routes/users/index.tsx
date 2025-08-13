@@ -150,12 +150,12 @@ function RouteComponent() {
               <div className="flex items-center gap-3">
                 <PermissionGuard value="users.update">
                   <Link to="/users/$id/edit" params={{ id: user.id! }}>
-                    <Button variant="ghost">Edit</Button>
+                    <Button>Edit</Button>
                   </Link>
                 </PermissionGuard>
                 <PermissionGuard value="users.delete">
                   <DeleteUserByIdDialog id={user.id!} email={user.email!}>
-                    <Button variant="ghost">Delete</Button>
+                    <Button>Delete</Button>
                   </DeleteUserByIdDialog>
                 </PermissionGuard>
               </div>

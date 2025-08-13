@@ -1,5 +1,10 @@
 import { Link } from '@tanstack/react-router';
-import { LayoutDashboardIcon, UsersIcon } from 'lucide-react';
+import {
+  LayoutDashboardIcon,
+  NotebookIcon,
+  ScrollTextIcon,
+  UsersIcon,
+} from 'lucide-react';
 
 import PermissionGuard from '@/components/guards/permission';
 import {
@@ -63,8 +68,18 @@ export default function AppSidebar() {
                   <SidebarMenuItem>
                     <SidebarMenuButton asChild>
                       <Link to="/roles">
-                        <UsersIcon />
+                        <NotebookIcon />
                         <span>Roles</span>
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                </PermissionGuard>
+                <PermissionGuard value={['audit_logs.view']}>
+                  <SidebarMenuItem>
+                    <SidebarMenuButton asChild>
+                      <Link to="/audit-logs">
+                        <ScrollTextIcon />
+                        <span>Audit Logs</span>
                       </Link>
                     </SidebarMenuButton>
                   </SidebarMenuItem>

@@ -5,20 +5,26 @@ import {
   useRouter,
 } from '@tanstack/react-router';
 
+import { constantCase } from 'change-case';
+import { format, formatDistanceToNow, parseISO } from 'date-fns';
 import z from 'zod';
 
-import { type ErrorResponse, type Role, getApiRoles } from '@/api-client';
+import {
+  type AuditLog,
+  type ErrorResponse,
+  getApiAuditlogs,
+} from '@/api-client';
 import PermissionGuard from '@/components/guards/permission';
-import DeleteRoleByIdDialog from '@/components/roles/delete.dialog';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { DebounceInput } from '@/components/ui/debounce-input';
 import { Label } from '@/components/ui/label';
 import { apiClient, cn } from '@/lib/utils';
 
-export const Route = createFileRoute('/roles/')({
+export const Route = createFileRoute('/audit-logs/')({
   component: () => (
-    <PermissionGuard value="roles.view" isPage={true}>
+    <PermissionGuard value="audit_logs.view" isPage={true}>
       <RouteComponent />
     </PermissionGuard>
   ),
@@ -28,7 +34,7 @@ export const Route = createFileRoute('/roles/')({
   }),
   pendingComponent: () => (
     <div className="flex flex-col w-full h-full items-center justify-center">
-      <Label className="text-muted-foreground">Loading roles...</Label>
+      <Label className="text-muted-foreground">Loading audit logs...</Label>
     </div>
   ),
   errorComponent: ({ error }: { error: Error | ErrorResponse }) => {
@@ -61,7 +67,7 @@ export const Route = createFileRoute('/roles/')({
   wrapInSuspense: true,
   loaderDeps: ({ search: { page, search } }) => ({ page, search }),
   loader: async ({ deps: { page, search } }) => {
-    const { data } = await getApiRoles({
+    const { data } = await getApiAuditlogs({
       client: apiClient,
       query: {
         page,
@@ -71,7 +77,7 @@ export const Route = createFileRoute('/roles/')({
     });
 
     return {
-      roles: (data.items ?? []) as Array<Role>,
+      auditLogs: (data.items ?? []) as Array<AuditLog>,
       pageDetails: data.pageDetails ?? {},
     };
   },
@@ -80,25 +86,25 @@ export const Route = createFileRoute('/roles/')({
 function RouteComponent() {
   const router = useRouter();
   const { page, search } = Route.useLoaderDeps();
-  const { roles, pageDetails } = Route.useLoaderData();
+  const { auditLogs, pageDetails } = Route.useLoaderData();
 
   return (
     <div className="flex flex-col w-full h-full bg-popover border-t p-3 gap-3">
       <div className="flex items-center justify-between w-full h-auto">
         <div className="flex items-center gap-3">
-          <Label className="text-lg">Roles</Label>
+          <Label className="text-lg">Audit Logs</Label>
         </div>
         <div className="flex items-center gap-3">
           <DebounceInput
             type="text"
-            placeholder="Search roles..."
+            placeholder="Search audit logs..."
             className="w-64"
             defaultValue={search}
             onChange={(e) => {
               const search = e.target.value;
 
               router.navigate({
-                to: '/roles',
+                to: '/audit-logs',
                 search: {
                   page,
                   search,
@@ -106,59 +112,88 @@ function RouteComponent() {
               });
             }}
           />
-
-          <PermissionGuard value="roles.create">
-            <Link to="/roles/create">
-              <Button>Create</Button>
-            </Link>
-          </PermissionGuard>
         </div>
       </div>
 
       <div className="flex flex-col w-full h-full overflow-y-auto">
-        {roles?.length ? (
-          roles.map((role, index) => (
+        {auditLogs?.length ? (
+          auditLogs.map((log, index) => (
             <div
-              key={role.id}
+              key={log.id}
               className={cn(
                 'flex items-center justify-between p-3 gap-3',
-                index + 1 < roles.length ? 'border-b' : ''
+                index + 1 < auditLogs.length ? 'border-b' : ''
               )}
             >
               <div className="flex w-full h-auto items-center justify-between gap-3">
-                {role.description && (
-                  <div className="flex flex-col">
-                    <Label className="text-sm">{role.name}</Label>
-                    <Label className="text-sm text-muted-foreground">
-                      {role.description}
-                    </Label>
-                  </div>
-                )}
+                <div className="flex flex-col">
+                  <Label>{log.operationType}</Label>
+                  <Label className="text-sm text-muted-foreground">
+                    {log.tableName}
+                  </Label>
+                </div>
 
-                {!role.description && (
-                  <div className="flex flex-col">
-                    <Label className="text-sm">{role.name}</Label>
+                <div className="flex items-center gap-3">
+                  <div className="grid grid-cols-2 items-center gap-3">
+                    <div className="flex flex-col">
+                      <Label>{format(parseISO(log.createdAt), 'PPP')}</Label>
+                      <Label className="text-sm text-muted-foreground">
+                        (
+                        {`${formatDistanceToNow(parseISO(log.createdAt), { includeSeconds: true, addSuffix: true })}`}
+                        )
+                      </Label>
+                    </div>
+
+                    {log.user && (
+                      <div className="flex gap-2">
+                        <Avatar>
+                          <AvatarFallback>
+                            {constantCase(
+                              (log.user.email ?? 'none')
+                                .split('@')[0]
+                                .split('.')
+                                .slice(0, 2)
+                                .map((word) => word.charAt(0))
+                                .join('')
+                            )}
+                          </AvatarFallback>
+                        </Avatar>
+                        {log.user.name && (
+                          <div className="grid flex-1 text-left text-sm leading-tight">
+                            <span className="truncate font-medium">
+                              {log.user.name}
+                            </span>
+                            <span className="truncate font-medium text-muted-foreground">
+                              {log.user.email}
+                            </span>
+                          </div>
+                        )}
+
+                        {!log.user.name && (
+                          <div className="grid flex-1 text-left text-sm leading-tight">
+                            <span className="truncate font-medium">
+                              {log.user.email}
+                            </span>
+                          </div>
+                        )}
+                      </div>
+                    )}
                   </div>
-                )}
+
+                  <PermissionGuard value="audit_logs.view">
+                    <Link to="/audit-logs/$id" params={{ id: log.id }}>
+                      <Button>View</Button>
+                    </Link>
+                  </PermissionGuard>
+                </div>
               </div>
-              <div className="flex items-center gap-3">
-                <PermissionGuard value="roles.update">
-                  <Link to="/roles/$id/edit" params={{ id: role.id! }}>
-                    <Button>Edit</Button>
-                  </Link>
-                </PermissionGuard>
-                <PermissionGuard value="roles.delete">
-                  <DeleteRoleByIdDialog id={role.id!} name={role.name!}>
-                    <Button>Delete</Button>
-                  </DeleteRoleByIdDialog>
-                </PermissionGuard>
-              </div>
+              <div className="flex items-center gap-3"></div>
             </div>
           ))
         ) : (
           <div className="flex flex-col items-center justify-center w-full h-full p-5">
             <Label className="text-sm text-muted-foreground">
-              No roles found.
+              No audit logs found.
             </Label>
           </div>
         )}
@@ -171,7 +206,7 @@ function RouteComponent() {
           </Label>
 
           <Link
-            to="/roles"
+            to="/audit-logs"
             search={{ page: pageDetails.previousPage }}
             disabled={page === pageDetails.previousPage}
           >
@@ -184,7 +219,7 @@ function RouteComponent() {
             </Button>
           </Link>
           <Link
-            to="/roles"
+            to="/audit-logs"
             search={{ page: pageDetails.nextPage }}
             disabled={page === pageDetails.nextPage}
           >

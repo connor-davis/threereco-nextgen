@@ -12,8 +12,10 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as UsersIndexRouteImport } from './routes/users/index'
 import { Route as RolesIndexRouteImport } from './routes/roles/index'
+import { Route as AuditLogsIndexRouteImport } from './routes/audit-logs/index'
 import { Route as UsersCreateRouteImport } from './routes/users/create'
 import { Route as RolesCreateRouteImport } from './routes/roles/create'
+import { Route as AuditLogsIdRouteImport } from './routes/audit-logs/$id'
 import { Route as UsersIdIndexRouteImport } from './routes/users/$id/index'
 import { Route as RolesIdIndexRouteImport } from './routes/roles/$id/index'
 import { Route as UsersIdEditRouteImport } from './routes/users/$id/edit'
@@ -35,6 +37,11 @@ const RolesIndexRoute = RolesIndexRouteImport.update({
   path: '/roles/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuditLogsIndexRoute = AuditLogsIndexRouteImport.update({
+  id: '/audit-logs/',
+  path: '/audit-logs/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const UsersCreateRoute = UsersCreateRouteImport.update({
   id: '/users/create',
   path: '/users/create',
@@ -43,6 +50,11 @@ const UsersCreateRoute = UsersCreateRouteImport.update({
 const RolesCreateRoute = RolesCreateRouteImport.update({
   id: '/roles/create',
   path: '/roles/create',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuditLogsIdRoute = AuditLogsIdRouteImport.update({
+  id: '/audit-logs/$id',
+  path: '/audit-logs/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
 const UsersIdIndexRoute = UsersIdIndexRouteImport.update({
@@ -73,8 +85,10 @@ const RolesIdEditRoute = RolesIdEditRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/audit-logs/$id': typeof AuditLogsIdRoute
   '/roles/create': typeof RolesCreateRoute
   '/users/create': typeof UsersCreateRoute
+  '/audit-logs': typeof AuditLogsIndexRoute
   '/roles': typeof RolesIndexRoute
   '/users': typeof UsersIndexRoute
   '/roles/$id/edit': typeof RolesIdEditRoute
@@ -85,8 +99,10 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/audit-logs/$id': typeof AuditLogsIdRoute
   '/roles/create': typeof RolesCreateRoute
   '/users/create': typeof UsersCreateRoute
+  '/audit-logs': typeof AuditLogsIndexRoute
   '/roles': typeof RolesIndexRoute
   '/users': typeof UsersIndexRoute
   '/roles/$id/edit': typeof RolesIdEditRoute
@@ -98,8 +114,10 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/audit-logs/$id': typeof AuditLogsIdRoute
   '/roles/create': typeof RolesCreateRoute
   '/users/create': typeof UsersCreateRoute
+  '/audit-logs/': typeof AuditLogsIndexRoute
   '/roles/': typeof RolesIndexRoute
   '/users/': typeof UsersIndexRoute
   '/roles/$id/edit': typeof RolesIdEditRoute
@@ -112,8 +130,10 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/audit-logs/$id'
     | '/roles/create'
     | '/users/create'
+    | '/audit-logs'
     | '/roles'
     | '/users'
     | '/roles/$id/edit'
@@ -124,8 +144,10 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/audit-logs/$id'
     | '/roles/create'
     | '/users/create'
+    | '/audit-logs'
     | '/roles'
     | '/users'
     | '/roles/$id/edit'
@@ -136,8 +158,10 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/audit-logs/$id'
     | '/roles/create'
     | '/users/create'
+    | '/audit-logs/'
     | '/roles/'
     | '/users/'
     | '/roles/$id/edit'
@@ -149,8 +173,10 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuditLogsIdRoute: typeof AuditLogsIdRoute
   RolesCreateRoute: typeof RolesCreateRoute
   UsersCreateRoute: typeof UsersCreateRoute
+  AuditLogsIndexRoute: typeof AuditLogsIndexRoute
   RolesIndexRoute: typeof RolesIndexRoute
   UsersIndexRoute: typeof UsersIndexRoute
   RolesIdEditRoute: typeof RolesIdEditRoute
@@ -183,6 +209,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RolesIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/audit-logs/': {
+      id: '/audit-logs/'
+      path: '/audit-logs'
+      fullPath: '/audit-logs'
+      preLoaderRoute: typeof AuditLogsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/users/create': {
       id: '/users/create'
       path: '/users/create'
@@ -195,6 +228,13 @@ declare module '@tanstack/react-router' {
       path: '/roles/create'
       fullPath: '/roles/create'
       preLoaderRoute: typeof RolesCreateRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/audit-logs/$id': {
+      id: '/audit-logs/$id'
+      path: '/audit-logs/$id'
+      fullPath: '/audit-logs/$id'
+      preLoaderRoute: typeof AuditLogsIdRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/users/$id/': {
@@ -237,8 +277,10 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuditLogsIdRoute: AuditLogsIdRoute,
   RolesCreateRoute: RolesCreateRoute,
   UsersCreateRoute: UsersCreateRoute,
+  AuditLogsIndexRoute: AuditLogsIndexRoute,
   RolesIndexRoute: RolesIndexRoute,
   UsersIndexRoute: UsersIndexRoute,
   RolesIdEditRoute: RolesIdEditRoute,
