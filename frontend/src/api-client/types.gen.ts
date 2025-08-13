@@ -8922,7 +8922,9 @@ export type PostApiOrganizationsResponses = {
 
 export type PostApiOrganizationsInvitesSendByEmailData = {
   body?: never;
-  path?: never;
+  path: {
+    email: string;
+  };
   query?: never;
   url: '/api/organizations/invites/send/{email}';
 };

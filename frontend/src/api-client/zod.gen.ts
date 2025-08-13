@@ -9060,7 +9060,9 @@ export const zPostApiOrganizationsData = z.object({
 
 export const zPostApiOrganizationsInvitesSendByEmailData = z.object({
   body: z.optional(z.never()),
-  path: z.optional(z.never()),
+  path: z.object({
+    email: z.string(),
+  }),
   query: z.optional(z.never()),
 });
 

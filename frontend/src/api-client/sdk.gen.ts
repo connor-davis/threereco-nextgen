@@ -571,9 +571,9 @@ export const postApiOrganizations = <ThrowOnError extends boolean = false>(
 export const postApiOrganizationsInvitesSendByEmail = <
   ThrowOnError extends boolean = false,
 >(
-  options?: Options<PostApiOrganizationsInvitesSendByEmailData, ThrowOnError>
+  options: Options<PostApiOrganizationsInvitesSendByEmailData, ThrowOnError>
 ) => {
-  return (options?.client ?? _heyApiClient).post<
+  return (options.client ?? _heyApiClient).post<
     PostApiOrganizationsInvitesSendByEmailResponses,
     PostApiOrganizationsInvitesSendByEmailErrors,
     ThrowOnError

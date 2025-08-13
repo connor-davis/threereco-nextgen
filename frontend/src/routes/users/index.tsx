@@ -15,6 +15,7 @@ import { Button } from '@/components/ui/button';
 import { DebounceInput } from '@/components/ui/debounce-input';
 import { Label } from '@/components/ui/label';
 import DeleteUserByIdDialog from '@/components/users/delete.dialog';
+import InviteUserByEmailDialog from '@/components/users/invite.dialog';
 import { apiClient, cn } from '@/lib/utils';
 
 export const Route = createFileRoute('/users/')({
@@ -98,7 +99,9 @@ function RouteComponent() {
           />
 
           <PermissionGuard value="users.create">
-            <Button>Invite</Button>
+            <InviteUserByEmailDialog>
+              <Button>Invite</Button>
+            </InviteUserByEmailDialog>
 
             <Link to="/users/create">
               <Button>Create</Button>

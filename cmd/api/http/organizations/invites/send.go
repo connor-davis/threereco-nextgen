@@ -1,6 +1,8 @@
 package invites
 
 import (
+	"net/url"
+
 	"github.com/connor-davis/threereco-nextgen/internal/constants"
 	"github.com/connor-davis/threereco-nextgen/internal/models"
 	"github.com/connor-davis/threereco-nextgen/internal/routing"
@@ -63,12 +65,29 @@ func (r *OrganizationsInvitesRouter) SendInvite() routing.Route {
 		}),
 	})
 
+	parameters := []*openapi3.ParameterRef{
+		{
+			Value: &openapi3.Parameter{
+				Name:     "email",
+				In:       "path",
+				Required: true,
+				Schema: &openapi3.SchemaRef{
+					Value: &openapi3.Schema{
+						Type: &openapi3.Types{
+							"string",
+						},
+					},
+				},
+			},
+		},
+	}
+
 	return routing.Route{
 		OpenAPIMetadata: routing.OpenAPIMetadata{
 			Summary:     "Send Organization Invite",
 			Description: "Sends an invitation to join the organization.",
 			Tags:        []string{"Organizations"},
-			Parameters:  nil,
+			Parameters:  parameters,
 			RequestBody: nil,
 			Responses:   responses,
 		},
@@ -81,8 +100,16 @@ func (r *OrganizationsInvitesRouter) SendInvite() routing.Route {
 			currentUser := c.Locals("user").(*models.User)
 
 			email := c.Params("email")
+			parsedEmail, err := url.QueryUnescape(email)
 
-			existingUser, err := r.Services.Users.GetByEmail(email)
+			if err != nil {
+				return c.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
+					"error":   constants.BadRequestError,
+					"message": constants.BadRequestErrorDetails,
+				})
+			}
+
+			existingUser, err := r.Services.Users.GetByEmail(parsedEmail)
 
 			if err != nil {
 				return c.Status(fiber.StatusInternalServerError).JSON(&fiber.Map{

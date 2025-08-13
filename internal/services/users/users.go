@@ -272,9 +272,7 @@ func (s *UsersService) GetByEmail(email string) (*models.User, error) {
 	var user models.User
 
 	if err := s.Storage.Postgres.
-		Where(&models.User{
-			Email: email,
-		}).
+		Where("email = ?", email).
 		Preload("Roles").
 		Preload("Organizations.Owner").
 		Preload("ModifiedByUser").

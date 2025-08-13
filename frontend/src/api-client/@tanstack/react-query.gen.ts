@@ -1138,7 +1138,7 @@ export const postApiOrganizationsMutation = (
 };
 
 export const postApiOrganizationsInvitesSendByEmailQueryKey = (
-  options?: Options<PostApiOrganizationsInvitesSendByEmailData>
+  options: Options<PostApiOrganizationsInvitesSendByEmailData>
 ) => createQueryKey('postApiOrganizationsInvitesSendByEmail', options);
 
 /**
@@ -1146,7 +1146,7 @@ export const postApiOrganizationsInvitesSendByEmailQueryKey = (
  * Sends an invitation to join the organization.
  */
 export const postApiOrganizationsInvitesSendByEmailOptions = (
-  options?: Options<PostApiOrganizationsInvitesSendByEmailData>
+  options: Options<PostApiOrganizationsInvitesSendByEmailData>
 ) => {
   return queryOptions({
     queryFn: async ({ queryKey, signal }) => {
