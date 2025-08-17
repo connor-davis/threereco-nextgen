@@ -1,6 +1,8 @@
 import { Link } from '@tanstack/react-router';
 import {
+  BoxIcon,
   BrickWallIcon,
+  HandCoinsIcon,
   LayoutDashboardIcon,
   NotebookIcon,
   ScrollTextIcon,
@@ -78,6 +80,36 @@ export default function AppSidebar() {
                 </TooltipTrigger>
                 <TooltipContent side="right" hidden={state === 'expanded'}>
                   Materials
+                </TooltipContent>
+              </Tooltip>
+              <Tooltip>
+                <TooltipTrigger>
+                  <SidebarMenuItem>
+                    <SidebarMenuButton asChild>
+                      <Link to="/materials">
+                        <BoxIcon />
+                        <span>Products</span>
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                </TooltipTrigger>
+                <TooltipContent side="right" hidden={state === 'expanded'}>
+                  Products
+                </TooltipContent>
+              </Tooltip>
+              <Tooltip>
+                <TooltipTrigger>
+                  <SidebarMenuItem>
+                    <SidebarMenuButton asChild>
+                      <Link to="/materials">
+                        <HandCoinsIcon />
+                        <span>Transactions</span>
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                </TooltipTrigger>
+                <TooltipContent side="right" hidden={state === 'expanded'}>
+                  Transactions
                 </TooltipContent>
               </Tooltip>
             </SidebarMenu>
