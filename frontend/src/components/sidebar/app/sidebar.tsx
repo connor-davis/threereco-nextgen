@@ -20,11 +20,19 @@ import {
   SidebarMenuItem,
   SidebarRail,
   SidebarSeparator,
+  useSidebar,
 } from '@/components/ui/sidebar';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
 
 import UserNav from './user-nav';
 
 export default function AppSidebar() {
+  const { state } = useSidebar();
+
   return (
     <Sidebar collapsible="icon">
       <SidebarContent className="gap-0">
@@ -32,14 +40,21 @@ export default function AppSidebar() {
           <SidebarGroupLabel>Analytics</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              <SidebarMenuItem>
-                <SidebarMenuButton asChild>
-                  <Link to="/">
-                    <LayoutDashboardIcon />
-                    <span>Dashboard</span>
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
+              <Tooltip>
+                <TooltipTrigger>
+                  <SidebarMenuItem>
+                    <SidebarMenuButton asChild>
+                      <Link to="/">
+                        <LayoutDashboardIcon />
+                        <span>Dashboard</span>
+                      </Link>
+                    </SidebarMenuButton>{' '}
+                  </SidebarMenuItem>
+                </TooltipTrigger>
+                <TooltipContent side="right" hidden={state === 'expanded'}>
+                  Dashboard
+                </TooltipContent>
+              </Tooltip>
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
@@ -50,14 +65,21 @@ export default function AppSidebar() {
           <SidebarGroupLabel>General</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              <SidebarMenuItem>
-                <SidebarMenuButton asChild>
-                  <Link to="/materials">
-                    <BrickWallIcon />
-                    <span>Materials</span>
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
+              <Tooltip>
+                <TooltipTrigger>
+                  <SidebarMenuItem>
+                    <SidebarMenuButton asChild>
+                      <Link to="/materials">
+                        <BrickWallIcon />
+                        <span>Materials</span>
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                </TooltipTrigger>
+                <TooltipContent side="right" hidden={state === 'expanded'}>
+                  Materials
+                </TooltipContent>
+              </Tooltip>
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
@@ -74,34 +96,55 @@ export default function AppSidebar() {
             <SidebarGroupContent>
               <SidebarMenu>
                 <PermissionGuard value={['users.view']}>
-                  <SidebarMenuItem>
-                    <SidebarMenuButton asChild>
-                      <Link to="/users">
-                        <UsersIcon />
-                        <span>Users</span>
-                      </Link>
-                    </SidebarMenuButton>
-                  </SidebarMenuItem>
+                  <Tooltip>
+                    <TooltipTrigger>
+                      <SidebarMenuItem>
+                        <SidebarMenuButton asChild>
+                          <Link to="/users">
+                            <UsersIcon />
+                            <span>Users</span>
+                          </Link>
+                        </SidebarMenuButton>
+                      </SidebarMenuItem>
+                    </TooltipTrigger>
+                    <TooltipContent side="right" hidden={state === 'expanded'}>
+                      Users
+                    </TooltipContent>
+                  </Tooltip>
                 </PermissionGuard>
                 <PermissionGuard value={['roles.view']}>
-                  <SidebarMenuItem>
-                    <SidebarMenuButton asChild>
-                      <Link to="/roles">
-                        <NotebookIcon />
-                        <span>Roles</span>
-                      </Link>
-                    </SidebarMenuButton>
-                  </SidebarMenuItem>
+                  <Tooltip>
+                    <TooltipTrigger>
+                      <SidebarMenuItem>
+                        <SidebarMenuButton asChild>
+                          <Link to="/roles">
+                            <NotebookIcon />
+                            <span>Roles</span>
+                          </Link>
+                        </SidebarMenuButton>
+                      </SidebarMenuItem>
+                    </TooltipTrigger>
+                    <TooltipContent side="right" hidden={state === 'expanded'}>
+                      Roles
+                    </TooltipContent>
+                  </Tooltip>
                 </PermissionGuard>
                 <PermissionGuard value={['audit_logs.view']}>
-                  <SidebarMenuItem>
-                    <SidebarMenuButton asChild>
-                      <Link to="/audit-logs">
-                        <ScrollTextIcon />
-                        <span>Audit Logs</span>
-                      </Link>
-                    </SidebarMenuButton>
-                  </SidebarMenuItem>
+                  <Tooltip>
+                    <TooltipTrigger>
+                      <SidebarMenuItem>
+                        <SidebarMenuButton asChild>
+                          <Link to="/audit-logs">
+                            <ScrollTextIcon />
+                            <span>Audit Logs</span>
+                          </Link>
+                        </SidebarMenuButton>
+                      </SidebarMenuItem>
+                    </TooltipTrigger>
+                    <TooltipContent side="right" hidden={state === 'expanded'}>
+                      Audit Logs
+                    </TooltipContent>
+                  </Tooltip>
                 </PermissionGuard>
               </SidebarMenu>
             </SidebarGroupContent>
