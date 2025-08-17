@@ -7,22 +7,18 @@ import {
 
 import z from 'zod';
 
-import {
-  type ErrorResponse,
-  type Material,
-  getApiMaterials,
-} from '@/api-client';
+import { type ErrorResponse, type Product, getApiProducts } from '@/api-client';
 import PermissionGuard from '@/components/guards/permission';
-import DeleteMaterialByIdDialog from '@/components/materials/delete.dialog';
+import DeleteProductByIdDialog from '@/components/products/delete.dialog';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
 import { DebounceInput } from '@/components/ui/debounce-input';
 import { Label } from '@/components/ui/label';
 import { apiClient, cn } from '@/lib/utils';
 
-export const Route = createFileRoute('/materials/')({
+export const Route = createFileRoute('/products/')({
   component: () => (
-    <PermissionGuard value="materials.view" isPage={true}>
+    <PermissionGuard value="products.view" isPage={true}>
       <RouteComponent />
     </PermissionGuard>
   ),
@@ -32,7 +28,7 @@ export const Route = createFileRoute('/materials/')({
   }),
   pendingComponent: () => (
     <div className="flex flex-col w-full h-full items-center justify-center">
-      <Label className="text-muted-foreground">Loading materials...</Label>
+      <Label className="text-muted-foreground">Loading products...</Label>
     </div>
   ),
   errorComponent: ({ error }: { error: Error | ErrorResponse }) => {
@@ -54,7 +50,7 @@ export const Route = createFileRoute('/materials/')({
   wrapInSuspense: true,
   loaderDeps: ({ search: { page, search } }) => ({ page, search }),
   loader: async ({ deps: { page, search } }) => {
-    const { data } = await getApiMaterials({
+    const { data } = await getApiProducts({
       client: apiClient,
       query: {
         page,
@@ -64,7 +60,7 @@ export const Route = createFileRoute('/materials/')({
     });
 
     return {
-      materials: (data.items ?? []) as Array<Material>,
+      products: (data.items ?? []) as Array<Product>,
       pageDetails: data.pageDetails ?? {},
     };
   },
@@ -73,25 +69,25 @@ export const Route = createFileRoute('/materials/')({
 function RouteComponent() {
   const router = useRouter();
   const { page, search } = Route.useLoaderDeps();
-  const { materials, pageDetails } = Route.useLoaderData();
+  const { products, pageDetails } = Route.useLoaderData();
 
   return (
     <div className="flex flex-col w-full h-full bg-popover border-t p-3 gap-3">
       <div className="flex items-center justify-between w-full h-auto">
         <div className="flex items-center gap-3">
-          <Label className="text-lg">Materials</Label>
+          <Label className="text-lg">Products</Label>
         </div>
         <div className="flex items-center gap-3">
           <DebounceInput
             type="text"
-            placeholder="Search materials..."
+            placeholder="Search products..."
             className="w-64"
             defaultValue={search}
             onChange={(e) => {
               const search = e.target.value;
 
               router.navigate({
-                to: '/materials',
+                to: '/products',
                 search: {
                   page,
                   search,
@@ -100,8 +96,8 @@ function RouteComponent() {
             }}
           />
 
-          <PermissionGuard value="materials.create">
-            <Link to="/materials/create">
+          <PermissionGuard value="products.create">
+            <Link to="/products/create">
               <Button>Create</Button>
             </Link>
           </PermissionGuard>
@@ -109,36 +105,39 @@ function RouteComponent() {
       </div>
 
       <div className="flex flex-col w-full h-full overflow-y-auto">
-        {materials?.length ? (
-          materials.map((material, index) => (
+        {products?.length ? (
+          products.map((product, index) => (
             <div
-              key={material.id}
+              key={product.id}
               className={cn(
                 'flex items-center justify-between p-3 gap-3',
-                index + 1 < materials.length ? 'border-b' : ''
+                index + 1 < products.length ? 'border-b' : ''
               )}
             >
               <div className="flex w-full h-auto items-center justify-between gap-3">
                 <div className="flex flex-col">
-                  <Label>{material.name}</Label>
+                  <Label>{product.name}</Label>
                   <Label className="text-xs text-muted-foreground">
-                    {material.gwCode}
+                    {new Intl.NumberFormat('en-ZA', {
+                      style: 'currency',
+                      currency: 'ZAR',
+                    }).format(product.value ?? 0)}
                   </Label>
                 </div>
               </div>
               <div className="flex items-center gap-3">
-                <PermissionGuard value="materials.update">
-                  <Link to="/materials/$id/edit" params={{ id: material.id! }}>
+                <PermissionGuard value="products.update">
+                  <Link to="/products/$id/edit" params={{ id: product.id! }}>
                     <Button>Edit</Button>
                   </Link>
                 </PermissionGuard>
-                <PermissionGuard value="materials.delete">
-                  <DeleteMaterialByIdDialog
-                    id={material.id!}
-                    name={material.name!}
+                <PermissionGuard value="products.delete">
+                  <DeleteProductByIdDialog
+                    id={product.id!}
+                    name={product.name!}
                   >
                     <Button>Remove</Button>
-                  </DeleteMaterialByIdDialog>
+                  </DeleteProductByIdDialog>
                 </PermissionGuard>
               </div>
             </div>
@@ -146,7 +145,7 @@ function RouteComponent() {
         ) : (
           <div className="flex flex-col items-center justify-center w-full h-full p-5">
             <Label className="text-sm text-muted-foreground">
-              No materials found.
+              No products found.
             </Label>
           </div>
         )}
@@ -159,7 +158,7 @@ function RouteComponent() {
           </Label>
 
           <Link
-            to="/materials"
+            to="/products"
             search={{ page: pageDetails.previousPage }}
             disabled={page === pageDetails.previousPage}
           >
@@ -172,7 +171,7 @@ function RouteComponent() {
             </Button>
           </Link>
           <Link
-            to="/materials"
+            to="/products"
             search={{ page: pageDetails.nextPage }}
             disabled={page === pageDetails.nextPage}
           >

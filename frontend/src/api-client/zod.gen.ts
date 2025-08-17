@@ -62,9 +62,9 @@ export const zAvailablePermissionGroup = z.object({
 });
 
 export const zCreateMaterialPayload = z.object({
-  carbonFactor: z.optional(z.string()),
-  gwCode: z.optional(z.string()),
-  name: z.optional(z.string()),
+  carbonFactor: z.string(),
+  gwCode: z.string(),
+  name: z.string(),
 });
 
 export const zCreateOrganizationPayload = z.object({
@@ -75,8 +75,8 @@ export const zCreateOrganizationPayload = z.object({
 
 export const zCreateProductPayload = z.object({
   materials: z.optional(z.array(z.uuid())),
-  name: z.optional(z.string()),
-  value: z.optional(z.number().gte(0)),
+  name: z.string(),
+  value: z.number().gte(0),
 });
 
 export const zCreateRolePayload = z.object({
@@ -86,12 +86,12 @@ export const zCreateRolePayload = z.object({
 });
 
 export const zCreateTransactionPayload = z.object({
-  amount: z.optional(z.number().gte(0)),
-  buyerId: z.optional(z.uuid()),
+  amount: z.number().gte(0),
+  buyerId: z.uuid(),
   products: z.optional(z.array(z.uuid())),
-  sellerId: z.optional(z.uuid()),
-  type: z.optional(z.string()),
-  weight: z.optional(z.number().gte(0)),
+  sellerId: z.uuid(),
+  type: z.string(),
+  weight: z.number().gte(0),
 });
 
 export const zCreateUserPayload = z.object({
@@ -5891,9 +5891,9 @@ export const zGetApiMaterialsResponse = z.object({
 
 export const zPostApiMaterialsData = z.object({
   body: z.object({
-    carbonFactor: z.optional(z.string()),
-    gwCode: z.optional(z.string()),
-    name: z.optional(z.string()),
+    carbonFactor: z.string(),
+    gwCode: z.string(),
+    name: z.string(),
   }),
   path: z.optional(z.never()),
   query: z.optional(z.never()),
@@ -10644,8 +10644,8 @@ export const zGetApiProductsResponse = z.object({
 export const zPostApiProductsData = z.object({
   body: z.object({
     materials: z.optional(z.array(z.uuid())),
-    name: z.optional(z.string()),
-    value: z.optional(z.number().gte(0)),
+    name: z.string(),
+    value: z.number().gte(0),
   }),
   path: z.optional(z.never()),
   query: z.optional(z.never()),
@@ -14552,12 +14552,12 @@ export const zGetApiTransactionsResponse = z.object({
 
 export const zPostApiTransactionsData = z.object({
   body: z.object({
-    amount: z.optional(z.number().gte(0)),
-    buyerId: z.optional(z.uuid()),
+    amount: z.number().gte(0),
+    buyerId: z.uuid(),
     products: z.optional(z.array(z.uuid())),
-    sellerId: z.optional(z.uuid()),
-    type: z.optional(z.string()),
-    weight: z.optional(z.number().gte(0)),
+    sellerId: z.uuid(),
+    type: z.string(),
+    weight: z.number().gte(0),
   }),
   path: z.optional(z.never()),
   query: z.optional(z.never()),

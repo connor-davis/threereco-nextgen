@@ -86,7 +86,7 @@ export default function AppSidebar() {
                 <TooltipTrigger>
                   <SidebarMenuItem>
                     <SidebarMenuButton asChild>
-                      <Link to="/materials">
+                      <Link to="/products">
                         <BoxIcon />
                         <span>Products</span>
                       </Link>

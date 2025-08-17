@@ -39,7 +39,16 @@ var CreateTransactionPayloadSchema = openapi3.NewSchema().WithProperties(propert
 	WithProperty(
 		"products",
 		openapi3.NewArraySchema().WithItems(openapi3.NewStringSchema().WithFormat("uuid")),
-	).NewRef()
+	).
+	WithRequired([]string{
+		"type",
+		"weight",
+		"amount",
+		"sellerId",
+		"sellerType",
+		"buyerId",
+		"buyerType",
+	}).NewRef()
 
 var UpdateTransactionPayloadSchema = openapi3.NewSchema().WithProperties(properties.UpdateTransactionPayloadProperties).
 	WithProperty(

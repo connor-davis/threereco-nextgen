@@ -25,6 +25,10 @@ var MaterialSchema = openapi3.NewSchema().
 var MaterialArraySchema = openapi3.NewArraySchema().
 	WithItems(MaterialSchema.Value).NewRef()
 
-var CreateMaterialPayloadSchema = openapi3.NewSchema().WithProperties(properties.CreateMaterialPayloadProperties).NewRef()
+var CreateMaterialPayloadSchema = openapi3.NewSchema().WithProperties(properties.CreateMaterialPayloadProperties).WithRequired([]string{
+	"name",
+	"gwCode",
+	"carbonFactor",
+}).NewRef()
 
 var UpdateMaterialPayloadSchema = openapi3.NewSchema().WithProperties(properties.UpdateMaterialPayloadProperties).NewRef()

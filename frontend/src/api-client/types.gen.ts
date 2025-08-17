@@ -57,9 +57,9 @@ export type AvailablePermissionGroup = {
 };
 
 export type CreateMaterialPayload = {
-  carbonFactor?: string;
-  gwCode?: string;
-  name?: string;
+  carbonFactor: string;
+  gwCode: string;
+  name: string;
 };
 
 export type CreateOrganizationPayload = {
@@ -70,8 +70,8 @@ export type CreateOrganizationPayload = {
 
 export type CreateProductPayload = {
   materials?: Array<string>;
-  name?: string;
-  value?: number;
+  name: string;
+  value: number;
 };
 
 export type CreateRolePayload = {
@@ -81,12 +81,12 @@ export type CreateRolePayload = {
 };
 
 export type CreateTransactionPayload = {
-  amount?: number;
-  buyerId?: string;
+  amount: number;
+  buyerId: string;
   products?: Array<string>;
-  sellerId?: string;
-  type?: string;
-  weight?: number;
+  sellerId: string;
+  type: string;
+  weight: number;
 };
 
 export type CreateUserPayload = {
@@ -5638,9 +5638,9 @@ export type GetApiMaterialsResponse =
 
 export type PostApiMaterialsData = {
   body: {
-    carbonFactor?: string;
-    gwCode?: string;
-    name?: string;
+    carbonFactor: string;
+    gwCode: string;
+    name: string;
   };
   path?: never;
   query?: never;
@@ -10628,8 +10628,8 @@ export type GetApiProductsResponse =
 export type PostApiProductsData = {
   body: {
     materials?: Array<string>;
-    name?: string;
-    value?: number;
+    name: string;
+    value: number;
   };
   path?: never;
   query?: never;
@@ -14571,12 +14571,12 @@ export type GetApiTransactionsResponse =
 
 export type PostApiTransactionsData = {
   body: {
-    amount?: number;
-    buyerId?: string;
+    amount: number;
+    buyerId: string;
     products?: Array<string>;
-    sellerId?: string;
-    type?: string;
-    weight?: number;
+    sellerId: string;
+    type: string;
+    weight: number;
   };
   path?: never;
   query?: never;

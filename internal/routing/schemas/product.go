@@ -32,7 +32,11 @@ var CreateProductPayloadSchema = openapi3.NewSchema().WithProperties(properties.
 	WithProperty(
 		"materials",
 		openapi3.NewArraySchema().WithItems(openapi3.NewStringSchema().WithFormat("uuid")),
-	).NewRef()
+	).
+	WithRequired([]string{
+		"name",
+		"value",
+	}).NewRef()
 
 var UpdateProductPayloadSchema = openapi3.NewSchema().WithProperties(properties.UpdateProductPayloadProperties).
 	WithProperty(

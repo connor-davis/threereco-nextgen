@@ -226,6 +226,7 @@ export const CreateMaterialPayloadSchema = {
       type: 'string',
     },
   },
+  required: ['name', 'gwCode', 'carbonFactor'],
 } as const;
 
 export const CreateOrganizationPayloadSchema = {
@@ -262,6 +263,7 @@ export const CreateProductPayloadSchema = {
       type: 'number',
     },
   },
+  required: ['name', 'value'],
 } as const;
 
 export const CreateRolePayloadSchema = {
@@ -313,6 +315,15 @@ export const CreateTransactionPayloadSchema = {
       type: 'number',
     },
   },
+  required: [
+    'type',
+    'weight',
+    'amount',
+    'sellerId',
+    'sellerType',
+    'buyerId',
+    'buyerType',
+  ],
 } as const;
 
 export const CreateUserPayloadSchema = {
