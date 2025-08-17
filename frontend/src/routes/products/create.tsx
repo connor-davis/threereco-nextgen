@@ -1,6 +1,11 @@
 import { postApiProductsMutation } from '@/api-client/@tanstack/react-query.gen';
 import { useMutation } from '@tanstack/react-query';
-import { Link, createFileRoute, useRouter } from '@tanstack/react-router';
+import {
+  ErrorComponent,
+  Link,
+  createFileRoute,
+  useRouter,
+} from '@tanstack/react-router';
 import {
   ArrowLeftIcon,
   BoxIcon,
@@ -14,12 +19,30 @@ import { useForm } from 'react-hook-form';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { toast } from 'sonner';
+import z from 'zod';
 
-import type { CreateProductPayload, ErrorResponse } from '@/api-client';
+import {
+  type CreateProductPayload,
+  type ErrorResponse,
+  type Material,
+  getApiMaterials,
+} from '@/api-client';
 import { zCreateProductPayload } from '@/api-client/zod.gen';
 import PermissionGuard from '@/components/guards/permission';
+import CreateMaterialDialog from '@/components/materials/create.dialog';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
+import { Checkbox } from '@/components/ui/checkbox';
+import { DebounceInput } from '@/components/ui/debounce-input';
 import {
   Form,
   FormControl,
@@ -51,10 +74,57 @@ export const Route = createFileRoute('/products/create')({
       <RouteComponent />
     </PermissionGuard>
   ),
+  validateSearch: z.object({
+    materialsPage: z.coerce.number().default(1),
+    materialsSearch: z.string().default(''),
+  }),
+  pendingComponent: () => (
+    <div className="flex flex-col w-full h-full items-center justify-center">
+      <Label className="text-muted-foreground">Loading products...</Label>
+    </div>
+  ),
+  errorComponent: ({ error }: { error: Error | ErrorResponse }) => {
+    if ('error' in error) {
+      // Render a custom error message
+      return (
+        <div className="flex flex-col w-full h-full items-center justify-center">
+          <Alert variant="destructive" className="w-full max-w-lg">
+            <AlertTitle>{error.error}</AlertTitle>
+            <AlertDescription>{error.message}</AlertDescription>
+          </Alert>
+        </div>
+      );
+    }
+
+    // Fallback to the default ErrorComponent
+    return <ErrorComponent error={error} />;
+  },
+  wrapInSuspense: true,
+  loaderDeps: ({ search: { materialsPage, materialsSearch } }) => ({
+    materialsPage,
+    materialsSearch,
+  }),
+  loader: async ({ deps: { materialsPage, materialsSearch } }) => {
+    const { data } = await getApiMaterials({
+      client: apiClient,
+      query: {
+        page: materialsPage,
+        search: materialsSearch,
+      },
+      throwOnError: true,
+    });
+
+    return {
+      materials: (data.items ?? []) as Array<Material>,
+      materialsPageDetails: data.pageDetails ?? {},
+    };
+  },
 });
 
 function RouteComponent() {
   const router = useRouter();
+  const { materialsPage, materialsSearch } = Route.useLoaderDeps();
+  const { materials, materialsPageDetails } = Route.useLoaderData();
 
   const [currentStep, setCurrentStep] = useState(1);
 
@@ -76,6 +146,9 @@ function RouteComponent() {
         description: 'The product has been created successfully.',
         duration: 2000,
       });
+
+      setCurrentStep(5);
+      createForm.reset();
 
       return router.invalidate();
     },
@@ -105,7 +178,7 @@ function RouteComponent() {
               }),
             () => setCurrentStep(1)
           )}
-          className="flex flex-col w-full h-auto gap-10"
+          className="flex flex-col w-full h-full"
         >
           <Stepper
             value={currentStep}
@@ -114,9 +187,9 @@ function RouteComponent() {
               completed: <CheckIcon className="size-4" />,
               loading: <LoaderCircleIcon className="size-4 animate-spin" />,
             }}
-            className="gap-10"
+            className="flex flex-col w-full h-full gap-5"
           >
-            <StepperNav className="gap-3 mb-15">
+            <StepperNav className="gap-3 h-auto">
               <StepperItem step={1} className="relative flex-1 items-start">
                 <StepperTrigger
                   className="flex flex-col items-start justify-center gap-2.5 grow"
@@ -283,12 +356,12 @@ function RouteComponent() {
               </StepperItem>
             </StepperNav>
 
-            <StepperPanel>
+            <StepperPanel className="w-full h-full overflow-hidden">
               <StepperContent
                 value={1}
-                className="flex flex-col w-full h-auto gap-10"
+                className="flex flex-col w-full h-full gap-3"
               >
-                <div className="flex flex-col w-full h-auto gap-5">
+                <div className="flex flex-col w-full h-full gap-5">
                   <FormField
                     control={createForm.control}
                     name="name"
@@ -321,8 +394,11 @@ function RouteComponent() {
                           <NumberInput
                             placeholder="Value"
                             className="w-full"
+                            decimalScale={2}
+                            fixedDecimalScale
                             {...field}
                             value={field.value ?? undefined}
+                            onValueChange={(value) => field.onChange(value)}
                           />
                         </FormControl>
                         <FormDescription>
@@ -334,7 +410,7 @@ function RouteComponent() {
                   />
                 </div>
 
-                <div className="grid grid-cols-2 w-full h-auto gap-5 items-center">
+                <div className="grid grid-cols-2 w-full h-auto shrink-0 gap-5 items-center">
                   <Link to="/products">
                     <Button type="button" variant="outline" className="w-full">
                       Cancel
@@ -352,8 +428,122 @@ function RouteComponent() {
 
               <StepperContent
                 value={2}
-                className="flex flex-col w-full h-auto gap-10"
+                className="flex flex-col w-full h-full gap-3"
               >
+                <div className="flex flex-col w-full h-full overflow-hidden gap-3">
+                  <div className="flex items-center justify-between w-full h-auto gap-3">
+                    <div className="flex items-center gap-3">
+                      <Label>Available Materials</Label>
+                    </div>
+
+                    <div className="flex items-center gap-3">
+                      <DebounceInput
+                        type="text"
+                        placeholder="Search materials..."
+                        className="w-64"
+                        defaultValue={materialsSearch}
+                        onChange={(e) => {
+                          const search = e.target.value;
+
+                          router.navigate({
+                            to: '/products/create',
+                            search: {
+                              materialsPage: materialsPage,
+                              materialsSearch: search,
+                            },
+                          });
+                        }}
+                      />
+
+                      <CreateMaterialDialog>
+                        <Button type="button" variant="outline">
+                          Create Material
+                        </Button>
+                      </CreateMaterialDialog>
+                    </div>
+                  </div>
+
+                  <div className="flex flex-col w-full h-full overflow-y-auto gap-3">
+                    {materials.map((material) => (
+                      <Label className="hover:bg-accent flex items-center justify-between gap-3 rounded-lg border p-3">
+                        <Checkbox
+                          id="toggle-2"
+                          checked={(
+                            createForm.watch().materials ?? []
+                          ).includes(material.id)}
+                          onCheckedChange={(checked) => {
+                            if (checked) {
+                              createForm.setValue('materials', [
+                                ...(createForm.getValues().materials ?? []),
+                                material.id,
+                              ]);
+                            } else {
+                              createForm.setValue('materials', [
+                                ...(
+                                  createForm.getValues().materials ?? []
+                                ).filter((id) => id !== material.id),
+                              ]);
+                            }
+                          }}
+                          className="data-[state=checked]:border-primary data-[state=checked]:bg-primary data-[state=checked]:text-white"
+                        />
+
+                        <div className="flex items-center justify-between w-full h-auto gap-3">
+                          <p>{material.name}</p>
+
+                          <div className="flex items-center gap-2">
+                            <Badge>GW {material.gwCode}</Badge>
+                            <Badge>tCO2e {material.carbonFactor}</Badge>
+                          </div>
+                        </div>
+                      </Label>
+                    ))}
+                  </div>
+
+                  {materialsPageDetails.pages && (
+                    <div className="flex items-center justify-end w-full">
+                      <Label className="text-xs text-muted-foreground">
+                        Page {materialsPage} of {materialsPageDetails.pages}
+                      </Label>
+
+                      <Link
+                        to="/materials"
+                        search={{ page: materialsPageDetails.previousPage }}
+                        disabled={
+                          materialsPage === materialsPageDetails.previousPage
+                        }
+                      >
+                        <Button
+                          variant="outline"
+                          className="ml-3"
+                          disabled={
+                            materialsPage === materialsPageDetails.previousPage
+                          }
+                        >
+                          Previous
+                        </Button>
+                      </Link>
+                      <Link
+                        to="/materials"
+                        search={{ page: materialsPageDetails.nextPage }}
+                        disabled={
+                          materialsPage === materialsPageDetails.nextPage
+                        }
+                      >
+                        <Button
+                          variant="outline"
+                          className="ml-1"
+                          disabled={
+                            materialsPage === materialsPageDetails.nextPage
+                          }
+                        >
+                          Next
+                        </Button>
+                      </Link>
+                    </div>
+                  )}
+                </div>
+
                 <div className="grid grid-cols-2 w-full h-auto gap-5 items-center">
                   <Button
                     type="button"
@@ -375,43 +565,101 @@ function RouteComponent() {
 
               <StepperContent
                 value={3}
-                className="flex flex-col w-full h-auto gap-10"
+                className="flex flex-col w-full h-full gap-3"
               >
-                <div className="flex flex-col w-full h-auto gap-5">
-                  <div className="flex flex-col w-full h-auto gap-3">
-                    <Label className="text-muted-foreground">Name</Label>
-                    <Label>
-                      {createForm.getValues().name ?? 'Not provided'}
-                    </Label>
-                    <Label className="text-sm text-muted-foreground">
-                      This will be the products name.
-                    </Label>
-                  </div>
+                <div className="grid grid-cols-2 w-full h-full overflow-hidden gap-3">
+                  <Card className="border-dashed">
+                    <CardHeader>
+                      <CardTitle>Added Materials</CardTitle>
+                      <CardDescription>
+                        Review the materials added to the product.
+                      </CardDescription>
+                    </CardHeader>
+                    <CardContent className="flex flex-col w-full h-full overflow-hidden">
+                      <div className="flex flex-col w-full h-full overflow-y-auto gap-3">
+                        {(createForm.getValues().materials ?? []).length ===
+                        0 ? (
+                          <Label className="text-muted-foreground">
+                            No materials added
+                          </Label>
+                        ) : (
+                          createForm
+                            .getValues()
+                            .materials?.map((materialId) => {
+                              const material = materials.find(
+                                (m) => m.id === materialId
+                              );
 
-                  <div className="flex flex-col w-full h-auto gap-3">
-                    <Label className="text-muted-foreground">Value</Label>
-                    <Label>
-                      {new Intl.NumberFormat('en-ZA', {
-                        style: 'currency',
-                        currency: 'ZAR',
-                      }).format(createForm.getValues().value ?? 0)}
-                    </Label>
-                    <Label className="text-sm text-muted-foreground">
-                      This will be the products value (R).
-                    </Label>
-                  </div>
-                </div>
+                              if (!material) return null;
 
-                <div className="grid grid-cols-2 w-full h-auto gap-5 items-center">
-                  <Button
-                    type="button"
-                    variant="outline"
-                    className="w-full"
-                    onClick={() => setCurrentStep(2)}
-                  >
-                    Back
-                  </Button>
-                  <Button className="w-full">Create Product</Button>
+                              return (
+                                <Label
+                                  key={material.id}
+                                  className="hover:bg-accent flex items-center justify-between gap-3 rounded-lg border p-3"
+                                >
+                                  <div className="flex items-center justify-between w-full h-auto gap-3">
+                                    <p>{material.name}</p>
+
+                                    <div className="flex items-center gap-2">
+                                      <Badge>GW {material.gwCode}</Badge>
+                                      <Badge>
+                                        tCO2e {material.carbonFactor}
+                                      </Badge>
+                                    </div>
+                                  </div>
+                                </Label>
+                              );
+                            })
+                        )}
+                      </div>
+                    </CardContent>
+                  </Card>
+
+                  <Card className="border-dashed">
+                    <CardHeader>
+                      <CardTitle>Product Details</CardTitle>
+                      <CardDescription>
+                        Review the product details before creating.
+                      </CardDescription>
+                    </CardHeader>
+                    <CardContent className="flex flex-col w-full h-full gap-3 justify-start items-start">
+                      <div className="flex flex-col items-start justify-start w-full h-auto gap-3">
+                        <Label className="text-muted-foreground">Name</Label>
+                        <Label>
+                          {createForm.getValues().name ?? 'Not provided'}
+                        </Label>
+                        <Label className="text-sm text-muted-foreground">
+                          This will be the products name.
+                        </Label>
+                      </div>
+
+                      <div className="flex flex-col w-full h-auto gap-3">
+                        <Label className="text-muted-foreground">Value</Label>
+                        <Label>
+                          {new Intl.NumberFormat('en-ZA', {
+                            style: 'currency',
+                            currency: 'ZAR',
+                          }).format(createForm.getValues().value ?? 0)}
+                        </Label>
+                        <Label className="text-sm text-muted-foreground">
+                          This will be the products value (R).
+                        </Label>
+                      </div>
+                    </CardContent>
+                    <CardFooter>
+                      <div className="grid grid-cols-2 w-full h-auto gap-5 items-center">
+                        <Button
+                          type="button"
+                          variant="outline"
+                          className="w-full"
+                          onClick={() => setCurrentStep(2)}
+                        >
+                          Back
+                        </Button>
+                        <Button className="w-full">Create Product</Button>
+                      </div>
+                    </CardFooter>
+                  </Card>
                 </div>
               </StepperContent>
             </StepperPanel>

@@ -167,6 +167,9 @@ function RouteComponent() {
                 <FormControl>
                   <NumberInput
                     placeholder="Value"
+                    className="w-full"
+                    decimalScale={2}
+                    fixedDecimalScale
                     {...field}
                     value={field.value ?? undefined}
                   />

@@ -15,6 +15,7 @@ import {
 import PermissionGuard from '@/components/guards/permission';
 import DeleteMaterialByIdDialog from '@/components/materials/delete.dialog';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { DebounceInput } from '@/components/ui/debounce-input';
 import { Label } from '@/components/ui/label';
@@ -119,11 +120,13 @@ function RouteComponent() {
               )}
             >
               <div className="flex w-full h-auto items-center justify-between gap-3">
-                <div className="flex flex-col">
+                <div className="flex items-center justify-between w-full h-auto gap-3">
                   <Label>{material.name}</Label>
-                  <Label className="text-xs text-muted-foreground">
-                    {material.gwCode}
-                  </Label>
+
+                  <div className="flex items-center gap-2">
+                    <Badge>GW {material.gwCode}</Badge>
+                    <Badge>tC02e {material.carbonFactor}</Badge>
+                  </div>
                 </div>
               </div>
               <div className="flex items-center gap-3">

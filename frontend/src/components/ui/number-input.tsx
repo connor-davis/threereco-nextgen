@@ -48,7 +48,7 @@ export const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(
     // Call onValueChange only when value changes
     useEffect(() => {
       if (onValueChange) {
-        onValueChange(value);
+        onValueChange(Number.isNaN(Number(value)) ? 0 : Number(value));
       }
     }, [value]);
 
@@ -133,7 +133,9 @@ export const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(
 
         <NumericFormat
           value={value}
-          onValueChange={handleChange}
+          onValueChange={(value) =>
+            value.floatValue !== undefined && handleChange(value)
+          }
           thousandSeparator={thousandSeparator}
           decimalScale={decimalScale}
           fixedDecimalScale={fixedDecimalScale}
