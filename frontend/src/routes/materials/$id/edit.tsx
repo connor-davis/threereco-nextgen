@@ -154,6 +154,48 @@ function RouteComponent() {
             )}
           />
 
+          <FormField
+            control={updateForm.control}
+            name="gwCode"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>GW Code</FormLabel>
+                <FormControl>
+                  <Input
+                    type="text"
+                    placeholder="GW Code"
+                    {...field}
+                    value={field.value ?? undefined}
+                  />
+                </FormControl>
+                <FormDescription>Enter the material's GW Code.</FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={updateForm.control}
+            name="carbonFactor"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Carbon Factor</FormLabel>
+                <FormControl>
+                  <Input
+                    type="text"
+                    placeholder="Carbon Factor"
+                    {...field}
+                    value={field.value ?? undefined}
+                  />
+                </FormControl>
+                <FormDescription>
+                  Enter the material's Carbon Factor.
+                </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
           <Button type="submit">Update Material</Button>
         </form>
       </Form>
