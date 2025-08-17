@@ -69,6 +69,7 @@ export default function DeleteUserByIdDialog({
           <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
           <AlertDialogDescription>
             This action will permanently remove the user from the organization.
+            Please type <strong>{email}</strong> to confirm.
           </AlertDialogDescription>
         </AlertDialogHeader>
 

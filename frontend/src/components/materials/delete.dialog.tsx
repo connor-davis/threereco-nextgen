@@ -1,4 +1,4 @@
-import { deleteApiRolesByIdMutation } from '@/api-client/@tanstack/react-query.gen';
+import { deleteApiMaterialsByIdMutation } from '@/api-client/@tanstack/react-query.gen';
 import { useMutation } from '@tanstack/react-query';
 import { useRouter } from '@tanstack/react-router';
 import { TrashIcon } from 'lucide-react';
@@ -23,7 +23,7 @@ import {
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 
-export default function DeleteRoleByIdDialog({
+export default function DeleteMaterialByIdDialog({
   id,
   name,
   children,
@@ -36,8 +36,8 @@ export default function DeleteRoleByIdDialog({
 
   const [confirmationValue, setConfirmationValue] = useState<string>('');
 
-  const deleteRole = useMutation({
-    ...deleteApiRolesByIdMutation({
+  const deleteMaterial = useMutation({
+    ...deleteApiMaterialsByIdMutation({
       client: apiClient,
     }),
     onError: (error: ErrorResponse) =>
@@ -47,7 +47,7 @@ export default function DeleteRoleByIdDialog({
       }),
     onSuccess: () => {
       toast.success('Success', {
-        description: 'The role has been deleted successfully.',
+        description: 'The material has been removed successfully.',
         duration: 2000,
       });
 
@@ -68,8 +68,8 @@ export default function DeleteRoleByIdDialog({
         <AlertDialogHeader>
           <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
           <AlertDialogDescription>
-            This action will permanently remove the role from the organization.
-            Please type <strong>{name}</strong> to confirm.
+            This action will permanently remove the material from the
+            organization. Please type <strong>{name}</strong> to confirm.
           </AlertDialogDescription>
         </AlertDialogHeader>
 
@@ -86,14 +86,14 @@ export default function DeleteRoleByIdDialog({
           <AlertDialogAction
             disabled={!confirmationValue || confirmationValue !== name}
             onClick={() =>
-              deleteRole.mutate({
+              deleteMaterial.mutate({
                 path: {
                   id,
                 },
               })
             }
           >
-            Delete Role
+            Remove Material
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

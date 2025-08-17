@@ -1,5 +1,6 @@
 import { Link } from '@tanstack/react-router';
 import {
+  BrickWallIcon,
   LayoutDashboardIcon,
   NotebookIcon,
   ScrollTextIcon,
@@ -36,6 +37,24 @@ export default function AppSidebar() {
                   <Link to="/">
                     <LayoutDashboardIcon />
                     <span>Dashboard</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+
+        <SidebarSeparator className="mx-0" />
+
+        <SidebarGroup>
+          <SidebarGroupLabel>General</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <Link to="/materials">
+                    <BrickWallIcon />
+                    <span>Materials</span>
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>

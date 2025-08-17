@@ -1,5 +1,7 @@
 import {
   getApiAuthenticationCheckQueryKey,
+  getApiOrganizationsQueryKey,
+  getApiRolesAvailablePermissionsQueryKey,
   postApiAuthenticationLoginMutation,
 } from '@/api-client/@tanstack/react-query.gen';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
@@ -63,17 +65,29 @@ export default function AuthenticationGuard({
     onSuccess: () => {
       loginForm.reset();
 
-      toast.success('Login successful', {
-        description: 'You have been logged in successfully.',
-        duration: 2000,
-      });
-
       router.invalidate();
 
-      return queryClient.invalidateQueries({
+      queryClient.invalidateQueries({
         queryKey: getApiAuthenticationCheckQueryKey({
           client: apiClient,
         }),
+      });
+
+      queryClient.invalidateQueries({
+        queryKey: getApiOrganizationsQueryKey({
+          client: apiClient,
+        }),
+      });
+
+      queryClient.invalidateQueries({
+        queryKey: getApiRolesAvailablePermissionsQueryKey({
+          client: apiClient,
+        }),
+      });
+
+      return toast.success('Login successful', {
+        description: 'You have been logged in successfully.',
+        duration: 2000,
       });
     },
   });
