@@ -13,6 +13,7 @@ import {
   CheckIcon,
   InfoIcon,
   LoaderCircleIcon,
+  UserIcon,
 } from 'lucide-react';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -328,7 +329,7 @@ function RouteComponent() {
                   asChild
                 >
                   <StepperIndicator className="size-8 border-2 data-[state=completed]:text-white data-[state=completed]:bg-primary data-[state=inactive]:bg-transparent data-[state=inactive]:border-border data-[state=inactive]:text-muted-foreground">
-                    <InfoIcon className="size-4" />
+                    <UserIcon className="size-4" />
                   </StepperIndicator>
                   <div className="flex flex-col items-start gap-1">
                     <div className="text-[10px] font-semibold uppercase text-muted-foreground">
