@@ -24,9 +24,16 @@ func (s *TransactionsService) Create(auditId uuid.UUID, organizationId uuid.UUID
 	newTransaction.Weight = transaction.Weight
 	newTransaction.Amount = transaction.Amount
 	newTransaction.SellerID = transaction.SellerID
-	newTransaction.BuyerID = transaction.BuyerID
+	newTransaction.BuyerID = organizationId
 
 	newTransaction.ModifiedByUserId = auditId
+
+	if newTransaction.Type == "collection" {
+		newTransaction.SellerType = "collector"
+		newTransaction.BuyerType = "organization"
+		newTransaction.SellerAccepted = true
+		newTransaction.SellerDeclined = false
+	}
 
 	if err := s.Storage.Postgres.Set("one:audit_user_id", auditId).Create(&newTransaction).Error; err != nil {
 		return err
@@ -109,6 +116,13 @@ func (s *TransactionsService) Update(auditId uuid.UUID, id uuid.UUID, transactio
 	}
 
 	existingTransaction.ModifiedByUserId = auditId
+
+	if existingTransaction.Type == "collection" {
+		existingTransaction.SellerType = "collector"
+		existingTransaction.BuyerType = "organization"
+		existingTransaction.SellerAccepted = true
+		existingTransaction.SellerDeclined = false
+	}
 
 	if err := s.Storage.Postgres.Set("one:audit_user_id", auditId).
 		Model(&models.Transaction{}).

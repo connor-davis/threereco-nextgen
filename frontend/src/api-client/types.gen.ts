@@ -82,7 +82,6 @@ export type CreateRolePayload = {
 
 export type CreateTransactionPayload = {
   amount: number;
-  buyerId: string;
   products?: Array<string>;
   sellerId: string;
   type: string;
@@ -1082,7 +1081,6 @@ export type UpdateRolePayload = {
 
 export type UpdateTransactionPayload = {
   amount?: number | null;
-  buyerId?: string | null;
   products?: Array<string>;
   sellerAccepted?: boolean | null;
   sellerDeclined?: boolean | null;
@@ -14572,7 +14570,6 @@ export type GetApiTransactionsResponse =
 export type PostApiTransactionsData = {
   body: {
     amount: number;
-    buyerId: string;
     products?: Array<string>;
     sellerId: string;
     type: string;
@@ -15406,7 +15403,6 @@ export type GetApiTransactionsByIdResponse =
 export type PutApiTransactionsByIdData = {
   body: {
     amount?: number | null;
-    buyerId?: string | null;
     products?: Array<string>;
     sellerAccepted?: boolean | null;
     sellerDeclined?: boolean | null;

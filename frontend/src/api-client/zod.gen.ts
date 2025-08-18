@@ -87,7 +87,6 @@ export const zCreateRolePayload = z.object({
 
 export const zCreateTransactionPayload = z.object({
   amount: z.number().gte(0),
-  buyerId: z.uuid(),
   products: z.optional(z.array(z.uuid())),
   sellerId: z.uuid(),
   type: z.string(),
@@ -1193,7 +1192,6 @@ export const zUpdateRolePayload = z.object({
 
 export const zUpdateTransactionPayload = z.object({
   amount: z.optional(z.union([z.number().gte(0), z.null()])),
-  buyerId: z.optional(z.union([z.uuid(), z.null()])),
   products: z.optional(z.array(z.uuid())),
   sellerAccepted: z.optional(z.union([z.boolean(), z.null()])),
   sellerDeclined: z.optional(z.union([z.boolean(), z.null()])),
@@ -14553,7 +14551,6 @@ export const zGetApiTransactionsResponse = z.object({
 export const zPostApiTransactionsData = z.object({
   body: z.object({
     amount: z.number().gte(0),
-    buyerId: z.uuid(),
     products: z.optional(z.array(z.uuid())),
     sellerId: z.uuid(),
     type: z.string(),
@@ -15343,7 +15340,6 @@ export const zGetApiTransactionsByIdResponse = z.object({
 export const zPutApiTransactionsByIdData = z.object({
   body: z.object({
     amount: z.optional(z.union([z.number().gte(0), z.null()])),
-    buyerId: z.optional(z.union([z.uuid(), z.null()])),
     products: z.optional(z.array(z.uuid())),
     sellerAccepted: z.optional(z.union([z.boolean(), z.null()])),
     sellerDeclined: z.optional(z.union([z.boolean(), z.null()])),

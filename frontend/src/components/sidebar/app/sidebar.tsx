@@ -101,7 +101,7 @@ export default function AppSidebar() {
                 <TooltipTrigger>
                   <SidebarMenuItem>
                     <SidebarMenuButton asChild>
-                      <Link to="/materials">
+                      <Link to="/transactions">
                         <HandCoinsIcon />
                         <span>Transactions</span>
                       </Link>

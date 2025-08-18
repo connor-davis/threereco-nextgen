@@ -292,10 +292,6 @@ export const CreateTransactionPayloadSchema = {
       minimum: 0,
       type: 'number',
     },
-    buyerId: {
-      format: 'uuid',
-      type: 'string',
-    },
     products: {
       items: {
         format: 'uuid',
@@ -315,15 +311,7 @@ export const CreateTransactionPayloadSchema = {
       type: 'number',
     },
   },
-  required: [
-    'type',
-    'weight',
-    'amount',
-    'sellerId',
-    'sellerType',
-    'buyerId',
-    'buyerType',
-  ],
+  required: ['type', 'weight', 'amount', 'sellerId'],
 } as const;
 
 export const CreateUserPayloadSchema = {
@@ -4582,11 +4570,6 @@ export const UpdateTransactionPayloadSchema = {
       minimum: 0,
       nullable: true,
       type: 'number',
-    },
-    buyerId: {
-      format: 'uuid',
-      nullable: true,
-      type: 'string',
     },
     products: {
       items: {

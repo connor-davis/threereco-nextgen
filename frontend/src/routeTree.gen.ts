@@ -11,20 +11,24 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as UsersIndexRouteImport } from './routes/users/index'
+import { Route as TransactionsIndexRouteImport } from './routes/transactions/index'
 import { Route as RolesIndexRouteImport } from './routes/roles/index'
 import { Route as ProductsIndexRouteImport } from './routes/products/index'
 import { Route as MaterialsIndexRouteImport } from './routes/materials/index'
 import { Route as AuditLogsIndexRouteImport } from './routes/audit-logs/index'
 import { Route as UsersCreateRouteImport } from './routes/users/create'
+import { Route as TransactionsCreateRouteImport } from './routes/transactions/create'
 import { Route as RolesCreateRouteImport } from './routes/roles/create'
 import { Route as ProductsCreateRouteImport } from './routes/products/create'
 import { Route as MaterialsCreateRouteImport } from './routes/materials/create'
 import { Route as AuditLogsIdRouteImport } from './routes/audit-logs/$id'
 import { Route as UsersIdIndexRouteImport } from './routes/users/$id/index'
+import { Route as TransactionsIdIndexRouteImport } from './routes/transactions/$id/index'
 import { Route as RolesIdIndexRouteImport } from './routes/roles/$id/index'
 import { Route as ProductsIdIndexRouteImport } from './routes/products/$id/index'
 import { Route as MaterialsIdIndexRouteImport } from './routes/materials/$id/index'
 import { Route as UsersIdEditRouteImport } from './routes/users/$id/edit'
+import { Route as TransactionsIdEditRouteImport } from './routes/transactions/$id/edit'
 import { Route as RolesIdPermissionsRouteImport } from './routes/roles/$id/permissions'
 import { Route as RolesIdEditRouteImport } from './routes/roles/$id/edit'
 import { Route as ProductsIdEditRouteImport } from './routes/products/$id/edit'
@@ -38,6 +42,11 @@ const IndexRoute = IndexRouteImport.update({
 const UsersIndexRoute = UsersIndexRouteImport.update({
   id: '/users/',
   path: '/users/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TransactionsIndexRoute = TransactionsIndexRouteImport.update({
+  id: '/transactions/',
+  path: '/transactions/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const RolesIndexRoute = RolesIndexRouteImport.update({
@@ -65,6 +74,11 @@ const UsersCreateRoute = UsersCreateRouteImport.update({
   path: '/users/create',
   getParentRoute: () => rootRouteImport,
 } as any)
+const TransactionsCreateRoute = TransactionsCreateRouteImport.update({
+  id: '/transactions/create',
+  path: '/transactions/create',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const RolesCreateRoute = RolesCreateRouteImport.update({
   id: '/roles/create',
   path: '/roles/create',
@@ -90,6 +104,11 @@ const UsersIdIndexRoute = UsersIdIndexRouteImport.update({
   path: '/users/$id/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const TransactionsIdIndexRoute = TransactionsIdIndexRouteImport.update({
+  id: '/transactions/$id/',
+  path: '/transactions/$id/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const RolesIdIndexRoute = RolesIdIndexRouteImport.update({
   id: '/roles/$id/',
   path: '/roles/$id/',
@@ -108,6 +127,11 @@ const MaterialsIdIndexRoute = MaterialsIdIndexRouteImport.update({
 const UsersIdEditRoute = UsersIdEditRouteImport.update({
   id: '/users/$id/edit',
   path: '/users/$id/edit',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TransactionsIdEditRoute = TransactionsIdEditRouteImport.update({
+  id: '/transactions/$id/edit',
+  path: '/transactions/$id/edit',
   getParentRoute: () => rootRouteImport,
 } as any)
 const RolesIdPermissionsRoute = RolesIdPermissionsRouteImport.update({
@@ -137,20 +161,24 @@ export interface FileRoutesByFullPath {
   '/materials/create': typeof MaterialsCreateRoute
   '/products/create': typeof ProductsCreateRoute
   '/roles/create': typeof RolesCreateRoute
+  '/transactions/create': typeof TransactionsCreateRoute
   '/users/create': typeof UsersCreateRoute
   '/audit-logs': typeof AuditLogsIndexRoute
   '/materials': typeof MaterialsIndexRoute
   '/products': typeof ProductsIndexRoute
   '/roles': typeof RolesIndexRoute
+  '/transactions': typeof TransactionsIndexRoute
   '/users': typeof UsersIndexRoute
   '/materials/$id/edit': typeof MaterialsIdEditRoute
   '/products/$id/edit': typeof ProductsIdEditRoute
   '/roles/$id/edit': typeof RolesIdEditRoute
   '/roles/$id/permissions': typeof RolesIdPermissionsRoute
+  '/transactions/$id/edit': typeof TransactionsIdEditRoute
   '/users/$id/edit': typeof UsersIdEditRoute
   '/materials/$id': typeof MaterialsIdIndexRoute
   '/products/$id': typeof ProductsIdIndexRoute
   '/roles/$id': typeof RolesIdIndexRoute
+  '/transactions/$id': typeof TransactionsIdIndexRoute
   '/users/$id': typeof UsersIdIndexRoute
 }
 export interface FileRoutesByTo {
@@ -159,20 +187,24 @@ export interface FileRoutesByTo {
   '/materials/create': typeof MaterialsCreateRoute
   '/products/create': typeof ProductsCreateRoute
   '/roles/create': typeof RolesCreateRoute
+  '/transactions/create': typeof TransactionsCreateRoute
   '/users/create': typeof UsersCreateRoute
   '/audit-logs': typeof AuditLogsIndexRoute
   '/materials': typeof MaterialsIndexRoute
   '/products': typeof ProductsIndexRoute
   '/roles': typeof RolesIndexRoute
+  '/transactions': typeof TransactionsIndexRoute
   '/users': typeof UsersIndexRoute
   '/materials/$id/edit': typeof MaterialsIdEditRoute
   '/products/$id/edit': typeof ProductsIdEditRoute
   '/roles/$id/edit': typeof RolesIdEditRoute
   '/roles/$id/permissions': typeof RolesIdPermissionsRoute
+  '/transactions/$id/edit': typeof TransactionsIdEditRoute
   '/users/$id/edit': typeof UsersIdEditRoute
   '/materials/$id': typeof MaterialsIdIndexRoute
   '/products/$id': typeof ProductsIdIndexRoute
   '/roles/$id': typeof RolesIdIndexRoute
+  '/transactions/$id': typeof TransactionsIdIndexRoute
   '/users/$id': typeof UsersIdIndexRoute
 }
 export interface FileRoutesById {
@@ -182,20 +214,24 @@ export interface FileRoutesById {
   '/materials/create': typeof MaterialsCreateRoute
   '/products/create': typeof ProductsCreateRoute
   '/roles/create': typeof RolesCreateRoute
+  '/transactions/create': typeof TransactionsCreateRoute
   '/users/create': typeof UsersCreateRoute
   '/audit-logs/': typeof AuditLogsIndexRoute
   '/materials/': typeof MaterialsIndexRoute
   '/products/': typeof ProductsIndexRoute
   '/roles/': typeof RolesIndexRoute
+  '/transactions/': typeof TransactionsIndexRoute
   '/users/': typeof UsersIndexRoute
   '/materials/$id/edit': typeof MaterialsIdEditRoute
   '/products/$id/edit': typeof ProductsIdEditRoute
   '/roles/$id/edit': typeof RolesIdEditRoute
   '/roles/$id/permissions': typeof RolesIdPermissionsRoute
+  '/transactions/$id/edit': typeof TransactionsIdEditRoute
   '/users/$id/edit': typeof UsersIdEditRoute
   '/materials/$id/': typeof MaterialsIdIndexRoute
   '/products/$id/': typeof ProductsIdIndexRoute
   '/roles/$id/': typeof RolesIdIndexRoute
+  '/transactions/$id/': typeof TransactionsIdIndexRoute
   '/users/$id/': typeof UsersIdIndexRoute
 }
 export interface FileRouteTypes {
@@ -206,20 +242,24 @@ export interface FileRouteTypes {
     | '/materials/create'
     | '/products/create'
     | '/roles/create'
+    | '/transactions/create'
     | '/users/create'
     | '/audit-logs'
     | '/materials'
     | '/products'
     | '/roles'
+    | '/transactions'
     | '/users'
     | '/materials/$id/edit'
     | '/products/$id/edit'
     | '/roles/$id/edit'
     | '/roles/$id/permissions'
+    | '/transactions/$id/edit'
     | '/users/$id/edit'
     | '/materials/$id'
     | '/products/$id'
     | '/roles/$id'
+    | '/transactions/$id'
     | '/users/$id'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -228,20 +268,24 @@ export interface FileRouteTypes {
     | '/materials/create'
     | '/products/create'
     | '/roles/create'
+    | '/transactions/create'
     | '/users/create'
     | '/audit-logs'
     | '/materials'
     | '/products'
     | '/roles'
+    | '/transactions'
     | '/users'
     | '/materials/$id/edit'
     | '/products/$id/edit'
     | '/roles/$id/edit'
     | '/roles/$id/permissions'
+    | '/transactions/$id/edit'
     | '/users/$id/edit'
     | '/materials/$id'
     | '/products/$id'
     | '/roles/$id'
+    | '/transactions/$id'
     | '/users/$id'
   id:
     | '__root__'
@@ -250,20 +294,24 @@ export interface FileRouteTypes {
     | '/materials/create'
     | '/products/create'
     | '/roles/create'
+    | '/transactions/create'
     | '/users/create'
     | '/audit-logs/'
     | '/materials/'
     | '/products/'
     | '/roles/'
+    | '/transactions/'
     | '/users/'
     | '/materials/$id/edit'
     | '/products/$id/edit'
     | '/roles/$id/edit'
     | '/roles/$id/permissions'
+    | '/transactions/$id/edit'
     | '/users/$id/edit'
     | '/materials/$id/'
     | '/products/$id/'
     | '/roles/$id/'
+    | '/transactions/$id/'
     | '/users/$id/'
   fileRoutesById: FileRoutesById
 }
@@ -273,20 +321,24 @@ export interface RootRouteChildren {
   MaterialsCreateRoute: typeof MaterialsCreateRoute
   ProductsCreateRoute: typeof ProductsCreateRoute
   RolesCreateRoute: typeof RolesCreateRoute
+  TransactionsCreateRoute: typeof TransactionsCreateRoute
   UsersCreateRoute: typeof UsersCreateRoute
   AuditLogsIndexRoute: typeof AuditLogsIndexRoute
   MaterialsIndexRoute: typeof MaterialsIndexRoute
   ProductsIndexRoute: typeof ProductsIndexRoute
   RolesIndexRoute: typeof RolesIndexRoute
+  TransactionsIndexRoute: typeof TransactionsIndexRoute
   UsersIndexRoute: typeof UsersIndexRoute
   MaterialsIdEditRoute: typeof MaterialsIdEditRoute
   ProductsIdEditRoute: typeof ProductsIdEditRoute
   RolesIdEditRoute: typeof RolesIdEditRoute
   RolesIdPermissionsRoute: typeof RolesIdPermissionsRoute
+  TransactionsIdEditRoute: typeof TransactionsIdEditRoute
   UsersIdEditRoute: typeof UsersIdEditRoute
   MaterialsIdIndexRoute: typeof MaterialsIdIndexRoute
   ProductsIdIndexRoute: typeof ProductsIdIndexRoute
   RolesIdIndexRoute: typeof RolesIdIndexRoute
+  TransactionsIdIndexRoute: typeof TransactionsIdIndexRoute
   UsersIdIndexRoute: typeof UsersIdIndexRoute
 }
 
@@ -304,6 +356,13 @@ declare module '@tanstack/react-router' {
       path: '/users'
       fullPath: '/users'
       preLoaderRoute: typeof UsersIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/transactions/': {
+      id: '/transactions/'
+      path: '/transactions'
+      fullPath: '/transactions'
+      preLoaderRoute: typeof TransactionsIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/roles/': {
@@ -341,6 +400,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof UsersCreateRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/transactions/create': {
+      id: '/transactions/create'
+      path: '/transactions/create'
+      fullPath: '/transactions/create'
+      preLoaderRoute: typeof TransactionsCreateRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/roles/create': {
       id: '/roles/create'
       path: '/roles/create'
@@ -376,6 +442,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof UsersIdIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/transactions/$id/': {
+      id: '/transactions/$id/'
+      path: '/transactions/$id'
+      fullPath: '/transactions/$id'
+      preLoaderRoute: typeof TransactionsIdIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/roles/$id/': {
       id: '/roles/$id/'
       path: '/roles/$id'
@@ -402,6 +475,13 @@ declare module '@tanstack/react-router' {
       path: '/users/$id/edit'
       fullPath: '/users/$id/edit'
       preLoaderRoute: typeof UsersIdEditRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/transactions/$id/edit': {
+      id: '/transactions/$id/edit'
+      path: '/transactions/$id/edit'
+      fullPath: '/transactions/$id/edit'
+      preLoaderRoute: typeof TransactionsIdEditRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/roles/$id/permissions': {
@@ -441,20 +521,24 @@ const rootRouteChildren: RootRouteChildren = {
   MaterialsCreateRoute: MaterialsCreateRoute,
   ProductsCreateRoute: ProductsCreateRoute,
   RolesCreateRoute: RolesCreateRoute,
+  TransactionsCreateRoute: TransactionsCreateRoute,
   UsersCreateRoute: UsersCreateRoute,
   AuditLogsIndexRoute: AuditLogsIndexRoute,
   MaterialsIndexRoute: MaterialsIndexRoute,
   ProductsIndexRoute: ProductsIndexRoute,
   RolesIndexRoute: RolesIndexRoute,
+  TransactionsIndexRoute: TransactionsIndexRoute,
   UsersIndexRoute: UsersIndexRoute,
   MaterialsIdEditRoute: MaterialsIdEditRoute,
   ProductsIdEditRoute: ProductsIdEditRoute,
   RolesIdEditRoute: RolesIdEditRoute,
   RolesIdPermissionsRoute: RolesIdPermissionsRoute,
+  TransactionsIdEditRoute: TransactionsIdEditRoute,
   UsersIdEditRoute: UsersIdEditRoute,
   MaterialsIdIndexRoute: MaterialsIdIndexRoute,
   ProductsIdIndexRoute: ProductsIdIndexRoute,
   RolesIdIndexRoute: RolesIdIndexRoute,
+  TransactionsIdIndexRoute: TransactionsIdIndexRoute,
   UsersIdIndexRoute: UsersIdIndexRoute,
 }
 export const routeTree = rootRouteImport

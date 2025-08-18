@@ -45,9 +45,6 @@ var CreateTransactionPayloadSchema = openapi3.NewSchema().WithProperties(propert
 		"weight",
 		"amount",
 		"sellerId",
-		"sellerType",
-		"buyerId",
-		"buyerType",
 	}).NewRef()
 
 var UpdateTransactionPayloadSchema = openapi3.NewSchema().WithProperties(properties.UpdateTransactionPayloadProperties).

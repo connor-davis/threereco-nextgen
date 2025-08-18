@@ -23,7 +23,6 @@ var CreateTransactionPayloadProperties = map[string]*openapi3.Schema{
 	"weight":   openapi3.NewFloat64Schema().WithMin(0.0),
 	"amount":   openapi3.NewFloat64Schema().WithMin(0.0),
 	"sellerId": openapi3.NewStringSchema().WithFormat("uuid"),
-	"buyerId":  openapi3.NewStringSchema().WithFormat("uuid"),
 }
 
 var UpdateTransactionPayloadProperties = map[string]*openapi3.Schema{
@@ -31,7 +30,6 @@ var UpdateTransactionPayloadProperties = map[string]*openapi3.Schema{
 	"weight":         openapi3.NewFloat64Schema().WithMin(0.0).WithNullable(),
 	"amount":         openapi3.NewFloat64Schema().WithMin(0.0).WithNullable(),
 	"sellerId":       openapi3.NewStringSchema().WithFormat("uuid").WithNullable(),
-	"buyerId":        openapi3.NewStringSchema().WithFormat("uuid").WithNullable(),
 	"sellerAccepted": openapi3.NewBoolSchema().WithNullable(),
 	"sellerDeclined": openapi3.NewBoolSchema().WithNullable(),
 }
