@@ -662,6 +662,26 @@ function RouteComponent() {
                   </Card>
                 </div>
               </StepperContent>
+
+              <StepperContent
+                value={5}
+                className="flex flex-col w-full h-full gap-3"
+              >
+                <div className="flex flex-col w-full h-full gap-5">
+                  <div className="flex flex-col w-full h-auto items-center justify-center gap-3">
+                    <p className="text-lg font-semibold">
+                      Product created successfully!
+                    </p>
+                    <p className="text-sm text-muted-foreground">
+                      You can view your product in the product list.
+                    </p>
+                  </div>
+
+                  <Button className="w-full" onClick={() => setCurrentStep(1)}>
+                    Create New Product
+                  </Button>
+                </div>
+              </StepperContent>
             </StepperPanel>
           </Stepper>
         </form>
