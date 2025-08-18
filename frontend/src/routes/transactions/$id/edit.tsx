@@ -23,14 +23,15 @@ import z from 'zod';
 
 import {
   type ErrorResponse,
-  type Material,
+  type Product,
   type Transaction,
-  getApiMaterials,
+  type User,
+  getApiProducts,
   getApiTransactionsById,
+  getApiUsers,
 } from '@/api-client';
 import { zUpdateTransactionPayload } from '@/api-client/zod.gen';
 import PermissionGuard from '@/components/guards/permission';
-import CreateMaterialDialog from '@/components/materials/create.dialog';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -44,6 +45,7 @@ import {
 } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
 import { DebounceInput } from '@/components/ui/debounce-input';
+import { DebounceNumberInput } from '@/components/ui/debounce-number-input';
 import {
   Form,
   FormControl,
@@ -53,9 +55,7 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { NumberInput } from '@/components/ui/number-input';
 import {
   Stepper,
   StepperContent,
@@ -76,8 +76,10 @@ export const Route = createFileRoute('/transactions/$id/edit')({
     </PermissionGuard>
   ),
   validateSearch: z.object({
-    materialsPage: z.coerce.number().default(1),
-    materialsSearch: z.string().default(''),
+    productsPage: z.coerce.number().default(1),
+    productsSearch: z.string().default(''),
+    accountsPage: z.coerce.number().default(1),
+    accountsSearch: z.string().default(''),
   }),
   pendingComponent: () => (
     <div className="flex flex-col w-full h-full items-center justify-center">
@@ -104,13 +106,17 @@ export const Route = createFileRoute('/transactions/$id/edit')({
   },
 
   wrapInSuspense: true,
-  loaderDeps: ({ search: { materialsPage, materialsSearch } }) => ({
-    materialsPage,
-    materialsSearch,
+  loaderDeps: ({
+    search: { productsPage, productsSearch, accountsPage, accountsSearch },
+  }) => ({
+    productsPage,
+    productsSearch,
+    accountsPage,
+    accountsSearch,
   }),
   loader: async ({
     params: { id },
-    deps: { materialsPage, materialsSearch },
+    deps: { productsPage, productsSearch, accountsPage, accountsSearch },
   }) => {
     const { data: transaction } = await getApiTransactionsById({
       client: apiClient,
@@ -120,19 +126,30 @@ export const Route = createFileRoute('/transactions/$id/edit')({
       throwOnError: true,
     });
 
-    const { data: materials } = await getApiMaterials({
+    const { data: products } = await getApiProducts({
       client: apiClient,
       query: {
-        page: materialsPage,
-        search: materialsSearch,
+        page: productsPage,
+        search: productsSearch,
+      },
+      throwOnError: true,
+    });
+
+    const { data: accounts } = await getApiUsers({
+      client: apiClient,
+      query: {
+        page: accountsPage,
+        search: accountsSearch,
       },
       throwOnError: true,
     });
 
     return {
       transaction: (transaction.item ?? {}) as Transaction,
-      materials: (materials.items ?? []) as Array<Material>,
-      materialsPageDetails: materials.pageDetails ?? {},
+      products: (products.items ?? []) as Array<Product>,
+      productsPageDetails: products.pageDetails ?? {},
+      accounts: (accounts.items ?? []) as Array<User>,
+      accountsPageDetails: accounts.pageDetails ?? {},
     };
   },
 });
@@ -140,9 +157,15 @@ export const Route = createFileRoute('/transactions/$id/edit')({
 function RouteComponent() {
   const router = useRouter();
   const { id } = Route.useParams();
-  const { materialsPage, materialsSearch } = Route.useLoaderDeps();
-  const { transaction, materials, materialsPageDetails } =
-    Route.useLoaderData();
+  const { productsPage, productsSearch, accountsPage, accountsSearch } =
+    Route.useLoaderDeps();
+  const {
+    transaction,
+    products,
+    productsPageDetails,
+    accounts,
+    accountsPageDetails,
+  } = Route.useLoaderData();
 
   const [currentStep, setCurrentStep] = useState(1);
 
@@ -150,7 +173,7 @@ function RouteComponent() {
     resolver: zodResolver(zUpdateTransactionPayload),
     values: {
       ...transaction,
-      materials: transaction.materials.map((material) => material.id),
+      products: transaction.products.map((product) => product.id),
     },
   });
 
@@ -169,7 +192,7 @@ function RouteComponent() {
         duration: 2000,
       });
 
-      setCurrentStep(5);
+      setCurrentStep(6);
       updateForm.reset();
 
       return router.invalidate();
@@ -268,7 +291,7 @@ function RouteComponent() {
                       Step 2
                     </div>
                     <StepperTitle className="text-start text-base font-semibold group-data-[state=inactive]/step:text-muted-foreground">
-                      Transaction Materials
+                      Transaction Products
                     </StepperTitle>
                     <div>
                       <Badge
@@ -312,7 +335,7 @@ function RouteComponent() {
                       Step 3
                     </div>
                     <StepperTitle className="text-start text-base font-semibold group-data-[state=inactive]/step:text-muted-foreground">
-                      Transaction Overview
+                      Transaction Account
                     </StepperTitle>
                     <div>
                       <Badge
@@ -341,6 +364,50 @@ function RouteComponent() {
 
               <StepperItem
                 step={4}
+                className="relative flex-1 items-start"
+                loading={updateTransaction.isPending}
+              >
+                <StepperTrigger
+                  className="flex flex-col items-start justify-center gap-2.5 grow"
+                  asChild
+                >
+                  <StepperIndicator className="size-8 border-2 data-[state=completed]:text-white data-[state=completed]:bg-primary data-[state=inactive]:bg-transparent data-[state=inactive]:border-border data-[state=inactive]:text-muted-foreground">
+                    <InfoIcon className="size-4" />
+                  </StepperIndicator>
+                  <div className="flex flex-col items-start gap-1">
+                    <div className="text-[10px] font-semibold uppercase text-muted-foreground">
+                      Step 3
+                    </div>
+                    <StepperTitle className="text-start text-base font-semibold group-data-[state=inactive]/step:text-muted-foreground">
+                      Transaction Overview
+                    </StepperTitle>
+                    <div>
+                      <Badge
+                        variant="secondary"
+                        className="hidden group-data-[state=active]/step:inline-flex"
+                      >
+                        In Progress
+                      </Badge>
+                      <Badge
+                        variant="default"
+                        className="hidden group-data-[state=completed]/step:inline-flex"
+                      >
+                        Completed
+                      </Badge>
+                      <Badge
+                        variant="outline"
+                        className="hidden group-data-[state=inactive]/step:inline-flex text-muted-foreground"
+                      >
+                        Pending
+                      </Badge>
+                    </div>
+                  </div>
+                </StepperTrigger>
+                <StepperSeparator className="absolute top-4 inset-x-0 start-9 m-0 group-data-[orientation=horizontal]/stepper-nav:w-[calc(100%-2rem)] group-data-[orientation=horizontal]/stepper-nav:flex-none  group-data-[state=completed]/step:bg-primary" />
+              </StepperItem>
+
+              <StepperItem
+                step={5}
                 className="relative items-start"
                 loading={updateTransaction.isPending}
               >
@@ -354,7 +421,7 @@ function RouteComponent() {
                   <div className="flex flex-col items-start gap-1">
                     <div className="text-[10px] font-semibold uppercase text-muted-foreground"></div>
                     <StepperTitle className="text-start text-base font-semibold group-data-[state=inactive]/step:text-muted-foreground">
-                      Transaction Created
+                      Transaction Updated
                     </StepperTitle>
                     <div>
                       <Badge
@@ -389,45 +456,49 @@ function RouteComponent() {
                 <div className="flex flex-col w-full h-full gap-5">
                   <FormField
                     control={updateForm.control}
-                    name="name"
+                    name="weight"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Name</FormLabel>
+                        <FormLabel>Weight</FormLabel>
                         <FormControl>
-                          <Input
-                            type="text"
-                            placeholder="Name"
-                            {...field}
-                            value={field.value ?? undefined}
-                          />
-                        </FormControl>
-                        <FormDescription>
-                          Enter the transaction's name.
-                        </FormDescription>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
-                  <FormField
-                    control={updateForm.control}
-                    name="value"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Value</FormLabel>
-                        <FormControl>
-                          <NumberInput
-                            placeholder="Value"
+                          <DebounceNumberInput
+                            placeholder="Weight"
                             className="w-full"
                             decimalScale={2}
                             fixedDecimalScale
                             {...field}
                             value={field.value ?? undefined}
-                            onValueChange={(value) => field.onChange(value)}
+                            onChange={() => {}}
+                            onValueChange={(value) => {
+                              const previousWeight = Number.isNaN(
+                                Number(updateForm.getValues().weight)
+                              )
+                                ? 0
+                                : Number(updateForm.getValues().weight);
+                              const previousAmount = Number.isNaN(
+                                Number(updateForm.getValues().amount)
+                              )
+                                ? 0
+                                : Number(updateForm.getValues().amount);
+                              const amountMultiplier = Number.isNaN(
+                                Number(previousAmount / previousWeight)
+                              )
+                                ? 0
+                                : Number(previousAmount / previousWeight);
+
+                              const newWeight = Number.isNaN(Number(value))
+                                ? 0
+                                : Number(value);
+
+                              const newAmount = newWeight * amountMultiplier;
+
+                              updateForm.setValue('amount', newAmount);
+                              field.onChange(value);
+                            }}
                           />
                         </FormControl>
                         <FormDescription>
-                          Enter the transaction's value (R).
+                          Enter the transaction's weight (kg).
                         </FormDescription>
                         <FormMessage />
                       </FormItem>
@@ -458,108 +529,130 @@ function RouteComponent() {
                 <div className="flex flex-col w-full h-full overflow-hidden gap-3">
                   <div className="flex items-center justify-between w-full h-auto gap-3">
                     <div className="flex items-center gap-3">
-                      <Label>Available Materials</Label>
+                      <Label>Available Products</Label>
                     </div>
 
                     <div className="flex items-center gap-3">
                       <DebounceInput
                         type="text"
-                        placeholder="Search materials..."
+                        placeholder="Search products..."
                         className="w-64"
-                        defaultValue={materialsSearch}
+                        defaultValue={productsSearch}
                         onChange={(e) => {
                           const search = e.target.value;
 
                           router.navigate({
                             to: '/transactions/create',
                             search: {
-                              materialsPage: materialsPage,
-                              materialsSearch: search,
+                              productsPage: productsPage,
+                              productsSearch: search,
                             },
                           });
                         }}
                       />
-
-                      <CreateMaterialDialog>
-                        <Button type="button" variant="outline">
-                          Create Material
-                        </Button>
-                      </CreateMaterialDialog>
                     </div>
                   </div>
 
                   <div className="flex flex-col w-full h-full overflow-y-auto gap-3">
-                    {materials.map((material) => (
+                    {products.map((product) => (
                       <Label className="hover:bg-accent flex items-center justify-between gap-3 rounded-lg border p-3">
                         <Checkbox
                           id="toggle-2"
-                          checked={(
-                            updateForm.watch().materials ?? []
-                          ).includes(material.id)}
+                          checked={(updateForm.watch().products ?? []).includes(
+                            product.id
+                          )}
                           onCheckedChange={(checked) => {
+                            const currentAmount =
+                              updateForm.getValues().amount ?? 0;
+                            const currentWeight =
+                              updateForm.getValues().weight ?? 0;
+                            const weightMultipliedByProductValue =
+                              currentWeight * product.value;
+
                             if (checked) {
-                              updateForm.setValue('materials', [
-                                ...(updateForm.getValues().materials ?? []),
-                                material.id,
+                              updateForm.setValue('products', [
+                                ...(updateForm.getValues().products ?? []),
+                                product.id,
                               ]);
+
+                              updateForm.setValue(
+                                'amount',
+                                currentAmount + weightMultipliedByProductValue
+                              );
                             } else {
-                              updateForm.setValue('materials', [
+                              updateForm.setValue('products', [
                                 ...(
-                                  updateForm.getValues().materials ?? []
-                                ).filter((id) => id !== material.id),
+                                  updateForm.getValues().products ?? []
+                                ).filter((id) => id !== product.id),
                               ]);
+
+                              updateForm.setValue(
+                                'amount',
+                                currentAmount - weightMultipliedByProductValue
+                              );
                             }
                           }}
                           className="data-[state=checked]:border-primary data-[state=checked]:bg-primary data-[state=checked]:text-white"
                         />
 
                         <div className="flex items-center justify-between w-full h-auto gap-3">
-                          <p>{material.name}</p>
-
-                          <div className="flex items-center gap-2">
-                            <Badge>GW {material.gwCode}</Badge>
-                            <Badge>tCO2e {material.carbonFactor}</Badge>
+                          <div className="flex flex-col">
+                            <Label>{product.name}</Label>
+                            <Label className="text-xs text-muted-foreground">
+                              {`${new Intl.NumberFormat('en-ZA', {
+                                style: 'currency',
+                                currency: 'ZAR',
+                              }).format(product.value ?? 0)}`}
+                            </Label>
                           </div>
                         </div>
                       </Label>
                     ))}
                   </div>
 
-                  {materialsPageDetails.pages && (
+                  {productsPageDetails.pages && (
                     <div className="flex items-center justify-end w-full">
                       <Label className="text-xs text-muted-foreground">
-                        Page {materialsPage} of {materialsPageDetails.pages}
+                        Page {productsPage} of {productsPageDetails.pages}
                       </Label>
 
                       <Link
-                        to="/materials"
-                        search={{ page: materialsPageDetails.previousPage }}
+                        to="/transactions/create"
+                        search={{
+                          productsPage: productsPageDetails.previousPage,
+                          productsSearch,
+                          accountsPage,
+                          accountsSearch,
+                        }}
                         disabled={
-                          materialsPage === materialsPageDetails.previousPage
+                          productsPage === productsPageDetails.previousPage
                         }
                       >
                         <Button
                           variant="outline"
                           className="ml-3"
                           disabled={
-                            materialsPage === materialsPageDetails.previousPage
+                            productsPage === productsPageDetails.previousPage
                           }
                         >
                           Previous
                         </Button>
                       </Link>
                       <Link
-                        to="/materials"
-                        search={{ page: materialsPageDetails.nextPage }}
-                        disabled={
-                          materialsPage === materialsPageDetails.nextPage
-                        }
+                        to="/transactions/create"
+                        search={{
+                          productsPage: productsPageDetails.nextPage,
+                          productsSearch,
+                          accountsPage,
+                          accountsSearch,
+                        }}
+                        disabled={productsPage === productsPageDetails.nextPage}
                       >
                         <Button
                           variant="outline"
                           className="ml-1"
                           disabled={
-                            materialsPage === materialsPageDetails.nextPage
+                            productsPage === productsPageDetails.nextPage
                           }
                         >
                           Next
@@ -592,53 +685,307 @@ function RouteComponent() {
                 value={3}
                 className="flex flex-col w-full h-full gap-3"
               >
-                <div className="grid grid-cols-2 w-full h-full overflow-hidden gap-3">
-                  <Card className="border-dashed">
-                    <CardHeader>
-                      <CardTitle>Added Materials</CardTitle>
-                      <CardDescription>
-                        Review the materials added to the transaction.
-                      </CardDescription>
-                    </CardHeader>
-                    <CardContent className="flex flex-col w-full h-full overflow-hidden">
-                      <div className="flex flex-col w-full h-full overflow-y-auto gap-3">
-                        {(updateForm.getValues().materials ?? []).length ===
-                        0 ? (
-                          <Label className="text-muted-foreground">
-                            No materials added
-                          </Label>
-                        ) : (
-                          updateForm
-                            .getValues()
-                            .materials?.map((materialId) => {
-                              const material = materials.find(
-                                (m) => m.id === materialId
-                              );
+                <FormField
+                  control={updateForm.control}
+                  name="sellerId"
+                  render={() => (
+                    <FormItem>
+                      <FormControl>
+                        <div className="flex flex-col w-full h-full overflow-hidden gap-3">
+                          <div className="flex items-center justify-between w-full h-auto gap-3">
+                            <div className="flex items-center gap-3">
+                              <Label>Available Accounts</Label>
+                            </div>
 
-                              if (!material) return null;
+                            <div className="flex items-center gap-3">
+                              <DebounceInput
+                                type="text"
+                                placeholder="Search accounts..."
+                                className="w-64"
+                                defaultValue={productsSearch}
+                                onChange={(e) => {
+                                  const search = e.target.value;
 
-                              return (
-                                <Label
-                                  key={material.id}
-                                  className="hover:bg-accent flex items-center justify-between gap-3 rounded-lg border p-3"
-                                >
-                                  <div className="flex items-center justify-between w-full h-auto gap-3">
-                                    <p>{material.name}</p>
+                                  router.navigate({
+                                    to: '/transactions/create',
+                                    search: {
+                                      productsPage: productsPage,
+                                      productsSearch: search,
+                                      accountsPage: accountsPage,
+                                      accountsSearch: accountsSearch,
+                                    },
+                                  });
+                                }}
+                              />
+                            </div>
+                          </div>
 
-                                    <div className="flex items-center gap-2">
-                                      <Badge>GW {material.gwCode}</Badge>
-                                      <Badge>
-                                        tCO2e {material.carbonFactor}
-                                      </Badge>
+                          <div className="flex flex-col w-full h-full overflow-y-auto gap-3">
+                            {accounts.map((account) => (
+                              <Label className="hover:bg-accent flex items-center justify-between gap-3 rounded-lg border p-3">
+                                <Checkbox
+                                  id="toggle-2"
+                                  checked={
+                                    (updateForm.watch().sellerId ?? []) ===
+                                    account.id
+                                  }
+                                  onCheckedChange={(checked) => {
+                                    if (checked) {
+                                      updateForm.setValue(
+                                        'sellerId',
+                                        account.id
+                                      );
+                                    } else {
+                                      updateForm.setValue('sellerId', '');
+                                    }
+                                  }}
+                                  className="data-[state=checked]:border-primary data-[state=checked]:bg-primary data-[state=checked]:text-white"
+                                />
+
+                                <div className="flex items-center justify-between w-full h-auto gap-3">
+                                  {account.name && (
+                                    <div className="flex flex-col">
+                                      <Label className="text-sm">
+                                        {account.name}
+                                      </Label>
+                                      <Label className="text-sm text-muted-foreground">
+                                        {account.email}
+                                      </Label>
                                     </div>
+                                  )}
+
+                                  {!account.name && (
+                                    <div className="flex flex-col">
+                                      <Label className="text-sm">
+                                        {account.email}
+                                      </Label>
+                                    </div>
+                                  )}
+
+                                  <div className="flex items-center gap-1">
+                                    {account.tags.length > 0 &&
+                                      account.tags.map((tag) => (
+                                        <Badge key={tag}>{tag}</Badge>
+                                      ))}
                                   </div>
+                                </div>
+                              </Label>
+                            ))}
+                          </div>
+
+                          {accountsPageDetails.pages && (
+                            <div className="flex items-center justify-end w-full">
+                              <Label className="text-xs text-muted-foreground">
+                                Page {accountsPage} of{' '}
+                                {accountsPageDetails.pages}
+                              </Label>
+
+                              <Link
+                                to="/transactions/create"
+                                search={{
+                                  productsPage,
+                                  productsSearch,
+                                  accountsPage:
+                                    accountsPageDetails.previousPage,
+                                  accountsSearch,
+                                }}
+                                disabled={
+                                  accountsPage ===
+                                  accountsPageDetails.previousPage
+                                }
+                              >
+                                <Button
+                                  variant="outline"
+                                  className="ml-3"
+                                  disabled={
+                                    accountsPage ===
+                                    accountsPageDetails.previousPage
+                                  }
+                                >
+                                  Previous
+                                </Button>
+                              </Link>
+                              <Link
+                                to="/transactions/create"
+                                search={{
+                                  productsPage,
+                                  productsSearch,
+                                  accountsPage: accountsPageDetails.nextPage,
+                                  accountsSearch,
+                                }}
+                                disabled={
+                                  accountsPage === accountsPageDetails.nextPage
+                                }
+                              >
+                                <Button
+                                  variant="outline"
+                                  className="ml-1"
+                                  disabled={
+                                    accountsPage ===
+                                    accountsPageDetails.nextPage
+                                  }
+                                >
+                                  Next
+                                </Button>
+                              </Link>
+                            </div>
+                          )}
+                        </div>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <div className="grid grid-cols-2 w-full h-auto gap-5 items-center">
+                  <Button
+                    type="button"
+                    variant="outline"
+                    className="w-full"
+                    onClick={() => setCurrentStep(2)}
+                  >
+                    Back
+                  </Button>
+                  <Button
+                    type="button"
+                    className="w-full"
+                    onClick={() => setCurrentStep(4)}
+                  >
+                    Continue
+                  </Button>
+                </div>
+              </StepperContent>
+
+              <StepperContent
+                value={4}
+                className="flex flex-col w-full h-full gap-3"
+              >
+                <div className="grid grid-cols-2 w-full h-full overflow-hidden gap-3">
+                  <div className="flex flex-col w-full h-auto gap-3">
+                    <Card className="border-dashed">
+                      <CardHeader>
+                        <CardTitle>Account</CardTitle>
+                        <CardDescription>
+                          Review the account details.
+                        </CardDescription>
+                      </CardHeader>
+                      <CardContent className="flex flex-col w-full h-full overflow-hidden">
+                        <Label className="hover:bg-accent flex items-center justify-between gap-3 rounded-lg border p-3">
+                          <div className="flex items-center justify-between w-full h-auto gap-3">
+                            {accounts.find(
+                              (account) =>
+                                account.id === updateForm.getValues().sellerId
+                            )?.name && (
+                              <div className="flex flex-col">
+                                <Label className="text-sm">
+                                  {
+                                    accounts.find(
+                                      (account) =>
+                                        account.id ===
+                                        updateForm.getValues().sellerId
+                                    )?.name
+                                  }
                                 </Label>
-                              );
-                            })
-                        )}
-                      </div>
-                    </CardContent>
-                  </Card>
+                                <Label className="text-sm text-muted-foreground">
+                                  {
+                                    accounts.find(
+                                      (account) =>
+                                        account.id ===
+                                        updateForm.getValues().sellerId
+                                    )?.email
+                                  }
+                                </Label>
+                              </div>
+                            )}
+
+                            {!accounts.find(
+                              (account) =>
+                                account.id === updateForm.getValues().sellerId
+                            )?.name && (
+                              <div className="flex flex-col">
+                                <Label className="text-sm">
+                                  {
+                                    accounts.find(
+                                      (account) =>
+                                        account.id ===
+                                        updateForm.getValues().sellerId
+                                    )?.email
+                                  }
+                                </Label>
+                              </div>
+                            )}
+
+                            <div className="flex items-center gap-1">
+                              {(
+                                accounts.find(
+                                  (account) =>
+                                    account.id ===
+                                    updateForm.getValues().sellerId
+                                )?.tags ?? []
+                              ).length > 0 &&
+                                accounts
+                                  .find(
+                                    (account) =>
+                                      account.id ===
+                                      updateForm.getValues().sellerId
+                                  )
+                                  ?.tags.map((tag) => (
+                                    <Badge key={tag}>{tag}</Badge>
+                                  ))}
+                            </div>
+                          </div>
+                        </Label>
+                      </CardContent>
+                    </Card>
+
+                    <Card className="border-dashed">
+                      <CardHeader>
+                        <CardTitle>Added Products</CardTitle>
+                        <CardDescription>
+                          Review the products added to the transaction.
+                        </CardDescription>
+                      </CardHeader>
+                      <CardContent className="flex flex-col w-full h-full overflow-hidden">
+                        <div className="flex flex-col w-full h-full overflow-y-auto gap-3">
+                          {(updateForm.getValues().products ?? []).length ===
+                          0 ? (
+                            <Label className="text-muted-foreground">
+                              No products added
+                            </Label>
+                          ) : (
+                            updateForm
+                              .getValues()
+                              .products?.map((productId) => {
+                                const product = products.find(
+                                  (m) => m.id === productId
+                                );
+
+                                if (!product) return null;
+
+                                return (
+                                  <Label
+                                    key={product.id}
+                                    className="hover:bg-accent flex items-center justify-between gap-3 rounded-lg border p-3"
+                                  >
+                                    <div className="flex items-center justify-between w-full h-auto gap-3">
+                                      <div className="flex flex-col">
+                                        <Label>{product.name}</Label>
+                                        <Label className="text-xs text-muted-foreground">
+                                          {`${new Intl.NumberFormat('en-ZA', {
+                                            style: 'currency',
+                                            currency: 'ZAR',
+                                          }).format(product.value ?? 0)}`}
+                                        </Label>
+                                      </div>
+                                    </div>
+                                  </Label>
+                                );
+                              })
+                          )}
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </div>
 
                   <Card className="border-dashed">
                     <CardHeader>
@@ -649,25 +996,28 @@ function RouteComponent() {
                     </CardHeader>
                     <CardContent className="flex flex-col w-full h-full gap-3 justify-start items-start">
                       <div className="flex flex-col items-start justify-start w-full h-auto gap-3">
-                        <Label className="text-muted-foreground">Name</Label>
-                        <Label>
-                          {updateForm.getValues().name ?? 'Not provided'}
-                        </Label>
-                        <Label className="text-sm text-muted-foreground">
-                          This will be the transactions name.
-                        </Label>
-                      </div>
-
-                      <div className="flex flex-col w-full h-auto gap-3">
-                        <Label className="text-muted-foreground">Value</Label>
+                        <Label className="text-muted-foreground">Amount</Label>
                         <Label>
                           {new Intl.NumberFormat('en-ZA', {
                             style: 'currency',
                             currency: 'ZAR',
-                          }).format(updateForm.getValues().value ?? 0)}
+                          }).format(updateForm.getValues().amount ?? 0)}
                         </Label>
                         <Label className="text-sm text-muted-foreground">
-                          This will be the transactions value (R).
+                          This will be the transactions amount.
+                        </Label>
+                      </div>
+
+                      <div className="flex flex-col items-start justify-start w-full h-auto gap-3">
+                        <Label className="text-muted-foreground">Weight</Label>
+                        <Label>
+                          {new Intl.NumberFormat('en-ZA', {
+                            style: 'unit',
+                            unit: 'kilogram',
+                          }).format(updateForm.getValues().weight ?? 0)}
+                        </Label>
+                        <Label className="text-sm text-muted-foreground">
+                          This will be the transactions weight.
                         </Label>
                       </div>
                     </CardContent>
@@ -677,7 +1027,7 @@ function RouteComponent() {
                           type="button"
                           variant="outline"
                           className="w-full"
-                          onClick={() => setCurrentStep(2)}
+                          onClick={() => setCurrentStep(3)}
                         >
                           Back
                         </Button>
@@ -689,13 +1039,13 @@ function RouteComponent() {
               </StepperContent>
 
               <StepperContent
-                value={5}
+                value={6}
                 className="flex flex-col w-full h-full gap-3"
               >
                 <div className="flex flex-col w-full h-full gap-5">
                   <div className="flex flex-col w-full h-auto items-center justify-center gap-3">
                     <p className="text-lg font-semibold">
-                      Transaction updated successfully!
+                      Transaction created successfully!
                     </p>
                     <p className="text-sm text-muted-foreground">
                       You can view your transaction in the transaction list.

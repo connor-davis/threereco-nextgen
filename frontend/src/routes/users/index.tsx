@@ -136,8 +136,10 @@ function RouteComponent() {
                   </div>
                 )}
 
-                {user.tags.length > 0 &&
-                  user.tags.map((tag) => <Badge key={tag}>{tag}</Badge>)}
+                <div className="flex items-center gap-1">
+                  {user.tags.length > 0 &&
+                    user.tags.map((tag) => <Badge key={tag}>{tag}</Badge>)}
+                </div>
               </div>
               <div className="flex items-center gap-3">
                 <PermissionGuard value="users.update">

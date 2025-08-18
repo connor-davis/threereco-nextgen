@@ -999,7 +999,7 @@ export type Transaction = {
     updatedAt: string;
   };
   modifiedById?: string;
-  products: {
+  products: Array<{
     createdAt: string;
     id: string;
     materials: Array<{
@@ -1045,7 +1045,7 @@ export type Transaction = {
     name: string;
     updatedAt: string;
     value: number;
-  };
+  }>;
   sellerAccepted: boolean;
   sellerDeclined: boolean;
   sellerId: string;
@@ -14461,7 +14461,7 @@ export type GetApiTransactionsResponses = {
             updatedAt: string;
           };
           modifiedById?: string;
-          products: {
+          products: Array<{
             createdAt: string;
             id: string;
             materials: Array<{
@@ -14507,7 +14507,7 @@ export type GetApiTransactionsResponses = {
             name: string;
             updatedAt: string;
             value: number;
-          };
+          }>;
           sellerAccepted: boolean;
           sellerDeclined: boolean;
           sellerId: string;

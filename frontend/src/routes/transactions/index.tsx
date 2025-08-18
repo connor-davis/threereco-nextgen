@@ -5,6 +5,8 @@ import {
   useRouter,
 } from '@tanstack/react-router';
 
+import { capitalCase } from 'change-case';
+import { format, parseISO } from 'date-fns';
 import z from 'zod';
 
 import {
@@ -120,7 +122,7 @@ function RouteComponent() {
             >
               <div className="flex w-full h-auto items-center justify-between gap-3">
                 <div className="flex flex-col">
-                  <Label>{transaction.type}</Label>
+                  <Label>{capitalCase(transaction.type)}</Label>
                   <Label className="text-xs text-muted-foreground">
                     {`${new Intl.NumberFormat('en-ZA', {
                       style: 'currency',
@@ -130,7 +132,12 @@ function RouteComponent() {
                     )} @ ${new Intl.NumberFormat('en-ZA', {
                       style: 'unit',
                       unit: 'kilogram',
-                    }).format(transaction.amount ?? 0)}`}
+                    }).format(transaction.weight ?? 0)}`}
+                  </Label>
+                </div>
+                <div className="flex items-center gap-1">
+                  <Label className="text-muted-foreground">
+                    {format(parseISO(transaction.createdAt), 'PPP')}
                   </Label>
                 </div>
               </div>

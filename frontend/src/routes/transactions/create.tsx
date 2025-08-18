@@ -44,6 +44,7 @@ import {
 } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
 import { DebounceInput } from '@/components/ui/debounce-input';
+import { DebounceNumberInput } from '@/components/ui/debounce-number-input';
 import {
   Form,
   FormControl,
@@ -54,7 +55,6 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Label } from '@/components/ui/label';
-import { NumberInput } from '@/components/ui/number-input';
 import {
   Stepper,
   StepperContent,
@@ -175,7 +175,7 @@ function RouteComponent() {
         duration: 2000,
       });
 
-      setCurrentStep(5);
+      setCurrentStep(6);
       createForm.reset();
 
       return router.invalidate();
@@ -441,14 +441,40 @@ function RouteComponent() {
                       <FormItem>
                         <FormLabel>Weight</FormLabel>
                         <FormControl>
-                          <NumberInput
+                          <DebounceNumberInput
                             placeholder="Weight"
                             className="w-full"
                             decimalScale={2}
                             fixedDecimalScale
                             {...field}
                             value={field.value ?? undefined}
-                            onValueChange={(value) => field.onChange(value)}
+                            onChange={() => {}}
+                            onValueChange={(value) => {
+                              const previousWeight = Number.isNaN(
+                                Number(createForm.getValues().weight)
+                              )
+                                ? 0
+                                : Number(createForm.getValues().weight);
+                              const previousAmount = Number.isNaN(
+                                Number(createForm.getValues().amount)
+                              )
+                                ? 0
+                                : Number(createForm.getValues().amount);
+                              const amountMultiplier = Number.isNaN(
+                                Number(previousAmount / previousWeight)
+                              )
+                                ? 0
+                                : Number(previousAmount / previousWeight);
+
+                              const newWeight = Number.isNaN(Number(value))
+                                ? 0
+                                : Number(value);
+
+                              const newAmount = newWeight * amountMultiplier;
+
+                              createForm.setValue('amount', newAmount);
+                              field.onChange(value);
+                            }}
                           />
                         </FormControl>
                         <FormDescription>
@@ -522,12 +548,6 @@ function RouteComponent() {
                               createForm.getValues().weight ?? 0;
                             const weightMultipliedByProductValue =
                               currentWeight * product.value;
-
-                            console.log(
-                              currentAmount,
-                              currentWeight,
-                              weightMultipliedByProductValue
-                            );
 
                             if (checked) {
                               createForm.setValue('products', [
@@ -722,10 +742,12 @@ function RouteComponent() {
                                     </div>
                                   )}
 
-                                  {account.tags.length > 0 &&
-                                    account.tags.map((tag) => (
-                                      <Badge key={tag}>{tag}</Badge>
-                                    ))}
+                                  <div className="flex items-center gap-1">
+                                    {account.tags.length > 0 &&
+                                      account.tags.map((tag) => (
+                                        <Badge key={tag}>{tag}</Badge>
+                                      ))}
+                                  </div>
                                 </div>
                               </Label>
                             ))}
@@ -873,21 +895,24 @@ function RouteComponent() {
                               </div>
                             )}
 
-                            {(
-                              accounts.find(
-                                (account) =>
-                                  account.id === createForm.getValues().sellerId
-                              )?.tags ?? []
-                            ).length > 0 &&
-                              accounts
-                                .find(
+                            <div className="flex items-center gap-1">
+                              {(
+                                accounts.find(
                                   (account) =>
                                     account.id ===
                                     createForm.getValues().sellerId
-                                )
-                                ?.tags.map((tag) => (
-                                  <Badge key={tag}>{tag}</Badge>
-                                ))}
+                                )?.tags ?? []
+                              ).length > 0 &&
+                                accounts
+                                  .find(
+                                    (account) =>
+                                      account.id ===
+                                      createForm.getValues().sellerId
+                                  )
+                                  ?.tags.map((tag) => (
+                                    <Badge key={tag}>{tag}</Badge>
+                                  ))}
+                            </div>
                           </div>
                         </Label>
                       </CardContent>

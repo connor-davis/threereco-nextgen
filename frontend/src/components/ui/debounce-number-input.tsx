@@ -1,9 +1,10 @@
-import { ChevronDown, ChevronUp } from 'lucide-react';
+import { MinusIcon, PlusIcon } from 'lucide-react';
 import { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
 import { NumericFormat, type NumericFormatProps } from 'react-number-format';
 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { cn } from '@/lib/utils';
 
 export interface DebounceNumberInputProps
   extends Omit<NumericFormatProps, 'value' | 'onValueChange'> {
@@ -139,9 +140,22 @@ export const DebounceNumberInput = forwardRef<
 
     return (
       <div className="flex items-center w-full lg:w-auto">
+        <Button
+          aria-label="Increase value"
+          className="px-2 h-9 rounded-l-md rounded-r-none border-input border-l border-r-0 focus-visible:relative"
+          variant="outline"
+          onClick={handleIncrement}
+          disabled={value === max}
+          type="button"
+        >
+          <PlusIcon className="size-4" />
+        </Button>
+
         <NumericFormat
           value={value}
-          onValueChange={handleChange}
+          onValueChange={(value) =>
+            value.floatValue !== undefined && handleChange(value)
+          }
           thousandSeparator={thousandSeparator}
           decimalScale={decimalScale}
           fixedDecimalScale={fixedDecimalScale}
@@ -154,31 +168,24 @@ export const DebounceNumberInput = forwardRef<
           prefix={prefix}
           customInput={Input}
           placeholder={placeholder}
-          className="[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none rounded-r-none w-auto h-8 relative"
           getInputRef={ref}
           {...props}
+          className={cn(
+            '[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none rounded-none w-auto h-9 relative',
+            props.className
+          )}
         />
 
-        <div className="flex flex-col w-auto h-auto">
-          <Button
-            aria-label="Increase value"
-            className="px-2 h-4 rounded-l-none rounded-br-none border-input border-l-0 border-b-[0.5px] focus-visible:relative"
-            variant="outline"
-            onClick={handleIncrement}
-            disabled={value === max}
-          >
-            <ChevronUp size={15} />
-          </Button>
-          <Button
-            aria-label="Decrease value"
-            className="px-2 h-4 rounded-l-none rounded-tr-none border-input border-l-0 border-t-[0.5px] focus-visible:relative"
-            variant="outline"
-            onClick={handleDecrement}
-            disabled={value === min}
-          >
-            <ChevronDown size={15} />
-          </Button>
-        </div>
+        <Button
+          aria-label="Decrease value"
+          className="px-2 h-9 rounded-l-none rounded-r-md border-input border-l-0 focus-visible:relative"
+          variant="outline"
+          onClick={handleDecrement}
+          disabled={value === min}
+          type="button"
+        >
+          <MinusIcon className="size-4" />
+        </Button>
       </div>
     );
   }
