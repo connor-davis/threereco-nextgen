@@ -15,12 +15,14 @@ const AuthenticationContext = createContext<{
   permissions: Array<string>;
   isLoading: boolean;
   isError: boolean;
+  refetch: () => Promise<void>;
 }>({
   user: undefined,
   organizations: [],
   permissions: [],
   isLoading: false,
   isError: false,
+  refetch: async () => {},
 });
 
 export const AuthenticationProvider = ({
@@ -32,6 +34,7 @@ export const AuthenticationProvider = ({
     data: userData,
     isLoading: isLoadingUser,
     isError: isUserError,
+    refetch: refetchUser,
   } = useQuery({
     ...getApiAuthenticationCheckOptions({
       client: apiClient,
@@ -46,6 +49,7 @@ export const AuthenticationProvider = ({
     data: organizationsData,
     isLoading: isLoadingOrganizations,
     isError: isOrganizationsError,
+    refetch: refetchOrganizations,
   } = useQuery({
     ...getApiAuthenticationOrganizationsOptions({
       client: apiClient,
@@ -61,6 +65,7 @@ export const AuthenticationProvider = ({
     data: permissionsData,
     isLoading: isLoadingPermissions,
     isError: isPermissionsError,
+    refetch: refetchPermissions,
   } = useQuery({
     ...getApiAuthenticationPermissionsOptions({
       client: apiClient,
@@ -81,6 +86,11 @@ export const AuthenticationProvider = ({
         isLoading:
           isLoadingUser || isLoadingOrganizations || isLoadingPermissions,
         isError: isUserError || isOrganizationsError || isPermissionsError,
+        refetch: async () => {
+          await refetchUser();
+          await refetchOrganizations();
+          await refetchPermissions();
+        },
       }}
     >
       {children}

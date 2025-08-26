@@ -1,10 +1,5 @@
-import {
-  getApiAuthenticationCheckQueryKey,
-  getApiOrganizationsQueryKey,
-  getApiRolesAvailablePermissionsQueryKey,
-  postApiAuthenticationLoginMutation,
-} from '@/api-client/@tanstack/react-query.gen';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { postApiAuthenticationLoginMutation } from '@/api-client/@tanstack/react-query.gen';
+import { useMutation } from '@tanstack/react-query';
 import { useRouter } from '@tanstack/react-router';
 import { type ReactNode } from 'react';
 import { useForm } from 'react-hook-form';
@@ -40,11 +35,10 @@ export default function AuthenticationGuard({
   disabled?: boolean;
 }) {
   const router = useRouter();
-  const queryClient = useQueryClient();
 
   if (disabled) return children;
 
-  const { user, isError, isLoading } = useAuthentication();
+  const { user, isError, isLoading, refetch } = useAuthentication();
 
   const loginForm = useForm<z.infer<typeof zLoginPayload>>({
     defaultValues: {
@@ -62,28 +56,12 @@ export default function AuthenticationGuard({
         description: error.message,
         duration: 2000,
       }),
-    onSuccess: () => {
+    onSuccess: async () => {
       loginForm.reset();
 
       router.invalidate();
 
-      queryClient.invalidateQueries({
-        queryKey: getApiAuthenticationCheckQueryKey({
-          client: apiClient,
-        }),
-      });
-
-      queryClient.invalidateQueries({
-        queryKey: getApiOrganizationsQueryKey({
-          client: apiClient,
-        }),
-      });
-
-      queryClient.invalidateQueries({
-        queryKey: getApiRolesAvailablePermissionsQueryKey({
-          client: apiClient,
-        }),
-      });
+      await refetch();
 
       return toast.success('Login successful', {
         description: 'You have been logged in successfully.',
