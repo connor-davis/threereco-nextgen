@@ -264,6 +264,9 @@ func (h *HttpRouter) InitializeOpenAPI() *openapi3.T {
 				"Address":                   schemas.AddressSchema,
 				"CreateAddressPayload":      schemas.CreateAddressPayloadSchema,
 				"UpdateAddressPayload":      schemas.UpdateAddressPayloadSchema,
+				"BankDetails":               schemas.BankDetailsSchema,
+				"CreateBankDetailsPayload":  schemas.CreateBankDetailsPayloadSchema,
+				"UpdateBankDetailsPayload":  schemas.UpdateBankDetailsPayloadSchema,
 			},
 		},
 	}
