@@ -9,7 +9,7 @@ var TransactionSchema = openapi3.NewSchema().
 	WithProperties(properties.TransactionProperties).
 	WithProperty(
 		"products",
-		ProductSchema.Value,
+		ProductArraySchema.Value,
 	).
 	WithProperty(
 		"modifiedBy",

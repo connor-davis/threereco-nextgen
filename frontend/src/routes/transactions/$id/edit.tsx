@@ -174,7 +174,7 @@ function RouteComponent() {
     resolver: zodResolver(zUpdateTransactionPayload),
     values: {
       ...transaction,
-      products: transaction.products.map((product) => product.id),
+      products: (transaction.products ?? []).map((product) => product.id),
     },
   });
 
