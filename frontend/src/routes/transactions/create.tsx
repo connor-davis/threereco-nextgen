@@ -690,10 +690,10 @@ function RouteComponent() {
                                   router.navigate({
                                     to: '/transactions/create',
                                     search: {
-                                      productsPage: productsPage,
-                                      productsSearch: search,
-                                      accountsPage: accountsPage,
-                                      accountsSearch: accountsSearch,
+                                      productsPage,
+                                      productsSearch,
+                                      accountsPage,
+                                      accountsSearch: search,
                                     },
                                   });
                                 }}
