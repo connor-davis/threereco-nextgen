@@ -34,6 +34,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { InputTags } from '@/components/ui/input-tags';
 import { Label } from '@/components/ui/label';
+import { PhoneInput } from '@/components/ui/phone-input';
 import { apiClient } from '@/lib/utils';
 
 export const Route = createFileRoute('/users/$id/edit')({
@@ -204,7 +205,8 @@ function RouteComponent() {
               <FormItem>
                 <FormLabel>Phone Number</FormLabel>
                 <FormControl>
-                  <Input
+                  <PhoneInput
+                    defaultCountry="ZA"
                     type="tel"
                     placeholder="Phone Number"
                     {...field}

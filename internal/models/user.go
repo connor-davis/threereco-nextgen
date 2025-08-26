@@ -45,6 +45,7 @@ type User struct {
 	Purchases             []Transaction  `json:"-" gorm:"polymorphic:Buyer;constraint:OnDelete:CASCADE;"`
 	Notifications         []Notification `json:"-" gorm:"foreignKey:UserId;references:Id;constraint:OnDelete:CASCADE;"`
 	Tags                  pq.StringArray `json:"tags" gorm:"type:text[];default:'{}';"`
+	Address               *Address       `json:"address,omitzero" gorm:"foreignKey:UserId;references:Id;constraint:OnDelete:CASCADE;"`
 	PrimaryOrganizationId *uuid.UUID     `json:"primaryOrganizationId,omitzero" gorm:"type:uuid;"`
 	ModifiedByUserId      uuid.UUID      `json:"modifiedById" gorm:"type:uuid;"`
 	ModifiedByUser        *User          `json:"modifiedBy,omitzero"`
@@ -72,6 +73,7 @@ type CreateUserPayload struct {
 	JobTitle *string        `json:"jobTitle"`
 	Roles    []uuid.UUID    `json:"roles"`
 	Tags     pq.StringArray `json:"tags"`
+	Address  *Address       `json:"address,omitzero"`
 }
 
 // UpdateUserPayload represents a partial update request for a user. Pointer
@@ -105,6 +107,7 @@ type UpdateUserPayload struct {
 	PrimaryOrganizationId *uuid.UUID     `json:"primaryOrganizationId"`
 	Roles                 []uuid.UUID    `json:"roles"`
 	Tags                  pq.StringArray `json:"tags"`
+	Address               *Address       `json:"address,omitzero"`
 }
 
 // AfterCreate is a GORM hook that is triggered before a User record is created in the database.
