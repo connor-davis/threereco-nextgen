@@ -558,7 +558,7 @@ export type SuccessResponse = {
           updatedAt: string;
         };
         modifiedById?: string;
-        products: {
+        products: Array<{
           createdAt: string;
           id: string;
           materials: Array<{
@@ -604,7 +604,7 @@ export type SuccessResponse = {
           name: string;
           updatedAt: string;
           value: number;
-        };
+        }>;
         sellerAccepted: boolean;
         sellerDeclined: boolean;
         sellerId: string;
@@ -903,7 +903,7 @@ export type SuccessResponse = {
           updatedAt: string;
         };
         modifiedById?: string;
-        products: {
+        products: Array<{
           createdAt: string;
           id: string;
           materials: Array<{
@@ -949,7 +949,7 @@ export type SuccessResponse = {
           name: string;
           updatedAt: string;
           value: number;
-        };
+        }>;
         sellerAccepted: boolean;
         sellerDeclined: boolean;
         sellerId: string;
@@ -1046,7 +1046,7 @@ export type Transaction = {
     updatedAt: string;
   };
   modifiedById?: string;
-  products: {
+  products: Array<{
     createdAt: string;
     id: string;
     materials: Array<{
@@ -1092,7 +1092,7 @@ export type Transaction = {
     name: string;
     updatedAt: string;
     value: number;
-  };
+  }>;
   sellerAccepted: boolean;
   sellerDeclined: boolean;
   sellerId: string;
@@ -1511,7 +1511,7 @@ export type GetApiAuditlogsResponses = {
             updatedAt: string;
           };
           modifiedById?: string;
-          products: {
+          products: Array<{
             createdAt: string;
             id: string;
             materials: Array<{
@@ -1557,7 +1557,7 @@ export type GetApiAuditlogsResponses = {
             name: string;
             updatedAt: string;
             value: number;
-          };
+          }>;
           sellerAccepted: boolean;
           sellerDeclined: boolean;
           sellerId: string;
@@ -1856,7 +1856,7 @@ export type GetApiAuditlogsResponses = {
             updatedAt: string;
           };
           modifiedById?: string;
-          products: {
+          products: Array<{
             createdAt: string;
             id: string;
             materials: Array<{
@@ -1902,7 +1902,7 @@ export type GetApiAuditlogsResponses = {
             name: string;
             updatedAt: string;
             value: number;
-          };
+          }>;
           sellerAccepted: boolean;
           sellerDeclined: boolean;
           sellerId: string;
@@ -2264,7 +2264,7 @@ export type GetApiAuditlogsByIdResponses = {
             updatedAt: string;
           };
           modifiedById?: string;
-          products: {
+          products: Array<{
             createdAt: string;
             id: string;
             materials: Array<{
@@ -2310,7 +2310,7 @@ export type GetApiAuditlogsByIdResponses = {
             name: string;
             updatedAt: string;
             value: number;
-          };
+          }>;
           sellerAccepted: boolean;
           sellerDeclined: boolean;
           sellerId: string;
@@ -2609,7 +2609,7 @@ export type GetApiAuditlogsByIdResponses = {
             updatedAt: string;
           };
           modifiedById?: string;
-          products: {
+          products: Array<{
             createdAt: string;
             id: string;
             materials: Array<{
@@ -2655,7 +2655,7 @@ export type GetApiAuditlogsByIdResponses = {
             name: string;
             updatedAt: string;
             value: number;
-          };
+          }>;
           sellerAccepted: boolean;
           sellerDeclined: boolean;
           sellerId: string;
@@ -3001,7 +3001,7 @@ export type GetApiAuthenticationCheckResponses = {
             updatedAt: string;
           };
           modifiedById?: string;
-          products: {
+          products: Array<{
             createdAt: string;
             id: string;
             materials: Array<{
@@ -3047,7 +3047,7 @@ export type GetApiAuthenticationCheckResponses = {
             name: string;
             updatedAt: string;
             value: number;
-          };
+          }>;
           sellerAccepted: boolean;
           sellerDeclined: boolean;
           sellerId: string;
@@ -3346,7 +3346,7 @@ export type GetApiAuthenticationCheckResponses = {
             updatedAt: string;
           };
           modifiedById?: string;
-          products: {
+          products: Array<{
             createdAt: string;
             id: string;
             materials: Array<{
@@ -3392,7 +3392,7 @@ export type GetApiAuthenticationCheckResponses = {
             name: string;
             updatedAt: string;
             value: number;
-          };
+          }>;
           sellerAccepted: boolean;
           sellerDeclined: boolean;
           sellerId: string;
@@ -3897,7 +3897,7 @@ export type GetApiAuthenticationOrganizationsResponses = {
             updatedAt: string;
           };
           modifiedById?: string;
-          products: {
+          products: Array<{
             createdAt: string;
             id: string;
             materials: Array<{
@@ -3943,7 +3943,7 @@ export type GetApiAuthenticationOrganizationsResponses = {
             name: string;
             updatedAt: string;
             value: number;
-          };
+          }>;
           sellerAccepted: boolean;
           sellerDeclined: boolean;
           sellerId: string;
@@ -4242,7 +4242,7 @@ export type GetApiAuthenticationOrganizationsResponses = {
             updatedAt: string;
           };
           modifiedById?: string;
-          products: {
+          products: Array<{
             createdAt: string;
             id: string;
             materials: Array<{
@@ -4288,7 +4288,7 @@ export type GetApiAuthenticationOrganizationsResponses = {
             name: string;
             updatedAt: string;
             value: number;
-          };
+          }>;
           sellerAccepted: boolean;
           sellerDeclined: boolean;
           sellerId: string;
@@ -4634,7 +4634,7 @@ export type GetApiAuthenticationPermissionsResponses = {
             updatedAt: string;
           };
           modifiedById?: string;
-          products: {
+          products: Array<{
             createdAt: string;
             id: string;
             materials: Array<{
@@ -4680,7 +4680,7 @@ export type GetApiAuthenticationPermissionsResponses = {
             name: string;
             updatedAt: string;
             value: number;
-          };
+          }>;
           sellerAccepted: boolean;
           sellerDeclined: boolean;
           sellerId: string;
@@ -4979,7 +4979,7 @@ export type GetApiAuthenticationPermissionsResponses = {
             updatedAt: string;
           };
           modifiedById?: string;
-          products: {
+          products: Array<{
             createdAt: string;
             id: string;
             materials: Array<{
@@ -5025,7 +5025,7 @@ export type GetApiAuthenticationPermissionsResponses = {
             name: string;
             updatedAt: string;
             value: number;
-          };
+          }>;
           sellerAccepted: boolean;
           sellerDeclined: boolean;
           sellerId: string;
@@ -5381,7 +5381,7 @@ export type GetApiMaterialsResponses = {
             updatedAt: string;
           };
           modifiedById?: string;
-          products: {
+          products: Array<{
             createdAt: string;
             id: string;
             materials: Array<{
@@ -5427,7 +5427,7 @@ export type GetApiMaterialsResponses = {
             name: string;
             updatedAt: string;
             value: number;
-          };
+          }>;
           sellerAccepted: boolean;
           sellerDeclined: boolean;
           sellerId: string;
@@ -5726,7 +5726,7 @@ export type GetApiMaterialsResponses = {
             updatedAt: string;
           };
           modifiedById?: string;
-          products: {
+          products: Array<{
             createdAt: string;
             id: string;
             materials: Array<{
@@ -5772,7 +5772,7 @@ export type GetApiMaterialsResponses = {
             name: string;
             updatedAt: string;
             value: number;
-          };
+          }>;
           sellerAccepted: boolean;
           sellerDeclined: boolean;
           sellerId: string;
@@ -6231,7 +6231,7 @@ export type GetApiMaterialsByIdResponses = {
             updatedAt: string;
           };
           modifiedById?: string;
-          products: {
+          products: Array<{
             createdAt: string;
             id: string;
             materials: Array<{
@@ -6277,7 +6277,7 @@ export type GetApiMaterialsByIdResponses = {
             name: string;
             updatedAt: string;
             value: number;
-          };
+          }>;
           sellerAccepted: boolean;
           sellerDeclined: boolean;
           sellerId: string;
@@ -6576,7 +6576,7 @@ export type GetApiMaterialsByIdResponses = {
             updatedAt: string;
           };
           modifiedById?: string;
-          products: {
+          products: Array<{
             createdAt: string;
             id: string;
             materials: Array<{
@@ -6622,7 +6622,7 @@ export type GetApiMaterialsByIdResponses = {
             name: string;
             updatedAt: string;
             value: number;
-          };
+          }>;
           sellerAccepted: boolean;
           sellerDeclined: boolean;
           sellerId: string;
@@ -7033,7 +7033,7 @@ export type GetApiNotificationsResponses = {
             updatedAt: string;
           };
           modifiedById?: string;
-          products: {
+          products: Array<{
             createdAt: string;
             id: string;
             materials: Array<{
@@ -7079,7 +7079,7 @@ export type GetApiNotificationsResponses = {
             name: string;
             updatedAt: string;
             value: number;
-          };
+          }>;
           sellerAccepted: boolean;
           sellerDeclined: boolean;
           sellerId: string;
@@ -7378,7 +7378,7 @@ export type GetApiNotificationsResponses = {
             updatedAt: string;
           };
           modifiedById?: string;
-          products: {
+          products: Array<{
             createdAt: string;
             id: string;
             materials: Array<{
@@ -7424,7 +7424,7 @@ export type GetApiNotificationsResponses = {
             name: string;
             updatedAt: string;
             value: number;
-          };
+          }>;
           sellerAccepted: boolean;
           sellerDeclined: boolean;
           sellerId: string;
@@ -7888,7 +7888,7 @@ export type GetApiNotificationsByIdResponses = {
             updatedAt: string;
           };
           modifiedById?: string;
-          products: {
+          products: Array<{
             createdAt: string;
             id: string;
             materials: Array<{
@@ -7934,7 +7934,7 @@ export type GetApiNotificationsByIdResponses = {
             name: string;
             updatedAt: string;
             value: number;
-          };
+          }>;
           sellerAccepted: boolean;
           sellerDeclined: boolean;
           sellerId: string;
@@ -8233,7 +8233,7 @@ export type GetApiNotificationsByIdResponses = {
             updatedAt: string;
           };
           modifiedById?: string;
-          products: {
+          products: Array<{
             createdAt: string;
             id: string;
             materials: Array<{
@@ -8279,7 +8279,7 @@ export type GetApiNotificationsByIdResponses = {
             name: string;
             updatedAt: string;
             value: number;
-          };
+          }>;
           sellerAccepted: boolean;
           sellerDeclined: boolean;
           sellerId: string;
@@ -8695,7 +8695,7 @@ export type GetApiOrganizationsResponses = {
             updatedAt: string;
           };
           modifiedById?: string;
-          products: {
+          products: Array<{
             createdAt: string;
             id: string;
             materials: Array<{
@@ -8741,7 +8741,7 @@ export type GetApiOrganizationsResponses = {
             name: string;
             updatedAt: string;
             value: number;
-          };
+          }>;
           sellerAccepted: boolean;
           sellerDeclined: boolean;
           sellerId: string;
@@ -9040,7 +9040,7 @@ export type GetApiOrganizationsResponses = {
             updatedAt: string;
           };
           modifiedById?: string;
-          products: {
+          products: Array<{
             createdAt: string;
             id: string;
             materials: Array<{
@@ -9086,7 +9086,7 @@ export type GetApiOrganizationsResponses = {
             name: string;
             updatedAt: string;
             value: number;
-          };
+          }>;
           sellerAccepted: boolean;
           sellerDeclined: boolean;
           sellerId: string;
@@ -9640,7 +9640,7 @@ export type GetApiOrganizationsByIdResponses = {
             updatedAt: string;
           };
           modifiedById?: string;
-          products: {
+          products: Array<{
             createdAt: string;
             id: string;
             materials: Array<{
@@ -9686,7 +9686,7 @@ export type GetApiOrganizationsByIdResponses = {
             name: string;
             updatedAt: string;
             value: number;
-          };
+          }>;
           sellerAccepted: boolean;
           sellerDeclined: boolean;
           sellerId: string;
@@ -9985,7 +9985,7 @@ export type GetApiOrganizationsByIdResponses = {
             updatedAt: string;
           };
           modifiedById?: string;
-          products: {
+          products: Array<{
             createdAt: string;
             id: string;
             materials: Array<{
@@ -10031,7 +10031,7 @@ export type GetApiOrganizationsByIdResponses = {
             name: string;
             updatedAt: string;
             value: number;
-          };
+          }>;
           sellerAccepted: boolean;
           sellerDeclined: boolean;
           sellerId: string;
@@ -10484,7 +10484,7 @@ export type GetApiProductsResponses = {
             updatedAt: string;
           };
           modifiedById?: string;
-          products: {
+          products: Array<{
             createdAt: string;
             id: string;
             materials: Array<{
@@ -10530,7 +10530,7 @@ export type GetApiProductsResponses = {
             name: string;
             updatedAt: string;
             value: number;
-          };
+          }>;
           sellerAccepted: boolean;
           sellerDeclined: boolean;
           sellerId: string;
@@ -10829,7 +10829,7 @@ export type GetApiProductsResponses = {
             updatedAt: string;
           };
           modifiedById?: string;
-          products: {
+          products: Array<{
             createdAt: string;
             id: string;
             materials: Array<{
@@ -10875,7 +10875,7 @@ export type GetApiProductsResponses = {
             name: string;
             updatedAt: string;
             value: number;
-          };
+          }>;
           sellerAccepted: boolean;
           sellerDeclined: boolean;
           sellerId: string;
@@ -11334,7 +11334,7 @@ export type GetApiProductsByIdResponses = {
             updatedAt: string;
           };
           modifiedById?: string;
-          products: {
+          products: Array<{
             createdAt: string;
             id: string;
             materials: Array<{
@@ -11380,7 +11380,7 @@ export type GetApiProductsByIdResponses = {
             name: string;
             updatedAt: string;
             value: number;
-          };
+          }>;
           sellerAccepted: boolean;
           sellerDeclined: boolean;
           sellerId: string;
@@ -11679,7 +11679,7 @@ export type GetApiProductsByIdResponses = {
             updatedAt: string;
           };
           modifiedById?: string;
-          products: {
+          products: Array<{
             createdAt: string;
             id: string;
             materials: Array<{
@@ -11725,7 +11725,7 @@ export type GetApiProductsByIdResponses = {
             name: string;
             updatedAt: string;
             value: number;
-          };
+          }>;
           sellerAccepted: boolean;
           sellerDeclined: boolean;
           sellerId: string;
@@ -12135,7 +12135,7 @@ export type GetApiRolesResponses = {
             updatedAt: string;
           };
           modifiedById?: string;
-          products: {
+          products: Array<{
             createdAt: string;
             id: string;
             materials: Array<{
@@ -12181,7 +12181,7 @@ export type GetApiRolesResponses = {
             name: string;
             updatedAt: string;
             value: number;
-          };
+          }>;
           sellerAccepted: boolean;
           sellerDeclined: boolean;
           sellerId: string;
@@ -12480,7 +12480,7 @@ export type GetApiRolesResponses = {
             updatedAt: string;
           };
           modifiedById?: string;
-          products: {
+          products: Array<{
             createdAt: string;
             id: string;
             materials: Array<{
@@ -12526,7 +12526,7 @@ export type GetApiRolesResponses = {
             name: string;
             updatedAt: string;
             value: number;
-          };
+          }>;
           sellerAccepted: boolean;
           sellerDeclined: boolean;
           sellerId: string;
@@ -12917,7 +12917,7 @@ export type GetApiRolesAvailablePermissionsResponses = {
             updatedAt: string;
           };
           modifiedById?: string;
-          products: {
+          products: Array<{
             createdAt: string;
             id: string;
             materials: Array<{
@@ -12963,7 +12963,7 @@ export type GetApiRolesAvailablePermissionsResponses = {
             name: string;
             updatedAt: string;
             value: number;
-          };
+          }>;
           sellerAccepted: boolean;
           sellerDeclined: boolean;
           sellerId: string;
@@ -13262,7 +13262,7 @@ export type GetApiRolesAvailablePermissionsResponses = {
             updatedAt: string;
           };
           modifiedById?: string;
-          products: {
+          products: Array<{
             createdAt: string;
             id: string;
             materials: Array<{
@@ -13308,7 +13308,7 @@ export type GetApiRolesAvailablePermissionsResponses = {
             name: string;
             updatedAt: string;
             value: number;
-          };
+          }>;
           sellerAccepted: boolean;
           sellerDeclined: boolean;
           sellerId: string;
@@ -13721,7 +13721,7 @@ export type GetApiRolesByIdResponses = {
             updatedAt: string;
           };
           modifiedById?: string;
-          products: {
+          products: Array<{
             createdAt: string;
             id: string;
             materials: Array<{
@@ -13767,7 +13767,7 @@ export type GetApiRolesByIdResponses = {
             name: string;
             updatedAt: string;
             value: number;
-          };
+          }>;
           sellerAccepted: boolean;
           sellerDeclined: boolean;
           sellerId: string;
@@ -14066,7 +14066,7 @@ export type GetApiRolesByIdResponses = {
             updatedAt: string;
           };
           modifiedById?: string;
-          products: {
+          products: Array<{
             createdAt: string;
             id: string;
             materials: Array<{
@@ -14112,7 +14112,7 @@ export type GetApiRolesByIdResponses = {
             name: string;
             updatedAt: string;
             value: number;
-          };
+          }>;
           sellerAccepted: boolean;
           sellerDeclined: boolean;
           sellerId: string;
@@ -14523,7 +14523,7 @@ export type GetApiTransactionsResponses = {
             updatedAt: string;
           };
           modifiedById?: string;
-          products: {
+          products: Array<{
             createdAt: string;
             id: string;
             materials: Array<{
@@ -14569,7 +14569,7 @@ export type GetApiTransactionsResponses = {
             name: string;
             updatedAt: string;
             value: number;
-          };
+          }>;
           sellerAccepted: boolean;
           sellerDeclined: boolean;
           sellerId: string;
@@ -14868,7 +14868,7 @@ export type GetApiTransactionsResponses = {
             updatedAt: string;
           };
           modifiedById?: string;
-          products: {
+          products: Array<{
             createdAt: string;
             id: string;
             materials: Array<{
@@ -14914,7 +14914,7 @@ export type GetApiTransactionsResponses = {
             name: string;
             updatedAt: string;
             value: number;
-          };
+          }>;
           sellerAccepted: boolean;
           sellerDeclined: boolean;
           sellerId: string;
@@ -15375,7 +15375,7 @@ export type GetApiTransactionsByIdResponses = {
             updatedAt: string;
           };
           modifiedById?: string;
-          products: {
+          products: Array<{
             createdAt: string;
             id: string;
             materials: Array<{
@@ -15421,7 +15421,7 @@ export type GetApiTransactionsByIdResponses = {
             name: string;
             updatedAt: string;
             value: number;
-          };
+          }>;
           sellerAccepted: boolean;
           sellerDeclined: boolean;
           sellerId: string;
@@ -15720,7 +15720,7 @@ export type GetApiTransactionsByIdResponses = {
             updatedAt: string;
           };
           modifiedById?: string;
-          products: {
+          products: Array<{
             createdAt: string;
             id: string;
             materials: Array<{
@@ -15766,7 +15766,7 @@ export type GetApiTransactionsByIdResponses = {
             name: string;
             updatedAt: string;
             value: number;
-          };
+          }>;
           sellerAccepted: boolean;
           sellerDeclined: boolean;
           sellerId: string;
@@ -16180,7 +16180,7 @@ export type GetApiUsersResponses = {
             updatedAt: string;
           };
           modifiedById?: string;
-          products: {
+          products: Array<{
             createdAt: string;
             id: string;
             materials: Array<{
@@ -16226,7 +16226,7 @@ export type GetApiUsersResponses = {
             name: string;
             updatedAt: string;
             value: number;
-          };
+          }>;
           sellerAccepted: boolean;
           sellerDeclined: boolean;
           sellerId: string;
@@ -16525,7 +16525,7 @@ export type GetApiUsersResponses = {
             updatedAt: string;
           };
           modifiedById?: string;
-          products: {
+          products: Array<{
             createdAt: string;
             id: string;
             materials: Array<{
@@ -16571,7 +16571,7 @@ export type GetApiUsersResponses = {
             name: string;
             updatedAt: string;
             value: number;
-          };
+          }>;
           sellerAccepted: boolean;
           sellerDeclined: boolean;
           sellerId: string;
@@ -17053,7 +17053,7 @@ export type GetApiUsersByIdResponses = {
             updatedAt: string;
           };
           modifiedById?: string;
-          products: {
+          products: Array<{
             createdAt: string;
             id: string;
             materials: Array<{
@@ -17099,7 +17099,7 @@ export type GetApiUsersByIdResponses = {
             name: string;
             updatedAt: string;
             value: number;
-          };
+          }>;
           sellerAccepted: boolean;
           sellerDeclined: boolean;
           sellerId: string;
@@ -17398,7 +17398,7 @@ export type GetApiUsersByIdResponses = {
             updatedAt: string;
           };
           modifiedById?: string;
-          products: {
+          products: Array<{
             createdAt: string;
             id: string;
             materials: Array<{
@@ -17444,7 +17444,7 @@ export type GetApiUsersByIdResponses = {
             name: string;
             updatedAt: string;
             value: number;
-          };
+          }>;
           sellerAccepted: boolean;
           sellerDeclined: boolean;
           sellerId: string;

@@ -612,59 +612,61 @@ export const zSuccessResponse = z.object({
           })
         ),
         modifiedById: z.optional(z.uuid()),
-        products: z.object({
-          createdAt: z.iso.datetime(),
-          id: z.uuid(),
-          materials: z.array(
-            z.object({
-              carbonFactor: z.string(),
-              createdAt: z.iso.datetime(),
-              gwCode: z.string(),
-              id: z.uuid(),
-              modifiedBy: z.optional(
-                z.object({
-                  createdAt: z.iso.datetime(),
-                  email: z.email().min(1),
-                  id: z.uuid(),
-                  image: z.optional(z.string()),
-                  jobTitle: z.optional(z.string()),
-                  mfaEnabled: z.boolean().default(false),
-                  mfaVerified: z.boolean().default(false),
-                  modifiedById: z.uuid(),
-                  name: z.optional(z.string()),
-                  phone: z.optional(z.string()),
-                  primaryOrganizationId: z.optional(z.uuid()),
-                  tags: z.array(z.string()),
-                  updatedAt: z.iso.datetime(),
-                })
-              ),
-              modifiedById: z.uuid(),
-              name: z.string(),
-              updatedAt: z.iso.datetime(),
-            })
-          ),
-          modifiedBy: z.optional(
-            z.object({
-              createdAt: z.iso.datetime(),
-              email: z.email().min(1),
-              id: z.uuid(),
-              image: z.optional(z.string()),
-              jobTitle: z.optional(z.string()),
-              mfaEnabled: z.boolean().default(false),
-              mfaVerified: z.boolean().default(false),
-              modifiedById: z.uuid(),
-              name: z.optional(z.string()),
-              phone: z.optional(z.string()),
-              primaryOrganizationId: z.optional(z.uuid()),
-              tags: z.array(z.string()),
-              updatedAt: z.iso.datetime(),
-            })
-          ),
-          modifiedById: z.uuid(),
-          name: z.string(),
-          updatedAt: z.iso.datetime(),
-          value: z.number().gte(0),
-        }),
+        products: z.array(
+          z.object({
+            createdAt: z.iso.datetime(),
+            id: z.uuid(),
+            materials: z.array(
+              z.object({
+                carbonFactor: z.string(),
+                createdAt: z.iso.datetime(),
+                gwCode: z.string(),
+                id: z.uuid(),
+                modifiedBy: z.optional(
+                  z.object({
+                    createdAt: z.iso.datetime(),
+                    email: z.email().min(1),
+                    id: z.uuid(),
+                    image: z.optional(z.string()),
+                    jobTitle: z.optional(z.string()),
+                    mfaEnabled: z.boolean().default(false),
+                    mfaVerified: z.boolean().default(false),
+                    modifiedById: z.uuid(),
+                    name: z.optional(z.string()),
+                    phone: z.optional(z.string()),
+                    primaryOrganizationId: z.optional(z.uuid()),
+                    tags: z.array(z.string()),
+                    updatedAt: z.iso.datetime(),
+                  })
+                ),
+                modifiedById: z.uuid(),
+                name: z.string(),
+                updatedAt: z.iso.datetime(),
+              })
+            ),
+            modifiedBy: z.optional(
+              z.object({
+                createdAt: z.iso.datetime(),
+                email: z.email().min(1),
+                id: z.uuid(),
+                image: z.optional(z.string()),
+                jobTitle: z.optional(z.string()),
+                mfaEnabled: z.boolean().default(false),
+                mfaVerified: z.boolean().default(false),
+                modifiedById: z.uuid(),
+                name: z.optional(z.string()),
+                phone: z.optional(z.string()),
+                primaryOrganizationId: z.optional(z.uuid()),
+                tags: z.array(z.string()),
+                updatedAt: z.iso.datetime(),
+              })
+            ),
+            modifiedById: z.uuid(),
+            name: z.string(),
+            updatedAt: z.iso.datetime(),
+            value: z.number().gte(0),
+          })
+        ),
         sellerAccepted: z.boolean(),
         sellerDeclined: z.boolean(),
         sellerId: z.uuid(),
@@ -1005,59 +1007,61 @@ export const zSuccessResponse = z.object({
             })
           ),
           modifiedById: z.optional(z.uuid()),
-          products: z.object({
-            createdAt: z.iso.datetime(),
-            id: z.uuid(),
-            materials: z.array(
-              z.object({
-                carbonFactor: z.string(),
-                createdAt: z.iso.datetime(),
-                gwCode: z.string(),
-                id: z.uuid(),
-                modifiedBy: z.optional(
-                  z.object({
-                    createdAt: z.iso.datetime(),
-                    email: z.email().min(1),
-                    id: z.uuid(),
-                    image: z.optional(z.string()),
-                    jobTitle: z.optional(z.string()),
-                    mfaEnabled: z.boolean().default(false),
-                    mfaVerified: z.boolean().default(false),
-                    modifiedById: z.uuid(),
-                    name: z.optional(z.string()),
-                    phone: z.optional(z.string()),
-                    primaryOrganizationId: z.optional(z.uuid()),
-                    tags: z.array(z.string()),
-                    updatedAt: z.iso.datetime(),
-                  })
-                ),
-                modifiedById: z.uuid(),
-                name: z.string(),
-                updatedAt: z.iso.datetime(),
-              })
-            ),
-            modifiedBy: z.optional(
-              z.object({
-                createdAt: z.iso.datetime(),
-                email: z.email().min(1),
-                id: z.uuid(),
-                image: z.optional(z.string()),
-                jobTitle: z.optional(z.string()),
-                mfaEnabled: z.boolean().default(false),
-                mfaVerified: z.boolean().default(false),
-                modifiedById: z.uuid(),
-                name: z.optional(z.string()),
-                phone: z.optional(z.string()),
-                primaryOrganizationId: z.optional(z.uuid()),
-                tags: z.array(z.string()),
-                updatedAt: z.iso.datetime(),
-              })
-            ),
-            modifiedById: z.uuid(),
-            name: z.string(),
-            updatedAt: z.iso.datetime(),
-            value: z.number().gte(0),
-          }),
+          products: z.array(
+            z.object({
+              createdAt: z.iso.datetime(),
+              id: z.uuid(),
+              materials: z.array(
+                z.object({
+                  carbonFactor: z.string(),
+                  createdAt: z.iso.datetime(),
+                  gwCode: z.string(),
+                  id: z.uuid(),
+                  modifiedBy: z.optional(
+                    z.object({
+                      createdAt: z.iso.datetime(),
+                      email: z.email().min(1),
+                      id: z.uuid(),
+                      image: z.optional(z.string()),
+                      jobTitle: z.optional(z.string()),
+                      mfaEnabled: z.boolean().default(false),
+                      mfaVerified: z.boolean().default(false),
+                      modifiedById: z.uuid(),
+                      name: z.optional(z.string()),
+                      phone: z.optional(z.string()),
+                      primaryOrganizationId: z.optional(z.uuid()),
+                      tags: z.array(z.string()),
+                      updatedAt: z.iso.datetime(),
+                    })
+                  ),
+                  modifiedById: z.uuid(),
+                  name: z.string(),
+                  updatedAt: z.iso.datetime(),
+                })
+              ),
+              modifiedBy: z.optional(
+                z.object({
+                  createdAt: z.iso.datetime(),
+                  email: z.email().min(1),
+                  id: z.uuid(),
+                  image: z.optional(z.string()),
+                  jobTitle: z.optional(z.string()),
+                  mfaEnabled: z.boolean().default(false),
+                  mfaVerified: z.boolean().default(false),
+                  modifiedById: z.uuid(),
+                  name: z.optional(z.string()),
+                  phone: z.optional(z.string()),
+                  primaryOrganizationId: z.optional(z.uuid()),
+                  tags: z.array(z.string()),
+                  updatedAt: z.iso.datetime(),
+                })
+              ),
+              modifiedById: z.uuid(),
+              name: z.string(),
+              updatedAt: z.iso.datetime(),
+              value: z.number().gte(0),
+            })
+          ),
           sellerAccepted: z.boolean(),
           sellerDeclined: z.boolean(),
           sellerId: z.uuid(),
@@ -1178,59 +1182,61 @@ export const zTransaction = z.object({
     })
   ),
   modifiedById: z.optional(z.uuid()),
-  products: z.object({
-    createdAt: z.iso.datetime(),
-    id: z.uuid(),
-    materials: z.array(
-      z.object({
-        carbonFactor: z.string(),
-        createdAt: z.iso.datetime(),
-        gwCode: z.string(),
-        id: z.uuid(),
-        modifiedBy: z.optional(
-          z.object({
-            createdAt: z.iso.datetime(),
-            email: z.email().min(1),
-            id: z.uuid(),
-            image: z.optional(z.string()),
-            jobTitle: z.optional(z.string()),
-            mfaEnabled: z.boolean().default(false),
-            mfaVerified: z.boolean().default(false),
-            modifiedById: z.uuid(),
-            name: z.optional(z.string()),
-            phone: z.optional(z.string()),
-            primaryOrganizationId: z.optional(z.uuid()),
-            tags: z.array(z.string()),
-            updatedAt: z.iso.datetime(),
-          })
-        ),
-        modifiedById: z.uuid(),
-        name: z.string(),
-        updatedAt: z.iso.datetime(),
-      })
-    ),
-    modifiedBy: z.optional(
-      z.object({
-        createdAt: z.iso.datetime(),
-        email: z.email().min(1),
-        id: z.uuid(),
-        image: z.optional(z.string()),
-        jobTitle: z.optional(z.string()),
-        mfaEnabled: z.boolean().default(false),
-        mfaVerified: z.boolean().default(false),
-        modifiedById: z.uuid(),
-        name: z.optional(z.string()),
-        phone: z.optional(z.string()),
-        primaryOrganizationId: z.optional(z.uuid()),
-        tags: z.array(z.string()),
-        updatedAt: z.iso.datetime(),
-      })
-    ),
-    modifiedById: z.uuid(),
-    name: z.string(),
-    updatedAt: z.iso.datetime(),
-    value: z.number().gte(0),
-  }),
+  products: z.array(
+    z.object({
+      createdAt: z.iso.datetime(),
+      id: z.uuid(),
+      materials: z.array(
+        z.object({
+          carbonFactor: z.string(),
+          createdAt: z.iso.datetime(),
+          gwCode: z.string(),
+          id: z.uuid(),
+          modifiedBy: z.optional(
+            z.object({
+              createdAt: z.iso.datetime(),
+              email: z.email().min(1),
+              id: z.uuid(),
+              image: z.optional(z.string()),
+              jobTitle: z.optional(z.string()),
+              mfaEnabled: z.boolean().default(false),
+              mfaVerified: z.boolean().default(false),
+              modifiedById: z.uuid(),
+              name: z.optional(z.string()),
+              phone: z.optional(z.string()),
+              primaryOrganizationId: z.optional(z.uuid()),
+              tags: z.array(z.string()),
+              updatedAt: z.iso.datetime(),
+            })
+          ),
+          modifiedById: z.uuid(),
+          name: z.string(),
+          updatedAt: z.iso.datetime(),
+        })
+      ),
+      modifiedBy: z.optional(
+        z.object({
+          createdAt: z.iso.datetime(),
+          email: z.email().min(1),
+          id: z.uuid(),
+          image: z.optional(z.string()),
+          jobTitle: z.optional(z.string()),
+          mfaEnabled: z.boolean().default(false),
+          mfaVerified: z.boolean().default(false),
+          modifiedById: z.uuid(),
+          name: z.optional(z.string()),
+          phone: z.optional(z.string()),
+          primaryOrganizationId: z.optional(z.uuid()),
+          tags: z.array(z.string()),
+          updatedAt: z.iso.datetime(),
+        })
+      ),
+      modifiedById: z.uuid(),
+      name: z.string(),
+      updatedAt: z.iso.datetime(),
+      value: z.number().gte(0),
+    })
+  ),
   sellerAccepted: z.boolean(),
   sellerDeclined: z.boolean(),
   sellerId: z.uuid(),
@@ -1658,59 +1664,61 @@ export const zGetApiAuditlogsResponse = z.object({
           })
         ),
         modifiedById: z.optional(z.uuid()),
-        products: z.object({
-          createdAt: z.iso.datetime(),
-          id: z.uuid(),
-          materials: z.array(
-            z.object({
-              carbonFactor: z.string(),
-              createdAt: z.iso.datetime(),
-              gwCode: z.string(),
-              id: z.uuid(),
-              modifiedBy: z.optional(
-                z.object({
-                  createdAt: z.iso.datetime(),
-                  email: z.email().min(1),
-                  id: z.uuid(),
-                  image: z.optional(z.string()),
-                  jobTitle: z.optional(z.string()),
-                  mfaEnabled: z.boolean().default(false),
-                  mfaVerified: z.boolean().default(false),
-                  modifiedById: z.uuid(),
-                  name: z.optional(z.string()),
-                  phone: z.optional(z.string()),
-                  primaryOrganizationId: z.optional(z.uuid()),
-                  tags: z.array(z.string()),
-                  updatedAt: z.iso.datetime(),
-                })
-              ),
-              modifiedById: z.uuid(),
-              name: z.string(),
-              updatedAt: z.iso.datetime(),
-            })
-          ),
-          modifiedBy: z.optional(
-            z.object({
-              createdAt: z.iso.datetime(),
-              email: z.email().min(1),
-              id: z.uuid(),
-              image: z.optional(z.string()),
-              jobTitle: z.optional(z.string()),
-              mfaEnabled: z.boolean().default(false),
-              mfaVerified: z.boolean().default(false),
-              modifiedById: z.uuid(),
-              name: z.optional(z.string()),
-              phone: z.optional(z.string()),
-              primaryOrganizationId: z.optional(z.uuid()),
-              tags: z.array(z.string()),
-              updatedAt: z.iso.datetime(),
-            })
-          ),
-          modifiedById: z.uuid(),
-          name: z.string(),
-          updatedAt: z.iso.datetime(),
-          value: z.number().gte(0),
-        }),
+        products: z.array(
+          z.object({
+            createdAt: z.iso.datetime(),
+            id: z.uuid(),
+            materials: z.array(
+              z.object({
+                carbonFactor: z.string(),
+                createdAt: z.iso.datetime(),
+                gwCode: z.string(),
+                id: z.uuid(),
+                modifiedBy: z.optional(
+                  z.object({
+                    createdAt: z.iso.datetime(),
+                    email: z.email().min(1),
+                    id: z.uuid(),
+                    image: z.optional(z.string()),
+                    jobTitle: z.optional(z.string()),
+                    mfaEnabled: z.boolean().default(false),
+                    mfaVerified: z.boolean().default(false),
+                    modifiedById: z.uuid(),
+                    name: z.optional(z.string()),
+                    phone: z.optional(z.string()),
+                    primaryOrganizationId: z.optional(z.uuid()),
+                    tags: z.array(z.string()),
+                    updatedAt: z.iso.datetime(),
+                  })
+                ),
+                modifiedById: z.uuid(),
+                name: z.string(),
+                updatedAt: z.iso.datetime(),
+              })
+            ),
+            modifiedBy: z.optional(
+              z.object({
+                createdAt: z.iso.datetime(),
+                email: z.email().min(1),
+                id: z.uuid(),
+                image: z.optional(z.string()),
+                jobTitle: z.optional(z.string()),
+                mfaEnabled: z.boolean().default(false),
+                mfaVerified: z.boolean().default(false),
+                modifiedById: z.uuid(),
+                name: z.optional(z.string()),
+                phone: z.optional(z.string()),
+                primaryOrganizationId: z.optional(z.uuid()),
+                tags: z.array(z.string()),
+                updatedAt: z.iso.datetime(),
+              })
+            ),
+            modifiedById: z.uuid(),
+            name: z.string(),
+            updatedAt: z.iso.datetime(),
+            value: z.number().gte(0),
+          })
+        ),
         sellerAccepted: z.boolean(),
         sellerDeclined: z.boolean(),
         sellerId: z.uuid(),
@@ -2051,59 +2059,61 @@ export const zGetApiAuditlogsResponse = z.object({
             })
           ),
           modifiedById: z.optional(z.uuid()),
-          products: z.object({
-            createdAt: z.iso.datetime(),
-            id: z.uuid(),
-            materials: z.array(
-              z.object({
-                carbonFactor: z.string(),
-                createdAt: z.iso.datetime(),
-                gwCode: z.string(),
-                id: z.uuid(),
-                modifiedBy: z.optional(
-                  z.object({
-                    createdAt: z.iso.datetime(),
-                    email: z.email().min(1),
-                    id: z.uuid(),
-                    image: z.optional(z.string()),
-                    jobTitle: z.optional(z.string()),
-                    mfaEnabled: z.boolean().default(false),
-                    mfaVerified: z.boolean().default(false),
-                    modifiedById: z.uuid(),
-                    name: z.optional(z.string()),
-                    phone: z.optional(z.string()),
-                    primaryOrganizationId: z.optional(z.uuid()),
-                    tags: z.array(z.string()),
-                    updatedAt: z.iso.datetime(),
-                  })
-                ),
-                modifiedById: z.uuid(),
-                name: z.string(),
-                updatedAt: z.iso.datetime(),
-              })
-            ),
-            modifiedBy: z.optional(
-              z.object({
-                createdAt: z.iso.datetime(),
-                email: z.email().min(1),
-                id: z.uuid(),
-                image: z.optional(z.string()),
-                jobTitle: z.optional(z.string()),
-                mfaEnabled: z.boolean().default(false),
-                mfaVerified: z.boolean().default(false),
-                modifiedById: z.uuid(),
-                name: z.optional(z.string()),
-                phone: z.optional(z.string()),
-                primaryOrganizationId: z.optional(z.uuid()),
-                tags: z.array(z.string()),
-                updatedAt: z.iso.datetime(),
-              })
-            ),
-            modifiedById: z.uuid(),
-            name: z.string(),
-            updatedAt: z.iso.datetime(),
-            value: z.number().gte(0),
-          }),
+          products: z.array(
+            z.object({
+              createdAt: z.iso.datetime(),
+              id: z.uuid(),
+              materials: z.array(
+                z.object({
+                  carbonFactor: z.string(),
+                  createdAt: z.iso.datetime(),
+                  gwCode: z.string(),
+                  id: z.uuid(),
+                  modifiedBy: z.optional(
+                    z.object({
+                      createdAt: z.iso.datetime(),
+                      email: z.email().min(1),
+                      id: z.uuid(),
+                      image: z.optional(z.string()),
+                      jobTitle: z.optional(z.string()),
+                      mfaEnabled: z.boolean().default(false),
+                      mfaVerified: z.boolean().default(false),
+                      modifiedById: z.uuid(),
+                      name: z.optional(z.string()),
+                      phone: z.optional(z.string()),
+                      primaryOrganizationId: z.optional(z.uuid()),
+                      tags: z.array(z.string()),
+                      updatedAt: z.iso.datetime(),
+                    })
+                  ),
+                  modifiedById: z.uuid(),
+                  name: z.string(),
+                  updatedAt: z.iso.datetime(),
+                })
+              ),
+              modifiedBy: z.optional(
+                z.object({
+                  createdAt: z.iso.datetime(),
+                  email: z.email().min(1),
+                  id: z.uuid(),
+                  image: z.optional(z.string()),
+                  jobTitle: z.optional(z.string()),
+                  mfaEnabled: z.boolean().default(false),
+                  mfaVerified: z.boolean().default(false),
+                  modifiedById: z.uuid(),
+                  name: z.optional(z.string()),
+                  phone: z.optional(z.string()),
+                  primaryOrganizationId: z.optional(z.uuid()),
+                  tags: z.array(z.string()),
+                  updatedAt: z.iso.datetime(),
+                })
+              ),
+              modifiedById: z.uuid(),
+              name: z.string(),
+              updatedAt: z.iso.datetime(),
+              value: z.number().gte(0),
+            })
+          ),
           sellerAccepted: z.boolean(),
           sellerDeclined: z.boolean(),
           sellerId: z.uuid(),
@@ -2467,59 +2477,61 @@ export const zGetApiAuditlogsByIdResponse = z.object({
           })
         ),
         modifiedById: z.optional(z.uuid()),
-        products: z.object({
-          createdAt: z.iso.datetime(),
-          id: z.uuid(),
-          materials: z.array(
-            z.object({
-              carbonFactor: z.string(),
-              createdAt: z.iso.datetime(),
-              gwCode: z.string(),
-              id: z.uuid(),
-              modifiedBy: z.optional(
-                z.object({
-                  createdAt: z.iso.datetime(),
-                  email: z.email().min(1),
-                  id: z.uuid(),
-                  image: z.optional(z.string()),
-                  jobTitle: z.optional(z.string()),
-                  mfaEnabled: z.boolean().default(false),
-                  mfaVerified: z.boolean().default(false),
-                  modifiedById: z.uuid(),
-                  name: z.optional(z.string()),
-                  phone: z.optional(z.string()),
-                  primaryOrganizationId: z.optional(z.uuid()),
-                  tags: z.array(z.string()),
-                  updatedAt: z.iso.datetime(),
-                })
-              ),
-              modifiedById: z.uuid(),
-              name: z.string(),
-              updatedAt: z.iso.datetime(),
-            })
-          ),
-          modifiedBy: z.optional(
-            z.object({
-              createdAt: z.iso.datetime(),
-              email: z.email().min(1),
-              id: z.uuid(),
-              image: z.optional(z.string()),
-              jobTitle: z.optional(z.string()),
-              mfaEnabled: z.boolean().default(false),
-              mfaVerified: z.boolean().default(false),
-              modifiedById: z.uuid(),
-              name: z.optional(z.string()),
-              phone: z.optional(z.string()),
-              primaryOrganizationId: z.optional(z.uuid()),
-              tags: z.array(z.string()),
-              updatedAt: z.iso.datetime(),
-            })
-          ),
-          modifiedById: z.uuid(),
-          name: z.string(),
-          updatedAt: z.iso.datetime(),
-          value: z.number().gte(0),
-        }),
+        products: z.array(
+          z.object({
+            createdAt: z.iso.datetime(),
+            id: z.uuid(),
+            materials: z.array(
+              z.object({
+                carbonFactor: z.string(),
+                createdAt: z.iso.datetime(),
+                gwCode: z.string(),
+                id: z.uuid(),
+                modifiedBy: z.optional(
+                  z.object({
+                    createdAt: z.iso.datetime(),
+                    email: z.email().min(1),
+                    id: z.uuid(),
+                    image: z.optional(z.string()),
+                    jobTitle: z.optional(z.string()),
+                    mfaEnabled: z.boolean().default(false),
+                    mfaVerified: z.boolean().default(false),
+                    modifiedById: z.uuid(),
+                    name: z.optional(z.string()),
+                    phone: z.optional(z.string()),
+                    primaryOrganizationId: z.optional(z.uuid()),
+                    tags: z.array(z.string()),
+                    updatedAt: z.iso.datetime(),
+                  })
+                ),
+                modifiedById: z.uuid(),
+                name: z.string(),
+                updatedAt: z.iso.datetime(),
+              })
+            ),
+            modifiedBy: z.optional(
+              z.object({
+                createdAt: z.iso.datetime(),
+                email: z.email().min(1),
+                id: z.uuid(),
+                image: z.optional(z.string()),
+                jobTitle: z.optional(z.string()),
+                mfaEnabled: z.boolean().default(false),
+                mfaVerified: z.boolean().default(false),
+                modifiedById: z.uuid(),
+                name: z.optional(z.string()),
+                phone: z.optional(z.string()),
+                primaryOrganizationId: z.optional(z.uuid()),
+                tags: z.array(z.string()),
+                updatedAt: z.iso.datetime(),
+              })
+            ),
+            modifiedById: z.uuid(),
+            name: z.string(),
+            updatedAt: z.iso.datetime(),
+            value: z.number().gte(0),
+          })
+        ),
         sellerAccepted: z.boolean(),
         sellerDeclined: z.boolean(),
         sellerId: z.uuid(),
@@ -2860,59 +2872,61 @@ export const zGetApiAuditlogsByIdResponse = z.object({
             })
           ),
           modifiedById: z.optional(z.uuid()),
-          products: z.object({
-            createdAt: z.iso.datetime(),
-            id: z.uuid(),
-            materials: z.array(
-              z.object({
-                carbonFactor: z.string(),
-                createdAt: z.iso.datetime(),
-                gwCode: z.string(),
-                id: z.uuid(),
-                modifiedBy: z.optional(
-                  z.object({
-                    createdAt: z.iso.datetime(),
-                    email: z.email().min(1),
-                    id: z.uuid(),
-                    image: z.optional(z.string()),
-                    jobTitle: z.optional(z.string()),
-                    mfaEnabled: z.boolean().default(false),
-                    mfaVerified: z.boolean().default(false),
-                    modifiedById: z.uuid(),
-                    name: z.optional(z.string()),
-                    phone: z.optional(z.string()),
-                    primaryOrganizationId: z.optional(z.uuid()),
-                    tags: z.array(z.string()),
-                    updatedAt: z.iso.datetime(),
-                  })
-                ),
-                modifiedById: z.uuid(),
-                name: z.string(),
-                updatedAt: z.iso.datetime(),
-              })
-            ),
-            modifiedBy: z.optional(
-              z.object({
-                createdAt: z.iso.datetime(),
-                email: z.email().min(1),
-                id: z.uuid(),
-                image: z.optional(z.string()),
-                jobTitle: z.optional(z.string()),
-                mfaEnabled: z.boolean().default(false),
-                mfaVerified: z.boolean().default(false),
-                modifiedById: z.uuid(),
-                name: z.optional(z.string()),
-                phone: z.optional(z.string()),
-                primaryOrganizationId: z.optional(z.uuid()),
-                tags: z.array(z.string()),
-                updatedAt: z.iso.datetime(),
-              })
-            ),
-            modifiedById: z.uuid(),
-            name: z.string(),
-            updatedAt: z.iso.datetime(),
-            value: z.number().gte(0),
-          }),
+          products: z.array(
+            z.object({
+              createdAt: z.iso.datetime(),
+              id: z.uuid(),
+              materials: z.array(
+                z.object({
+                  carbonFactor: z.string(),
+                  createdAt: z.iso.datetime(),
+                  gwCode: z.string(),
+                  id: z.uuid(),
+                  modifiedBy: z.optional(
+                    z.object({
+                      createdAt: z.iso.datetime(),
+                      email: z.email().min(1),
+                      id: z.uuid(),
+                      image: z.optional(z.string()),
+                      jobTitle: z.optional(z.string()),
+                      mfaEnabled: z.boolean().default(false),
+                      mfaVerified: z.boolean().default(false),
+                      modifiedById: z.uuid(),
+                      name: z.optional(z.string()),
+                      phone: z.optional(z.string()),
+                      primaryOrganizationId: z.optional(z.uuid()),
+                      tags: z.array(z.string()),
+                      updatedAt: z.iso.datetime(),
+                    })
+                  ),
+                  modifiedById: z.uuid(),
+                  name: z.string(),
+                  updatedAt: z.iso.datetime(),
+                })
+              ),
+              modifiedBy: z.optional(
+                z.object({
+                  createdAt: z.iso.datetime(),
+                  email: z.email().min(1),
+                  id: z.uuid(),
+                  image: z.optional(z.string()),
+                  jobTitle: z.optional(z.string()),
+                  mfaEnabled: z.boolean().default(false),
+                  mfaVerified: z.boolean().default(false),
+                  modifiedById: z.uuid(),
+                  name: z.optional(z.string()),
+                  phone: z.optional(z.string()),
+                  primaryOrganizationId: z.optional(z.uuid()),
+                  tags: z.array(z.string()),
+                  updatedAt: z.iso.datetime(),
+                })
+              ),
+              modifiedById: z.uuid(),
+              name: z.string(),
+              updatedAt: z.iso.datetime(),
+              value: z.number().gte(0),
+            })
+          ),
           sellerAccepted: z.boolean(),
           sellerDeclined: z.boolean(),
           sellerId: z.uuid(),
@@ -3274,59 +3288,61 @@ export const zGetApiAuthenticationCheckResponse = z.object({
           })
         ),
         modifiedById: z.optional(z.uuid()),
-        products: z.object({
-          createdAt: z.iso.datetime(),
-          id: z.uuid(),
-          materials: z.array(
-            z.object({
-              carbonFactor: z.string(),
-              createdAt: z.iso.datetime(),
-              gwCode: z.string(),
-              id: z.uuid(),
-              modifiedBy: z.optional(
-                z.object({
-                  createdAt: z.iso.datetime(),
-                  email: z.email().min(1),
-                  id: z.uuid(),
-                  image: z.optional(z.string()),
-                  jobTitle: z.optional(z.string()),
-                  mfaEnabled: z.boolean().default(false),
-                  mfaVerified: z.boolean().default(false),
-                  modifiedById: z.uuid(),
-                  name: z.optional(z.string()),
-                  phone: z.optional(z.string()),
-                  primaryOrganizationId: z.optional(z.uuid()),
-                  tags: z.array(z.string()),
-                  updatedAt: z.iso.datetime(),
-                })
-              ),
-              modifiedById: z.uuid(),
-              name: z.string(),
-              updatedAt: z.iso.datetime(),
-            })
-          ),
-          modifiedBy: z.optional(
-            z.object({
-              createdAt: z.iso.datetime(),
-              email: z.email().min(1),
-              id: z.uuid(),
-              image: z.optional(z.string()),
-              jobTitle: z.optional(z.string()),
-              mfaEnabled: z.boolean().default(false),
-              mfaVerified: z.boolean().default(false),
-              modifiedById: z.uuid(),
-              name: z.optional(z.string()),
-              phone: z.optional(z.string()),
-              primaryOrganizationId: z.optional(z.uuid()),
-              tags: z.array(z.string()),
-              updatedAt: z.iso.datetime(),
-            })
-          ),
-          modifiedById: z.uuid(),
-          name: z.string(),
-          updatedAt: z.iso.datetime(),
-          value: z.number().gte(0),
-        }),
+        products: z.array(
+          z.object({
+            createdAt: z.iso.datetime(),
+            id: z.uuid(),
+            materials: z.array(
+              z.object({
+                carbonFactor: z.string(),
+                createdAt: z.iso.datetime(),
+                gwCode: z.string(),
+                id: z.uuid(),
+                modifiedBy: z.optional(
+                  z.object({
+                    createdAt: z.iso.datetime(),
+                    email: z.email().min(1),
+                    id: z.uuid(),
+                    image: z.optional(z.string()),
+                    jobTitle: z.optional(z.string()),
+                    mfaEnabled: z.boolean().default(false),
+                    mfaVerified: z.boolean().default(false),
+                    modifiedById: z.uuid(),
+                    name: z.optional(z.string()),
+                    phone: z.optional(z.string()),
+                    primaryOrganizationId: z.optional(z.uuid()),
+                    tags: z.array(z.string()),
+                    updatedAt: z.iso.datetime(),
+                  })
+                ),
+                modifiedById: z.uuid(),
+                name: z.string(),
+                updatedAt: z.iso.datetime(),
+              })
+            ),
+            modifiedBy: z.optional(
+              z.object({
+                createdAt: z.iso.datetime(),
+                email: z.email().min(1),
+                id: z.uuid(),
+                image: z.optional(z.string()),
+                jobTitle: z.optional(z.string()),
+                mfaEnabled: z.boolean().default(false),
+                mfaVerified: z.boolean().default(false),
+                modifiedById: z.uuid(),
+                name: z.optional(z.string()),
+                phone: z.optional(z.string()),
+                primaryOrganizationId: z.optional(z.uuid()),
+                tags: z.array(z.string()),
+                updatedAt: z.iso.datetime(),
+              })
+            ),
+            modifiedById: z.uuid(),
+            name: z.string(),
+            updatedAt: z.iso.datetime(),
+            value: z.number().gte(0),
+          })
+        ),
         sellerAccepted: z.boolean(),
         sellerDeclined: z.boolean(),
         sellerId: z.uuid(),
@@ -3667,59 +3683,61 @@ export const zGetApiAuthenticationCheckResponse = z.object({
             })
           ),
           modifiedById: z.optional(z.uuid()),
-          products: z.object({
-            createdAt: z.iso.datetime(),
-            id: z.uuid(),
-            materials: z.array(
-              z.object({
-                carbonFactor: z.string(),
-                createdAt: z.iso.datetime(),
-                gwCode: z.string(),
-                id: z.uuid(),
-                modifiedBy: z.optional(
-                  z.object({
-                    createdAt: z.iso.datetime(),
-                    email: z.email().min(1),
-                    id: z.uuid(),
-                    image: z.optional(z.string()),
-                    jobTitle: z.optional(z.string()),
-                    mfaEnabled: z.boolean().default(false),
-                    mfaVerified: z.boolean().default(false),
-                    modifiedById: z.uuid(),
-                    name: z.optional(z.string()),
-                    phone: z.optional(z.string()),
-                    primaryOrganizationId: z.optional(z.uuid()),
-                    tags: z.array(z.string()),
-                    updatedAt: z.iso.datetime(),
-                  })
-                ),
-                modifiedById: z.uuid(),
-                name: z.string(),
-                updatedAt: z.iso.datetime(),
-              })
-            ),
-            modifiedBy: z.optional(
-              z.object({
-                createdAt: z.iso.datetime(),
-                email: z.email().min(1),
-                id: z.uuid(),
-                image: z.optional(z.string()),
-                jobTitle: z.optional(z.string()),
-                mfaEnabled: z.boolean().default(false),
-                mfaVerified: z.boolean().default(false),
-                modifiedById: z.uuid(),
-                name: z.optional(z.string()),
-                phone: z.optional(z.string()),
-                primaryOrganizationId: z.optional(z.uuid()),
-                tags: z.array(z.string()),
-                updatedAt: z.iso.datetime(),
-              })
-            ),
-            modifiedById: z.uuid(),
-            name: z.string(),
-            updatedAt: z.iso.datetime(),
-            value: z.number().gte(0),
-          }),
+          products: z.array(
+            z.object({
+              createdAt: z.iso.datetime(),
+              id: z.uuid(),
+              materials: z.array(
+                z.object({
+                  carbonFactor: z.string(),
+                  createdAt: z.iso.datetime(),
+                  gwCode: z.string(),
+                  id: z.uuid(),
+                  modifiedBy: z.optional(
+                    z.object({
+                      createdAt: z.iso.datetime(),
+                      email: z.email().min(1),
+                      id: z.uuid(),
+                      image: z.optional(z.string()),
+                      jobTitle: z.optional(z.string()),
+                      mfaEnabled: z.boolean().default(false),
+                      mfaVerified: z.boolean().default(false),
+                      modifiedById: z.uuid(),
+                      name: z.optional(z.string()),
+                      phone: z.optional(z.string()),
+                      primaryOrganizationId: z.optional(z.uuid()),
+                      tags: z.array(z.string()),
+                      updatedAt: z.iso.datetime(),
+                    })
+                  ),
+                  modifiedById: z.uuid(),
+                  name: z.string(),
+                  updatedAt: z.iso.datetime(),
+                })
+              ),
+              modifiedBy: z.optional(
+                z.object({
+                  createdAt: z.iso.datetime(),
+                  email: z.email().min(1),
+                  id: z.uuid(),
+                  image: z.optional(z.string()),
+                  jobTitle: z.optional(z.string()),
+                  mfaEnabled: z.boolean().default(false),
+                  mfaVerified: z.boolean().default(false),
+                  modifiedById: z.uuid(),
+                  name: z.optional(z.string()),
+                  phone: z.optional(z.string()),
+                  primaryOrganizationId: z.optional(z.uuid()),
+                  tags: z.array(z.string()),
+                  updatedAt: z.iso.datetime(),
+                })
+              ),
+              modifiedById: z.uuid(),
+              name: z.string(),
+              updatedAt: z.iso.datetime(),
+              value: z.number().gte(0),
+            })
+          ),
           sellerAccepted: z.boolean(),
           sellerDeclined: z.boolean(),
           sellerId: z.uuid(),
@@ -4110,59 +4128,61 @@ export const zGetApiAuthenticationOrganizationsResponse = z.object({
           })
         ),
         modifiedById: z.optional(z.uuid()),
-        products: z.object({
-          createdAt: z.iso.datetime(),
-          id: z.uuid(),
-          materials: z.array(
-            z.object({
-              carbonFactor: z.string(),
-              createdAt: z.iso.datetime(),
-              gwCode: z.string(),
-              id: z.uuid(),
-              modifiedBy: z.optional(
-                z.object({
-                  createdAt: z.iso.datetime(),
-                  email: z.email().min(1),
-                  id: z.uuid(),
-                  image: z.optional(z.string()),
-                  jobTitle: z.optional(z.string()),
-                  mfaEnabled: z.boolean().default(false),
-                  mfaVerified: z.boolean().default(false),
-                  modifiedById: z.uuid(),
-                  name: z.optional(z.string()),
-                  phone: z.optional(z.string()),
-                  primaryOrganizationId: z.optional(z.uuid()),
-                  tags: z.array(z.string()),
-                  updatedAt: z.iso.datetime(),
-                })
-              ),
-              modifiedById: z.uuid(),
-              name: z.string(),
-              updatedAt: z.iso.datetime(),
-            })
-          ),
-          modifiedBy: z.optional(
-            z.object({
-              createdAt: z.iso.datetime(),
-              email: z.email().min(1),
-              id: z.uuid(),
-              image: z.optional(z.string()),
-              jobTitle: z.optional(z.string()),
-              mfaEnabled: z.boolean().default(false),
-              mfaVerified: z.boolean().default(false),
-              modifiedById: z.uuid(),
-              name: z.optional(z.string()),
-              phone: z.optional(z.string()),
-              primaryOrganizationId: z.optional(z.uuid()),
-              tags: z.array(z.string()),
-              updatedAt: z.iso.datetime(),
-            })
-          ),
-          modifiedById: z.uuid(),
-          name: z.string(),
-          updatedAt: z.iso.datetime(),
-          value: z.number().gte(0),
-        }),
+        products: z.array(
+          z.object({
+            createdAt: z.iso.datetime(),
+            id: z.uuid(),
+            materials: z.array(
+              z.object({
+                carbonFactor: z.string(),
+                createdAt: z.iso.datetime(),
+                gwCode: z.string(),
+                id: z.uuid(),
+                modifiedBy: z.optional(
+                  z.object({
+                    createdAt: z.iso.datetime(),
+                    email: z.email().min(1),
+                    id: z.uuid(),
+                    image: z.optional(z.string()),
+                    jobTitle: z.optional(z.string()),
+                    mfaEnabled: z.boolean().default(false),
+                    mfaVerified: z.boolean().default(false),
+                    modifiedById: z.uuid(),
+                    name: z.optional(z.string()),
+                    phone: z.optional(z.string()),
+                    primaryOrganizationId: z.optional(z.uuid()),
+                    tags: z.array(z.string()),
+                    updatedAt: z.iso.datetime(),
+                  })
+                ),
+                modifiedById: z.uuid(),
+                name: z.string(),
+                updatedAt: z.iso.datetime(),
+              })
+            ),
+            modifiedBy: z.optional(
+              z.object({
+                createdAt: z.iso.datetime(),
+                email: z.email().min(1),
+                id: z.uuid(),
+                image: z.optional(z.string()),
+                jobTitle: z.optional(z.string()),
+                mfaEnabled: z.boolean().default(false),
+                mfaVerified: z.boolean().default(false),
+                modifiedById: z.uuid(),
+                name: z.optional(z.string()),
+                phone: z.optional(z.string()),
+                primaryOrganizationId: z.optional(z.uuid()),
+                tags: z.array(z.string()),
+                updatedAt: z.iso.datetime(),
+              })
+            ),
+            modifiedById: z.uuid(),
+            name: z.string(),
+            updatedAt: z.iso.datetime(),
+            value: z.number().gte(0),
+          })
+        ),
         sellerAccepted: z.boolean(),
         sellerDeclined: z.boolean(),
         sellerId: z.uuid(),
@@ -4503,59 +4523,61 @@ export const zGetApiAuthenticationOrganizationsResponse = z.object({
             })
           ),
           modifiedById: z.optional(z.uuid()),
-          products: z.object({
-            createdAt: z.iso.datetime(),
-            id: z.uuid(),
-            materials: z.array(
-              z.object({
-                carbonFactor: z.string(),
-                createdAt: z.iso.datetime(),
-                gwCode: z.string(),
-                id: z.uuid(),
-                modifiedBy: z.optional(
-                  z.object({
-                    createdAt: z.iso.datetime(),
-                    email: z.email().min(1),
-                    id: z.uuid(),
-                    image: z.optional(z.string()),
-                    jobTitle: z.optional(z.string()),
-                    mfaEnabled: z.boolean().default(false),
-                    mfaVerified: z.boolean().default(false),
-                    modifiedById: z.uuid(),
-                    name: z.optional(z.string()),
-                    phone: z.optional(z.string()),
-                    primaryOrganizationId: z.optional(z.uuid()),
-                    tags: z.array(z.string()),
-                    updatedAt: z.iso.datetime(),
-                  })
-                ),
-                modifiedById: z.uuid(),
-                name: z.string(),
-                updatedAt: z.iso.datetime(),
-              })
-            ),
-            modifiedBy: z.optional(
-              z.object({
-                createdAt: z.iso.datetime(),
-                email: z.email().min(1),
-                id: z.uuid(),
-                image: z.optional(z.string()),
-                jobTitle: z.optional(z.string()),
-                mfaEnabled: z.boolean().default(false),
-                mfaVerified: z.boolean().default(false),
-                modifiedById: z.uuid(),
-                name: z.optional(z.string()),
-                phone: z.optional(z.string()),
-                primaryOrganizationId: z.optional(z.uuid()),
-                tags: z.array(z.string()),
-                updatedAt: z.iso.datetime(),
-              })
-            ),
-            modifiedById: z.uuid(),
-            name: z.string(),
-            updatedAt: z.iso.datetime(),
-            value: z.number().gte(0),
-          }),
+          products: z.array(
+            z.object({
+              createdAt: z.iso.datetime(),
+              id: z.uuid(),
+              materials: z.array(
+                z.object({
+                  carbonFactor: z.string(),
+                  createdAt: z.iso.datetime(),
+                  gwCode: z.string(),
+                  id: z.uuid(),
+                  modifiedBy: z.optional(
+                    z.object({
+                      createdAt: z.iso.datetime(),
+                      email: z.email().min(1),
+                      id: z.uuid(),
+                      image: z.optional(z.string()),
+                      jobTitle: z.optional(z.string()),
+                      mfaEnabled: z.boolean().default(false),
+                      mfaVerified: z.boolean().default(false),
+                      modifiedById: z.uuid(),
+                      name: z.optional(z.string()),
+                      phone: z.optional(z.string()),
+                      primaryOrganizationId: z.optional(z.uuid()),
+                      tags: z.array(z.string()),
+                      updatedAt: z.iso.datetime(),
+                    })
+                  ),
+                  modifiedById: z.uuid(),
+                  name: z.string(),
+                  updatedAt: z.iso.datetime(),
+                })
+              ),
+              modifiedBy: z.optional(
+                z.object({
+                  createdAt: z.iso.datetime(),
+                  email: z.email().min(1),
+                  id: z.uuid(),
+                  image: z.optional(z.string()),
+                  jobTitle: z.optional(z.string()),
+                  mfaEnabled: z.boolean().default(false),
+                  mfaVerified: z.boolean().default(false),
+                  modifiedById: z.uuid(),
+                  name: z.optional(z.string()),
+                  phone: z.optional(z.string()),
+                  primaryOrganizationId: z.optional(z.uuid()),
+                  tags: z.array(z.string()),
+                  updatedAt: z.iso.datetime(),
+                })
+              ),
+              modifiedById: z.uuid(),
+              name: z.string(),
+              updatedAt: z.iso.datetime(),
+              value: z.number().gte(0),
+            })
+          ),
           sellerAccepted: z.boolean(),
           sellerDeclined: z.boolean(),
           sellerId: z.uuid(),
@@ -4917,59 +4939,61 @@ export const zGetApiAuthenticationPermissionsResponse = z.object({
           })
         ),
         modifiedById: z.optional(z.uuid()),
-        products: z.object({
-          createdAt: z.iso.datetime(),
-          id: z.uuid(),
-          materials: z.array(
-            z.object({
-              carbonFactor: z.string(),
-              createdAt: z.iso.datetime(),
-              gwCode: z.string(),
-              id: z.uuid(),
-              modifiedBy: z.optional(
-                z.object({
-                  createdAt: z.iso.datetime(),
-                  email: z.email().min(1),
-                  id: z.uuid(),
-                  image: z.optional(z.string()),
-                  jobTitle: z.optional(z.string()),
-                  mfaEnabled: z.boolean().default(false),
-                  mfaVerified: z.boolean().default(false),
-                  modifiedById: z.uuid(),
-                  name: z.optional(z.string()),
-                  phone: z.optional(z.string()),
-                  primaryOrganizationId: z.optional(z.uuid()),
-                  tags: z.array(z.string()),
-                  updatedAt: z.iso.datetime(),
-                })
-              ),
-              modifiedById: z.uuid(),
-              name: z.string(),
-              updatedAt: z.iso.datetime(),
-            })
-          ),
-          modifiedBy: z.optional(
-            z.object({
-              createdAt: z.iso.datetime(),
-              email: z.email().min(1),
-              id: z.uuid(),
-              image: z.optional(z.string()),
-              jobTitle: z.optional(z.string()),
-              mfaEnabled: z.boolean().default(false),
-              mfaVerified: z.boolean().default(false),
-              modifiedById: z.uuid(),
-              name: z.optional(z.string()),
-              phone: z.optional(z.string()),
-              primaryOrganizationId: z.optional(z.uuid()),
-              tags: z.array(z.string()),
-              updatedAt: z.iso.datetime(),
-            })
-          ),
-          modifiedById: z.uuid(),
-          name: z.string(),
-          updatedAt: z.iso.datetime(),
-          value: z.number().gte(0),
-        }),
+        products: z.array(
+          z.object({
+            createdAt: z.iso.datetime(),
+            id: z.uuid(),
+            materials: z.array(
+              z.object({
+                carbonFactor: z.string(),
+                createdAt: z.iso.datetime(),
+                gwCode: z.string(),
+                id: z.uuid(),
+                modifiedBy: z.optional(
+                  z.object({
+                    createdAt: z.iso.datetime(),
+                    email: z.email().min(1),
+                    id: z.uuid(),
+                    image: z.optional(z.string()),
+                    jobTitle: z.optional(z.string()),
+                    mfaEnabled: z.boolean().default(false),
+                    mfaVerified: z.boolean().default(false),
+                    modifiedById: z.uuid(),
+                    name: z.optional(z.string()),
+                    phone: z.optional(z.string()),
+                    primaryOrganizationId: z.optional(z.uuid()),
+                    tags: z.array(z.string()),
+                    updatedAt: z.iso.datetime(),
+                  })
+                ),
+                modifiedById: z.uuid(),
+                name: z.string(),
+                updatedAt: z.iso.datetime(),
+              })
+            ),
+            modifiedBy: z.optional(
+              z.object({
+                createdAt: z.iso.datetime(),
+                email: z.email().min(1),
+                id: z.uuid(),
+                image: z.optional(z.string()),
+                jobTitle: z.optional(z.string()),
+                mfaEnabled: z.boolean().default(false),
+                mfaVerified: z.boolean().default(false),
+                modifiedById: z.uuid(),
+                name: z.optional(z.string()),
+                phone: z.optional(z.string()),
+                primaryOrganizationId: z.optional(z.uuid()),
+                tags: z.array(z.string()),
+                updatedAt: z.iso.datetime(),
+              })
+            ),
+            modifiedById: z.uuid(),
+            name: z.string(),
+            updatedAt: z.iso.datetime(),
+            value: z.number().gte(0),
+          })
+        ),
         sellerAccepted: z.boolean(),
         sellerDeclined: z.boolean(),
         sellerId: z.uuid(),
@@ -5310,59 +5334,61 @@ export const zGetApiAuthenticationPermissionsResponse = z.object({
             })
           ),
           modifiedById: z.optional(z.uuid()),
-          products: z.object({
-            createdAt: z.iso.datetime(),
-            id: z.uuid(),
-            materials: z.array(
-              z.object({
-                carbonFactor: z.string(),
-                createdAt: z.iso.datetime(),
-                gwCode: z.string(),
-                id: z.uuid(),
-                modifiedBy: z.optional(
-                  z.object({
-                    createdAt: z.iso.datetime(),
-                    email: z.email().min(1),
-                    id: z.uuid(),
-                    image: z.optional(z.string()),
-                    jobTitle: z.optional(z.string()),
-                    mfaEnabled: z.boolean().default(false),
-                    mfaVerified: z.boolean().default(false),
-                    modifiedById: z.uuid(),
-                    name: z.optional(z.string()),
-                    phone: z.optional(z.string()),
-                    primaryOrganizationId: z.optional(z.uuid()),
-                    tags: z.array(z.string()),
-                    updatedAt: z.iso.datetime(),
-                  })
-                ),
-                modifiedById: z.uuid(),
-                name: z.string(),
-                updatedAt: z.iso.datetime(),
-              })
-            ),
-            modifiedBy: z.optional(
-              z.object({
-                createdAt: z.iso.datetime(),
-                email: z.email().min(1),
-                id: z.uuid(),
-                image: z.optional(z.string()),
-                jobTitle: z.optional(z.string()),
-                mfaEnabled: z.boolean().default(false),
-                mfaVerified: z.boolean().default(false),
-                modifiedById: z.uuid(),
-                name: z.optional(z.string()),
-                phone: z.optional(z.string()),
-                primaryOrganizationId: z.optional(z.uuid()),
-                tags: z.array(z.string()),
-                updatedAt: z.iso.datetime(),
-              })
-            ),
-            modifiedById: z.uuid(),
-            name: z.string(),
-            updatedAt: z.iso.datetime(),
-            value: z.number().gte(0),
-          }),
+          products: z.array(
+            z.object({
+              createdAt: z.iso.datetime(),
+              id: z.uuid(),
+              materials: z.array(
+                z.object({
+                  carbonFactor: z.string(),
+                  createdAt: z.iso.datetime(),
+                  gwCode: z.string(),
+                  id: z.uuid(),
+                  modifiedBy: z.optional(
+                    z.object({
+                      createdAt: z.iso.datetime(),
+                      email: z.email().min(1),
+                      id: z.uuid(),
+                      image: z.optional(z.string()),
+                      jobTitle: z.optional(z.string()),
+                      mfaEnabled: z.boolean().default(false),
+                      mfaVerified: z.boolean().default(false),
+                      modifiedById: z.uuid(),
+                      name: z.optional(z.string()),
+                      phone: z.optional(z.string()),
+                      primaryOrganizationId: z.optional(z.uuid()),
+                      tags: z.array(z.string()),
+                      updatedAt: z.iso.datetime(),
+                    })
+                  ),
+                  modifiedById: z.uuid(),
+                  name: z.string(),
+                  updatedAt: z.iso.datetime(),
+                })
+              ),
+              modifiedBy: z.optional(
+                z.object({
+                  createdAt: z.iso.datetime(),
+                  email: z.email().min(1),
+                  id: z.uuid(),
+                  image: z.optional(z.string()),
+                  jobTitle: z.optional(z.string()),
+                  mfaEnabled: z.boolean().default(false),
+                  mfaVerified: z.boolean().default(false),
+                  modifiedById: z.uuid(),
+                  name: z.optional(z.string()),
+                  phone: z.optional(z.string()),
+                  primaryOrganizationId: z.optional(z.uuid()),
+                  tags: z.array(z.string()),
+                  updatedAt: z.iso.datetime(),
+                })
+              ),
+              modifiedById: z.uuid(),
+              name: z.string(),
+              updatedAt: z.iso.datetime(),
+              value: z.number().gte(0),
+            })
+          ),
           sellerAccepted: z.boolean(),
           sellerDeclined: z.boolean(),
           sellerId: z.uuid(),
@@ -5729,59 +5755,61 @@ export const zGetApiMaterialsResponse = z.object({
           })
         ),
         modifiedById: z.optional(z.uuid()),
-        products: z.object({
-          createdAt: z.iso.datetime(),
-          id: z.uuid(),
-          materials: z.array(
-            z.object({
-              carbonFactor: z.string(),
-              createdAt: z.iso.datetime(),
-              gwCode: z.string(),
-              id: z.uuid(),
-              modifiedBy: z.optional(
-                z.object({
-                  createdAt: z.iso.datetime(),
-                  email: z.email().min(1),
-                  id: z.uuid(),
-                  image: z.optional(z.string()),
-                  jobTitle: z.optional(z.string()),
-                  mfaEnabled: z.boolean().default(false),
-                  mfaVerified: z.boolean().default(false),
-                  modifiedById: z.uuid(),
-                  name: z.optional(z.string()),
-                  phone: z.optional(z.string()),
-                  primaryOrganizationId: z.optional(z.uuid()),
-                  tags: z.array(z.string()),
-                  updatedAt: z.iso.datetime(),
-                })
-              ),
-              modifiedById: z.uuid(),
-              name: z.string(),
-              updatedAt: z.iso.datetime(),
-            })
-          ),
-          modifiedBy: z.optional(
-            z.object({
-              createdAt: z.iso.datetime(),
-              email: z.email().min(1),
-              id: z.uuid(),
-              image: z.optional(z.string()),
-              jobTitle: z.optional(z.string()),
-              mfaEnabled: z.boolean().default(false),
-              mfaVerified: z.boolean().default(false),
-              modifiedById: z.uuid(),
-              name: z.optional(z.string()),
-              phone: z.optional(z.string()),
-              primaryOrganizationId: z.optional(z.uuid()),
-              tags: z.array(z.string()),
-              updatedAt: z.iso.datetime(),
-            })
-          ),
-          modifiedById: z.uuid(),
-          name: z.string(),
-          updatedAt: z.iso.datetime(),
-          value: z.number().gte(0),
-        }),
+        products: z.array(
+          z.object({
+            createdAt: z.iso.datetime(),
+            id: z.uuid(),
+            materials: z.array(
+              z.object({
+                carbonFactor: z.string(),
+                createdAt: z.iso.datetime(),
+                gwCode: z.string(),
+                id: z.uuid(),
+                modifiedBy: z.optional(
+                  z.object({
+                    createdAt: z.iso.datetime(),
+                    email: z.email().min(1),
+                    id: z.uuid(),
+                    image: z.optional(z.string()),
+                    jobTitle: z.optional(z.string()),
+                    mfaEnabled: z.boolean().default(false),
+                    mfaVerified: z.boolean().default(false),
+                    modifiedById: z.uuid(),
+                    name: z.optional(z.string()),
+                    phone: z.optional(z.string()),
+                    primaryOrganizationId: z.optional(z.uuid()),
+                    tags: z.array(z.string()),
+                    updatedAt: z.iso.datetime(),
+                  })
+                ),
+                modifiedById: z.uuid(),
+                name: z.string(),
+                updatedAt: z.iso.datetime(),
+              })
+            ),
+            modifiedBy: z.optional(
+              z.object({
+                createdAt: z.iso.datetime(),
+                email: z.email().min(1),
+                id: z.uuid(),
+                image: z.optional(z.string()),
+                jobTitle: z.optional(z.string()),
+                mfaEnabled: z.boolean().default(false),
+                mfaVerified: z.boolean().default(false),
+                modifiedById: z.uuid(),
+                name: z.optional(z.string()),
+                phone: z.optional(z.string()),
+                primaryOrganizationId: z.optional(z.uuid()),
+                tags: z.array(z.string()),
+                updatedAt: z.iso.datetime(),
+              })
+            ),
+            modifiedById: z.uuid(),
+            name: z.string(),
+            updatedAt: z.iso.datetime(),
+            value: z.number().gte(0),
+          })
+        ),
         sellerAccepted: z.boolean(),
         sellerDeclined: z.boolean(),
         sellerId: z.uuid(),
@@ -6122,59 +6150,61 @@ export const zGetApiMaterialsResponse = z.object({
             })
           ),
           modifiedById: z.optional(z.uuid()),
-          products: z.object({
-            createdAt: z.iso.datetime(),
-            id: z.uuid(),
-            materials: z.array(
-              z.object({
-                carbonFactor: z.string(),
-                createdAt: z.iso.datetime(),
-                gwCode: z.string(),
-                id: z.uuid(),
-                modifiedBy: z.optional(
-                  z.object({
-                    createdAt: z.iso.datetime(),
-                    email: z.email().min(1),
-                    id: z.uuid(),
-                    image: z.optional(z.string()),
-                    jobTitle: z.optional(z.string()),
-                    mfaEnabled: z.boolean().default(false),
-                    mfaVerified: z.boolean().default(false),
-                    modifiedById: z.uuid(),
-                    name: z.optional(z.string()),
-                    phone: z.optional(z.string()),
-                    primaryOrganizationId: z.optional(z.uuid()),
-                    tags: z.array(z.string()),
-                    updatedAt: z.iso.datetime(),
-                  })
-                ),
-                modifiedById: z.uuid(),
-                name: z.string(),
-                updatedAt: z.iso.datetime(),
-              })
-            ),
-            modifiedBy: z.optional(
-              z.object({
-                createdAt: z.iso.datetime(),
-                email: z.email().min(1),
-                id: z.uuid(),
-                image: z.optional(z.string()),
-                jobTitle: z.optional(z.string()),
-                mfaEnabled: z.boolean().default(false),
-                mfaVerified: z.boolean().default(false),
-                modifiedById: z.uuid(),
-                name: z.optional(z.string()),
-                phone: z.optional(z.string()),
-                primaryOrganizationId: z.optional(z.uuid()),
-                tags: z.array(z.string()),
-                updatedAt: z.iso.datetime(),
-              })
-            ),
-            modifiedById: z.uuid(),
-            name: z.string(),
-            updatedAt: z.iso.datetime(),
-            value: z.number().gte(0),
-          }),
+          products: z.array(
+            z.object({
+              createdAt: z.iso.datetime(),
+              id: z.uuid(),
+              materials: z.array(
+                z.object({
+                  carbonFactor: z.string(),
+                  createdAt: z.iso.datetime(),
+                  gwCode: z.string(),
+                  id: z.uuid(),
+                  modifiedBy: z.optional(
+                    z.object({
+                      createdAt: z.iso.datetime(),
+                      email: z.email().min(1),
+                      id: z.uuid(),
+                      image: z.optional(z.string()),
+                      jobTitle: z.optional(z.string()),
+                      mfaEnabled: z.boolean().default(false),
+                      mfaVerified: z.boolean().default(false),
+                      modifiedById: z.uuid(),
+                      name: z.optional(z.string()),
+                      phone: z.optional(z.string()),
+                      primaryOrganizationId: z.optional(z.uuid()),
+                      tags: z.array(z.string()),
+                      updatedAt: z.iso.datetime(),
+                    })
+                  ),
+                  modifiedById: z.uuid(),
+                  name: z.string(),
+                  updatedAt: z.iso.datetime(),
+                })
+              ),
+              modifiedBy: z.optional(
+                z.object({
+                  createdAt: z.iso.datetime(),
+                  email: z.email().min(1),
+                  id: z.uuid(),
+                  image: z.optional(z.string()),
+                  jobTitle: z.optional(z.string()),
+                  mfaEnabled: z.boolean().default(false),
+                  mfaVerified: z.boolean().default(false),
+                  modifiedById: z.uuid(),
+                  name: z.optional(z.string()),
+                  phone: z.optional(z.string()),
+                  primaryOrganizationId: z.optional(z.uuid()),
+                  tags: z.array(z.string()),
+                  updatedAt: z.iso.datetime(),
+                })
+              ),
+              modifiedById: z.uuid(),
+              name: z.string(),
+              updatedAt: z.iso.datetime(),
+              value: z.number().gte(0),
+            })
+          ),
           sellerAccepted: z.boolean(),
           sellerDeclined: z.boolean(),
           sellerId: z.uuid(),
@@ -6556,59 +6586,61 @@ export const zGetApiMaterialsByIdResponse = z.object({
           })
         ),
         modifiedById: z.optional(z.uuid()),
-        products: z.object({
-          createdAt: z.iso.datetime(),
-          id: z.uuid(),
-          materials: z.array(
-            z.object({
-              carbonFactor: z.string(),
-              createdAt: z.iso.datetime(),
-              gwCode: z.string(),
-              id: z.uuid(),
-              modifiedBy: z.optional(
-                z.object({
-                  createdAt: z.iso.datetime(),
-                  email: z.email().min(1),
-                  id: z.uuid(),
-                  image: z.optional(z.string()),
-                  jobTitle: z.optional(z.string()),
-                  mfaEnabled: z.boolean().default(false),
-                  mfaVerified: z.boolean().default(false),
-                  modifiedById: z.uuid(),
-                  name: z.optional(z.string()),
-                  phone: z.optional(z.string()),
-                  primaryOrganizationId: z.optional(z.uuid()),
-                  tags: z.array(z.string()),
-                  updatedAt: z.iso.datetime(),
-                })
-              ),
-              modifiedById: z.uuid(),
-              name: z.string(),
-              updatedAt: z.iso.datetime(),
-            })
-          ),
-          modifiedBy: z.optional(
-            z.object({
-              createdAt: z.iso.datetime(),
-              email: z.email().min(1),
-              id: z.uuid(),
-              image: z.optional(z.string()),
-              jobTitle: z.optional(z.string()),
-              mfaEnabled: z.boolean().default(false),
-              mfaVerified: z.boolean().default(false),
-              modifiedById: z.uuid(),
-              name: z.optional(z.string()),
-              phone: z.optional(z.string()),
-              primaryOrganizationId: z.optional(z.uuid()),
-              tags: z.array(z.string()),
-              updatedAt: z.iso.datetime(),
-            })
-          ),
-          modifiedById: z.uuid(),
-          name: z.string(),
-          updatedAt: z.iso.datetime(),
-          value: z.number().gte(0),
-        }),
+        products: z.array(
+          z.object({
+            createdAt: z.iso.datetime(),
+            id: z.uuid(),
+            materials: z.array(
+              z.object({
+                carbonFactor: z.string(),
+                createdAt: z.iso.datetime(),
+                gwCode: z.string(),
+                id: z.uuid(),
+                modifiedBy: z.optional(
+                  z.object({
+                    createdAt: z.iso.datetime(),
+                    email: z.email().min(1),
+                    id: z.uuid(),
+                    image: z.optional(z.string()),
+                    jobTitle: z.optional(z.string()),
+                    mfaEnabled: z.boolean().default(false),
+                    mfaVerified: z.boolean().default(false),
+                    modifiedById: z.uuid(),
+                    name: z.optional(z.string()),
+                    phone: z.optional(z.string()),
+                    primaryOrganizationId: z.optional(z.uuid()),
+                    tags: z.array(z.string()),
+                    updatedAt: z.iso.datetime(),
+                  })
+                ),
+                modifiedById: z.uuid(),
+                name: z.string(),
+                updatedAt: z.iso.datetime(),
+              })
+            ),
+            modifiedBy: z.optional(
+              z.object({
+                createdAt: z.iso.datetime(),
+                email: z.email().min(1),
+                id: z.uuid(),
+                image: z.optional(z.string()),
+                jobTitle: z.optional(z.string()),
+                mfaEnabled: z.boolean().default(false),
+                mfaVerified: z.boolean().default(false),
+                modifiedById: z.uuid(),
+                name: z.optional(z.string()),
+                phone: z.optional(z.string()),
+                primaryOrganizationId: z.optional(z.uuid()),
+                tags: z.array(z.string()),
+                updatedAt: z.iso.datetime(),
+              })
+            ),
+            modifiedById: z.uuid(),
+            name: z.string(),
+            updatedAt: z.iso.datetime(),
+            value: z.number().gte(0),
+          })
+        ),
         sellerAccepted: z.boolean(),
         sellerDeclined: z.boolean(),
         sellerId: z.uuid(),
@@ -6949,59 +6981,61 @@ export const zGetApiMaterialsByIdResponse = z.object({
             })
           ),
           modifiedById: z.optional(z.uuid()),
-          products: z.object({
-            createdAt: z.iso.datetime(),
-            id: z.uuid(),
-            materials: z.array(
-              z.object({
-                carbonFactor: z.string(),
-                createdAt: z.iso.datetime(),
-                gwCode: z.string(),
-                id: z.uuid(),
-                modifiedBy: z.optional(
-                  z.object({
-                    createdAt: z.iso.datetime(),
-                    email: z.email().min(1),
-                    id: z.uuid(),
-                    image: z.optional(z.string()),
-                    jobTitle: z.optional(z.string()),
-                    mfaEnabled: z.boolean().default(false),
-                    mfaVerified: z.boolean().default(false),
-                    modifiedById: z.uuid(),
-                    name: z.optional(z.string()),
-                    phone: z.optional(z.string()),
-                    primaryOrganizationId: z.optional(z.uuid()),
-                    tags: z.array(z.string()),
-                    updatedAt: z.iso.datetime(),
-                  })
-                ),
-                modifiedById: z.uuid(),
-                name: z.string(),
-                updatedAt: z.iso.datetime(),
-              })
-            ),
-            modifiedBy: z.optional(
-              z.object({
-                createdAt: z.iso.datetime(),
-                email: z.email().min(1),
-                id: z.uuid(),
-                image: z.optional(z.string()),
-                jobTitle: z.optional(z.string()),
-                mfaEnabled: z.boolean().default(false),
-                mfaVerified: z.boolean().default(false),
-                modifiedById: z.uuid(),
-                name: z.optional(z.string()),
-                phone: z.optional(z.string()),
-                primaryOrganizationId: z.optional(z.uuid()),
-                tags: z.array(z.string()),
-                updatedAt: z.iso.datetime(),
-              })
-            ),
-            modifiedById: z.uuid(),
-            name: z.string(),
-            updatedAt: z.iso.datetime(),
-            value: z.number().gte(0),
-          }),
+          products: z.array(
+            z.object({
+              createdAt: z.iso.datetime(),
+              id: z.uuid(),
+              materials: z.array(
+                z.object({
+                  carbonFactor: z.string(),
+                  createdAt: z.iso.datetime(),
+                  gwCode: z.string(),
+                  id: z.uuid(),
+                  modifiedBy: z.optional(
+                    z.object({
+                      createdAt: z.iso.datetime(),
+                      email: z.email().min(1),
+                      id: z.uuid(),
+                      image: z.optional(z.string()),
+                      jobTitle: z.optional(z.string()),
+                      mfaEnabled: z.boolean().default(false),
+                      mfaVerified: z.boolean().default(false),
+                      modifiedById: z.uuid(),
+                      name: z.optional(z.string()),
+                      phone: z.optional(z.string()),
+                      primaryOrganizationId: z.optional(z.uuid()),
+                      tags: z.array(z.string()),
+                      updatedAt: z.iso.datetime(),
+                    })
+                  ),
+                  modifiedById: z.uuid(),
+                  name: z.string(),
+                  updatedAt: z.iso.datetime(),
+                })
+              ),
+              modifiedBy: z.optional(
+                z.object({
+                  createdAt: z.iso.datetime(),
+                  email: z.email().min(1),
+                  id: z.uuid(),
+                  image: z.optional(z.string()),
+                  jobTitle: z.optional(z.string()),
+                  mfaEnabled: z.boolean().default(false),
+                  mfaVerified: z.boolean().default(false),
+                  modifiedById: z.uuid(),
+                  name: z.optional(z.string()),
+                  phone: z.optional(z.string()),
+                  primaryOrganizationId: z.optional(z.uuid()),
+                  tags: z.array(z.string()),
+                  updatedAt: z.iso.datetime(),
+                })
+              ),
+              modifiedById: z.uuid(),
+              name: z.string(),
+              updatedAt: z.iso.datetime(),
+              value: z.number().gte(0),
+            })
+          ),
           sellerAccepted: z.boolean(),
           sellerDeclined: z.boolean(),
           sellerId: z.uuid(),
@@ -7380,59 +7414,61 @@ export const zGetApiNotificationsResponse = z.object({
           })
         ),
         modifiedById: z.optional(z.uuid()),
-        products: z.object({
-          createdAt: z.iso.datetime(),
-          id: z.uuid(),
-          materials: z.array(
-            z.object({
-              carbonFactor: z.string(),
-              createdAt: z.iso.datetime(),
-              gwCode: z.string(),
-              id: z.uuid(),
-              modifiedBy: z.optional(
-                z.object({
-                  createdAt: z.iso.datetime(),
-                  email: z.email().min(1),
-                  id: z.uuid(),
-                  image: z.optional(z.string()),
-                  jobTitle: z.optional(z.string()),
-                  mfaEnabled: z.boolean().default(false),
-                  mfaVerified: z.boolean().default(false),
-                  modifiedById: z.uuid(),
-                  name: z.optional(z.string()),
-                  phone: z.optional(z.string()),
-                  primaryOrganizationId: z.optional(z.uuid()),
-                  tags: z.array(z.string()),
-                  updatedAt: z.iso.datetime(),
-                })
-              ),
-              modifiedById: z.uuid(),
-              name: z.string(),
-              updatedAt: z.iso.datetime(),
-            })
-          ),
-          modifiedBy: z.optional(
-            z.object({
-              createdAt: z.iso.datetime(),
-              email: z.email().min(1),
-              id: z.uuid(),
-              image: z.optional(z.string()),
-              jobTitle: z.optional(z.string()),
-              mfaEnabled: z.boolean().default(false),
-              mfaVerified: z.boolean().default(false),
-              modifiedById: z.uuid(),
-              name: z.optional(z.string()),
-              phone: z.optional(z.string()),
-              primaryOrganizationId: z.optional(z.uuid()),
-              tags: z.array(z.string()),
-              updatedAt: z.iso.datetime(),
-            })
-          ),
-          modifiedById: z.uuid(),
-          name: z.string(),
-          updatedAt: z.iso.datetime(),
-          value: z.number().gte(0),
-        }),
+        products: z.array(
+          z.object({
+            createdAt: z.iso.datetime(),
+            id: z.uuid(),
+            materials: z.array(
+              z.object({
+                carbonFactor: z.string(),
+                createdAt: z.iso.datetime(),
+                gwCode: z.string(),
+                id: z.uuid(),
+                modifiedBy: z.optional(
+                  z.object({
+                    createdAt: z.iso.datetime(),
+                    email: z.email().min(1),
+                    id: z.uuid(),
+                    image: z.optional(z.string()),
+                    jobTitle: z.optional(z.string()),
+                    mfaEnabled: z.boolean().default(false),
+                    mfaVerified: z.boolean().default(false),
+                    modifiedById: z.uuid(),
+                    name: z.optional(z.string()),
+                    phone: z.optional(z.string()),
+                    primaryOrganizationId: z.optional(z.uuid()),
+                    tags: z.array(z.string()),
+                    updatedAt: z.iso.datetime(),
+                  })
+                ),
+                modifiedById: z.uuid(),
+                name: z.string(),
+                updatedAt: z.iso.datetime(),
+              })
+            ),
+            modifiedBy: z.optional(
+              z.object({
+                createdAt: z.iso.datetime(),
+                email: z.email().min(1),
+                id: z.uuid(),
+                image: z.optional(z.string()),
+                jobTitle: z.optional(z.string()),
+                mfaEnabled: z.boolean().default(false),
+                mfaVerified: z.boolean().default(false),
+                modifiedById: z.uuid(),
+                name: z.optional(z.string()),
+                phone: z.optional(z.string()),
+                primaryOrganizationId: z.optional(z.uuid()),
+                tags: z.array(z.string()),
+                updatedAt: z.iso.datetime(),
+              })
+            ),
+            modifiedById: z.uuid(),
+            name: z.string(),
+            updatedAt: z.iso.datetime(),
+            value: z.number().gte(0),
+          })
+        ),
         sellerAccepted: z.boolean(),
         sellerDeclined: z.boolean(),
         sellerId: z.uuid(),
@@ -7773,59 +7809,61 @@ export const zGetApiNotificationsResponse = z.object({
             })
           ),
           modifiedById: z.optional(z.uuid()),
-          products: z.object({
-            createdAt: z.iso.datetime(),
-            id: z.uuid(),
-            materials: z.array(
-              z.object({
-                carbonFactor: z.string(),
-                createdAt: z.iso.datetime(),
-                gwCode: z.string(),
-                id: z.uuid(),
-                modifiedBy: z.optional(
-                  z.object({
-                    createdAt: z.iso.datetime(),
-                    email: z.email().min(1),
-                    id: z.uuid(),
-                    image: z.optional(z.string()),
-                    jobTitle: z.optional(z.string()),
-                    mfaEnabled: z.boolean().default(false),
-                    mfaVerified: z.boolean().default(false),
-                    modifiedById: z.uuid(),
-                    name: z.optional(z.string()),
-                    phone: z.optional(z.string()),
-                    primaryOrganizationId: z.optional(z.uuid()),
-                    tags: z.array(z.string()),
-                    updatedAt: z.iso.datetime(),
-                  })
-                ),
-                modifiedById: z.uuid(),
-                name: z.string(),
-                updatedAt: z.iso.datetime(),
-              })
-            ),
-            modifiedBy: z.optional(
-              z.object({
-                createdAt: z.iso.datetime(),
-                email: z.email().min(1),
-                id: z.uuid(),
-                image: z.optional(z.string()),
-                jobTitle: z.optional(z.string()),
-                mfaEnabled: z.boolean().default(false),
-                mfaVerified: z.boolean().default(false),
-                modifiedById: z.uuid(),
-                name: z.optional(z.string()),
-                phone: z.optional(z.string()),
-                primaryOrganizationId: z.optional(z.uuid()),
-                tags: z.array(z.string()),
-                updatedAt: z.iso.datetime(),
-              })
-            ),
-            modifiedById: z.uuid(),
-            name: z.string(),
-            updatedAt: z.iso.datetime(),
-            value: z.number().gte(0),
-          }),
+          products: z.array(
+            z.object({
+              createdAt: z.iso.datetime(),
+              id: z.uuid(),
+              materials: z.array(
+                z.object({
+                  carbonFactor: z.string(),
+                  createdAt: z.iso.datetime(),
+                  gwCode: z.string(),
+                  id: z.uuid(),
+                  modifiedBy: z.optional(
+                    z.object({
+                      createdAt: z.iso.datetime(),
+                      email: z.email().min(1),
+                      id: z.uuid(),
+                      image: z.optional(z.string()),
+                      jobTitle: z.optional(z.string()),
+                      mfaEnabled: z.boolean().default(false),
+                      mfaVerified: z.boolean().default(false),
+                      modifiedById: z.uuid(),
+                      name: z.optional(z.string()),
+                      phone: z.optional(z.string()),
+                      primaryOrganizationId: z.optional(z.uuid()),
+                      tags: z.array(z.string()),
+                      updatedAt: z.iso.datetime(),
+                    })
+                  ),
+                  modifiedById: z.uuid(),
+                  name: z.string(),
+                  updatedAt: z.iso.datetime(),
+                })
+              ),
+              modifiedBy: z.optional(
+                z.object({
+                  createdAt: z.iso.datetime(),
+                  email: z.email().min(1),
+                  id: z.uuid(),
+                  image: z.optional(z.string()),
+                  jobTitle: z.optional(z.string()),
+                  mfaEnabled: z.boolean().default(false),
+                  mfaVerified: z.boolean().default(false),
+                  modifiedById: z.uuid(),
+                  name: z.optional(z.string()),
+                  phone: z.optional(z.string()),
+                  primaryOrganizationId: z.optional(z.uuid()),
+                  tags: z.array(z.string()),
+                  updatedAt: z.iso.datetime(),
+                })
+              ),
+              modifiedById: z.uuid(),
+              name: z.string(),
+              updatedAt: z.iso.datetime(),
+              value: z.number().gte(0),
+            })
+          ),
           sellerAccepted: z.boolean(),
           sellerDeclined: z.boolean(),
           sellerId: z.uuid(),
@@ -8214,59 +8252,61 @@ export const zGetApiNotificationsByIdResponse = z.object({
           })
         ),
         modifiedById: z.optional(z.uuid()),
-        products: z.object({
-          createdAt: z.iso.datetime(),
-          id: z.uuid(),
-          materials: z.array(
-            z.object({
-              carbonFactor: z.string(),
-              createdAt: z.iso.datetime(),
-              gwCode: z.string(),
-              id: z.uuid(),
-              modifiedBy: z.optional(
-                z.object({
-                  createdAt: z.iso.datetime(),
-                  email: z.email().min(1),
-                  id: z.uuid(),
-                  image: z.optional(z.string()),
-                  jobTitle: z.optional(z.string()),
-                  mfaEnabled: z.boolean().default(false),
-                  mfaVerified: z.boolean().default(false),
-                  modifiedById: z.uuid(),
-                  name: z.optional(z.string()),
-                  phone: z.optional(z.string()),
-                  primaryOrganizationId: z.optional(z.uuid()),
-                  tags: z.array(z.string()),
-                  updatedAt: z.iso.datetime(),
-                })
-              ),
-              modifiedById: z.uuid(),
-              name: z.string(),
-              updatedAt: z.iso.datetime(),
-            })
-          ),
-          modifiedBy: z.optional(
-            z.object({
-              createdAt: z.iso.datetime(),
-              email: z.email().min(1),
-              id: z.uuid(),
-              image: z.optional(z.string()),
-              jobTitle: z.optional(z.string()),
-              mfaEnabled: z.boolean().default(false),
-              mfaVerified: z.boolean().default(false),
-              modifiedById: z.uuid(),
-              name: z.optional(z.string()),
-              phone: z.optional(z.string()),
-              primaryOrganizationId: z.optional(z.uuid()),
-              tags: z.array(z.string()),
-              updatedAt: z.iso.datetime(),
-            })
-          ),
-          modifiedById: z.uuid(),
-          name: z.string(),
-          updatedAt: z.iso.datetime(),
-          value: z.number().gte(0),
-        }),
+        products: z.array(
+          z.object({
+            createdAt: z.iso.datetime(),
+            id: z.uuid(),
+            materials: z.array(
+              z.object({
+                carbonFactor: z.string(),
+                createdAt: z.iso.datetime(),
+                gwCode: z.string(),
+                id: z.uuid(),
+                modifiedBy: z.optional(
+                  z.object({
+                    createdAt: z.iso.datetime(),
+                    email: z.email().min(1),
+                    id: z.uuid(),
+                    image: z.optional(z.string()),
+                    jobTitle: z.optional(z.string()),
+                    mfaEnabled: z.boolean().default(false),
+                    mfaVerified: z.boolean().default(false),
+                    modifiedById: z.uuid(),
+                    name: z.optional(z.string()),
+                    phone: z.optional(z.string()),
+                    primaryOrganizationId: z.optional(z.uuid()),
+                    tags: z.array(z.string()),
+                    updatedAt: z.iso.datetime(),
+                  })
+                ),
+                modifiedById: z.uuid(),
+                name: z.string(),
+                updatedAt: z.iso.datetime(),
+              })
+            ),
+            modifiedBy: z.optional(
+              z.object({
+                createdAt: z.iso.datetime(),
+                email: z.email().min(1),
+                id: z.uuid(),
+                image: z.optional(z.string()),
+                jobTitle: z.optional(z.string()),
+                mfaEnabled: z.boolean().default(false),
+                mfaVerified: z.boolean().default(false),
+                modifiedById: z.uuid(),
+                name: z.optional(z.string()),
+                phone: z.optional(z.string()),
+                primaryOrganizationId: z.optional(z.uuid()),
+                tags: z.array(z.string()),
+                updatedAt: z.iso.datetime(),
+              })
+            ),
+            modifiedById: z.uuid(),
+            name: z.string(),
+            updatedAt: z.iso.datetime(),
+            value: z.number().gte(0),
+          })
+        ),
         sellerAccepted: z.boolean(),
         sellerDeclined: z.boolean(),
         sellerId: z.uuid(),
@@ -8607,59 +8647,61 @@ export const zGetApiNotificationsByIdResponse = z.object({
             })
           ),
           modifiedById: z.optional(z.uuid()),
-          products: z.object({
-            createdAt: z.iso.datetime(),
-            id: z.uuid(),
-            materials: z.array(
-              z.object({
-                carbonFactor: z.string(),
-                createdAt: z.iso.datetime(),
-                gwCode: z.string(),
-                id: z.uuid(),
-                modifiedBy: z.optional(
-                  z.object({
-                    createdAt: z.iso.datetime(),
-                    email: z.email().min(1),
-                    id: z.uuid(),
-                    image: z.optional(z.string()),
-                    jobTitle: z.optional(z.string()),
-                    mfaEnabled: z.boolean().default(false),
-                    mfaVerified: z.boolean().default(false),
-                    modifiedById: z.uuid(),
-                    name: z.optional(z.string()),
-                    phone: z.optional(z.string()),
-                    primaryOrganizationId: z.optional(z.uuid()),
-                    tags: z.array(z.string()),
-                    updatedAt: z.iso.datetime(),
-                  })
-                ),
-                modifiedById: z.uuid(),
-                name: z.string(),
-                updatedAt: z.iso.datetime(),
-              })
-            ),
-            modifiedBy: z.optional(
-              z.object({
-                createdAt: z.iso.datetime(),
-                email: z.email().min(1),
-                id: z.uuid(),
-                image: z.optional(z.string()),
-                jobTitle: z.optional(z.string()),
-                mfaEnabled: z.boolean().default(false),
-                mfaVerified: z.boolean().default(false),
-                modifiedById: z.uuid(),
-                name: z.optional(z.string()),
-                phone: z.optional(z.string()),
-                primaryOrganizationId: z.optional(z.uuid()),
-                tags: z.array(z.string()),
-                updatedAt: z.iso.datetime(),
-              })
-            ),
-            modifiedById: z.uuid(),
-            name: z.string(),
-            updatedAt: z.iso.datetime(),
-            value: z.number().gte(0),
-          }),
+          products: z.array(
+            z.object({
+              createdAt: z.iso.datetime(),
+              id: z.uuid(),
+              materials: z.array(
+                z.object({
+                  carbonFactor: z.string(),
+                  createdAt: z.iso.datetime(),
+                  gwCode: z.string(),
+                  id: z.uuid(),
+                  modifiedBy: z.optional(
+                    z.object({
+                      createdAt: z.iso.datetime(),
+                      email: z.email().min(1),
+                      id: z.uuid(),
+                      image: z.optional(z.string()),
+                      jobTitle: z.optional(z.string()),
+                      mfaEnabled: z.boolean().default(false),
+                      mfaVerified: z.boolean().default(false),
+                      modifiedById: z.uuid(),
+                      name: z.optional(z.string()),
+                      phone: z.optional(z.string()),
+                      primaryOrganizationId: z.optional(z.uuid()),
+                      tags: z.array(z.string()),
+                      updatedAt: z.iso.datetime(),
+                    })
+                  ),
+                  modifiedById: z.uuid(),
+                  name: z.string(),
+                  updatedAt: z.iso.datetime(),
+                })
+              ),
+              modifiedBy: z.optional(
+                z.object({
+                  createdAt: z.iso.datetime(),
+                  email: z.email().min(1),
+                  id: z.uuid(),
+                  image: z.optional(z.string()),
+                  jobTitle: z.optional(z.string()),
+                  mfaEnabled: z.boolean().default(false),
+                  mfaVerified: z.boolean().default(false),
+                  modifiedById: z.uuid(),
+                  name: z.optional(z.string()),
+                  phone: z.optional(z.string()),
+                  primaryOrganizationId: z.optional(z.uuid()),
+                  tags: z.array(z.string()),
+                  updatedAt: z.iso.datetime(),
+                })
+              ),
+              modifiedById: z.uuid(),
+              name: z.string(),
+              updatedAt: z.iso.datetime(),
+              value: z.number().gte(0),
+            })
+          ),
           sellerAccepted: z.boolean(),
           sellerDeclined: z.boolean(),
           sellerId: z.uuid(),
@@ -9048,59 +9090,61 @@ export const zGetApiOrganizationsResponse = z.object({
           })
         ),
         modifiedById: z.optional(z.uuid()),
-        products: z.object({
-          createdAt: z.iso.datetime(),
-          id: z.uuid(),
-          materials: z.array(
-            z.object({
-              carbonFactor: z.string(),
-              createdAt: z.iso.datetime(),
-              gwCode: z.string(),
-              id: z.uuid(),
-              modifiedBy: z.optional(
-                z.object({
-                  createdAt: z.iso.datetime(),
-                  email: z.email().min(1),
-                  id: z.uuid(),
-                  image: z.optional(z.string()),
-                  jobTitle: z.optional(z.string()),
-                  mfaEnabled: z.boolean().default(false),
-                  mfaVerified: z.boolean().default(false),
-                  modifiedById: z.uuid(),
-                  name: z.optional(z.string()),
-                  phone: z.optional(z.string()),
-                  primaryOrganizationId: z.optional(z.uuid()),
-                  tags: z.array(z.string()),
-                  updatedAt: z.iso.datetime(),
-                })
-              ),
-              modifiedById: z.uuid(),
-              name: z.string(),
-              updatedAt: z.iso.datetime(),
-            })
-          ),
-          modifiedBy: z.optional(
-            z.object({
-              createdAt: z.iso.datetime(),
-              email: z.email().min(1),
-              id: z.uuid(),
-              image: z.optional(z.string()),
-              jobTitle: z.optional(z.string()),
-              mfaEnabled: z.boolean().default(false),
-              mfaVerified: z.boolean().default(false),
-              modifiedById: z.uuid(),
-              name: z.optional(z.string()),
-              phone: z.optional(z.string()),
-              primaryOrganizationId: z.optional(z.uuid()),
-              tags: z.array(z.string()),
-              updatedAt: z.iso.datetime(),
-            })
-          ),
-          modifiedById: z.uuid(),
-          name: z.string(),
-          updatedAt: z.iso.datetime(),
-          value: z.number().gte(0),
-        }),
+        products: z.array(
+          z.object({
+            createdAt: z.iso.datetime(),
+            id: z.uuid(),
+            materials: z.array(
+              z.object({
+                carbonFactor: z.string(),
+                createdAt: z.iso.datetime(),
+                gwCode: z.string(),
+                id: z.uuid(),
+                modifiedBy: z.optional(
+                  z.object({
+                    createdAt: z.iso.datetime(),
+                    email: z.email().min(1),
+                    id: z.uuid(),
+                    image: z.optional(z.string()),
+                    jobTitle: z.optional(z.string()),
+                    mfaEnabled: z.boolean().default(false),
+                    mfaVerified: z.boolean().default(false),
+                    modifiedById: z.uuid(),
+                    name: z.optional(z.string()),
+                    phone: z.optional(z.string()),
+                    primaryOrganizationId: z.optional(z.uuid()),
+                    tags: z.array(z.string()),
+                    updatedAt: z.iso.datetime(),
+                  })
+                ),
+                modifiedById: z.uuid(),
+                name: z.string(),
+                updatedAt: z.iso.datetime(),
+              })
+            ),
+            modifiedBy: z.optional(
+              z.object({
+                createdAt: z.iso.datetime(),
+                email: z.email().min(1),
+                id: z.uuid(),
+                image: z.optional(z.string()),
+                jobTitle: z.optional(z.string()),
+                mfaEnabled: z.boolean().default(false),
+                mfaVerified: z.boolean().default(false),
+                modifiedById: z.uuid(),
+                name: z.optional(z.string()),
+                phone: z.optional(z.string()),
+                primaryOrganizationId: z.optional(z.uuid()),
+                tags: z.array(z.string()),
+                updatedAt: z.iso.datetime(),
+              })
+            ),
+            modifiedById: z.uuid(),
+            name: z.string(),
+            updatedAt: z.iso.datetime(),
+            value: z.number().gte(0),
+          })
+        ),
         sellerAccepted: z.boolean(),
         sellerDeclined: z.boolean(),
         sellerId: z.uuid(),
@@ -9441,59 +9485,61 @@ export const zGetApiOrganizationsResponse = z.object({
             })
           ),
           modifiedById: z.optional(z.uuid()),
-          products: z.object({
-            createdAt: z.iso.datetime(),
-            id: z.uuid(),
-            materials: z.array(
-              z.object({
-                carbonFactor: z.string(),
-                createdAt: z.iso.datetime(),
-                gwCode: z.string(),
-                id: z.uuid(),
-                modifiedBy: z.optional(
-                  z.object({
-                    createdAt: z.iso.datetime(),
-                    email: z.email().min(1),
-                    id: z.uuid(),
-                    image: z.optional(z.string()),
-                    jobTitle: z.optional(z.string()),
-                    mfaEnabled: z.boolean().default(false),
-                    mfaVerified: z.boolean().default(false),
-                    modifiedById: z.uuid(),
-                    name: z.optional(z.string()),
-                    phone: z.optional(z.string()),
-                    primaryOrganizationId: z.optional(z.uuid()),
-                    tags: z.array(z.string()),
-                    updatedAt: z.iso.datetime(),
-                  })
-                ),
-                modifiedById: z.uuid(),
-                name: z.string(),
-                updatedAt: z.iso.datetime(),
-              })
-            ),
-            modifiedBy: z.optional(
-              z.object({
-                createdAt: z.iso.datetime(),
-                email: z.email().min(1),
-                id: z.uuid(),
-                image: z.optional(z.string()),
-                jobTitle: z.optional(z.string()),
-                mfaEnabled: z.boolean().default(false),
-                mfaVerified: z.boolean().default(false),
-                modifiedById: z.uuid(),
-                name: z.optional(z.string()),
-                phone: z.optional(z.string()),
-                primaryOrganizationId: z.optional(z.uuid()),
-                tags: z.array(z.string()),
-                updatedAt: z.iso.datetime(),
-              })
-            ),
-            modifiedById: z.uuid(),
-            name: z.string(),
-            updatedAt: z.iso.datetime(),
-            value: z.number().gte(0),
-          }),
+          products: z.array(
+            z.object({
+              createdAt: z.iso.datetime(),
+              id: z.uuid(),
+              materials: z.array(
+                z.object({
+                  carbonFactor: z.string(),
+                  createdAt: z.iso.datetime(),
+                  gwCode: z.string(),
+                  id: z.uuid(),
+                  modifiedBy: z.optional(
+                    z.object({
+                      createdAt: z.iso.datetime(),
+                      email: z.email().min(1),
+                      id: z.uuid(),
+                      image: z.optional(z.string()),
+                      jobTitle: z.optional(z.string()),
+                      mfaEnabled: z.boolean().default(false),
+                      mfaVerified: z.boolean().default(false),
+                      modifiedById: z.uuid(),
+                      name: z.optional(z.string()),
+                      phone: z.optional(z.string()),
+                      primaryOrganizationId: z.optional(z.uuid()),
+                      tags: z.array(z.string()),
+                      updatedAt: z.iso.datetime(),
+                    })
+                  ),
+                  modifiedById: z.uuid(),
+                  name: z.string(),
+                  updatedAt: z.iso.datetime(),
+                })
+              ),
+              modifiedBy: z.optional(
+                z.object({
+                  createdAt: z.iso.datetime(),
+                  email: z.email().min(1),
+                  id: z.uuid(),
+                  image: z.optional(z.string()),
+                  jobTitle: z.optional(z.string()),
+                  mfaEnabled: z.boolean().default(false),
+                  mfaVerified: z.boolean().default(false),
+                  modifiedById: z.uuid(),
+                  name: z.optional(z.string()),
+                  phone: z.optional(z.string()),
+                  primaryOrganizationId: z.optional(z.uuid()),
+                  tags: z.array(z.string()),
+                  updatedAt: z.iso.datetime(),
+                })
+              ),
+              modifiedById: z.uuid(),
+              name: z.string(),
+              updatedAt: z.iso.datetime(),
+              value: z.number().gte(0),
+            })
+          ),
           sellerAccepted: z.boolean(),
           sellerDeclined: z.boolean(),
           sellerId: z.uuid(),
@@ -9891,59 +9937,61 @@ export const zGetApiOrganizationsByIdResponse = z.object({
           })
         ),
         modifiedById: z.optional(z.uuid()),
-        products: z.object({
-          createdAt: z.iso.datetime(),
-          id: z.uuid(),
-          materials: z.array(
-            z.object({
-              carbonFactor: z.string(),
-              createdAt: z.iso.datetime(),
-              gwCode: z.string(),
-              id: z.uuid(),
-              modifiedBy: z.optional(
-                z.object({
-                  createdAt: z.iso.datetime(),
-                  email: z.email().min(1),
-                  id: z.uuid(),
-                  image: z.optional(z.string()),
-                  jobTitle: z.optional(z.string()),
-                  mfaEnabled: z.boolean().default(false),
-                  mfaVerified: z.boolean().default(false),
-                  modifiedById: z.uuid(),
-                  name: z.optional(z.string()),
-                  phone: z.optional(z.string()),
-                  primaryOrganizationId: z.optional(z.uuid()),
-                  tags: z.array(z.string()),
-                  updatedAt: z.iso.datetime(),
-                })
-              ),
-              modifiedById: z.uuid(),
-              name: z.string(),
-              updatedAt: z.iso.datetime(),
-            })
-          ),
-          modifiedBy: z.optional(
-            z.object({
-              createdAt: z.iso.datetime(),
-              email: z.email().min(1),
-              id: z.uuid(),
-              image: z.optional(z.string()),
-              jobTitle: z.optional(z.string()),
-              mfaEnabled: z.boolean().default(false),
-              mfaVerified: z.boolean().default(false),
-              modifiedById: z.uuid(),
-              name: z.optional(z.string()),
-              phone: z.optional(z.string()),
-              primaryOrganizationId: z.optional(z.uuid()),
-              tags: z.array(z.string()),
-              updatedAt: z.iso.datetime(),
-            })
-          ),
-          modifiedById: z.uuid(),
-          name: z.string(),
-          updatedAt: z.iso.datetime(),
-          value: z.number().gte(0),
-        }),
+        products: z.array(
+          z.object({
+            createdAt: z.iso.datetime(),
+            id: z.uuid(),
+            materials: z.array(
+              z.object({
+                carbonFactor: z.string(),
+                createdAt: z.iso.datetime(),
+                gwCode: z.string(),
+                id: z.uuid(),
+                modifiedBy: z.optional(
+                  z.object({
+                    createdAt: z.iso.datetime(),
+                    email: z.email().min(1),
+                    id: z.uuid(),
+                    image: z.optional(z.string()),
+                    jobTitle: z.optional(z.string()),
+                    mfaEnabled: z.boolean().default(false),
+                    mfaVerified: z.boolean().default(false),
+                    modifiedById: z.uuid(),
+                    name: z.optional(z.string()),
+                    phone: z.optional(z.string()),
+                    primaryOrganizationId: z.optional(z.uuid()),
+                    tags: z.array(z.string()),
+                    updatedAt: z.iso.datetime(),
+                  })
+                ),
+                modifiedById: z.uuid(),
+                name: z.string(),
+                updatedAt: z.iso.datetime(),
+              })
+            ),
+            modifiedBy: z.optional(
+              z.object({
+                createdAt: z.iso.datetime(),
+                email: z.email().min(1),
+                id: z.uuid(),
+                image: z.optional(z.string()),
+                jobTitle: z.optional(z.string()),
+                mfaEnabled: z.boolean().default(false),
+                mfaVerified: z.boolean().default(false),
+                modifiedById: z.uuid(),
+                name: z.optional(z.string()),
+                phone: z.optional(z.string()),
+                primaryOrganizationId: z.optional(z.uuid()),
+                tags: z.array(z.string()),
+                updatedAt: z.iso.datetime(),
+              })
+            ),
+            modifiedById: z.uuid(),
+            name: z.string(),
+            updatedAt: z.iso.datetime(),
+            value: z.number().gte(0),
+          })
+        ),
         sellerAccepted: z.boolean(),
         sellerDeclined: z.boolean(),
         sellerId: z.uuid(),
@@ -10284,59 +10332,61 @@ export const zGetApiOrganizationsByIdResponse = z.object({
             })
           ),
           modifiedById: z.optional(z.uuid()),
-          products: z.object({
-            createdAt: z.iso.datetime(),
-            id: z.uuid(),
-            materials: z.array(
-              z.object({
-                carbonFactor: z.string(),
-                createdAt: z.iso.datetime(),
-                gwCode: z.string(),
-                id: z.uuid(),
-                modifiedBy: z.optional(
-                  z.object({
-                    createdAt: z.iso.datetime(),
-                    email: z.email().min(1),
-                    id: z.uuid(),
-                    image: z.optional(z.string()),
-                    jobTitle: z.optional(z.string()),
-                    mfaEnabled: z.boolean().default(false),
-                    mfaVerified: z.boolean().default(false),
-                    modifiedById: z.uuid(),
-                    name: z.optional(z.string()),
-                    phone: z.optional(z.string()),
-                    primaryOrganizationId: z.optional(z.uuid()),
-                    tags: z.array(z.string()),
-                    updatedAt: z.iso.datetime(),
-                  })
-                ),
-                modifiedById: z.uuid(),
-                name: z.string(),
-                updatedAt: z.iso.datetime(),
-              })
-            ),
-            modifiedBy: z.optional(
-              z.object({
-                createdAt: z.iso.datetime(),
-                email: z.email().min(1),
-                id: z.uuid(),
-                image: z.optional(z.string()),
-                jobTitle: z.optional(z.string()),
-                mfaEnabled: z.boolean().default(false),
-                mfaVerified: z.boolean().default(false),
-                modifiedById: z.uuid(),
-                name: z.optional(z.string()),
-                phone: z.optional(z.string()),
-                primaryOrganizationId: z.optional(z.uuid()),
-                tags: z.array(z.string()),
-                updatedAt: z.iso.datetime(),
-              })
-            ),
-            modifiedById: z.uuid(),
-            name: z.string(),
-            updatedAt: z.iso.datetime(),
-            value: z.number().gte(0),
-          }),
+          products: z.array(
+            z.object({
+              createdAt: z.iso.datetime(),
+              id: z.uuid(),
+              materials: z.array(
+                z.object({
+                  carbonFactor: z.string(),
+                  createdAt: z.iso.datetime(),
+                  gwCode: z.string(),
+                  id: z.uuid(),
+                  modifiedBy: z.optional(
+                    z.object({
+                      createdAt: z.iso.datetime(),
+                      email: z.email().min(1),
+                      id: z.uuid(),
+                      image: z.optional(z.string()),
+                      jobTitle: z.optional(z.string()),
+                      mfaEnabled: z.boolean().default(false),
+                      mfaVerified: z.boolean().default(false),
+                      modifiedById: z.uuid(),
+                      name: z.optional(z.string()),
+                      phone: z.optional(z.string()),
+                      primaryOrganizationId: z.optional(z.uuid()),
+                      tags: z.array(z.string()),
+                      updatedAt: z.iso.datetime(),
+                    })
+                  ),
+                  modifiedById: z.uuid(),
+                  name: z.string(),
+                  updatedAt: z.iso.datetime(),
+                })
+              ),
+              modifiedBy: z.optional(
+                z.object({
+                  createdAt: z.iso.datetime(),
+                  email: z.email().min(1),
+                  id: z.uuid(),
+                  image: z.optional(z.string()),
+                  jobTitle: z.optional(z.string()),
+                  mfaEnabled: z.boolean().default(false),
+                  mfaVerified: z.boolean().default(false),
+                  modifiedById: z.uuid(),
+                  name: z.optional(z.string()),
+                  phone: z.optional(z.string()),
+                  primaryOrganizationId: z.optional(z.uuid()),
+                  tags: z.array(z.string()),
+                  updatedAt: z.iso.datetime(),
+                })
+              ),
+              modifiedById: z.uuid(),
+              name: z.string(),
+              updatedAt: z.iso.datetime(),
+              value: z.number().gte(0),
+            })
+          ),
           sellerAccepted: z.boolean(),
           sellerDeclined: z.boolean(),
           sellerId: z.uuid(),
@@ -10721,59 +10771,61 @@ export const zGetApiProductsResponse = z.object({
           })
         ),
         modifiedById: z.optional(z.uuid()),
-        products: z.object({
-          createdAt: z.iso.datetime(),
-          id: z.uuid(),
-          materials: z.array(
-            z.object({
-              carbonFactor: z.string(),
-              createdAt: z.iso.datetime(),
-              gwCode: z.string(),
-              id: z.uuid(),
-              modifiedBy: z.optional(
-                z.object({
-                  createdAt: z.iso.datetime(),
-                  email: z.email().min(1),
-                  id: z.uuid(),
-                  image: z.optional(z.string()),
-                  jobTitle: z.optional(z.string()),
-                  mfaEnabled: z.boolean().default(false),
-                  mfaVerified: z.boolean().default(false),
-                  modifiedById: z.uuid(),
-                  name: z.optional(z.string()),
-                  phone: z.optional(z.string()),
-                  primaryOrganizationId: z.optional(z.uuid()),
-                  tags: z.array(z.string()),
-                  updatedAt: z.iso.datetime(),
-                })
-              ),
-              modifiedById: z.uuid(),
-              name: z.string(),
-              updatedAt: z.iso.datetime(),
-            })
-          ),
-          modifiedBy: z.optional(
-            z.object({
-              createdAt: z.iso.datetime(),
-              email: z.email().min(1),
-              id: z.uuid(),
-              image: z.optional(z.string()),
-              jobTitle: z.optional(z.string()),
-              mfaEnabled: z.boolean().default(false),
-              mfaVerified: z.boolean().default(false),
-              modifiedById: z.uuid(),
-              name: z.optional(z.string()),
-              phone: z.optional(z.string()),
-              primaryOrganizationId: z.optional(z.uuid()),
-              tags: z.array(z.string()),
-              updatedAt: z.iso.datetime(),
-            })
-          ),
-          modifiedById: z.uuid(),
-          name: z.string(),
-          updatedAt: z.iso.datetime(),
-          value: z.number().gte(0),
-        }),
+        products: z.array(
+          z.object({
+            createdAt: z.iso.datetime(),
+            id: z.uuid(),
+            materials: z.array(
+              z.object({
+                carbonFactor: z.string(),
+                createdAt: z.iso.datetime(),
+                gwCode: z.string(),
+                id: z.uuid(),
+                modifiedBy: z.optional(
+                  z.object({
+                    createdAt: z.iso.datetime(),
+                    email: z.email().min(1),
+                    id: z.uuid(),
+                    image: z.optional(z.string()),
+                    jobTitle: z.optional(z.string()),
+                    mfaEnabled: z.boolean().default(false),
+                    mfaVerified: z.boolean().default(false),
+                    modifiedById: z.uuid(),
+                    name: z.optional(z.string()),
+                    phone: z.optional(z.string()),
+                    primaryOrganizationId: z.optional(z.uuid()),
+                    tags: z.array(z.string()),
+                    updatedAt: z.iso.datetime(),
+                  })
+                ),
+                modifiedById: z.uuid(),
+                name: z.string(),
+                updatedAt: z.iso.datetime(),
+              })
+            ),
+            modifiedBy: z.optional(
+              z.object({
+                createdAt: z.iso.datetime(),
+                email: z.email().min(1),
+                id: z.uuid(),
+                image: z.optional(z.string()),
+                jobTitle: z.optional(z.string()),
+                mfaEnabled: z.boolean().default(false),
+                mfaVerified: z.boolean().default(false),
+                modifiedById: z.uuid(),
+                name: z.optional(z.string()),
+                phone: z.optional(z.string()),
+                primaryOrganizationId: z.optional(z.uuid()),
+                tags: z.array(z.string()),
+                updatedAt: z.iso.datetime(),
+              })
+            ),
+            modifiedById: z.uuid(),
+            name: z.string(),
+            updatedAt: z.iso.datetime(),
+            value: z.number().gte(0),
+          })
+        ),
         sellerAccepted: z.boolean(),
         sellerDeclined: z.boolean(),
         sellerId: z.uuid(),
@@ -11114,59 +11166,61 @@ export const zGetApiProductsResponse = z.object({
             })
           ),
           modifiedById: z.optional(z.uuid()),
-          products: z.object({
-            createdAt: z.iso.datetime(),
-            id: z.uuid(),
-            materials: z.array(
-              z.object({
-                carbonFactor: z.string(),
-                createdAt: z.iso.datetime(),
-                gwCode: z.string(),
-                id: z.uuid(),
-                modifiedBy: z.optional(
-                  z.object({
-                    createdAt: z.iso.datetime(),
-                    email: z.email().min(1),
-                    id: z.uuid(),
-                    image: z.optional(z.string()),
-                    jobTitle: z.optional(z.string()),
-                    mfaEnabled: z.boolean().default(false),
-                    mfaVerified: z.boolean().default(false),
-                    modifiedById: z.uuid(),
-                    name: z.optional(z.string()),
-                    phone: z.optional(z.string()),
-                    primaryOrganizationId: z.optional(z.uuid()),
-                    tags: z.array(z.string()),
-                    updatedAt: z.iso.datetime(),
-                  })
-                ),
-                modifiedById: z.uuid(),
-                name: z.string(),
-                updatedAt: z.iso.datetime(),
-              })
-            ),
-            modifiedBy: z.optional(
-              z.object({
-                createdAt: z.iso.datetime(),
-                email: z.email().min(1),
-                id: z.uuid(),
-                image: z.optional(z.string()),
-                jobTitle: z.optional(z.string()),
-                mfaEnabled: z.boolean().default(false),
-                mfaVerified: z.boolean().default(false),
-                modifiedById: z.uuid(),
-                name: z.optional(z.string()),
-                phone: z.optional(z.string()),
-                primaryOrganizationId: z.optional(z.uuid()),
-                tags: z.array(z.string()),
-                updatedAt: z.iso.datetime(),
-              })
-            ),
-            modifiedById: z.uuid(),
-            name: z.string(),
-            updatedAt: z.iso.datetime(),
-            value: z.number().gte(0),
-          }),
+          products: z.array(
+            z.object({
+              createdAt: z.iso.datetime(),
+              id: z.uuid(),
+              materials: z.array(
+                z.object({
+                  carbonFactor: z.string(),
+                  createdAt: z.iso.datetime(),
+                  gwCode: z.string(),
+                  id: z.uuid(),
+                  modifiedBy: z.optional(
+                    z.object({
+                      createdAt: z.iso.datetime(),
+                      email: z.email().min(1),
+                      id: z.uuid(),
+                      image: z.optional(z.string()),
+                      jobTitle: z.optional(z.string()),
+                      mfaEnabled: z.boolean().default(false),
+                      mfaVerified: z.boolean().default(false),
+                      modifiedById: z.uuid(),
+                      name: z.optional(z.string()),
+                      phone: z.optional(z.string()),
+                      primaryOrganizationId: z.optional(z.uuid()),
+                      tags: z.array(z.string()),
+                      updatedAt: z.iso.datetime(),
+                    })
+                  ),
+                  modifiedById: z.uuid(),
+                  name: z.string(),
+                  updatedAt: z.iso.datetime(),
+                })
+              ),
+              modifiedBy: z.optional(
+                z.object({
+                  createdAt: z.iso.datetime(),
+                  email: z.email().min(1),
+                  id: z.uuid(),
+                  image: z.optional(z.string()),
+                  jobTitle: z.optional(z.string()),
+                  mfaEnabled: z.boolean().default(false),
+                  mfaVerified: z.boolean().default(false),
+                  modifiedById: z.uuid(),
+                  name: z.optional(z.string()),
+                  phone: z.optional(z.string()),
+                  primaryOrganizationId: z.optional(z.uuid()),
+                  tags: z.array(z.string()),
+                  updatedAt: z.iso.datetime(),
+                })
+              ),
+              modifiedById: z.uuid(),
+              name: z.string(),
+              updatedAt: z.iso.datetime(),
+              value: z.number().gte(0),
+            })
+          ),
           sellerAccepted: z.boolean(),
           sellerDeclined: z.boolean(),
           sellerId: z.uuid(),
@@ -11548,59 +11602,61 @@ export const zGetApiProductsByIdResponse = z.object({
           })
         ),
         modifiedById: z.optional(z.uuid()),
-        products: z.object({
-          createdAt: z.iso.datetime(),
-          id: z.uuid(),
-          materials: z.array(
-            z.object({
-              carbonFactor: z.string(),
-              createdAt: z.iso.datetime(),
-              gwCode: z.string(),
-              id: z.uuid(),
-              modifiedBy: z.optional(
-                z.object({
-                  createdAt: z.iso.datetime(),
-                  email: z.email().min(1),
-                  id: z.uuid(),
-                  image: z.optional(z.string()),
-                  jobTitle: z.optional(z.string()),
-                  mfaEnabled: z.boolean().default(false),
-                  mfaVerified: z.boolean().default(false),
-                  modifiedById: z.uuid(),
-                  name: z.optional(z.string()),
-                  phone: z.optional(z.string()),
-                  primaryOrganizationId: z.optional(z.uuid()),
-                  tags: z.array(z.string()),
-                  updatedAt: z.iso.datetime(),
-                })
-              ),
-              modifiedById: z.uuid(),
-              name: z.string(),
-              updatedAt: z.iso.datetime(),
-            })
-          ),
-          modifiedBy: z.optional(
-            z.object({
-              createdAt: z.iso.datetime(),
-              email: z.email().min(1),
-              id: z.uuid(),
-              image: z.optional(z.string()),
-              jobTitle: z.optional(z.string()),
-              mfaEnabled: z.boolean().default(false),
-              mfaVerified: z.boolean().default(false),
-              modifiedById: z.uuid(),
-              name: z.optional(z.string()),
-              phone: z.optional(z.string()),
-              primaryOrganizationId: z.optional(z.uuid()),
-              tags: z.array(z.string()),
-              updatedAt: z.iso.datetime(),
-            })
-          ),
-          modifiedById: z.uuid(),
-          name: z.string(),
-          updatedAt: z.iso.datetime(),
-          value: z.number().gte(0),
-        }),
+        products: z.array(
+          z.object({
+            createdAt: z.iso.datetime(),
+            id: z.uuid(),
+            materials: z.array(
+              z.object({
+                carbonFactor: z.string(),
+                createdAt: z.iso.datetime(),
+                gwCode: z.string(),
+                id: z.uuid(),
+                modifiedBy: z.optional(
+                  z.object({
+                    createdAt: z.iso.datetime(),
+                    email: z.email().min(1),
+                    id: z.uuid(),
+                    image: z.optional(z.string()),
+                    jobTitle: z.optional(z.string()),
+                    mfaEnabled: z.boolean().default(false),
+                    mfaVerified: z.boolean().default(false),
+                    modifiedById: z.uuid(),
+                    name: z.optional(z.string()),
+                    phone: z.optional(z.string()),
+                    primaryOrganizationId: z.optional(z.uuid()),
+                    tags: z.array(z.string()),
+                    updatedAt: z.iso.datetime(),
+                  })
+                ),
+                modifiedById: z.uuid(),
+                name: z.string(),
+                updatedAt: z.iso.datetime(),
+              })
+            ),
+            modifiedBy: z.optional(
+              z.object({
+                createdAt: z.iso.datetime(),
+                email: z.email().min(1),
+                id: z.uuid(),
+                image: z.optional(z.string()),
+                jobTitle: z.optional(z.string()),
+                mfaEnabled: z.boolean().default(false),
+                mfaVerified: z.boolean().default(false),
+                modifiedById: z.uuid(),
+                name: z.optional(z.string()),
+                phone: z.optional(z.string()),
+                primaryOrganizationId: z.optional(z.uuid()),
+                tags: z.array(z.string()),
+                updatedAt: z.iso.datetime(),
+              })
+            ),
+            modifiedById: z.uuid(),
+            name: z.string(),
+            updatedAt: z.iso.datetime(),
+            value: z.number().gte(0),
+          })
+        ),
         sellerAccepted: z.boolean(),
         sellerDeclined: z.boolean(),
         sellerId: z.uuid(),
@@ -11941,59 +11997,61 @@ export const zGetApiProductsByIdResponse = z.object({
             })
           ),
           modifiedById: z.optional(z.uuid()),
-          products: z.object({
-            createdAt: z.iso.datetime(),
-            id: z.uuid(),
-            materials: z.array(
-              z.object({
-                carbonFactor: z.string(),
-                createdAt: z.iso.datetime(),
-                gwCode: z.string(),
-                id: z.uuid(),
-                modifiedBy: z.optional(
-                  z.object({
-                    createdAt: z.iso.datetime(),
-                    email: z.email().min(1),
-                    id: z.uuid(),
-                    image: z.optional(z.string()),
-                    jobTitle: z.optional(z.string()),
-                    mfaEnabled: z.boolean().default(false),
-                    mfaVerified: z.boolean().default(false),
-                    modifiedById: z.uuid(),
-                    name: z.optional(z.string()),
-                    phone: z.optional(z.string()),
-                    primaryOrganizationId: z.optional(z.uuid()),
-                    tags: z.array(z.string()),
-                    updatedAt: z.iso.datetime(),
-                  })
-                ),
-                modifiedById: z.uuid(),
-                name: z.string(),
-                updatedAt: z.iso.datetime(),
-              })
-            ),
-            modifiedBy: z.optional(
-              z.object({
-                createdAt: z.iso.datetime(),
-                email: z.email().min(1),
-                id: z.uuid(),
-                image: z.optional(z.string()),
-                jobTitle: z.optional(z.string()),
-                mfaEnabled: z.boolean().default(false),
-                mfaVerified: z.boolean().default(false),
-                modifiedById: z.uuid(),
-                name: z.optional(z.string()),
-                phone: z.optional(z.string()),
-                primaryOrganizationId: z.optional(z.uuid()),
-                tags: z.array(z.string()),
-                updatedAt: z.iso.datetime(),
-              })
-            ),
-            modifiedById: z.uuid(),
-            name: z.string(),
-            updatedAt: z.iso.datetime(),
-            value: z.number().gte(0),
-          }),
+          products: z.array(
+            z.object({
+              createdAt: z.iso.datetime(),
+              id: z.uuid(),
+              materials: z.array(
+                z.object({
+                  carbonFactor: z.string(),
+                  createdAt: z.iso.datetime(),
+                  gwCode: z.string(),
+                  id: z.uuid(),
+                  modifiedBy: z.optional(
+                    z.object({
+                      createdAt: z.iso.datetime(),
+                      email: z.email().min(1),
+                      id: z.uuid(),
+                      image: z.optional(z.string()),
+                      jobTitle: z.optional(z.string()),
+                      mfaEnabled: z.boolean().default(false),
+                      mfaVerified: z.boolean().default(false),
+                      modifiedById: z.uuid(),
+                      name: z.optional(z.string()),
+                      phone: z.optional(z.string()),
+                      primaryOrganizationId: z.optional(z.uuid()),
+                      tags: z.array(z.string()),
+                      updatedAt: z.iso.datetime(),
+                    })
+                  ),
+                  modifiedById: z.uuid(),
+                  name: z.string(),
+                  updatedAt: z.iso.datetime(),
+                })
+              ),
+              modifiedBy: z.optional(
+                z.object({
+                  createdAt: z.iso.datetime(),
+                  email: z.email().min(1),
+                  id: z.uuid(),
+                  image: z.optional(z.string()),
+                  jobTitle: z.optional(z.string()),
+                  mfaEnabled: z.boolean().default(false),
+                  mfaVerified: z.boolean().default(false),
+                  modifiedById: z.uuid(),
+                  name: z.optional(z.string()),
+                  phone: z.optional(z.string()),
+                  primaryOrganizationId: z.optional(z.uuid()),
+                  tags: z.array(z.string()),
+                  updatedAt: z.iso.datetime(),
+                })
+              ),
+              modifiedById: z.uuid(),
+              name: z.string(),
+              updatedAt: z.iso.datetime(),
+              value: z.number().gte(0),
+            })
+          ),
           sellerAccepted: z.boolean(),
           sellerDeclined: z.boolean(),
           sellerId: z.uuid(),
@@ -12372,59 +12430,61 @@ export const zGetApiRolesResponse = z.object({
           })
         ),
         modifiedById: z.optional(z.uuid()),
-        products: z.object({
-          createdAt: z.iso.datetime(),
-          id: z.uuid(),
-          materials: z.array(
-            z.object({
-              carbonFactor: z.string(),
-              createdAt: z.iso.datetime(),
-              gwCode: z.string(),
-              id: z.uuid(),
-              modifiedBy: z.optional(
-                z.object({
-                  createdAt: z.iso.datetime(),
-                  email: z.email().min(1),
-                  id: z.uuid(),
-                  image: z.optional(z.string()),
-                  jobTitle: z.optional(z.string()),
-                  mfaEnabled: z.boolean().default(false),
-                  mfaVerified: z.boolean().default(false),
-                  modifiedById: z.uuid(),
-                  name: z.optional(z.string()),
-                  phone: z.optional(z.string()),
-                  primaryOrganizationId: z.optional(z.uuid()),
-                  tags: z.array(z.string()),
-                  updatedAt: z.iso.datetime(),
-                })
-              ),
-              modifiedById: z.uuid(),
-              name: z.string(),
-              updatedAt: z.iso.datetime(),
-            })
-          ),
-          modifiedBy: z.optional(
-            z.object({
-              createdAt: z.iso.datetime(),
-              email: z.email().min(1),
-              id: z.uuid(),
-              image: z.optional(z.string()),
-              jobTitle: z.optional(z.string()),
-              mfaEnabled: z.boolean().default(false),
-              mfaVerified: z.boolean().default(false),
-              modifiedById: z.uuid(),
-              name: z.optional(z.string()),
-              phone: z.optional(z.string()),
-              primaryOrganizationId: z.optional(z.uuid()),
-              tags: z.array(z.string()),
-              updatedAt: z.iso.datetime(),
-            })
-          ),
-          modifiedById: z.uuid(),
-          name: z.string(),
-          updatedAt: z.iso.datetime(),
-          value: z.number().gte(0),
-        }),
+        products: z.array(
+          z.object({
+            createdAt: z.iso.datetime(),
+            id: z.uuid(),
+            materials: z.array(
+              z.object({
+                carbonFactor: z.string(),
+                createdAt: z.iso.datetime(),
+                gwCode: z.string(),
+                id: z.uuid(),
+                modifiedBy: z.optional(
+                  z.object({
+                    createdAt: z.iso.datetime(),
+                    email: z.email().min(1),
+                    id: z.uuid(),
+                    image: z.optional(z.string()),
+                    jobTitle: z.optional(z.string()),
+                    mfaEnabled: z.boolean().default(false),
+                    mfaVerified: z.boolean().default(false),
+                    modifiedById: z.uuid(),
+                    name: z.optional(z.string()),
+                    phone: z.optional(z.string()),
+                    primaryOrganizationId: z.optional(z.uuid()),
+                    tags: z.array(z.string()),
+                    updatedAt: z.iso.datetime(),
+                  })
+                ),
+                modifiedById: z.uuid(),
+                name: z.string(),
+                updatedAt: z.iso.datetime(),
+              })
+            ),
+            modifiedBy: z.optional(
+              z.object({
+                createdAt: z.iso.datetime(),
+                email: z.email().min(1),
+                id: z.uuid(),
+                image: z.optional(z.string()),
+                jobTitle: z.optional(z.string()),
+                mfaEnabled: z.boolean().default(false),
+                mfaVerified: z.boolean().default(false),
+                modifiedById: z.uuid(),
+                name: z.optional(z.string()),
+                phone: z.optional(z.string()),
+                primaryOrganizationId: z.optional(z.uuid()),
+                tags: z.array(z.string()),
+                updatedAt: z.iso.datetime(),
+              })
+            ),
+            modifiedById: z.uuid(),
+            name: z.string(),
+            updatedAt: z.iso.datetime(),
+            value: z.number().gte(0),
+          })
+        ),
         sellerAccepted: z.boolean(),
         sellerDeclined: z.boolean(),
         sellerId: z.uuid(),
@@ -12765,59 +12825,61 @@ export const zGetApiRolesResponse = z.object({
             })
           ),
           modifiedById: z.optional(z.uuid()),
-          products: z.object({
-            createdAt: z.iso.datetime(),
-            id: z.uuid(),
-            materials: z.array(
-              z.object({
-                carbonFactor: z.string(),
-                createdAt: z.iso.datetime(),
-                gwCode: z.string(),
-                id: z.uuid(),
-                modifiedBy: z.optional(
-                  z.object({
-                    createdAt: z.iso.datetime(),
-                    email: z.email().min(1),
-                    id: z.uuid(),
-                    image: z.optional(z.string()),
-                    jobTitle: z.optional(z.string()),
-                    mfaEnabled: z.boolean().default(false),
-                    mfaVerified: z.boolean().default(false),
-                    modifiedById: z.uuid(),
-                    name: z.optional(z.string()),
-                    phone: z.optional(z.string()),
-                    primaryOrganizationId: z.optional(z.uuid()),
-                    tags: z.array(z.string()),
-                    updatedAt: z.iso.datetime(),
-                  })
-                ),
-                modifiedById: z.uuid(),
-                name: z.string(),
-                updatedAt: z.iso.datetime(),
-              })
-            ),
-            modifiedBy: z.optional(
-              z.object({
-                createdAt: z.iso.datetime(),
-                email: z.email().min(1),
-                id: z.uuid(),
-                image: z.optional(z.string()),
-                jobTitle: z.optional(z.string()),
-                mfaEnabled: z.boolean().default(false),
-                mfaVerified: z.boolean().default(false),
-                modifiedById: z.uuid(),
-                name: z.optional(z.string()),
-                phone: z.optional(z.string()),
-                primaryOrganizationId: z.optional(z.uuid()),
-                tags: z.array(z.string()),
-                updatedAt: z.iso.datetime(),
-              })
-            ),
-            modifiedById: z.uuid(),
-            name: z.string(),
-            updatedAt: z.iso.datetime(),
-            value: z.number().gte(0),
-          }),
+          products: z.array(
+            z.object({
+              createdAt: z.iso.datetime(),
+              id: z.uuid(),
+              materials: z.array(
+                z.object({
+                  carbonFactor: z.string(),
+                  createdAt: z.iso.datetime(),
+                  gwCode: z.string(),
+                  id: z.uuid(),
+                  modifiedBy: z.optional(
+                    z.object({
+                      createdAt: z.iso.datetime(),
+                      email: z.email().min(1),
+                      id: z.uuid(),
+                      image: z.optional(z.string()),
+                      jobTitle: z.optional(z.string()),
+                      mfaEnabled: z.boolean().default(false),
+                      mfaVerified: z.boolean().default(false),
+                      modifiedById: z.uuid(),
+                      name: z.optional(z.string()),
+                      phone: z.optional(z.string()),
+                      primaryOrganizationId: z.optional(z.uuid()),
+                      tags: z.array(z.string()),
+                      updatedAt: z.iso.datetime(),
+                    })
+                  ),
+                  modifiedById: z.uuid(),
+                  name: z.string(),
+                  updatedAt: z.iso.datetime(),
+                })
+              ),
+              modifiedBy: z.optional(
+                z.object({
+                  createdAt: z.iso.datetime(),
+                  email: z.email().min(1),
+                  id: z.uuid(),
+                  image: z.optional(z.string()),
+                  jobTitle: z.optional(z.string()),
+                  mfaEnabled: z.boolean().default(false),
+                  mfaVerified: z.boolean().default(false),
+                  modifiedById: z.uuid(),
+                  name: z.optional(z.string()),
+                  phone: z.optional(z.string()),
+                  primaryOrganizationId: z.optional(z.uuid()),
+                  tags: z.array(z.string()),
+                  updatedAt: z.iso.datetime(),
+                })
+              ),
+              modifiedById: z.uuid(),
+              name: z.string(),
+              updatedAt: z.iso.datetime(),
+              value: z.number().gte(0),
+            })
+          ),
           sellerAccepted: z.boolean(),
           sellerDeclined: z.boolean(),
           sellerId: z.uuid(),
@@ -13189,59 +13251,61 @@ export const zGetApiRolesAvailablePermissionsResponse = z.object({
           })
         ),
         modifiedById: z.optional(z.uuid()),
-        products: z.object({
-          createdAt: z.iso.datetime(),
-          id: z.uuid(),
-          materials: z.array(
-            z.object({
-              carbonFactor: z.string(),
-              createdAt: z.iso.datetime(),
-              gwCode: z.string(),
-              id: z.uuid(),
-              modifiedBy: z.optional(
-                z.object({
-                  createdAt: z.iso.datetime(),
-                  email: z.email().min(1),
-                  id: z.uuid(),
-                  image: z.optional(z.string()),
-                  jobTitle: z.optional(z.string()),
-                  mfaEnabled: z.boolean().default(false),
-                  mfaVerified: z.boolean().default(false),
-                  modifiedById: z.uuid(),
-                  name: z.optional(z.string()),
-                  phone: z.optional(z.string()),
-                  primaryOrganizationId: z.optional(z.uuid()),
-                  tags: z.array(z.string()),
-                  updatedAt: z.iso.datetime(),
-                })
-              ),
-              modifiedById: z.uuid(),
-              name: z.string(),
-              updatedAt: z.iso.datetime(),
-            })
-          ),
-          modifiedBy: z.optional(
-            z.object({
-              createdAt: z.iso.datetime(),
-              email: z.email().min(1),
-              id: z.uuid(),
-              image: z.optional(z.string()),
-              jobTitle: z.optional(z.string()),
-              mfaEnabled: z.boolean().default(false),
-              mfaVerified: z.boolean().default(false),
-              modifiedById: z.uuid(),
-              name: z.optional(z.string()),
-              phone: z.optional(z.string()),
-              primaryOrganizationId: z.optional(z.uuid()),
-              tags: z.array(z.string()),
-              updatedAt: z.iso.datetime(),
-            })
-          ),
-          modifiedById: z.uuid(),
-          name: z.string(),
-          updatedAt: z.iso.datetime(),
-          value: z.number().gte(0),
-        }),
+        products: z.array(
+          z.object({
+            createdAt: z.iso.datetime(),
+            id: z.uuid(),
+            materials: z.array(
+              z.object({
+                carbonFactor: z.string(),
+                createdAt: z.iso.datetime(),
+                gwCode: z.string(),
+                id: z.uuid(),
+                modifiedBy: z.optional(
+                  z.object({
+                    createdAt: z.iso.datetime(),
+                    email: z.email().min(1),
+                    id: z.uuid(),
+                    image: z.optional(z.string()),
+                    jobTitle: z.optional(z.string()),
+                    mfaEnabled: z.boolean().default(false),
+                    mfaVerified: z.boolean().default(false),
+                    modifiedById: z.uuid(),
+                    name: z.optional(z.string()),
+                    phone: z.optional(z.string()),
+                    primaryOrganizationId: z.optional(z.uuid()),
+                    tags: z.array(z.string()),
+                    updatedAt: z.iso.datetime(),
+                  })
+                ),
+                modifiedById: z.uuid(),
+                name: z.string(),
+                updatedAt: z.iso.datetime(),
+              })
+            ),
+            modifiedBy: z.optional(
+              z.object({
+                createdAt: z.iso.datetime(),
+                email: z.email().min(1),
+                id: z.uuid(),
+                image: z.optional(z.string()),
+                jobTitle: z.optional(z.string()),
+                mfaEnabled: z.boolean().default(false),
+                mfaVerified: z.boolean().default(false),
+                modifiedById: z.uuid(),
+                name: z.optional(z.string()),
+                phone: z.optional(z.string()),
+                primaryOrganizationId: z.optional(z.uuid()),
+                tags: z.array(z.string()),
+                updatedAt: z.iso.datetime(),
+              })
+            ),
+            modifiedById: z.uuid(),
+            name: z.string(),
+            updatedAt: z.iso.datetime(),
+            value: z.number().gte(0),
+          })
+        ),
         sellerAccepted: z.boolean(),
         sellerDeclined: z.boolean(),
         sellerId: z.uuid(),
@@ -13582,59 +13646,61 @@ export const zGetApiRolesAvailablePermissionsResponse = z.object({
             })
           ),
           modifiedById: z.optional(z.uuid()),
-          products: z.object({
-            createdAt: z.iso.datetime(),
-            id: z.uuid(),
-            materials: z.array(
-              z.object({
-                carbonFactor: z.string(),
-                createdAt: z.iso.datetime(),
-                gwCode: z.string(),
-                id: z.uuid(),
-                modifiedBy: z.optional(
-                  z.object({
-                    createdAt: z.iso.datetime(),
-                    email: z.email().min(1),
-                    id: z.uuid(),
-                    image: z.optional(z.string()),
-                    jobTitle: z.optional(z.string()),
-                    mfaEnabled: z.boolean().default(false),
-                    mfaVerified: z.boolean().default(false),
-                    modifiedById: z.uuid(),
-                    name: z.optional(z.string()),
-                    phone: z.optional(z.string()),
-                    primaryOrganizationId: z.optional(z.uuid()),
-                    tags: z.array(z.string()),
-                    updatedAt: z.iso.datetime(),
-                  })
-                ),
-                modifiedById: z.uuid(),
-                name: z.string(),
-                updatedAt: z.iso.datetime(),
-              })
-            ),
-            modifiedBy: z.optional(
-              z.object({
-                createdAt: z.iso.datetime(),
-                email: z.email().min(1),
-                id: z.uuid(),
-                image: z.optional(z.string()),
-                jobTitle: z.optional(z.string()),
-                mfaEnabled: z.boolean().default(false),
-                mfaVerified: z.boolean().default(false),
-                modifiedById: z.uuid(),
-                name: z.optional(z.string()),
-                phone: z.optional(z.string()),
-                primaryOrganizationId: z.optional(z.uuid()),
-                tags: z.array(z.string()),
-                updatedAt: z.iso.datetime(),
-              })
-            ),
-            modifiedById: z.uuid(),
-            name: z.string(),
-            updatedAt: z.iso.datetime(),
-            value: z.number().gte(0),
-          }),
+          products: z.array(
+            z.object({
+              createdAt: z.iso.datetime(),
+              id: z.uuid(),
+              materials: z.array(
+                z.object({
+                  carbonFactor: z.string(),
+                  createdAt: z.iso.datetime(),
+                  gwCode: z.string(),
+                  id: z.uuid(),
+                  modifiedBy: z.optional(
+                    z.object({
+                      createdAt: z.iso.datetime(),
+                      email: z.email().min(1),
+                      id: z.uuid(),
+                      image: z.optional(z.string()),
+                      jobTitle: z.optional(z.string()),
+                      mfaEnabled: z.boolean().default(false),
+                      mfaVerified: z.boolean().default(false),
+                      modifiedById: z.uuid(),
+                      name: z.optional(z.string()),
+                      phone: z.optional(z.string()),
+                      primaryOrganizationId: z.optional(z.uuid()),
+                      tags: z.array(z.string()),
+                      updatedAt: z.iso.datetime(),
+                    })
+                  ),
+                  modifiedById: z.uuid(),
+                  name: z.string(),
+                  updatedAt: z.iso.datetime(),
+                })
+              ),
+              modifiedBy: z.optional(
+                z.object({
+                  createdAt: z.iso.datetime(),
+                  email: z.email().min(1),
+                  id: z.uuid(),
+                  image: z.optional(z.string()),
+                  jobTitle: z.optional(z.string()),
+                  mfaEnabled: z.boolean().default(false),
+                  mfaVerified: z.boolean().default(false),
+                  modifiedById: z.uuid(),
+                  name: z.optional(z.string()),
+                  phone: z.optional(z.string()),
+                  primaryOrganizationId: z.optional(z.uuid()),
+                  tags: z.array(z.string()),
+                  updatedAt: z.iso.datetime(),
+                })
+              ),
+              modifiedById: z.uuid(),
+              name: z.string(),
+              updatedAt: z.iso.datetime(),
+              value: z.number().gte(0),
+            })
+          ),
           sellerAccepted: z.boolean(),
           sellerDeclined: z.boolean(),
           sellerId: z.uuid(),
@@ -14006,59 +14072,61 @@ export const zGetApiRolesByIdResponse = z.object({
           })
         ),
         modifiedById: z.optional(z.uuid()),
-        products: z.object({
-          createdAt: z.iso.datetime(),
-          id: z.uuid(),
-          materials: z.array(
-            z.object({
-              carbonFactor: z.string(),
-              createdAt: z.iso.datetime(),
-              gwCode: z.string(),
-              id: z.uuid(),
-              modifiedBy: z.optional(
-                z.object({
-                  createdAt: z.iso.datetime(),
-                  email: z.email().min(1),
-                  id: z.uuid(),
-                  image: z.optional(z.string()),
-                  jobTitle: z.optional(z.string()),
-                  mfaEnabled: z.boolean().default(false),
-                  mfaVerified: z.boolean().default(false),
-                  modifiedById: z.uuid(),
-                  name: z.optional(z.string()),
-                  phone: z.optional(z.string()),
-                  primaryOrganizationId: z.optional(z.uuid()),
-                  tags: z.array(z.string()),
-                  updatedAt: z.iso.datetime(),
-                })
-              ),
-              modifiedById: z.uuid(),
-              name: z.string(),
-              updatedAt: z.iso.datetime(),
-            })
-          ),
-          modifiedBy: z.optional(
-            z.object({
-              createdAt: z.iso.datetime(),
-              email: z.email().min(1),
-              id: z.uuid(),
-              image: z.optional(z.string()),
-              jobTitle: z.optional(z.string()),
-              mfaEnabled: z.boolean().default(false),
-              mfaVerified: z.boolean().default(false),
-              modifiedById: z.uuid(),
-              name: z.optional(z.string()),
-              phone: z.optional(z.string()),
-              primaryOrganizationId: z.optional(z.uuid()),
-              tags: z.array(z.string()),
-              updatedAt: z.iso.datetime(),
-            })
-          ),
-          modifiedById: z.uuid(),
-          name: z.string(),
-          updatedAt: z.iso.datetime(),
-          value: z.number().gte(0),
-        }),
+        products: z.array(
+          z.object({
+            createdAt: z.iso.datetime(),
+            id: z.uuid(),
+            materials: z.array(
+              z.object({
+                carbonFactor: z.string(),
+                createdAt: z.iso.datetime(),
+                gwCode: z.string(),
+                id: z.uuid(),
+                modifiedBy: z.optional(
+                  z.object({
+                    createdAt: z.iso.datetime(),
+                    email: z.email().min(1),
+                    id: z.uuid(),
+                    image: z.optional(z.string()),
+                    jobTitle: z.optional(z.string()),
+                    mfaEnabled: z.boolean().default(false),
+                    mfaVerified: z.boolean().default(false),
+                    modifiedById: z.uuid(),
+                    name: z.optional(z.string()),
+                    phone: z.optional(z.string()),
+                    primaryOrganizationId: z.optional(z.uuid()),
+                    tags: z.array(z.string()),
+                    updatedAt: z.iso.datetime(),
+                  })
+                ),
+                modifiedById: z.uuid(),
+                name: z.string(),
+                updatedAt: z.iso.datetime(),
+              })
+            ),
+            modifiedBy: z.optional(
+              z.object({
+                createdAt: z.iso.datetime(),
+                email: z.email().min(1),
+                id: z.uuid(),
+                image: z.optional(z.string()),
+                jobTitle: z.optional(z.string()),
+                mfaEnabled: z.boolean().default(false),
+                mfaVerified: z.boolean().default(false),
+                modifiedById: z.uuid(),
+                name: z.optional(z.string()),
+                phone: z.optional(z.string()),
+                primaryOrganizationId: z.optional(z.uuid()),
+                tags: z.array(z.string()),
+                updatedAt: z.iso.datetime(),
+              })
+            ),
+            modifiedById: z.uuid(),
+            name: z.string(),
+            updatedAt: z.iso.datetime(),
+            value: z.number().gte(0),
+          })
+        ),
         sellerAccepted: z.boolean(),
         sellerDeclined: z.boolean(),
         sellerId: z.uuid(),
@@ -14399,59 +14467,61 @@ export const zGetApiRolesByIdResponse = z.object({
             })
           ),
           modifiedById: z.optional(z.uuid()),
-          products: z.object({
-            createdAt: z.iso.datetime(),
-            id: z.uuid(),
-            materials: z.array(
-              z.object({
-                carbonFactor: z.string(),
-                createdAt: z.iso.datetime(),
-                gwCode: z.string(),
-                id: z.uuid(),
-                modifiedBy: z.optional(
-                  z.object({
-                    createdAt: z.iso.datetime(),
-                    email: z.email().min(1),
-                    id: z.uuid(),
-                    image: z.optional(z.string()),
-                    jobTitle: z.optional(z.string()),
-                    mfaEnabled: z.boolean().default(false),
-                    mfaVerified: z.boolean().default(false),
-                    modifiedById: z.uuid(),
-                    name: z.optional(z.string()),
-                    phone: z.optional(z.string()),
-                    primaryOrganizationId: z.optional(z.uuid()),
-                    tags: z.array(z.string()),
-                    updatedAt: z.iso.datetime(),
-                  })
-                ),
-                modifiedById: z.uuid(),
-                name: z.string(),
-                updatedAt: z.iso.datetime(),
-              })
-            ),
-            modifiedBy: z.optional(
-              z.object({
-                createdAt: z.iso.datetime(),
-                email: z.email().min(1),
-                id: z.uuid(),
-                image: z.optional(z.string()),
-                jobTitle: z.optional(z.string()),
-                mfaEnabled: z.boolean().default(false),
-                mfaVerified: z.boolean().default(false),
-                modifiedById: z.uuid(),
-                name: z.optional(z.string()),
-                phone: z.optional(z.string()),
-                primaryOrganizationId: z.optional(z.uuid()),
-                tags: z.array(z.string()),
-                updatedAt: z.iso.datetime(),
-              })
-            ),
-            modifiedById: z.uuid(),
-            name: z.string(),
-            updatedAt: z.iso.datetime(),
-            value: z.number().gte(0),
-          }),
+          products: z.array(
+            z.object({
+              createdAt: z.iso.datetime(),
+              id: z.uuid(),
+              materials: z.array(
+                z.object({
+                  carbonFactor: z.string(),
+                  createdAt: z.iso.datetime(),
+                  gwCode: z.string(),
+                  id: z.uuid(),
+                  modifiedBy: z.optional(
+                    z.object({
+                      createdAt: z.iso.datetime(),
+                      email: z.email().min(1),
+                      id: z.uuid(),
+                      image: z.optional(z.string()),
+                      jobTitle: z.optional(z.string()),
+                      mfaEnabled: z.boolean().default(false),
+                      mfaVerified: z.boolean().default(false),
+                      modifiedById: z.uuid(),
+                      name: z.optional(z.string()),
+                      phone: z.optional(z.string()),
+                      primaryOrganizationId: z.optional(z.uuid()),
+                      tags: z.array(z.string()),
+                      updatedAt: z.iso.datetime(),
+                    })
+                  ),
+                  modifiedById: z.uuid(),
+                  name: z.string(),
+                  updatedAt: z.iso.datetime(),
+                })
+              ),
+              modifiedBy: z.optional(
+                z.object({
+                  createdAt: z.iso.datetime(),
+                  email: z.email().min(1),
+                  id: z.uuid(),
+                  image: z.optional(z.string()),
+                  jobTitle: z.optional(z.string()),
+                  mfaEnabled: z.boolean().default(false),
+                  mfaVerified: z.boolean().default(false),
+                  modifiedById: z.uuid(),
+                  name: z.optional(z.string()),
+                  phone: z.optional(z.string()),
+                  primaryOrganizationId: z.optional(z.uuid()),
+                  tags: z.array(z.string()),
+                  updatedAt: z.iso.datetime(),
+                })
+              ),
+              modifiedById: z.uuid(),
+              name: z.string(),
+              updatedAt: z.iso.datetime(),
+              value: z.number().gte(0),
+            })
+          ),
           sellerAccepted: z.boolean(),
           sellerDeclined: z.boolean(),
           sellerId: z.uuid(),
@@ -14830,59 +14900,61 @@ export const zGetApiTransactionsResponse = z.object({
           })
         ),
         modifiedById: z.optional(z.uuid()),
-        products: z.object({
-          createdAt: z.iso.datetime(),
-          id: z.uuid(),
-          materials: z.array(
-            z.object({
-              carbonFactor: z.string(),
-              createdAt: z.iso.datetime(),
-              gwCode: z.string(),
-              id: z.uuid(),
-              modifiedBy: z.optional(
-                z.object({
-                  createdAt: z.iso.datetime(),
-                  email: z.email().min(1),
-                  id: z.uuid(),
-                  image: z.optional(z.string()),
-                  jobTitle: z.optional(z.string()),
-                  mfaEnabled: z.boolean().default(false),
-                  mfaVerified: z.boolean().default(false),
-                  modifiedById: z.uuid(),
-                  name: z.optional(z.string()),
-                  phone: z.optional(z.string()),
-                  primaryOrganizationId: z.optional(z.uuid()),
-                  tags: z.array(z.string()),
-                  updatedAt: z.iso.datetime(),
-                })
-              ),
-              modifiedById: z.uuid(),
-              name: z.string(),
-              updatedAt: z.iso.datetime(),
-            })
-          ),
-          modifiedBy: z.optional(
-            z.object({
-              createdAt: z.iso.datetime(),
-              email: z.email().min(1),
-              id: z.uuid(),
-              image: z.optional(z.string()),
-              jobTitle: z.optional(z.string()),
-              mfaEnabled: z.boolean().default(false),
-              mfaVerified: z.boolean().default(false),
-              modifiedById: z.uuid(),
-              name: z.optional(z.string()),
-              phone: z.optional(z.string()),
-              primaryOrganizationId: z.optional(z.uuid()),
-              tags: z.array(z.string()),
-              updatedAt: z.iso.datetime(),
-            })
-          ),
-          modifiedById: z.uuid(),
-          name: z.string(),
-          updatedAt: z.iso.datetime(),
-          value: z.number().gte(0),
-        }),
+        products: z.array(
+          z.object({
+            createdAt: z.iso.datetime(),
+            id: z.uuid(),
+            materials: z.array(
+              z.object({
+                carbonFactor: z.string(),
+                createdAt: z.iso.datetime(),
+                gwCode: z.string(),
+                id: z.uuid(),
+                modifiedBy: z.optional(
+                  z.object({
+                    createdAt: z.iso.datetime(),
+                    email: z.email().min(1),
+                    id: z.uuid(),
+                    image: z.optional(z.string()),
+                    jobTitle: z.optional(z.string()),
+                    mfaEnabled: z.boolean().default(false),
+                    mfaVerified: z.boolean().default(false),
+                    modifiedById: z.uuid(),
+                    name: z.optional(z.string()),
+                    phone: z.optional(z.string()),
+                    primaryOrganizationId: z.optional(z.uuid()),
+                    tags: z.array(z.string()),
+                    updatedAt: z.iso.datetime(),
+                  })
+                ),
+                modifiedById: z.uuid(),
+                name: z.string(),
+                updatedAt: z.iso.datetime(),
+              })
+            ),
+            modifiedBy: z.optional(
+              z.object({
+                createdAt: z.iso.datetime(),
+                email: z.email().min(1),
+                id: z.uuid(),
+                image: z.optional(z.string()),
+                jobTitle: z.optional(z.string()),
+                mfaEnabled: z.boolean().default(false),
+                mfaVerified: z.boolean().default(false),
+                modifiedById: z.uuid(),
+                name: z.optional(z.string()),
+                phone: z.optional(z.string()),
+                primaryOrganizationId: z.optional(z.uuid()),
+                tags: z.array(z.string()),
+                updatedAt: z.iso.datetime(),
+              })
+            ),
+            modifiedById: z.uuid(),
+            name: z.string(),
+            updatedAt: z.iso.datetime(),
+            value: z.number().gte(0),
+          })
+        ),
         sellerAccepted: z.boolean(),
         sellerDeclined: z.boolean(),
         sellerId: z.uuid(),
@@ -15223,59 +15295,61 @@ export const zGetApiTransactionsResponse = z.object({
             })
           ),
           modifiedById: z.optional(z.uuid()),
-          products: z.object({
-            createdAt: z.iso.datetime(),
-            id: z.uuid(),
-            materials: z.array(
-              z.object({
-                carbonFactor: z.string(),
-                createdAt: z.iso.datetime(),
-                gwCode: z.string(),
-                id: z.uuid(),
-                modifiedBy: z.optional(
-                  z.object({
-                    createdAt: z.iso.datetime(),
-                    email: z.email().min(1),
-                    id: z.uuid(),
-                    image: z.optional(z.string()),
-                    jobTitle: z.optional(z.string()),
-                    mfaEnabled: z.boolean().default(false),
-                    mfaVerified: z.boolean().default(false),
-                    modifiedById: z.uuid(),
-                    name: z.optional(z.string()),
-                    phone: z.optional(z.string()),
-                    primaryOrganizationId: z.optional(z.uuid()),
-                    tags: z.array(z.string()),
-                    updatedAt: z.iso.datetime(),
-                  })
-                ),
-                modifiedById: z.uuid(),
-                name: z.string(),
-                updatedAt: z.iso.datetime(),
-              })
-            ),
-            modifiedBy: z.optional(
-              z.object({
-                createdAt: z.iso.datetime(),
-                email: z.email().min(1),
-                id: z.uuid(),
-                image: z.optional(z.string()),
-                jobTitle: z.optional(z.string()),
-                mfaEnabled: z.boolean().default(false),
-                mfaVerified: z.boolean().default(false),
-                modifiedById: z.uuid(),
-                name: z.optional(z.string()),
-                phone: z.optional(z.string()),
-                primaryOrganizationId: z.optional(z.uuid()),
-                tags: z.array(z.string()),
-                updatedAt: z.iso.datetime(),
-              })
-            ),
-            modifiedById: z.uuid(),
-            name: z.string(),
-            updatedAt: z.iso.datetime(),
-            value: z.number().gte(0),
-          }),
+          products: z.array(
+            z.object({
+              createdAt: z.iso.datetime(),
+              id: z.uuid(),
+              materials: z.array(
+                z.object({
+                  carbonFactor: z.string(),
+                  createdAt: z.iso.datetime(),
+                  gwCode: z.string(),
+                  id: z.uuid(),
+                  modifiedBy: z.optional(
+                    z.object({
+                      createdAt: z.iso.datetime(),
+                      email: z.email().min(1),
+                      id: z.uuid(),
+                      image: z.optional(z.string()),
+                      jobTitle: z.optional(z.string()),
+                      mfaEnabled: z.boolean().default(false),
+                      mfaVerified: z.boolean().default(false),
+                      modifiedById: z.uuid(),
+                      name: z.optional(z.string()),
+                      phone: z.optional(z.string()),
+                      primaryOrganizationId: z.optional(z.uuid()),
+                      tags: z.array(z.string()),
+                      updatedAt: z.iso.datetime(),
+                    })
+                  ),
+                  modifiedById: z.uuid(),
+                  name: z.string(),
+                  updatedAt: z.iso.datetime(),
+                })
+              ),
+              modifiedBy: z.optional(
+                z.object({
+                  createdAt: z.iso.datetime(),
+                  email: z.email().min(1),
+                  id: z.uuid(),
+                  image: z.optional(z.string()),
+                  jobTitle: z.optional(z.string()),
+                  mfaEnabled: z.boolean().default(false),
+                  mfaVerified: z.boolean().default(false),
+                  modifiedById: z.uuid(),
+                  name: z.optional(z.string()),
+                  phone: z.optional(z.string()),
+                  primaryOrganizationId: z.optional(z.uuid()),
+                  tags: z.array(z.string()),
+                  updatedAt: z.iso.datetime(),
+                })
+              ),
+              modifiedById: z.uuid(),
+              name: z.string(),
+              updatedAt: z.iso.datetime(),
+              value: z.number().gte(0),
+            })
+          ),
           sellerAccepted: z.boolean(),
           sellerDeclined: z.boolean(),
           sellerId: z.uuid(),
@@ -15659,59 +15733,61 @@ export const zGetApiTransactionsByIdResponse = z.object({
           })
         ),
         modifiedById: z.optional(z.uuid()),
-        products: z.object({
-          createdAt: z.iso.datetime(),
-          id: z.uuid(),
-          materials: z.array(
-            z.object({
-              carbonFactor: z.string(),
-              createdAt: z.iso.datetime(),
-              gwCode: z.string(),
-              id: z.uuid(),
-              modifiedBy: z.optional(
-                z.object({
-                  createdAt: z.iso.datetime(),
-                  email: z.email().min(1),
-                  id: z.uuid(),
-                  image: z.optional(z.string()),
-                  jobTitle: z.optional(z.string()),
-                  mfaEnabled: z.boolean().default(false),
-                  mfaVerified: z.boolean().default(false),
-                  modifiedById: z.uuid(),
-                  name: z.optional(z.string()),
-                  phone: z.optional(z.string()),
-                  primaryOrganizationId: z.optional(z.uuid()),
-                  tags: z.array(z.string()),
-                  updatedAt: z.iso.datetime(),
-                })
-              ),
-              modifiedById: z.uuid(),
-              name: z.string(),
-              updatedAt: z.iso.datetime(),
-            })
-          ),
-          modifiedBy: z.optional(
-            z.object({
-              createdAt: z.iso.datetime(),
-              email: z.email().min(1),
-              id: z.uuid(),
-              image: z.optional(z.string()),
-              jobTitle: z.optional(z.string()),
-              mfaEnabled: z.boolean().default(false),
-              mfaVerified: z.boolean().default(false),
-              modifiedById: z.uuid(),
-              name: z.optional(z.string()),
-              phone: z.optional(z.string()),
-              primaryOrganizationId: z.optional(z.uuid()),
-              tags: z.array(z.string()),
-              updatedAt: z.iso.datetime(),
-            })
-          ),
-          modifiedById: z.uuid(),
-          name: z.string(),
-          updatedAt: z.iso.datetime(),
-          value: z.number().gte(0),
-        }),
+        products: z.array(
+          z.object({
+            createdAt: z.iso.datetime(),
+            id: z.uuid(),
+            materials: z.array(
+              z.object({
+                carbonFactor: z.string(),
+                createdAt: z.iso.datetime(),
+                gwCode: z.string(),
+                id: z.uuid(),
+                modifiedBy: z.optional(
+                  z.object({
+                    createdAt: z.iso.datetime(),
+                    email: z.email().min(1),
+                    id: z.uuid(),
+                    image: z.optional(z.string()),
+                    jobTitle: z.optional(z.string()),
+                    mfaEnabled: z.boolean().default(false),
+                    mfaVerified: z.boolean().default(false),
+                    modifiedById: z.uuid(),
+                    name: z.optional(z.string()),
+                    phone: z.optional(z.string()),
+                    primaryOrganizationId: z.optional(z.uuid()),
+                    tags: z.array(z.string()),
+                    updatedAt: z.iso.datetime(),
+                  })
+                ),
+                modifiedById: z.uuid(),
+                name: z.string(),
+                updatedAt: z.iso.datetime(),
+              })
+            ),
+            modifiedBy: z.optional(
+              z.object({
+                createdAt: z.iso.datetime(),
+                email: z.email().min(1),
+                id: z.uuid(),
+                image: z.optional(z.string()),
+                jobTitle: z.optional(z.string()),
+                mfaEnabled: z.boolean().default(false),
+                mfaVerified: z.boolean().default(false),
+                modifiedById: z.uuid(),
+                name: z.optional(z.string()),
+                phone: z.optional(z.string()),
+                primaryOrganizationId: z.optional(z.uuid()),
+                tags: z.array(z.string()),
+                updatedAt: z.iso.datetime(),
+              })
+            ),
+            modifiedById: z.uuid(),
+            name: z.string(),
+            updatedAt: z.iso.datetime(),
+            value: z.number().gte(0),
+          })
+        ),
         sellerAccepted: z.boolean(),
         sellerDeclined: z.boolean(),
         sellerId: z.uuid(),
@@ -16052,59 +16128,61 @@ export const zGetApiTransactionsByIdResponse = z.object({
             })
           ),
           modifiedById: z.optional(z.uuid()),
-          products: z.object({
-            createdAt: z.iso.datetime(),
-            id: z.uuid(),
-            materials: z.array(
-              z.object({
-                carbonFactor: z.string(),
-                createdAt: z.iso.datetime(),
-                gwCode: z.string(),
-                id: z.uuid(),
-                modifiedBy: z.optional(
-                  z.object({
-                    createdAt: z.iso.datetime(),
-                    email: z.email().min(1),
-                    id: z.uuid(),
-                    image: z.optional(z.string()),
-                    jobTitle: z.optional(z.string()),
-                    mfaEnabled: z.boolean().default(false),
-                    mfaVerified: z.boolean().default(false),
-                    modifiedById: z.uuid(),
-                    name: z.optional(z.string()),
-                    phone: z.optional(z.string()),
-                    primaryOrganizationId: z.optional(z.uuid()),
-                    tags: z.array(z.string()),
-                    updatedAt: z.iso.datetime(),
-                  })
-                ),
-                modifiedById: z.uuid(),
-                name: z.string(),
-                updatedAt: z.iso.datetime(),
-              })
-            ),
-            modifiedBy: z.optional(
-              z.object({
-                createdAt: z.iso.datetime(),
-                email: z.email().min(1),
-                id: z.uuid(),
-                image: z.optional(z.string()),
-                jobTitle: z.optional(z.string()),
-                mfaEnabled: z.boolean().default(false),
-                mfaVerified: z.boolean().default(false),
-                modifiedById: z.uuid(),
-                name: z.optional(z.string()),
-                phone: z.optional(z.string()),
-                primaryOrganizationId: z.optional(z.uuid()),
-                tags: z.array(z.string()),
-                updatedAt: z.iso.datetime(),
-              })
-            ),
-            modifiedById: z.uuid(),
-            name: z.string(),
-            updatedAt: z.iso.datetime(),
-            value: z.number().gte(0),
-          }),
+          products: z.array(
+            z.object({
+              createdAt: z.iso.datetime(),
+              id: z.uuid(),
+              materials: z.array(
+                z.object({
+                  carbonFactor: z.string(),
+                  createdAt: z.iso.datetime(),
+                  gwCode: z.string(),
+                  id: z.uuid(),
+                  modifiedBy: z.optional(
+                    z.object({
+                      createdAt: z.iso.datetime(),
+                      email: z.email().min(1),
+                      id: z.uuid(),
+                      image: z.optional(z.string()),
+                      jobTitle: z.optional(z.string()),
+                      mfaEnabled: z.boolean().default(false),
+                      mfaVerified: z.boolean().default(false),
+                      modifiedById: z.uuid(),
+                      name: z.optional(z.string()),
+                      phone: z.optional(z.string()),
+                      primaryOrganizationId: z.optional(z.uuid()),
+                      tags: z.array(z.string()),
+                      updatedAt: z.iso.datetime(),
+                    })
+                  ),
+                  modifiedById: z.uuid(),
+                  name: z.string(),
+                  updatedAt: z.iso.datetime(),
+                })
+              ),
+              modifiedBy: z.optional(
+                z.object({
+                  createdAt: z.iso.datetime(),
+                  email: z.email().min(1),
+                  id: z.uuid(),
+                  image: z.optional(z.string()),
+                  jobTitle: z.optional(z.string()),
+                  mfaEnabled: z.boolean().default(false),
+                  mfaVerified: z.boolean().default(false),
+                  modifiedById: z.uuid(),
+                  name: z.optional(z.string()),
+                  phone: z.optional(z.string()),
+                  primaryOrganizationId: z.optional(z.uuid()),
+                  tags: z.array(z.string()),
+                  updatedAt: z.iso.datetime(),
+                })
+              ),
+              modifiedById: z.uuid(),
+              name: z.string(),
+              updatedAt: z.iso.datetime(),
+              value: z.number().gte(0),
+            })
+          ),
           sellerAccepted: z.boolean(),
           sellerDeclined: z.boolean(),
           sellerId: z.uuid(),
@@ -16487,59 +16565,61 @@ export const zGetApiUsersResponse = z.object({
           })
         ),
         modifiedById: z.optional(z.uuid()),
-        products: z.object({
-          createdAt: z.iso.datetime(),
-          id: z.uuid(),
-          materials: z.array(
-            z.object({
-              carbonFactor: z.string(),
-              createdAt: z.iso.datetime(),
-              gwCode: z.string(),
-              id: z.uuid(),
-              modifiedBy: z.optional(
-                z.object({
-                  createdAt: z.iso.datetime(),
-                  email: z.email().min(1),
-                  id: z.uuid(),
-                  image: z.optional(z.string()),
-                  jobTitle: z.optional(z.string()),
-                  mfaEnabled: z.boolean().default(false),
-                  mfaVerified: z.boolean().default(false),
-                  modifiedById: z.uuid(),
-                  name: z.optional(z.string()),
-                  phone: z.optional(z.string()),
-                  primaryOrganizationId: z.optional(z.uuid()),
-                  tags: z.array(z.string()),
-                  updatedAt: z.iso.datetime(),
-                })
-              ),
-              modifiedById: z.uuid(),
-              name: z.string(),
-              updatedAt: z.iso.datetime(),
-            })
-          ),
-          modifiedBy: z.optional(
-            z.object({
-              createdAt: z.iso.datetime(),
-              email: z.email().min(1),
-              id: z.uuid(),
-              image: z.optional(z.string()),
-              jobTitle: z.optional(z.string()),
-              mfaEnabled: z.boolean().default(false),
-              mfaVerified: z.boolean().default(false),
-              modifiedById: z.uuid(),
-              name: z.optional(z.string()),
-              phone: z.optional(z.string()),
-              primaryOrganizationId: z.optional(z.uuid()),
-              tags: z.array(z.string()),
-              updatedAt: z.iso.datetime(),
-            })
-          ),
-          modifiedById: z.uuid(),
-          name: z.string(),
-          updatedAt: z.iso.datetime(),
-          value: z.number().gte(0),
-        }),
+        products: z.array(
+          z.object({
+            createdAt: z.iso.datetime(),
+            id: z.uuid(),
+            materials: z.array(
+              z.object({
+                carbonFactor: z.string(),
+                createdAt: z.iso.datetime(),
+                gwCode: z.string(),
+                id: z.uuid(),
+                modifiedBy: z.optional(
+                  z.object({
+                    createdAt: z.iso.datetime(),
+                    email: z.email().min(1),
+                    id: z.uuid(),
+                    image: z.optional(z.string()),
+                    jobTitle: z.optional(z.string()),
+                    mfaEnabled: z.boolean().default(false),
+                    mfaVerified: z.boolean().default(false),
+                    modifiedById: z.uuid(),
+                    name: z.optional(z.string()),
+                    phone: z.optional(z.string()),
+                    primaryOrganizationId: z.optional(z.uuid()),
+                    tags: z.array(z.string()),
+                    updatedAt: z.iso.datetime(),
+                  })
+                ),
+                modifiedById: z.uuid(),
+                name: z.string(),
+                updatedAt: z.iso.datetime(),
+              })
+            ),
+            modifiedBy: z.optional(
+              z.object({
+                createdAt: z.iso.datetime(),
+                email: z.email().min(1),
+                id: z.uuid(),
+                image: z.optional(z.string()),
+                jobTitle: z.optional(z.string()),
+                mfaEnabled: z.boolean().default(false),
+                mfaVerified: z.boolean().default(false),
+                modifiedById: z.uuid(),
+                name: z.optional(z.string()),
+                phone: z.optional(z.string()),
+                primaryOrganizationId: z.optional(z.uuid()),
+                tags: z.array(z.string()),
+                updatedAt: z.iso.datetime(),
+              })
+            ),
+            modifiedById: z.uuid(),
+            name: z.string(),
+            updatedAt: z.iso.datetime(),
+            value: z.number().gte(0),
+          })
+        ),
         sellerAccepted: z.boolean(),
         sellerDeclined: z.boolean(),
         sellerId: z.uuid(),
@@ -16880,59 +16960,61 @@ export const zGetApiUsersResponse = z.object({
             })
           ),
           modifiedById: z.optional(z.uuid()),
-          products: z.object({
-            createdAt: z.iso.datetime(),
-            id: z.uuid(),
-            materials: z.array(
-              z.object({
-                carbonFactor: z.string(),
-                createdAt: z.iso.datetime(),
-                gwCode: z.string(),
-                id: z.uuid(),
-                modifiedBy: z.optional(
-                  z.object({
-                    createdAt: z.iso.datetime(),
-                    email: z.email().min(1),
-                    id: z.uuid(),
-                    image: z.optional(z.string()),
-                    jobTitle: z.optional(z.string()),
-                    mfaEnabled: z.boolean().default(false),
-                    mfaVerified: z.boolean().default(false),
-                    modifiedById: z.uuid(),
-                    name: z.optional(z.string()),
-                    phone: z.optional(z.string()),
-                    primaryOrganizationId: z.optional(z.uuid()),
-                    tags: z.array(z.string()),
-                    updatedAt: z.iso.datetime(),
-                  })
-                ),
-                modifiedById: z.uuid(),
-                name: z.string(),
-                updatedAt: z.iso.datetime(),
-              })
-            ),
-            modifiedBy: z.optional(
-              z.object({
-                createdAt: z.iso.datetime(),
-                email: z.email().min(1),
-                id: z.uuid(),
-                image: z.optional(z.string()),
-                jobTitle: z.optional(z.string()),
-                mfaEnabled: z.boolean().default(false),
-                mfaVerified: z.boolean().default(false),
-                modifiedById: z.uuid(),
-                name: z.optional(z.string()),
-                phone: z.optional(z.string()),
-                primaryOrganizationId: z.optional(z.uuid()),
-                tags: z.array(z.string()),
-                updatedAt: z.iso.datetime(),
-              })
-            ),
-            modifiedById: z.uuid(),
-            name: z.string(),
-            updatedAt: z.iso.datetime(),
-            value: z.number().gte(0),
-          }),
+          products: z.array(
+            z.object({
+              createdAt: z.iso.datetime(),
+              id: z.uuid(),
+              materials: z.array(
+                z.object({
+                  carbonFactor: z.string(),
+                  createdAt: z.iso.datetime(),
+                  gwCode: z.string(),
+                  id: z.uuid(),
+                  modifiedBy: z.optional(
+                    z.object({
+                      createdAt: z.iso.datetime(),
+                      email: z.email().min(1),
+                      id: z.uuid(),
+                      image: z.optional(z.string()),
+                      jobTitle: z.optional(z.string()),
+                      mfaEnabled: z.boolean().default(false),
+                      mfaVerified: z.boolean().default(false),
+                      modifiedById: z.uuid(),
+                      name: z.optional(z.string()),
+                      phone: z.optional(z.string()),
+                      primaryOrganizationId: z.optional(z.uuid()),
+                      tags: z.array(z.string()),
+                      updatedAt: z.iso.datetime(),
+                    })
+                  ),
+                  modifiedById: z.uuid(),
+                  name: z.string(),
+                  updatedAt: z.iso.datetime(),
+                })
+              ),
+              modifiedBy: z.optional(
+                z.object({
+                  createdAt: z.iso.datetime(),
+                  email: z.email().min(1),
+                  id: z.uuid(),
+                  image: z.optional(z.string()),
+                  jobTitle: z.optional(z.string()),
+                  mfaEnabled: z.boolean().default(false),
+                  mfaVerified: z.boolean().default(false),
+                  modifiedById: z.uuid(),
+                  name: z.optional(z.string()),
+                  phone: z.optional(z.string()),
+                  primaryOrganizationId: z.optional(z.uuid()),
+                  tags: z.array(z.string()),
+                  updatedAt: z.iso.datetime(),
+                })
+              ),
+              modifiedById: z.uuid(),
+              name: z.string(),
+              updatedAt: z.iso.datetime(),
+              value: z.number().gte(0),
+            })
+          ),
           sellerAccepted: z.boolean(),
           sellerDeclined: z.boolean(),
           sellerId: z.uuid(),
@@ -17348,59 +17430,61 @@ export const zGetApiUsersByIdResponse = z.object({
           })
         ),
         modifiedById: z.optional(z.uuid()),
-        products: z.object({
-          createdAt: z.iso.datetime(),
-          id: z.uuid(),
-          materials: z.array(
-            z.object({
-              carbonFactor: z.string(),
-              createdAt: z.iso.datetime(),
-              gwCode: z.string(),
-              id: z.uuid(),
-              modifiedBy: z.optional(
-                z.object({
-                  createdAt: z.iso.datetime(),
-                  email: z.email().min(1),
-                  id: z.uuid(),
-                  image: z.optional(z.string()),
-                  jobTitle: z.optional(z.string()),
-                  mfaEnabled: z.boolean().default(false),
-                  mfaVerified: z.boolean().default(false),
-                  modifiedById: z.uuid(),
-                  name: z.optional(z.string()),
-                  phone: z.optional(z.string()),
-                  primaryOrganizationId: z.optional(z.uuid()),
-                  tags: z.array(z.string()),
-                  updatedAt: z.iso.datetime(),
-                })
-              ),
-              modifiedById: z.uuid(),
-              name: z.string(),
-              updatedAt: z.iso.datetime(),
-            })
-          ),
-          modifiedBy: z.optional(
-            z.object({
-              createdAt: z.iso.datetime(),
-              email: z.email().min(1),
-              id: z.uuid(),
-              image: z.optional(z.string()),
-              jobTitle: z.optional(z.string()),
-              mfaEnabled: z.boolean().default(false),
-              mfaVerified: z.boolean().default(false),
-              modifiedById: z.uuid(),
-              name: z.optional(z.string()),
-              phone: z.optional(z.string()),
-              primaryOrganizationId: z.optional(z.uuid()),
-              tags: z.array(z.string()),
-              updatedAt: z.iso.datetime(),
-            })
-          ),
-          modifiedById: z.uuid(),
-          name: z.string(),
-          updatedAt: z.iso.datetime(),
-          value: z.number().gte(0),
-        }),
+        products: z.array(
+          z.object({
+            createdAt: z.iso.datetime(),
+            id: z.uuid(),
+            materials: z.array(
+              z.object({
+                carbonFactor: z.string(),
+                createdAt: z.iso.datetime(),
+                gwCode: z.string(),
+                id: z.uuid(),
+                modifiedBy: z.optional(
+                  z.object({
+                    createdAt: z.iso.datetime(),
+                    email: z.email().min(1),
+                    id: z.uuid(),
+                    image: z.optional(z.string()),
+                    jobTitle: z.optional(z.string()),
+                    mfaEnabled: z.boolean().default(false),
+                    mfaVerified: z.boolean().default(false),
+                    modifiedById: z.uuid(),
+                    name: z.optional(z.string()),
+                    phone: z.optional(z.string()),
+                    primaryOrganizationId: z.optional(z.uuid()),
+                    tags: z.array(z.string()),
+                    updatedAt: z.iso.datetime(),
+                  })
+                ),
+                modifiedById: z.uuid(),
+                name: z.string(),
+                updatedAt: z.iso.datetime(),
+              })
+            ),
+            modifiedBy: z.optional(
+              z.object({
+                createdAt: z.iso.datetime(),
+                email: z.email().min(1),
+                id: z.uuid(),
+                image: z.optional(z.string()),
+                jobTitle: z.optional(z.string()),
+                mfaEnabled: z.boolean().default(false),
+                mfaVerified: z.boolean().default(false),
+                modifiedById: z.uuid(),
+                name: z.optional(z.string()),
+                phone: z.optional(z.string()),
+                primaryOrganizationId: z.optional(z.uuid()),
+                tags: z.array(z.string()),
+                updatedAt: z.iso.datetime(),
+              })
+            ),
+            modifiedById: z.uuid(),
+            name: z.string(),
+            updatedAt: z.iso.datetime(),
+            value: z.number().gte(0),
+          })
+        ),
         sellerAccepted: z.boolean(),
         sellerDeclined: z.boolean(),
         sellerId: z.uuid(),
@@ -17741,59 +17825,61 @@ export const zGetApiUsersByIdResponse = z.object({
             })
           ),
           modifiedById: z.optional(z.uuid()),
-          products: z.object({
-            createdAt: z.iso.datetime(),
-            id: z.uuid(),
-            materials: z.array(
-              z.object({
-                carbonFactor: z.string(),
-                createdAt: z.iso.datetime(),
-                gwCode: z.string(),
-                id: z.uuid(),
-                modifiedBy: z.optional(
-                  z.object({
-                    createdAt: z.iso.datetime(),
-                    email: z.email().min(1),
-                    id: z.uuid(),
-                    image: z.optional(z.string()),
-                    jobTitle: z.optional(z.string()),
-                    mfaEnabled: z.boolean().default(false),
-                    mfaVerified: z.boolean().default(false),
-                    modifiedById: z.uuid(),
-                    name: z.optional(z.string()),
-                    phone: z.optional(z.string()),
-                    primaryOrganizationId: z.optional(z.uuid()),
-                    tags: z.array(z.string()),
-                    updatedAt: z.iso.datetime(),
-                  })
-                ),
-                modifiedById: z.uuid(),
-                name: z.string(),
-                updatedAt: z.iso.datetime(),
-              })
-            ),
-            modifiedBy: z.optional(
-              z.object({
-                createdAt: z.iso.datetime(),
-                email: z.email().min(1),
-                id: z.uuid(),
-                image: z.optional(z.string()),
-                jobTitle: z.optional(z.string()),
-                mfaEnabled: z.boolean().default(false),
-                mfaVerified: z.boolean().default(false),
-                modifiedById: z.uuid(),
-                name: z.optional(z.string()),
-                phone: z.optional(z.string()),
-                primaryOrganizationId: z.optional(z.uuid()),
-                tags: z.array(z.string()),
-                updatedAt: z.iso.datetime(),
-              })
-            ),
-            modifiedById: z.uuid(),
-            name: z.string(),
-            updatedAt: z.iso.datetime(),
-            value: z.number().gte(0),
-          }),
+          products: z.array(
+            z.object({
+              createdAt: z.iso.datetime(),
+              id: z.uuid(),
+              materials: z.array(
+                z.object({
+                  carbonFactor: z.string(),
+                  createdAt: z.iso.datetime(),
+                  gwCode: z.string(),
+                  id: z.uuid(),
+                  modifiedBy: z.optional(
+                    z.object({
+                      createdAt: z.iso.datetime(),
+                      email: z.email().min(1),
+                      id: z.uuid(),
+                      image: z.optional(z.string()),
+                      jobTitle: z.optional(z.string()),
+                      mfaEnabled: z.boolean().default(false),
+                      mfaVerified: z.boolean().default(false),
+                      modifiedById: z.uuid(),
+                      name: z.optional(z.string()),
+                      phone: z.optional(z.string()),
+                      primaryOrganizationId: z.optional(z.uuid()),
+                      tags: z.array(z.string()),
+                      updatedAt: z.iso.datetime(),
+                    })
+                  ),
+                  modifiedById: z.uuid(),
+                  name: z.string(),
+                  updatedAt: z.iso.datetime(),
+                })
+              ),
+              modifiedBy: z.optional(
+                z.object({
+                  createdAt: z.iso.datetime(),
+                  email: z.email().min(1),
+                  id: z.uuid(),
+                  image: z.optional(z.string()),
+                  jobTitle: z.optional(z.string()),
+                  mfaEnabled: z.boolean().default(false),
+                  mfaVerified: z.boolean().default(false),
+                  modifiedById: z.uuid(),
+                  name: z.optional(z.string()),
+                  phone: z.optional(z.string()),
+                  primaryOrganizationId: z.optional(z.uuid()),
+                  tags: z.array(z.string()),
+                  updatedAt: z.iso.datetime(),
+                })
+              ),
+              modifiedById: z.uuid(),
+              name: z.string(),
+              updatedAt: z.iso.datetime(),
+              value: z.number().gte(0),
+            })
+          ),
           sellerAccepted: z.boolean(),
           sellerDeclined: z.boolean(),
           sellerId: z.uuid(),

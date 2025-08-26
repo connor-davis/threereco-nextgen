@@ -5,7 +5,9 @@ export default {
     path: 'http://localhost:6173/api/api-spec',
   },
   output: {
-    lint: 'eslint',
+    clean: true,
+    format: 'prettier',
+    tsConfigPath: 'tsconfig.json',
     path: 'src/api-client',
   },
   plugins: [
