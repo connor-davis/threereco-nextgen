@@ -27,8 +27,6 @@ var UserProperties = map[string]*openapi3.Schema{
 	"mfaEnabled":            openapi3.NewBoolSchema().WithDefault(false),
 	"mfaVerified":           openapi3.NewBoolSchema().WithDefault(false),
 	"tags":                  openapi3.NewArraySchema().WithItems(openapi3.NewStringSchema()),
-	"address":               openapi3.NewSchema().WithProperties(AddressProperties).WithNullable(),
-	"bankDetails":           openapi3.NewSchema().WithProperties(BankDetailsProperties).WithNullable(),
 	"primaryOrganizationId": openapi3.NewStringSchema().WithFormat("uuid"),
 	"modifiedById":          openapi3.NewStringSchema().WithFormat("uuid"),
 	"createdAt":             openapi3.NewDateTimeSchema(),

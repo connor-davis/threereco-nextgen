@@ -16,7 +16,18 @@ import (
 var OrganizationSchema = openapi3.NewSchema().WithProperties(properties.OrganizationProperties).
 	WithProperty(
 		"owner",
-		UserSchema.Value,
+		openapi3.NewSchema().
+			WithProperties(properties.UserProperties).
+			WithRequired([]string{
+				"id",
+				"email",
+				"mfaEnabled",
+				"mfaVerified",
+				"tags",
+				"modifiedById",
+				"createdAt",
+				"updatedAt",
+			}).NewRef().Value,
 	).
 	WithProperty(
 		"modifiedBy",

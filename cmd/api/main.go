@@ -78,7 +78,7 @@ func main() {
 		return c.Status(fiber.StatusOK).JSON(openapiSpecification)
 	})
 
-	api.Get("/api-doc", func(c *fiber.Ctx) error {
+	api.Get("/api-doc", middleware.Authorized(), func(c *fiber.Ctx) error {
 		html, err := scalar.ApiReferenceHTML(&scalar.Options{
 			SpecURL: func() string {
 				if string(env.MODE) == "production" {

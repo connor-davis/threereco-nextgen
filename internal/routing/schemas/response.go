@@ -8,21 +8,19 @@ import "github.com/getkin/kin-openapi/openapi3"
 //   - "item": a oneOf schema, typically used for responses containing a single item.
 // This schema can be used to standardize the structure of success responses in the API.
 var SuccessResponseSchema = openapi3.NewSchema().WithProperties(map[string]*openapi3.Schema{
-	"items": openapi3.NewArraySchema().WithItems(
-		openapi3.NewAnyOfSchema(
-			UserSchema.Value,
-			OrganizationSchema.Value,
-			RoleSchema.Value,
-			AuditLogSchema.Value,
-			MaterialSchema.Value,
-			ProductSchema.Value,
-			TransactionSchema.Value,
-			NotificationSchema.Value,
-			AvailablePermissionGroupSchema.Value,
-			AddressSchema.Value,
-			BankDetailsSchema.Value,
-			openapi3.NewStringSchema(),
-		),
+	"items": openapi3.NewAnyOfSchema(
+		UserArraySchema.Value,
+		OrganizationArraySchema.Value,
+		RoleArraySchema.Value,
+		AuditLogArraySchema.Value,
+		MaterialArraySchema.Value,
+		ProductArraySchema.Value,
+		TransactionArraySchema.Value,
+		NotificationArraySchema.Value,
+		AvailablePermissionsGroupArraySchema.Value,
+		AddressArraySchema.Value,
+		BankDetailsArraySchema.Value,
+		openapi3.NewArraySchema().WithItems(openapi3.NewStringSchema()),
 	),
 	"item": openapi3.NewAnyOfSchema(
 		UserSchema.Value,

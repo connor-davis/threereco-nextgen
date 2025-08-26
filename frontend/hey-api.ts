@@ -12,7 +12,6 @@ export default {
     '@tanstack/react-query',
     '@hey-api/client-fetch',
     '@hey-api/typescript',
-    '@hey-api/schemas',
     'zod',
   ],
 } as UserConfig;

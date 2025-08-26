@@ -15,6 +15,14 @@ import (
 var UserSchema = openapi3.NewSchema().
 	WithProperties(properties.UserProperties).
 	WithProperty(
+		"address",
+		AddressSchema.Value,
+	).
+	WithProperty(
+		"bankDetails",
+		BankDetailsSchema.Value,
+	).
+	WithProperty(
 		"modifiedBy",
 		ModifiedByUserSchema.Value,
 	).

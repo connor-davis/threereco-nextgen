@@ -12,7 +12,18 @@ import (
 var AuditLogSchema = openapi3.NewSchema().WithProperties(properties.AuditLogProperties).
 	WithProperty(
 		"user",
-		UserSchema.Value,
+		openapi3.NewSchema().
+			WithProperties(properties.UserProperties).
+			WithRequired([]string{
+				"id",
+				"email",
+				"mfaEnabled",
+				"mfaVerified",
+				"tags",
+				"modifiedById",
+				"createdAt",
+				"updatedAt",
+			}).NewRef().Value,
 	).
 	WithRequired([]string{
 		"id",
