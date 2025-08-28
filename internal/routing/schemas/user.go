@@ -57,6 +57,15 @@ var ModifiedByUserSchema = openapi3.NewObjectSchema().
 		"updatedAt",
 	}).NewRef()
 
-var CreateUserPayloadSchema = openapi3.NewSchema().WithProperties(properties.CreateUserPayloadProperties).NewRef()
+var CreateUserPayloadSchema = openapi3.NewSchema().
+	WithProperties(properties.CreateUserPayloadProperties).
+	WithProperty("address", CreateAddressPayloadSchema.Value).
+	WithProperty("bankDetails", CreateBankDetailsPayloadSchema.Value).
+	WithRequired([]string{
+		"email",
+		"password",
+		"name",
+		"address",
+	}).NewRef()
 
 var UpdateUserPayloadSchema = openapi3.NewSchema().WithProperties(properties.UpdateUserPayloadProperties).NewRef()

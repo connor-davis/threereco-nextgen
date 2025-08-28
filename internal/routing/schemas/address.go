@@ -40,6 +40,14 @@ var AddressSchema = openapi3.NewSchema().
 var AddressArraySchema = openapi3.NewArraySchema().
 	WithItems(AddressSchema.Value).NewRef()
 
-var CreateAddressPayloadSchema = openapi3.NewSchema().WithProperties(properties.CreateAddressPayloadProperties).NewRef()
+var CreateAddressPayloadSchema = openapi3.NewSchema().
+	WithProperties(properties.CreateAddressPayloadProperties).
+	WithRequired([]string{
+		"lineOne",
+		"city",
+		"state",
+		"zip",
+		"country",
+	}).NewRef()
 
 var UpdateAddressPayloadSchema = openapi3.NewSchema().WithProperties(properties.UpdateAddressPayloadProperties).NewRef()

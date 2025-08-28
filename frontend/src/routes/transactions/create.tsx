@@ -207,7 +207,7 @@ function RouteComponent() {
               }),
             () => setCurrentStep(1)
           )}
-          className="flex flex-col w-full h-full"
+          className="flex flex-col w-full h-full overflow-hidden"
         >
           <Stepper
             value={currentStep}
