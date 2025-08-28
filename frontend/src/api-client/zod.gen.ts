@@ -8,9 +8,9 @@ export const zAddress = z.object({
   id: z.uuid(),
   lineOne: z.string().min(1),
   lineTwo: z.optional(z.union([z.string(), z.null()])),
+  postalCode: z.int(),
   state: z.string().min(1),
   updatedAt: z.iso.datetime(),
-  zip: z.int(),
 });
 
 export const zAuditLog = z.object({
@@ -71,8 +71,8 @@ export const zCreateAddressPayload = z.object({
   country: z.string().min(1),
   lineOne: z.string().min(1),
   lineTwo: z.optional(z.union([z.string(), z.null()])),
+  postalCode: z.int(),
   state: z.string().min(1),
-  zip: z.int(),
 });
 
 export const zCreateBankDetailsPayload = z.object({
@@ -120,15 +120,15 @@ export const zCreateUserPayload = z.object({
     country: z.string().min(1),
     lineOne: z.string().min(1),
     lineTwo: z.optional(z.union([z.string(), z.null()])),
+    postalCode: z.int(),
     state: z.string().min(1),
-    zip: z.int(),
   }),
   bankDetails: z.optional(
     z.object({
-      accountHolder: z.string().min(1),
-      accountNumber: z.string().min(1),
-      bankName: z.string().min(1),
-      branchCode: z.string().min(1),
+      accountHolder: z.optional(z.string().min(1)),
+      accountNumber: z.optional(z.string().min(1)),
+      bankName: z.optional(z.string().min(1)),
+      branchCode: z.optional(z.string().min(1)),
     })
   ),
   email: z.email().min(1),
@@ -354,9 +354,9 @@ export const zSuccessResponse = z.object({
             id: z.uuid(),
             lineOne: z.string().min(1),
             lineTwo: z.optional(z.union([z.string(), z.null()])),
+            postalCode: z.int(),
             state: z.string().min(1),
             updatedAt: z.iso.datetime(),
-            zip: z.int(),
           })
         ),
         bankDetails: z.optional(
@@ -710,9 +710,9 @@ export const zSuccessResponse = z.object({
         id: z.uuid(),
         lineOne: z.string().min(1),
         lineTwo: z.optional(z.union([z.string(), z.null()])),
+        postalCode: z.int(),
         state: z.string().min(1),
         updatedAt: z.iso.datetime(),
-        zip: z.int(),
       }),
       z.object({
         accountHolder: z.string().min(1),
@@ -737,9 +737,9 @@ export const zSuccessResponse = z.object({
               id: z.uuid(),
               lineOne: z.string().min(1),
               lineTwo: z.optional(z.union([z.string(), z.null()])),
+              postalCode: z.int(),
               state: z.string().min(1),
               updatedAt: z.iso.datetime(),
-              zip: z.int(),
             })
           ),
           bankDetails: z.optional(
@@ -1111,9 +1111,9 @@ export const zSuccessResponse = z.object({
           id: z.uuid(),
           lineOne: z.string().min(1),
           lineTwo: z.optional(z.union([z.string(), z.null()])),
+          postalCode: z.int(),
           state: z.string().min(1),
           updatedAt: z.iso.datetime(),
-          zip: z.int(),
         })
       ),
       z.array(
@@ -1237,8 +1237,8 @@ export const zUpdateAddressPayload = z.object({
   country: z.optional(z.union([z.string().min(1), z.null()])),
   lineOne: z.optional(z.union([z.string().min(1), z.null()])),
   lineTwo: z.optional(z.union([z.string(), z.null()])),
+  postalCode: z.optional(z.union([z.int(), z.null()])),
   state: z.optional(z.union([z.string().min(1), z.null()])),
-  zip: z.optional(z.union([z.int(), z.null()])),
 });
 
 export const zUpdateBankDetailsPayload = z.object({
@@ -1284,34 +1284,22 @@ export const zUpdateTransactionPayload = z.object({
 
 export const zUpdateUserPayload = z.object({
   address: z.optional(
-    z.union([
-      z.object({
-        city: z.optional(z.string().min(1)),
-        country: z.optional(z.string().min(1)),
-        createdAt: z.optional(z.iso.datetime()),
-        id: z.optional(z.uuid()),
-        lineOne: z.optional(z.string().min(1)),
-        lineTwo: z.optional(z.union([z.string(), z.null()])),
-        state: z.optional(z.string().min(1)),
-        updatedAt: z.optional(z.iso.datetime()),
-        zip: z.optional(z.int()),
-      }),
-      z.null(),
-    ])
+    z.object({
+      city: z.optional(z.union([z.string().min(1), z.null()])),
+      country: z.optional(z.union([z.string().min(1), z.null()])),
+      lineOne: z.optional(z.union([z.string().min(1), z.null()])),
+      lineTwo: z.optional(z.union([z.string(), z.null()])),
+      postalCode: z.optional(z.union([z.int(), z.null()])),
+      state: z.optional(z.union([z.string().min(1), z.null()])),
+    })
   ),
   bankDetails: z.optional(
-    z.union([
-      z.object({
-        accountHolder: z.optional(z.string().min(1)),
-        accountNumber: z.optional(z.string().min(1)),
-        bankName: z.optional(z.string().min(1)),
-        branchCode: z.optional(z.string().min(1)),
-        createdAt: z.optional(z.iso.datetime()),
-        id: z.optional(z.uuid()),
-        updatedAt: z.optional(z.iso.datetime()),
-      }),
-      z.null(),
-    ])
+    z.object({
+      accountHolder: z.optional(z.union([z.string().min(1), z.null()])),
+      accountNumber: z.optional(z.union([z.string().min(1), z.null()])),
+      bankName: z.optional(z.union([z.string().min(1), z.null()])),
+      branchCode: z.optional(z.union([z.string().min(1), z.null()])),
+    })
   ),
   email: z.optional(z.union([z.email().min(1), z.null()])),
   jobTitle: z.optional(z.union([z.string(), z.null()])),
@@ -1332,9 +1320,9 @@ export const zUser = z.object({
       id: z.uuid(),
       lineOne: z.string().min(1),
       lineTwo: z.optional(z.union([z.string(), z.null()])),
+      postalCode: z.int(),
       state: z.string().min(1),
       updatedAt: z.iso.datetime(),
-      zip: z.int(),
     })
   ),
   bankDetails: z.optional(
@@ -1406,9 +1394,9 @@ export const zGetApiAuditlogsResponse = z.object({
             id: z.uuid(),
             lineOne: z.string().min(1),
             lineTwo: z.optional(z.union([z.string(), z.null()])),
+            postalCode: z.int(),
             state: z.string().min(1),
             updatedAt: z.iso.datetime(),
-            zip: z.int(),
           })
         ),
         bankDetails: z.optional(
@@ -1762,9 +1750,9 @@ export const zGetApiAuditlogsResponse = z.object({
         id: z.uuid(),
         lineOne: z.string().min(1),
         lineTwo: z.optional(z.union([z.string(), z.null()])),
+        postalCode: z.int(),
         state: z.string().min(1),
         updatedAt: z.iso.datetime(),
-        zip: z.int(),
       }),
       z.object({
         accountHolder: z.string().min(1),
@@ -1789,9 +1777,9 @@ export const zGetApiAuditlogsResponse = z.object({
               id: z.uuid(),
               lineOne: z.string().min(1),
               lineTwo: z.optional(z.union([z.string(), z.null()])),
+              postalCode: z.int(),
               state: z.string().min(1),
               updatedAt: z.iso.datetime(),
-              zip: z.int(),
             })
           ),
           bankDetails: z.optional(
@@ -2163,9 +2151,9 @@ export const zGetApiAuditlogsResponse = z.object({
           id: z.uuid(),
           lineOne: z.string().min(1),
           lineTwo: z.optional(z.union([z.string(), z.null()])),
+          postalCode: z.int(),
           state: z.string().min(1),
           updatedAt: z.iso.datetime(),
-          zip: z.int(),
         })
       ),
       z.array(
@@ -2219,9 +2207,9 @@ export const zGetApiAuditlogsByIdResponse = z.object({
             id: z.uuid(),
             lineOne: z.string().min(1),
             lineTwo: z.optional(z.union([z.string(), z.null()])),
+            postalCode: z.int(),
             state: z.string().min(1),
             updatedAt: z.iso.datetime(),
-            zip: z.int(),
           })
         ),
         bankDetails: z.optional(
@@ -2575,9 +2563,9 @@ export const zGetApiAuditlogsByIdResponse = z.object({
         id: z.uuid(),
         lineOne: z.string().min(1),
         lineTwo: z.optional(z.union([z.string(), z.null()])),
+        postalCode: z.int(),
         state: z.string().min(1),
         updatedAt: z.iso.datetime(),
-        zip: z.int(),
       }),
       z.object({
         accountHolder: z.string().min(1),
@@ -2602,9 +2590,9 @@ export const zGetApiAuditlogsByIdResponse = z.object({
               id: z.uuid(),
               lineOne: z.string().min(1),
               lineTwo: z.optional(z.union([z.string(), z.null()])),
+              postalCode: z.int(),
               state: z.string().min(1),
               updatedAt: z.iso.datetime(),
-              zip: z.int(),
             })
           ),
           bankDetails: z.optional(
@@ -2976,9 +2964,9 @@ export const zGetApiAuditlogsByIdResponse = z.object({
           id: z.uuid(),
           lineOne: z.string().min(1),
           lineTwo: z.optional(z.union([z.string(), z.null()])),
+          postalCode: z.int(),
           state: z.string().min(1),
           updatedAt: z.iso.datetime(),
-          zip: z.int(),
         })
       ),
       z.array(
@@ -3030,9 +3018,9 @@ export const zGetApiAuthenticationCheckResponse = z.object({
             id: z.uuid(),
             lineOne: z.string().min(1),
             lineTwo: z.optional(z.union([z.string(), z.null()])),
+            postalCode: z.int(),
             state: z.string().min(1),
             updatedAt: z.iso.datetime(),
-            zip: z.int(),
           })
         ),
         bankDetails: z.optional(
@@ -3386,9 +3374,9 @@ export const zGetApiAuthenticationCheckResponse = z.object({
         id: z.uuid(),
         lineOne: z.string().min(1),
         lineTwo: z.optional(z.union([z.string(), z.null()])),
+        postalCode: z.int(),
         state: z.string().min(1),
         updatedAt: z.iso.datetime(),
-        zip: z.int(),
       }),
       z.object({
         accountHolder: z.string().min(1),
@@ -3413,9 +3401,9 @@ export const zGetApiAuthenticationCheckResponse = z.object({
               id: z.uuid(),
               lineOne: z.string().min(1),
               lineTwo: z.optional(z.union([z.string(), z.null()])),
+              postalCode: z.int(),
               state: z.string().min(1),
               updatedAt: z.iso.datetime(),
-              zip: z.int(),
             })
           ),
           bankDetails: z.optional(
@@ -3787,9 +3775,9 @@ export const zGetApiAuthenticationCheckResponse = z.object({
           id: z.uuid(),
           lineOne: z.string().min(1),
           lineTwo: z.optional(z.union([z.string(), z.null()])),
+          postalCode: z.int(),
           state: z.string().min(1),
           updatedAt: z.iso.datetime(),
-          zip: z.int(),
         })
       ),
       z.array(
@@ -3870,9 +3858,9 @@ export const zGetApiAuthenticationOrganizationsResponse = z.object({
             id: z.uuid(),
             lineOne: z.string().min(1),
             lineTwo: z.optional(z.union([z.string(), z.null()])),
+            postalCode: z.int(),
             state: z.string().min(1),
             updatedAt: z.iso.datetime(),
-            zip: z.int(),
           })
         ),
         bankDetails: z.optional(
@@ -4226,9 +4214,9 @@ export const zGetApiAuthenticationOrganizationsResponse = z.object({
         id: z.uuid(),
         lineOne: z.string().min(1),
         lineTwo: z.optional(z.union([z.string(), z.null()])),
+        postalCode: z.int(),
         state: z.string().min(1),
         updatedAt: z.iso.datetime(),
-        zip: z.int(),
       }),
       z.object({
         accountHolder: z.string().min(1),
@@ -4253,9 +4241,9 @@ export const zGetApiAuthenticationOrganizationsResponse = z.object({
               id: z.uuid(),
               lineOne: z.string().min(1),
               lineTwo: z.optional(z.union([z.string(), z.null()])),
+              postalCode: z.int(),
               state: z.string().min(1),
               updatedAt: z.iso.datetime(),
-              zip: z.int(),
             })
           ),
           bankDetails: z.optional(
@@ -4627,9 +4615,9 @@ export const zGetApiAuthenticationOrganizationsResponse = z.object({
           id: z.uuid(),
           lineOne: z.string().min(1),
           lineTwo: z.optional(z.union([z.string(), z.null()])),
+          postalCode: z.int(),
           state: z.string().min(1),
           updatedAt: z.iso.datetime(),
-          zip: z.int(),
         })
       ),
       z.array(
@@ -4681,9 +4669,9 @@ export const zGetApiAuthenticationPermissionsResponse = z.object({
             id: z.uuid(),
             lineOne: z.string().min(1),
             lineTwo: z.optional(z.union([z.string(), z.null()])),
+            postalCode: z.int(),
             state: z.string().min(1),
             updatedAt: z.iso.datetime(),
-            zip: z.int(),
           })
         ),
         bankDetails: z.optional(
@@ -5037,9 +5025,9 @@ export const zGetApiAuthenticationPermissionsResponse = z.object({
         id: z.uuid(),
         lineOne: z.string().min(1),
         lineTwo: z.optional(z.union([z.string(), z.null()])),
+        postalCode: z.int(),
         state: z.string().min(1),
         updatedAt: z.iso.datetime(),
-        zip: z.int(),
       }),
       z.object({
         accountHolder: z.string().min(1),
@@ -5064,9 +5052,9 @@ export const zGetApiAuthenticationPermissionsResponse = z.object({
               id: z.uuid(),
               lineOne: z.string().min(1),
               lineTwo: z.optional(z.union([z.string(), z.null()])),
+              postalCode: z.int(),
               state: z.string().min(1),
               updatedAt: z.iso.datetime(),
-              zip: z.int(),
             })
           ),
           bankDetails: z.optional(
@@ -5438,9 +5426,9 @@ export const zGetApiAuthenticationPermissionsResponse = z.object({
           id: z.uuid(),
           lineOne: z.string().min(1),
           lineTwo: z.optional(z.union([z.string(), z.null()])),
+          postalCode: z.int(),
           state: z.string().min(1),
           updatedAt: z.iso.datetime(),
-          zip: z.int(),
         })
       ),
       z.array(
@@ -5497,9 +5485,9 @@ export const zGetApiMaterialsResponse = z.object({
             id: z.uuid(),
             lineOne: z.string().min(1),
             lineTwo: z.optional(z.union([z.string(), z.null()])),
+            postalCode: z.int(),
             state: z.string().min(1),
             updatedAt: z.iso.datetime(),
-            zip: z.int(),
           })
         ),
         bankDetails: z.optional(
@@ -5853,9 +5841,9 @@ export const zGetApiMaterialsResponse = z.object({
         id: z.uuid(),
         lineOne: z.string().min(1),
         lineTwo: z.optional(z.union([z.string(), z.null()])),
+        postalCode: z.int(),
         state: z.string().min(1),
         updatedAt: z.iso.datetime(),
-        zip: z.int(),
       }),
       z.object({
         accountHolder: z.string().min(1),
@@ -5880,9 +5868,9 @@ export const zGetApiMaterialsResponse = z.object({
               id: z.uuid(),
               lineOne: z.string().min(1),
               lineTwo: z.optional(z.union([z.string(), z.null()])),
+              postalCode: z.int(),
               state: z.string().min(1),
               updatedAt: z.iso.datetime(),
-              zip: z.int(),
             })
           ),
           bankDetails: z.optional(
@@ -6254,9 +6242,9 @@ export const zGetApiMaterialsResponse = z.object({
           id: z.uuid(),
           lineOne: z.string().min(1),
           lineTwo: z.optional(z.union([z.string(), z.null()])),
+          postalCode: z.int(),
           state: z.string().min(1),
           updatedAt: z.iso.datetime(),
-          zip: z.int(),
         })
       ),
       z.array(
@@ -6328,9 +6316,9 @@ export const zGetApiMaterialsByIdResponse = z.object({
             id: z.uuid(),
             lineOne: z.string().min(1),
             lineTwo: z.optional(z.union([z.string(), z.null()])),
+            postalCode: z.int(),
             state: z.string().min(1),
             updatedAt: z.iso.datetime(),
-            zip: z.int(),
           })
         ),
         bankDetails: z.optional(
@@ -6684,9 +6672,9 @@ export const zGetApiMaterialsByIdResponse = z.object({
         id: z.uuid(),
         lineOne: z.string().min(1),
         lineTwo: z.optional(z.union([z.string(), z.null()])),
+        postalCode: z.int(),
         state: z.string().min(1),
         updatedAt: z.iso.datetime(),
-        zip: z.int(),
       }),
       z.object({
         accountHolder: z.string().min(1),
@@ -6711,9 +6699,9 @@ export const zGetApiMaterialsByIdResponse = z.object({
               id: z.uuid(),
               lineOne: z.string().min(1),
               lineTwo: z.optional(z.union([z.string(), z.null()])),
+              postalCode: z.int(),
               state: z.string().min(1),
               updatedAt: z.iso.datetime(),
-              zip: z.int(),
             })
           ),
           bankDetails: z.optional(
@@ -7085,9 +7073,9 @@ export const zGetApiMaterialsByIdResponse = z.object({
           id: z.uuid(),
           lineOne: z.string().min(1),
           lineTwo: z.optional(z.union([z.string(), z.null()])),
+          postalCode: z.int(),
           state: z.string().min(1),
           updatedAt: z.iso.datetime(),
-          zip: z.int(),
         })
       ),
       z.array(
@@ -7156,9 +7144,9 @@ export const zGetApiNotificationsResponse = z.object({
             id: z.uuid(),
             lineOne: z.string().min(1),
             lineTwo: z.optional(z.union([z.string(), z.null()])),
+            postalCode: z.int(),
             state: z.string().min(1),
             updatedAt: z.iso.datetime(),
-            zip: z.int(),
           })
         ),
         bankDetails: z.optional(
@@ -7512,9 +7500,9 @@ export const zGetApiNotificationsResponse = z.object({
         id: z.uuid(),
         lineOne: z.string().min(1),
         lineTwo: z.optional(z.union([z.string(), z.null()])),
+        postalCode: z.int(),
         state: z.string().min(1),
         updatedAt: z.iso.datetime(),
-        zip: z.int(),
       }),
       z.object({
         accountHolder: z.string().min(1),
@@ -7539,9 +7527,9 @@ export const zGetApiNotificationsResponse = z.object({
               id: z.uuid(),
               lineOne: z.string().min(1),
               lineTwo: z.optional(z.union([z.string(), z.null()])),
+              postalCode: z.int(),
               state: z.string().min(1),
               updatedAt: z.iso.datetime(),
-              zip: z.int(),
             })
           ),
           bankDetails: z.optional(
@@ -7913,9 +7901,9 @@ export const zGetApiNotificationsResponse = z.object({
           id: z.uuid(),
           lineOne: z.string().min(1),
           lineTwo: z.optional(z.union([z.string(), z.null()])),
+          postalCode: z.int(),
           state: z.string().min(1),
           updatedAt: z.iso.datetime(),
-          zip: z.int(),
         })
       ),
       z.array(
@@ -7994,9 +7982,9 @@ export const zGetApiNotificationsByIdResponse = z.object({
             id: z.uuid(),
             lineOne: z.string().min(1),
             lineTwo: z.optional(z.union([z.string(), z.null()])),
+            postalCode: z.int(),
             state: z.string().min(1),
             updatedAt: z.iso.datetime(),
-            zip: z.int(),
           })
         ),
         bankDetails: z.optional(
@@ -8350,9 +8338,9 @@ export const zGetApiNotificationsByIdResponse = z.object({
         id: z.uuid(),
         lineOne: z.string().min(1),
         lineTwo: z.optional(z.union([z.string(), z.null()])),
+        postalCode: z.int(),
         state: z.string().min(1),
         updatedAt: z.iso.datetime(),
-        zip: z.int(),
       }),
       z.object({
         accountHolder: z.string().min(1),
@@ -8377,9 +8365,9 @@ export const zGetApiNotificationsByIdResponse = z.object({
               id: z.uuid(),
               lineOne: z.string().min(1),
               lineTwo: z.optional(z.union([z.string(), z.null()])),
+              postalCode: z.int(),
               state: z.string().min(1),
               updatedAt: z.iso.datetime(),
-              zip: z.int(),
             })
           ),
           bankDetails: z.optional(
@@ -8751,9 +8739,9 @@ export const zGetApiNotificationsByIdResponse = z.object({
           id: z.uuid(),
           lineOne: z.string().min(1),
           lineTwo: z.optional(z.union([z.string(), z.null()])),
+          postalCode: z.int(),
           state: z.string().min(1),
           updatedAt: z.iso.datetime(),
-          zip: z.int(),
         })
       ),
       z.array(
@@ -8832,9 +8820,9 @@ export const zGetApiOrganizationsResponse = z.object({
             id: z.uuid(),
             lineOne: z.string().min(1),
             lineTwo: z.optional(z.union([z.string(), z.null()])),
+            postalCode: z.int(),
             state: z.string().min(1),
             updatedAt: z.iso.datetime(),
-            zip: z.int(),
           })
         ),
         bankDetails: z.optional(
@@ -9188,9 +9176,9 @@ export const zGetApiOrganizationsResponse = z.object({
         id: z.uuid(),
         lineOne: z.string().min(1),
         lineTwo: z.optional(z.union([z.string(), z.null()])),
+        postalCode: z.int(),
         state: z.string().min(1),
         updatedAt: z.iso.datetime(),
-        zip: z.int(),
       }),
       z.object({
         accountHolder: z.string().min(1),
@@ -9215,9 +9203,9 @@ export const zGetApiOrganizationsResponse = z.object({
               id: z.uuid(),
               lineOne: z.string().min(1),
               lineTwo: z.optional(z.union([z.string(), z.null()])),
+              postalCode: z.int(),
               state: z.string().min(1),
               updatedAt: z.iso.datetime(),
-              zip: z.int(),
             })
           ),
           bankDetails: z.optional(
@@ -9589,9 +9577,9 @@ export const zGetApiOrganizationsResponse = z.object({
           id: z.uuid(),
           lineOne: z.string().min(1),
           lineTwo: z.optional(z.union([z.string(), z.null()])),
+          postalCode: z.int(),
           state: z.string().min(1),
           updatedAt: z.iso.datetime(),
-          zip: z.int(),
         })
       ),
       z.array(
@@ -9679,9 +9667,9 @@ export const zGetApiOrganizationsByIdResponse = z.object({
             id: z.uuid(),
             lineOne: z.string().min(1),
             lineTwo: z.optional(z.union([z.string(), z.null()])),
+            postalCode: z.int(),
             state: z.string().min(1),
             updatedAt: z.iso.datetime(),
-            zip: z.int(),
           })
         ),
         bankDetails: z.optional(
@@ -10035,9 +10023,9 @@ export const zGetApiOrganizationsByIdResponse = z.object({
         id: z.uuid(),
         lineOne: z.string().min(1),
         lineTwo: z.optional(z.union([z.string(), z.null()])),
+        postalCode: z.int(),
         state: z.string().min(1),
         updatedAt: z.iso.datetime(),
-        zip: z.int(),
       }),
       z.object({
         accountHolder: z.string().min(1),
@@ -10062,9 +10050,9 @@ export const zGetApiOrganizationsByIdResponse = z.object({
               id: z.uuid(),
               lineOne: z.string().min(1),
               lineTwo: z.optional(z.union([z.string(), z.null()])),
+              postalCode: z.int(),
               state: z.string().min(1),
               updatedAt: z.iso.datetime(),
-              zip: z.int(),
             })
           ),
           bankDetails: z.optional(
@@ -10436,9 +10424,9 @@ export const zGetApiOrganizationsByIdResponse = z.object({
           id: z.uuid(),
           lineOne: z.string().min(1),
           lineTwo: z.optional(z.union([z.string(), z.null()])),
+          postalCode: z.int(),
           state: z.string().min(1),
           updatedAt: z.iso.datetime(),
-          zip: z.int(),
         })
       ),
       z.array(
@@ -10513,9 +10501,9 @@ export const zGetApiProductsResponse = z.object({
             id: z.uuid(),
             lineOne: z.string().min(1),
             lineTwo: z.optional(z.union([z.string(), z.null()])),
+            postalCode: z.int(),
             state: z.string().min(1),
             updatedAt: z.iso.datetime(),
-            zip: z.int(),
           })
         ),
         bankDetails: z.optional(
@@ -10869,9 +10857,9 @@ export const zGetApiProductsResponse = z.object({
         id: z.uuid(),
         lineOne: z.string().min(1),
         lineTwo: z.optional(z.union([z.string(), z.null()])),
+        postalCode: z.int(),
         state: z.string().min(1),
         updatedAt: z.iso.datetime(),
-        zip: z.int(),
       }),
       z.object({
         accountHolder: z.string().min(1),
@@ -10896,9 +10884,9 @@ export const zGetApiProductsResponse = z.object({
               id: z.uuid(),
               lineOne: z.string().min(1),
               lineTwo: z.optional(z.union([z.string(), z.null()])),
+              postalCode: z.int(),
               state: z.string().min(1),
               updatedAt: z.iso.datetime(),
-              zip: z.int(),
             })
           ),
           bankDetails: z.optional(
@@ -11270,9 +11258,9 @@ export const zGetApiProductsResponse = z.object({
           id: z.uuid(),
           lineOne: z.string().min(1),
           lineTwo: z.optional(z.union([z.string(), z.null()])),
+          postalCode: z.int(),
           state: z.string().min(1),
           updatedAt: z.iso.datetime(),
-          zip: z.int(),
         })
       ),
       z.array(
@@ -11344,9 +11332,9 @@ export const zGetApiProductsByIdResponse = z.object({
             id: z.uuid(),
             lineOne: z.string().min(1),
             lineTwo: z.optional(z.union([z.string(), z.null()])),
+            postalCode: z.int(),
             state: z.string().min(1),
             updatedAt: z.iso.datetime(),
-            zip: z.int(),
           })
         ),
         bankDetails: z.optional(
@@ -11700,9 +11688,9 @@ export const zGetApiProductsByIdResponse = z.object({
         id: z.uuid(),
         lineOne: z.string().min(1),
         lineTwo: z.optional(z.union([z.string(), z.null()])),
+        postalCode: z.int(),
         state: z.string().min(1),
         updatedAt: z.iso.datetime(),
-        zip: z.int(),
       }),
       z.object({
         accountHolder: z.string().min(1),
@@ -11727,9 +11715,9 @@ export const zGetApiProductsByIdResponse = z.object({
               id: z.uuid(),
               lineOne: z.string().min(1),
               lineTwo: z.optional(z.union([z.string(), z.null()])),
+              postalCode: z.int(),
               state: z.string().min(1),
               updatedAt: z.iso.datetime(),
-              zip: z.int(),
             })
           ),
           bankDetails: z.optional(
@@ -12101,9 +12089,9 @@ export const zGetApiProductsByIdResponse = z.object({
           id: z.uuid(),
           lineOne: z.string().min(1),
           lineTwo: z.optional(z.union([z.string(), z.null()])),
+          postalCode: z.int(),
           state: z.string().min(1),
           updatedAt: z.iso.datetime(),
-          zip: z.int(),
         })
       ),
       z.array(
@@ -12172,9 +12160,9 @@ export const zGetApiRolesResponse = z.object({
             id: z.uuid(),
             lineOne: z.string().min(1),
             lineTwo: z.optional(z.union([z.string(), z.null()])),
+            postalCode: z.int(),
             state: z.string().min(1),
             updatedAt: z.iso.datetime(),
-            zip: z.int(),
           })
         ),
         bankDetails: z.optional(
@@ -12528,9 +12516,9 @@ export const zGetApiRolesResponse = z.object({
         id: z.uuid(),
         lineOne: z.string().min(1),
         lineTwo: z.optional(z.union([z.string(), z.null()])),
+        postalCode: z.int(),
         state: z.string().min(1),
         updatedAt: z.iso.datetime(),
-        zip: z.int(),
       }),
       z.object({
         accountHolder: z.string().min(1),
@@ -12555,9 +12543,9 @@ export const zGetApiRolesResponse = z.object({
               id: z.uuid(),
               lineOne: z.string().min(1),
               lineTwo: z.optional(z.union([z.string(), z.null()])),
+              postalCode: z.int(),
               state: z.string().min(1),
               updatedAt: z.iso.datetime(),
-              zip: z.int(),
             })
           ),
           bankDetails: z.optional(
@@ -12929,9 +12917,9 @@ export const zGetApiRolesResponse = z.object({
           id: z.uuid(),
           lineOne: z.string().min(1),
           lineTwo: z.optional(z.union([z.string(), z.null()])),
+          postalCode: z.int(),
           state: z.string().min(1),
           updatedAt: z.iso.datetime(),
-          zip: z.int(),
         })
       ),
       z.array(
@@ -12993,9 +12981,9 @@ export const zGetApiRolesAvailablePermissionsResponse = z.object({
             id: z.uuid(),
             lineOne: z.string().min(1),
             lineTwo: z.optional(z.union([z.string(), z.null()])),
+            postalCode: z.int(),
             state: z.string().min(1),
             updatedAt: z.iso.datetime(),
-            zip: z.int(),
           })
         ),
         bankDetails: z.optional(
@@ -13349,9 +13337,9 @@ export const zGetApiRolesAvailablePermissionsResponse = z.object({
         id: z.uuid(),
         lineOne: z.string().min(1),
         lineTwo: z.optional(z.union([z.string(), z.null()])),
+        postalCode: z.int(),
         state: z.string().min(1),
         updatedAt: z.iso.datetime(),
-        zip: z.int(),
       }),
       z.object({
         accountHolder: z.string().min(1),
@@ -13376,9 +13364,9 @@ export const zGetApiRolesAvailablePermissionsResponse = z.object({
               id: z.uuid(),
               lineOne: z.string().min(1),
               lineTwo: z.optional(z.union([z.string(), z.null()])),
+              postalCode: z.int(),
               state: z.string().min(1),
               updatedAt: z.iso.datetime(),
-              zip: z.int(),
             })
           ),
           bankDetails: z.optional(
@@ -13750,9 +13738,9 @@ export const zGetApiRolesAvailablePermissionsResponse = z.object({
           id: z.uuid(),
           lineOne: z.string().min(1),
           lineTwo: z.optional(z.union([z.string(), z.null()])),
+          postalCode: z.int(),
           state: z.string().min(1),
           updatedAt: z.iso.datetime(),
-          zip: z.int(),
         })
       ),
       z.array(
@@ -13814,9 +13802,9 @@ export const zGetApiRolesByIdResponse = z.object({
             id: z.uuid(),
             lineOne: z.string().min(1),
             lineTwo: z.optional(z.union([z.string(), z.null()])),
+            postalCode: z.int(),
             state: z.string().min(1),
             updatedAt: z.iso.datetime(),
-            zip: z.int(),
           })
         ),
         bankDetails: z.optional(
@@ -14170,9 +14158,9 @@ export const zGetApiRolesByIdResponse = z.object({
         id: z.uuid(),
         lineOne: z.string().min(1),
         lineTwo: z.optional(z.union([z.string(), z.null()])),
+        postalCode: z.int(),
         state: z.string().min(1),
         updatedAt: z.iso.datetime(),
-        zip: z.int(),
       }),
       z.object({
         accountHolder: z.string().min(1),
@@ -14197,9 +14185,9 @@ export const zGetApiRolesByIdResponse = z.object({
               id: z.uuid(),
               lineOne: z.string().min(1),
               lineTwo: z.optional(z.union([z.string(), z.null()])),
+              postalCode: z.int(),
               state: z.string().min(1),
               updatedAt: z.iso.datetime(),
-              zip: z.int(),
             })
           ),
           bankDetails: z.optional(
@@ -14571,9 +14559,9 @@ export const zGetApiRolesByIdResponse = z.object({
           id: z.uuid(),
           lineOne: z.string().min(1),
           lineTwo: z.optional(z.union([z.string(), z.null()])),
+          postalCode: z.int(),
           state: z.string().min(1),
           updatedAt: z.iso.datetime(),
-          zip: z.int(),
         })
       ),
       z.array(
@@ -14642,9 +14630,9 @@ export const zGetApiTransactionsResponse = z.object({
             id: z.uuid(),
             lineOne: z.string().min(1),
             lineTwo: z.optional(z.union([z.string(), z.null()])),
+            postalCode: z.int(),
             state: z.string().min(1),
             updatedAt: z.iso.datetime(),
-            zip: z.int(),
           })
         ),
         bankDetails: z.optional(
@@ -14998,9 +14986,9 @@ export const zGetApiTransactionsResponse = z.object({
         id: z.uuid(),
         lineOne: z.string().min(1),
         lineTwo: z.optional(z.union([z.string(), z.null()])),
+        postalCode: z.int(),
         state: z.string().min(1),
         updatedAt: z.iso.datetime(),
-        zip: z.int(),
       }),
       z.object({
         accountHolder: z.string().min(1),
@@ -15025,9 +15013,9 @@ export const zGetApiTransactionsResponse = z.object({
               id: z.uuid(),
               lineOne: z.string().min(1),
               lineTwo: z.optional(z.union([z.string(), z.null()])),
+              postalCode: z.int(),
               state: z.string().min(1),
               updatedAt: z.iso.datetime(),
-              zip: z.int(),
             })
           ),
           bankDetails: z.optional(
@@ -15399,9 +15387,9 @@ export const zGetApiTransactionsResponse = z.object({
           id: z.uuid(),
           lineOne: z.string().min(1),
           lineTwo: z.optional(z.union([z.string(), z.null()])),
+          postalCode: z.int(),
           state: z.string().min(1),
           updatedAt: z.iso.datetime(),
-          zip: z.int(),
         })
       ),
       z.array(
@@ -15475,9 +15463,9 @@ export const zGetApiTransactionsByIdResponse = z.object({
             id: z.uuid(),
             lineOne: z.string().min(1),
             lineTwo: z.optional(z.union([z.string(), z.null()])),
+            postalCode: z.int(),
             state: z.string().min(1),
             updatedAt: z.iso.datetime(),
-            zip: z.int(),
           })
         ),
         bankDetails: z.optional(
@@ -15831,9 +15819,9 @@ export const zGetApiTransactionsByIdResponse = z.object({
         id: z.uuid(),
         lineOne: z.string().min(1),
         lineTwo: z.optional(z.union([z.string(), z.null()])),
+        postalCode: z.int(),
         state: z.string().min(1),
         updatedAt: z.iso.datetime(),
-        zip: z.int(),
       }),
       z.object({
         accountHolder: z.string().min(1),
@@ -15858,9 +15846,9 @@ export const zGetApiTransactionsByIdResponse = z.object({
               id: z.uuid(),
               lineOne: z.string().min(1),
               lineTwo: z.optional(z.union([z.string(), z.null()])),
+              postalCode: z.int(),
               state: z.string().min(1),
               updatedAt: z.iso.datetime(),
-              zip: z.int(),
             })
           ),
           bankDetails: z.optional(
@@ -16232,9 +16220,9 @@ export const zGetApiTransactionsByIdResponse = z.object({
           id: z.uuid(),
           lineOne: z.string().min(1),
           lineTwo: z.optional(z.union([z.string(), z.null()])),
+          postalCode: z.int(),
           state: z.string().min(1),
           updatedAt: z.iso.datetime(),
-          zip: z.int(),
         })
       ),
       z.array(
@@ -16307,9 +16295,9 @@ export const zGetApiUsersResponse = z.object({
             id: z.uuid(),
             lineOne: z.string().min(1),
             lineTwo: z.optional(z.union([z.string(), z.null()])),
+            postalCode: z.int(),
             state: z.string().min(1),
             updatedAt: z.iso.datetime(),
-            zip: z.int(),
           })
         ),
         bankDetails: z.optional(
@@ -16663,9 +16651,9 @@ export const zGetApiUsersResponse = z.object({
         id: z.uuid(),
         lineOne: z.string().min(1),
         lineTwo: z.optional(z.union([z.string(), z.null()])),
+        postalCode: z.int(),
         state: z.string().min(1),
         updatedAt: z.iso.datetime(),
-        zip: z.int(),
       }),
       z.object({
         accountHolder: z.string().min(1),
@@ -16690,9 +16678,9 @@ export const zGetApiUsersResponse = z.object({
               id: z.uuid(),
               lineOne: z.string().min(1),
               lineTwo: z.optional(z.union([z.string(), z.null()])),
+              postalCode: z.int(),
               state: z.string().min(1),
               updatedAt: z.iso.datetime(),
-              zip: z.int(),
             })
           ),
           bankDetails: z.optional(
@@ -17064,9 +17052,9 @@ export const zGetApiUsersResponse = z.object({
           id: z.uuid(),
           lineOne: z.string().min(1),
           lineTwo: z.optional(z.union([z.string(), z.null()])),
+          postalCode: z.int(),
           state: z.string().min(1),
           updatedAt: z.iso.datetime(),
-          zip: z.int(),
         })
       ),
       z.array(
@@ -17104,15 +17092,15 @@ export const zPostApiUsersData = z.object({
       country: z.string().min(1),
       lineOne: z.string().min(1),
       lineTwo: z.optional(z.union([z.string(), z.null()])),
+      postalCode: z.int(),
       state: z.string().min(1),
-      zip: z.int(),
     }),
     bankDetails: z.optional(
       z.object({
-        accountHolder: z.string().min(1),
-        accountNumber: z.string().min(1),
-        bankName: z.string().min(1),
-        branchCode: z.string().min(1),
+        accountHolder: z.optional(z.string().min(1)),
+        accountNumber: z.optional(z.string().min(1)),
+        bankName: z.optional(z.string().min(1)),
+        branchCode: z.optional(z.string().min(1)),
       })
     ),
     email: z.email().min(1),
@@ -17158,9 +17146,9 @@ export const zGetApiUsersByIdResponse = z.object({
             id: z.uuid(),
             lineOne: z.string().min(1),
             lineTwo: z.optional(z.union([z.string(), z.null()])),
+            postalCode: z.int(),
             state: z.string().min(1),
             updatedAt: z.iso.datetime(),
-            zip: z.int(),
           })
         ),
         bankDetails: z.optional(
@@ -17514,9 +17502,9 @@ export const zGetApiUsersByIdResponse = z.object({
         id: z.uuid(),
         lineOne: z.string().min(1),
         lineTwo: z.optional(z.union([z.string(), z.null()])),
+        postalCode: z.int(),
         state: z.string().min(1),
         updatedAt: z.iso.datetime(),
-        zip: z.int(),
       }),
       z.object({
         accountHolder: z.string().min(1),
@@ -17541,9 +17529,9 @@ export const zGetApiUsersByIdResponse = z.object({
               id: z.uuid(),
               lineOne: z.string().min(1),
               lineTwo: z.optional(z.union([z.string(), z.null()])),
+              postalCode: z.int(),
               state: z.string().min(1),
               updatedAt: z.iso.datetime(),
-              zip: z.int(),
             })
           ),
           bankDetails: z.optional(
@@ -17915,9 +17903,9 @@ export const zGetApiUsersByIdResponse = z.object({
           id: z.uuid(),
           lineOne: z.string().min(1),
           lineTwo: z.optional(z.union([z.string(), z.null()])),
+          postalCode: z.int(),
           state: z.string().min(1),
           updatedAt: z.iso.datetime(),
-          zip: z.int(),
         })
       ),
       z.array(
@@ -17951,34 +17939,22 @@ export const zGetApiUsersByIdResponse = z.object({
 export const zPutApiUsersByIdData = z.object({
   body: z.object({
     address: z.optional(
-      z.union([
-        z.object({
-          city: z.optional(z.string().min(1)),
-          country: z.optional(z.string().min(1)),
-          createdAt: z.optional(z.iso.datetime()),
-          id: z.optional(z.uuid()),
-          lineOne: z.optional(z.string().min(1)),
-          lineTwo: z.optional(z.union([z.string(), z.null()])),
-          state: z.optional(z.string().min(1)),
-          updatedAt: z.optional(z.iso.datetime()),
-          zip: z.optional(z.int()),
-        }),
-        z.null(),
-      ])
+      z.object({
+        city: z.optional(z.union([z.string().min(1), z.null()])),
+        country: z.optional(z.union([z.string().min(1), z.null()])),
+        lineOne: z.optional(z.union([z.string().min(1), z.null()])),
+        lineTwo: z.optional(z.union([z.string(), z.null()])),
+        postalCode: z.optional(z.union([z.int(), z.null()])),
+        state: z.optional(z.union([z.string().min(1), z.null()])),
+      })
     ),
     bankDetails: z.optional(
-      z.union([
-        z.object({
-          accountHolder: z.optional(z.string().min(1)),
-          accountNumber: z.optional(z.string().min(1)),
-          bankName: z.optional(z.string().min(1)),
-          branchCode: z.optional(z.string().min(1)),
-          createdAt: z.optional(z.iso.datetime()),
-          id: z.optional(z.uuid()),
-          updatedAt: z.optional(z.iso.datetime()),
-        }),
-        z.null(),
-      ])
+      z.object({
+        accountHolder: z.optional(z.union([z.string().min(1), z.null()])),
+        accountNumber: z.optional(z.union([z.string().min(1), z.null()])),
+        bankName: z.optional(z.union([z.string().min(1), z.null()])),
+        branchCode: z.optional(z.union([z.string().min(1), z.null()])),
+      })
     ),
     email: z.optional(z.union([z.email().min(1), z.null()])),
     jobTitle: z.optional(z.union([z.string(), z.null()])),

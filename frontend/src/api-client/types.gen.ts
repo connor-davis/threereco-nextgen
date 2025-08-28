@@ -7,9 +7,9 @@ export type Address = {
   id: string;
   lineOne: string;
   lineTwo?: string | null;
+  postalCode: number;
   state: string;
   updatedAt: string;
-  zip: number;
 };
 
 export type AuditLog = {
@@ -68,8 +68,8 @@ export type CreateAddressPayload = {
   country: string;
   lineOne: string;
   lineTwo?: string | null;
+  postalCode: number;
   state: string;
-  zip: number;
 };
 
 export type CreateBankDetailsPayload = {
@@ -117,14 +117,14 @@ export type CreateUserPayload = {
     country: string;
     lineOne: string;
     lineTwo?: string | null;
+    postalCode: number;
     state: string;
-    zip: number;
   };
   bankDetails?: {
-    accountHolder: string;
-    accountNumber: string;
-    bankName: string;
-    branchCode: string;
+    accountHolder?: string;
+    accountNumber?: string;
+    bankName?: string;
+    branchCode?: string;
   };
   email: string;
   jobTitle?: string | null;
@@ -327,9 +327,9 @@ export type SuccessResponse = {
           id: string;
           lineOne: string;
           lineTwo?: string | null;
+          postalCode: number;
           state: string;
           updatedAt: string;
-          zip: number;
         };
         bankDetails?: {
           accountHolder: string;
@@ -650,9 +650,9 @@ export type SuccessResponse = {
         id: string;
         lineOne: string;
         lineTwo?: string | null;
+        postalCode: number;
         state: string;
         updatedAt: string;
-        zip: number;
       }
     | {
         accountHolder: string;
@@ -672,9 +672,9 @@ export type SuccessResponse = {
           id: string;
           lineOne: string;
           lineTwo?: string | null;
+          postalCode: number;
           state: string;
           updatedAt: string;
-          zip: number;
         };
         bankDetails?: {
           accountHolder: string;
@@ -995,9 +995,9 @@ export type SuccessResponse = {
         id: string;
         lineOne: string;
         lineTwo?: string | null;
+        postalCode: number;
         state: string;
         updatedAt: string;
-        zip: number;
       }>
     | Array<{
         accountHolder: string;
@@ -1101,8 +1101,8 @@ export type UpdateAddressPayload = {
   country?: string | null;
   lineOne?: string | null;
   lineTwo?: string | null;
+  postalCode?: number | null;
   state?: string | null;
-  zip?: number | null;
 };
 
 export type UpdateBankDetailsPayload = {
@@ -1148,25 +1148,19 @@ export type UpdateTransactionPayload = {
 
 export type UpdateUserPayload = {
   address?: {
-    city?: string;
-    country?: string;
-    createdAt?: string;
-    id?: string;
-    lineOne?: string;
+    city?: string | null;
+    country?: string | null;
+    lineOne?: string | null;
     lineTwo?: string | null;
-    state?: string;
-    updatedAt?: string;
-    zip?: number;
-  } | null;
+    postalCode?: number | null;
+    state?: string | null;
+  };
   bankDetails?: {
-    accountHolder?: string;
-    accountNumber?: string;
-    bankName?: string;
-    branchCode?: string;
-    createdAt?: string;
-    id?: string;
-    updatedAt?: string;
-  } | null;
+    accountHolder?: string | null;
+    accountNumber?: string | null;
+    bankName?: string | null;
+    branchCode?: string | null;
+  };
   email?: string | null;
   jobTitle?: string | null;
   name?: string | null;
@@ -1185,9 +1179,9 @@ export type User = {
     id: string;
     lineOne: string;
     lineTwo?: string | null;
+    postalCode: number;
     state: string;
     updatedAt: string;
-    zip: number;
   };
   bankDetails?: {
     accountHolder: string;
@@ -1280,9 +1274,9 @@ export type GetApiAuditlogsResponses = {
             id: string;
             lineOne: string;
             lineTwo?: string | null;
+            postalCode: number;
             state: string;
             updatedAt: string;
-            zip: number;
           };
           bankDetails?: {
             accountHolder: string;
@@ -1603,9 +1597,9 @@ export type GetApiAuditlogsResponses = {
           id: string;
           lineOne: string;
           lineTwo?: string | null;
+          postalCode: number;
           state: string;
           updatedAt: string;
-          zip: number;
         }
       | {
           accountHolder: string;
@@ -1625,9 +1619,9 @@ export type GetApiAuditlogsResponses = {
             id: string;
             lineOne: string;
             lineTwo?: string | null;
+            postalCode: number;
             state: string;
             updatedAt: string;
-            zip: number;
           };
           bankDetails?: {
             accountHolder: string;
@@ -1948,9 +1942,9 @@ export type GetApiAuditlogsResponses = {
           id: string;
           lineOne: string;
           lineTwo?: string | null;
+          postalCode: number;
           state: string;
           updatedAt: string;
-          zip: number;
         }>
       | Array<{
           accountHolder: string;
@@ -2033,9 +2027,9 @@ export type GetApiAuditlogsByIdResponses = {
             id: string;
             lineOne: string;
             lineTwo?: string | null;
+            postalCode: number;
             state: string;
             updatedAt: string;
-            zip: number;
           };
           bankDetails?: {
             accountHolder: string;
@@ -2356,9 +2350,9 @@ export type GetApiAuditlogsByIdResponses = {
           id: string;
           lineOne: string;
           lineTwo?: string | null;
+          postalCode: number;
           state: string;
           updatedAt: string;
-          zip: number;
         }
       | {
           accountHolder: string;
@@ -2378,9 +2372,9 @@ export type GetApiAuditlogsByIdResponses = {
             id: string;
             lineOne: string;
             lineTwo?: string | null;
+            postalCode: number;
             state: string;
             updatedAt: string;
-            zip: number;
           };
           bankDetails?: {
             accountHolder: string;
@@ -2701,9 +2695,9 @@ export type GetApiAuditlogsByIdResponses = {
           id: string;
           lineOne: string;
           lineTwo?: string | null;
+          postalCode: number;
           state: string;
           updatedAt: string;
-          zip: number;
         }>
       | Array<{
           accountHolder: string;
@@ -2770,9 +2764,9 @@ export type GetApiAuthenticationCheckResponses = {
             id: string;
             lineOne: string;
             lineTwo?: string | null;
+            postalCode: number;
             state: string;
             updatedAt: string;
-            zip: number;
           };
           bankDetails?: {
             accountHolder: string;
@@ -3093,9 +3087,9 @@ export type GetApiAuthenticationCheckResponses = {
           id: string;
           lineOne: string;
           lineTwo?: string | null;
+          postalCode: number;
           state: string;
           updatedAt: string;
-          zip: number;
         }
       | {
           accountHolder: string;
@@ -3115,9 +3109,9 @@ export type GetApiAuthenticationCheckResponses = {
             id: string;
             lineOne: string;
             lineTwo?: string | null;
+            postalCode: number;
             state: string;
             updatedAt: string;
-            zip: number;
           };
           bankDetails?: {
             accountHolder: string;
@@ -3438,9 +3432,9 @@ export type GetApiAuthenticationCheckResponses = {
           id: string;
           lineOne: string;
           lineTwo?: string | null;
+          postalCode: number;
           state: string;
           updatedAt: string;
-          zip: number;
         }>
       | Array<{
           accountHolder: string;
@@ -3666,9 +3660,9 @@ export type GetApiAuthenticationOrganizationsResponses = {
             id: string;
             lineOne: string;
             lineTwo?: string | null;
+            postalCode: number;
             state: string;
             updatedAt: string;
-            zip: number;
           };
           bankDetails?: {
             accountHolder: string;
@@ -3989,9 +3983,9 @@ export type GetApiAuthenticationOrganizationsResponses = {
           id: string;
           lineOne: string;
           lineTwo?: string | null;
+          postalCode: number;
           state: string;
           updatedAt: string;
-          zip: number;
         }
       | {
           accountHolder: string;
@@ -4011,9 +4005,9 @@ export type GetApiAuthenticationOrganizationsResponses = {
             id: string;
             lineOne: string;
             lineTwo?: string | null;
+            postalCode: number;
             state: string;
             updatedAt: string;
-            zip: number;
           };
           bankDetails?: {
             accountHolder: string;
@@ -4334,9 +4328,9 @@ export type GetApiAuthenticationOrganizationsResponses = {
           id: string;
           lineOne: string;
           lineTwo?: string | null;
+          postalCode: number;
           state: string;
           updatedAt: string;
-          zip: number;
         }>
       | Array<{
           accountHolder: string;
@@ -4403,9 +4397,9 @@ export type GetApiAuthenticationPermissionsResponses = {
             id: string;
             lineOne: string;
             lineTwo?: string | null;
+            postalCode: number;
             state: string;
             updatedAt: string;
-            zip: number;
           };
           bankDetails?: {
             accountHolder: string;
@@ -4726,9 +4720,9 @@ export type GetApiAuthenticationPermissionsResponses = {
           id: string;
           lineOne: string;
           lineTwo?: string | null;
+          postalCode: number;
           state: string;
           updatedAt: string;
-          zip: number;
         }
       | {
           accountHolder: string;
@@ -4748,9 +4742,9 @@ export type GetApiAuthenticationPermissionsResponses = {
             id: string;
             lineOne: string;
             lineTwo?: string | null;
+            postalCode: number;
             state: string;
             updatedAt: string;
-            zip: number;
           };
           bankDetails?: {
             accountHolder: string;
@@ -5071,9 +5065,9 @@ export type GetApiAuthenticationPermissionsResponses = {
           id: string;
           lineOne: string;
           lineTwo?: string | null;
+          postalCode: number;
           state: string;
           updatedAt: string;
-          zip: number;
         }>
       | Array<{
           accountHolder: string;
@@ -5150,9 +5144,9 @@ export type GetApiMaterialsResponses = {
             id: string;
             lineOne: string;
             lineTwo?: string | null;
+            postalCode: number;
             state: string;
             updatedAt: string;
-            zip: number;
           };
           bankDetails?: {
             accountHolder: string;
@@ -5473,9 +5467,9 @@ export type GetApiMaterialsResponses = {
           id: string;
           lineOne: string;
           lineTwo?: string | null;
+          postalCode: number;
           state: string;
           updatedAt: string;
-          zip: number;
         }
       | {
           accountHolder: string;
@@ -5495,9 +5489,9 @@ export type GetApiMaterialsResponses = {
             id: string;
             lineOne: string;
             lineTwo?: string | null;
+            postalCode: number;
             state: string;
             updatedAt: string;
-            zip: number;
           };
           bankDetails?: {
             accountHolder: string;
@@ -5818,9 +5812,9 @@ export type GetApiMaterialsResponses = {
           id: string;
           lineOne: string;
           lineTwo?: string | null;
+          postalCode: number;
           state: string;
           updatedAt: string;
-          zip: number;
         }>
       | Array<{
           accountHolder: string;
@@ -6000,9 +5994,9 @@ export type GetApiMaterialsByIdResponses = {
             id: string;
             lineOne: string;
             lineTwo?: string | null;
+            postalCode: number;
             state: string;
             updatedAt: string;
-            zip: number;
           };
           bankDetails?: {
             accountHolder: string;
@@ -6323,9 +6317,9 @@ export type GetApiMaterialsByIdResponses = {
           id: string;
           lineOne: string;
           lineTwo?: string | null;
+          postalCode: number;
           state: string;
           updatedAt: string;
-          zip: number;
         }
       | {
           accountHolder: string;
@@ -6345,9 +6339,9 @@ export type GetApiMaterialsByIdResponses = {
             id: string;
             lineOne: string;
             lineTwo?: string | null;
+            postalCode: number;
             state: string;
             updatedAt: string;
-            zip: number;
           };
           bankDetails?: {
             accountHolder: string;
@@ -6668,9 +6662,9 @@ export type GetApiMaterialsByIdResponses = {
           id: string;
           lineOne: string;
           lineTwo?: string | null;
+          postalCode: number;
           state: string;
           updatedAt: string;
-          zip: number;
         }>
       | Array<{
           accountHolder: string;
@@ -6802,9 +6796,9 @@ export type GetApiNotificationsResponses = {
             id: string;
             lineOne: string;
             lineTwo?: string | null;
+            postalCode: number;
             state: string;
             updatedAt: string;
-            zip: number;
           };
           bankDetails?: {
             accountHolder: string;
@@ -7125,9 +7119,9 @@ export type GetApiNotificationsResponses = {
           id: string;
           lineOne: string;
           lineTwo?: string | null;
+          postalCode: number;
           state: string;
           updatedAt: string;
-          zip: number;
         }
       | {
           accountHolder: string;
@@ -7147,9 +7141,9 @@ export type GetApiNotificationsResponses = {
             id: string;
             lineOne: string;
             lineTwo?: string | null;
+            postalCode: number;
             state: string;
             updatedAt: string;
-            zip: number;
           };
           bankDetails?: {
             accountHolder: string;
@@ -7470,9 +7464,9 @@ export type GetApiNotificationsResponses = {
           id: string;
           lineOne: string;
           lineTwo?: string | null;
+          postalCode: number;
           state: string;
           updatedAt: string;
-          zip: number;
         }>
       | Array<{
           accountHolder: string;
@@ -7657,9 +7651,9 @@ export type GetApiNotificationsByIdResponses = {
             id: string;
             lineOne: string;
             lineTwo?: string | null;
+            postalCode: number;
             state: string;
             updatedAt: string;
-            zip: number;
           };
           bankDetails?: {
             accountHolder: string;
@@ -7980,9 +7974,9 @@ export type GetApiNotificationsByIdResponses = {
           id: string;
           lineOne: string;
           lineTwo?: string | null;
+          postalCode: number;
           state: string;
           updatedAt: string;
-          zip: number;
         }
       | {
           accountHolder: string;
@@ -8002,9 +7996,9 @@ export type GetApiNotificationsByIdResponses = {
             id: string;
             lineOne: string;
             lineTwo?: string | null;
+            postalCode: number;
             state: string;
             updatedAt: string;
-            zip: number;
           };
           bankDetails?: {
             accountHolder: string;
@@ -8325,9 +8319,9 @@ export type GetApiNotificationsByIdResponses = {
           id: string;
           lineOne: string;
           lineTwo?: string | null;
+          postalCode: number;
           state: string;
           updatedAt: string;
-          zip: number;
         }>
       | Array<{
           accountHolder: string;
@@ -8464,9 +8458,9 @@ export type GetApiOrganizationsResponses = {
             id: string;
             lineOne: string;
             lineTwo?: string | null;
+            postalCode: number;
             state: string;
             updatedAt: string;
-            zip: number;
           };
           bankDetails?: {
             accountHolder: string;
@@ -8787,9 +8781,9 @@ export type GetApiOrganizationsResponses = {
           id: string;
           lineOne: string;
           lineTwo?: string | null;
+          postalCode: number;
           state: string;
           updatedAt: string;
-          zip: number;
         }
       | {
           accountHolder: string;
@@ -8809,9 +8803,9 @@ export type GetApiOrganizationsResponses = {
             id: string;
             lineOne: string;
             lineTwo?: string | null;
+            postalCode: number;
             state: string;
             updatedAt: string;
-            zip: number;
           };
           bankDetails?: {
             accountHolder: string;
@@ -9132,9 +9126,9 @@ export type GetApiOrganizationsResponses = {
           id: string;
           lineOne: string;
           lineTwo?: string | null;
+          postalCode: number;
           state: string;
           updatedAt: string;
-          zip: number;
         }>
       | Array<{
           accountHolder: string;
@@ -9409,9 +9403,9 @@ export type GetApiOrganizationsByIdResponses = {
             id: string;
             lineOne: string;
             lineTwo?: string | null;
+            postalCode: number;
             state: string;
             updatedAt: string;
-            zip: number;
           };
           bankDetails?: {
             accountHolder: string;
@@ -9732,9 +9726,9 @@ export type GetApiOrganizationsByIdResponses = {
           id: string;
           lineOne: string;
           lineTwo?: string | null;
+          postalCode: number;
           state: string;
           updatedAt: string;
-          zip: number;
         }
       | {
           accountHolder: string;
@@ -9754,9 +9748,9 @@ export type GetApiOrganizationsByIdResponses = {
             id: string;
             lineOne: string;
             lineTwo?: string | null;
+            postalCode: number;
             state: string;
             updatedAt: string;
-            zip: number;
           };
           bankDetails?: {
             accountHolder: string;
@@ -10077,9 +10071,9 @@ export type GetApiOrganizationsByIdResponses = {
           id: string;
           lineOne: string;
           lineTwo?: string | null;
+          postalCode: number;
           state: string;
           updatedAt: string;
-          zip: number;
         }>
       | Array<{
           accountHolder: string;
@@ -10253,9 +10247,9 @@ export type GetApiProductsResponses = {
             id: string;
             lineOne: string;
             lineTwo?: string | null;
+            postalCode: number;
             state: string;
             updatedAt: string;
-            zip: number;
           };
           bankDetails?: {
             accountHolder: string;
@@ -10576,9 +10570,9 @@ export type GetApiProductsResponses = {
           id: string;
           lineOne: string;
           lineTwo?: string | null;
+          postalCode: number;
           state: string;
           updatedAt: string;
-          zip: number;
         }
       | {
           accountHolder: string;
@@ -10598,9 +10592,9 @@ export type GetApiProductsResponses = {
             id: string;
             lineOne: string;
             lineTwo?: string | null;
+            postalCode: number;
             state: string;
             updatedAt: string;
-            zip: number;
           };
           bankDetails?: {
             accountHolder: string;
@@ -10921,9 +10915,9 @@ export type GetApiProductsResponses = {
           id: string;
           lineOne: string;
           lineTwo?: string | null;
+          postalCode: number;
           state: string;
           updatedAt: string;
-          zip: number;
         }>
       | Array<{
           accountHolder: string;
@@ -11103,9 +11097,9 @@ export type GetApiProductsByIdResponses = {
             id: string;
             lineOne: string;
             lineTwo?: string | null;
+            postalCode: number;
             state: string;
             updatedAt: string;
-            zip: number;
           };
           bankDetails?: {
             accountHolder: string;
@@ -11426,9 +11420,9 @@ export type GetApiProductsByIdResponses = {
           id: string;
           lineOne: string;
           lineTwo?: string | null;
+          postalCode: number;
           state: string;
           updatedAt: string;
-          zip: number;
         }
       | {
           accountHolder: string;
@@ -11448,9 +11442,9 @@ export type GetApiProductsByIdResponses = {
             id: string;
             lineOne: string;
             lineTwo?: string | null;
+            postalCode: number;
             state: string;
             updatedAt: string;
-            zip: number;
           };
           bankDetails?: {
             accountHolder: string;
@@ -11771,9 +11765,9 @@ export type GetApiProductsByIdResponses = {
           id: string;
           lineOne: string;
           lineTwo?: string | null;
+          postalCode: number;
           state: string;
           updatedAt: string;
-          zip: number;
         }>
       | Array<{
           accountHolder: string;
@@ -11904,9 +11898,9 @@ export type GetApiRolesResponses = {
             id: string;
             lineOne: string;
             lineTwo?: string | null;
+            postalCode: number;
             state: string;
             updatedAt: string;
-            zip: number;
           };
           bankDetails?: {
             accountHolder: string;
@@ -12227,9 +12221,9 @@ export type GetApiRolesResponses = {
           id: string;
           lineOne: string;
           lineTwo?: string | null;
+          postalCode: number;
           state: string;
           updatedAt: string;
-          zip: number;
         }
       | {
           accountHolder: string;
@@ -12249,9 +12243,9 @@ export type GetApiRolesResponses = {
             id: string;
             lineOne: string;
             lineTwo?: string | null;
+            postalCode: number;
             state: string;
             updatedAt: string;
-            zip: number;
           };
           bankDetails?: {
             accountHolder: string;
@@ -12572,9 +12566,9 @@ export type GetApiRolesResponses = {
           id: string;
           lineOne: string;
           lineTwo?: string | null;
+          postalCode: number;
           state: string;
           updatedAt: string;
-          zip: number;
         }>
       | Array<{
           accountHolder: string;
@@ -12686,9 +12680,9 @@ export type GetApiRolesAvailablePermissionsResponses = {
             id: string;
             lineOne: string;
             lineTwo?: string | null;
+            postalCode: number;
             state: string;
             updatedAt: string;
-            zip: number;
           };
           bankDetails?: {
             accountHolder: string;
@@ -13009,9 +13003,9 @@ export type GetApiRolesAvailablePermissionsResponses = {
           id: string;
           lineOne: string;
           lineTwo?: string | null;
+          postalCode: number;
           state: string;
           updatedAt: string;
-          zip: number;
         }
       | {
           accountHolder: string;
@@ -13031,9 +13025,9 @@ export type GetApiRolesAvailablePermissionsResponses = {
             id: string;
             lineOne: string;
             lineTwo?: string | null;
+            postalCode: number;
             state: string;
             updatedAt: string;
-            zip: number;
           };
           bankDetails?: {
             accountHolder: string;
@@ -13354,9 +13348,9 @@ export type GetApiRolesAvailablePermissionsResponses = {
           id: string;
           lineOne: string;
           lineTwo?: string | null;
+          postalCode: number;
           state: string;
           updatedAt: string;
-          zip: number;
         }>
       | Array<{
           accountHolder: string;
@@ -13490,9 +13484,9 @@ export type GetApiRolesByIdResponses = {
             id: string;
             lineOne: string;
             lineTwo?: string | null;
+            postalCode: number;
             state: string;
             updatedAt: string;
-            zip: number;
           };
           bankDetails?: {
             accountHolder: string;
@@ -13813,9 +13807,9 @@ export type GetApiRolesByIdResponses = {
           id: string;
           lineOne: string;
           lineTwo?: string | null;
+          postalCode: number;
           state: string;
           updatedAt: string;
-          zip: number;
         }
       | {
           accountHolder: string;
@@ -13835,9 +13829,9 @@ export type GetApiRolesByIdResponses = {
             id: string;
             lineOne: string;
             lineTwo?: string | null;
+            postalCode: number;
             state: string;
             updatedAt: string;
-            zip: number;
           };
           bankDetails?: {
             accountHolder: string;
@@ -14158,9 +14152,9 @@ export type GetApiRolesByIdResponses = {
           id: string;
           lineOne: string;
           lineTwo?: string | null;
+          postalCode: number;
           state: string;
           updatedAt: string;
-          zip: number;
         }>
       | Array<{
           accountHolder: string;
@@ -14292,9 +14286,9 @@ export type GetApiTransactionsResponses = {
             id: string;
             lineOne: string;
             lineTwo?: string | null;
+            postalCode: number;
             state: string;
             updatedAt: string;
-            zip: number;
           };
           bankDetails?: {
             accountHolder: string;
@@ -14615,9 +14609,9 @@ export type GetApiTransactionsResponses = {
           id: string;
           lineOne: string;
           lineTwo?: string | null;
+          postalCode: number;
           state: string;
           updatedAt: string;
-          zip: number;
         }
       | {
           accountHolder: string;
@@ -14637,9 +14631,9 @@ export type GetApiTransactionsResponses = {
             id: string;
             lineOne: string;
             lineTwo?: string | null;
+            postalCode: number;
             state: string;
             updatedAt: string;
-            zip: number;
           };
           bankDetails?: {
             accountHolder: string;
@@ -14960,9 +14954,9 @@ export type GetApiTransactionsResponses = {
           id: string;
           lineOne: string;
           lineTwo?: string | null;
+          postalCode: number;
           state: string;
           updatedAt: string;
-          zip: number;
         }>
       | Array<{
           accountHolder: string;
@@ -15144,9 +15138,9 @@ export type GetApiTransactionsByIdResponses = {
             id: string;
             lineOne: string;
             lineTwo?: string | null;
+            postalCode: number;
             state: string;
             updatedAt: string;
-            zip: number;
           };
           bankDetails?: {
             accountHolder: string;
@@ -15467,9 +15461,9 @@ export type GetApiTransactionsByIdResponses = {
           id: string;
           lineOne: string;
           lineTwo?: string | null;
+          postalCode: number;
           state: string;
           updatedAt: string;
-          zip: number;
         }
       | {
           accountHolder: string;
@@ -15489,9 +15483,9 @@ export type GetApiTransactionsByIdResponses = {
             id: string;
             lineOne: string;
             lineTwo?: string | null;
+            postalCode: number;
             state: string;
             updatedAt: string;
-            zip: number;
           };
           bankDetails?: {
             accountHolder: string;
@@ -15812,9 +15806,9 @@ export type GetApiTransactionsByIdResponses = {
           id: string;
           lineOne: string;
           lineTwo?: string | null;
+          postalCode: number;
           state: string;
           updatedAt: string;
-          zip: number;
         }>
       | Array<{
           accountHolder: string;
@@ -15949,9 +15943,9 @@ export type GetApiUsersResponses = {
             id: string;
             lineOne: string;
             lineTwo?: string | null;
+            postalCode: number;
             state: string;
             updatedAt: string;
-            zip: number;
           };
           bankDetails?: {
             accountHolder: string;
@@ -16272,9 +16266,9 @@ export type GetApiUsersResponses = {
           id: string;
           lineOne: string;
           lineTwo?: string | null;
+          postalCode: number;
           state: string;
           updatedAt: string;
-          zip: number;
         }
       | {
           accountHolder: string;
@@ -16294,9 +16288,9 @@ export type GetApiUsersResponses = {
             id: string;
             lineOne: string;
             lineTwo?: string | null;
+            postalCode: number;
             state: string;
             updatedAt: string;
-            zip: number;
           };
           bankDetails?: {
             accountHolder: string;
@@ -16617,9 +16611,9 @@ export type GetApiUsersResponses = {
           id: string;
           lineOne: string;
           lineTwo?: string | null;
+          postalCode: number;
           state: string;
           updatedAt: string;
-          zip: number;
         }>
       | Array<{
           accountHolder: string;
@@ -16651,14 +16645,14 @@ export type PostApiUsersData = {
       country: string;
       lineOne: string;
       lineTwo?: string | null;
+      postalCode: number;
       state: string;
-      zip: number;
     };
     bankDetails?: {
-      accountHolder: string;
-      accountNumber: string;
-      bankName: string;
-      branchCode: string;
+      accountHolder?: string;
+      accountNumber?: string;
+      bankName?: string;
+      branchCode?: string;
     };
     email: string;
     jobTitle?: string | null;
@@ -16816,9 +16810,9 @@ export type GetApiUsersByIdResponses = {
             id: string;
             lineOne: string;
             lineTwo?: string | null;
+            postalCode: number;
             state: string;
             updatedAt: string;
-            zip: number;
           };
           bankDetails?: {
             accountHolder: string;
@@ -17139,9 +17133,9 @@ export type GetApiUsersByIdResponses = {
           id: string;
           lineOne: string;
           lineTwo?: string | null;
+          postalCode: number;
           state: string;
           updatedAt: string;
-          zip: number;
         }
       | {
           accountHolder: string;
@@ -17161,9 +17155,9 @@ export type GetApiUsersByIdResponses = {
             id: string;
             lineOne: string;
             lineTwo?: string | null;
+            postalCode: number;
             state: string;
             updatedAt: string;
-            zip: number;
           };
           bankDetails?: {
             accountHolder: string;
@@ -17484,9 +17478,9 @@ export type GetApiUsersByIdResponses = {
           id: string;
           lineOne: string;
           lineTwo?: string | null;
+          postalCode: number;
           state: string;
           updatedAt: string;
-          zip: number;
         }>
       | Array<{
           accountHolder: string;
@@ -17514,25 +17508,19 @@ export type GetApiUsersByIdResponse =
 export type PutApiUsersByIdData = {
   body: {
     address?: {
-      city?: string;
-      country?: string;
-      createdAt?: string;
-      id?: string;
-      lineOne?: string;
+      city?: string | null;
+      country?: string | null;
+      lineOne?: string | null;
       lineTwo?: string | null;
-      state?: string;
-      updatedAt?: string;
-      zip?: number;
-    } | null;
+      postalCode?: number | null;
+      state?: string | null;
+    };
     bankDetails?: {
-      accountHolder?: string;
-      accountNumber?: string;
-      bankName?: string;
-      branchCode?: string;
-      createdAt?: string;
-      id?: string;
-      updatedAt?: string;
-    } | null;
+      accountHolder?: string | null;
+      accountNumber?: string | null;
+      bankName?: string | null;
+      branchCode?: string | null;
+    };
     email?: string | null;
     jobTitle?: string | null;
     name?: string | null;

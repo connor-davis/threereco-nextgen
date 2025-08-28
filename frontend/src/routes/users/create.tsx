@@ -41,6 +41,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { InputTags } from '@/components/ui/input-tags';
 import { Label } from '@/components/ui/label';
+import { NumberInput } from '@/components/ui/number-input';
 import { PhoneInput } from '@/components/ui/phone-input';
 import {
   Stepper,
@@ -94,6 +95,10 @@ function RouteComponent() {
         duration: 2000,
       });
 
+      createForm.reset();
+
+      setCurrentStep(5);
+
       return router.invalidate();
     },
   });
@@ -115,7 +120,11 @@ function RouteComponent() {
 
       <Form {...createForm}>
         <form
-          onSubmit={createForm.handleSubmit((values) => console.log(values))}
+          onSubmit={createForm.handleSubmit((values) =>
+            createUser.mutate({
+              body: { ...values },
+            })
+          )}
           className="flex flex-col w-full h-full overflow-hidden"
         >
           <Stepper
@@ -305,26 +314,6 @@ function RouteComponent() {
                     <StepperTitle className="text-start text-base font-semibold group-data-[state=inactive]/step:text-muted-foreground">
                       User Created
                     </StepperTitle>
-                    <div>
-                      <Badge
-                        variant="secondary"
-                        className="hidden group-data-[state=active]/step:inline-flex"
-                      >
-                        In Progress
-                      </Badge>
-                      <Badge
-                        variant="default"
-                        className="hidden group-data-[state=completed]/step:inline-flex"
-                      >
-                        Completed
-                      </Badge>
-                      <Badge
-                        variant="outline"
-                        className="hidden group-data-[state=inactive]/step:inline-flex text-muted-foreground"
-                      >
-                        Pending
-                      </Badge>
-                    </div>
                   </div>
                 </StepperTrigger>
               </StepperItem>
@@ -570,16 +559,16 @@ function RouteComponent() {
 
                   <FormField
                     control={createForm.control}
-                    name="address.zip"
+                    name="address.postalCode"
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>Zip Code</FormLabel>
                         <FormControl>
-                          <Input
-                            type="text"
+                          <NumberInput
                             placeholder="Zip Code"
                             {...field}
                             value={field.value ?? undefined}
+                            onValueChange={field.onChange}
                           />
                         </FormControl>
                         <FormDescription>
@@ -913,6 +902,26 @@ function RouteComponent() {
                   </Button>
                   <Button type="submit" className="w-full">
                     Continue
+                  </Button>
+                </div>
+              </StepperContent>
+
+              <StepperContent
+                value={5}
+                className="flex flex-col w-full h-full gap-3"
+              >
+                <div className="flex flex-col w-full h-full gap-5">
+                  <div className="flex flex-col w-full h-auto items-center justify-center gap-3">
+                    <p className="text-lg font-semibold">
+                      User created successfully!
+                    </p>
+                    <p className="text-sm text-muted-foreground">
+                      You can view your user in the user list.
+                    </p>
+                  </div>
+
+                  <Button className="w-full" onClick={() => setCurrentStep(1)}>
+                    Create New User
                   </Button>
                 </div>
               </StepperContent>

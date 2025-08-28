@@ -59,8 +59,15 @@ var ModifiedByUserSchema = openapi3.NewObjectSchema().
 
 var CreateUserPayloadSchema = openapi3.NewSchema().
 	WithProperties(properties.CreateUserPayloadProperties).
-	WithProperty("address", CreateAddressPayloadSchema.Value).
-	WithProperty("bankDetails", CreateBankDetailsPayloadSchema.Value).
+	WithProperty(
+		"address",
+		CreateAddressPayloadSchema.Value,
+	).
+	WithProperty(
+		"bankDetails",
+		openapi3.NewSchema().
+			WithProperties(properties.CreateBankDetailsPayloadProperties),
+	).
 	WithRequired([]string{
 		"email",
 		"password",
@@ -68,4 +75,14 @@ var CreateUserPayloadSchema = openapi3.NewSchema().
 		"address",
 	}).NewRef()
 
-var UpdateUserPayloadSchema = openapi3.NewSchema().WithProperties(properties.UpdateUserPayloadProperties).NewRef()
+var UpdateUserPayloadSchema = openapi3.NewSchema().
+	WithProperties(properties.UpdateUserPayloadProperties).
+	WithProperty(
+		"address",
+		UpdateAddressPayloadSchema.Value,
+	).
+	WithProperty(
+		"bankDetails",
+		openapi3.NewSchema().
+			WithProperties(properties.UpdateBankDetailsPayloadProperties),
+	).NewRef()

@@ -75,6 +75,22 @@ func (s *UsersService) Create(auditId uuid.UUID, organizationId uuid.UUID, user 
 		}
 	}
 
+	if user.Address != nil {
+		user.Address.UserId = newUser.Id
+
+		if err := s.Storage.Postgres.Set("one:audit_user_id", auditId).Create(user.Address).Error; err != nil {
+			return err
+		}
+	}
+
+	if user.BankDetails != nil {
+		user.BankDetails.UserId = newUser.Id
+
+		if err := s.Storage.Postgres.Set("one:audit_user_id", auditId).Create(user.BankDetails).Error; err != nil {
+			return err
+		}
+	}
+
 	return nil
 }
 
@@ -142,6 +158,38 @@ func (s *UsersService) Update(auditId uuid.UUID, id uuid.UUID, user models.Updat
 		}
 	}
 
+	if user.Address != nil {
+		if err := s.Storage.Postgres.Set("one:audit_user_id", auditId).
+			Model(&models.Address{}).
+			Where("user_id = ?", existingUser.Id).
+			FirstOrCreate(map[string]any{
+				"line_one":    user.Address.LineOne,
+				"line_two":    user.Address.LineTwo,
+				"city":        user.Address.City,
+				"postal_code": user.Address.PostalCode,
+				"state":       user.Address.State,
+				"country":     user.Address.Country,
+				"user_id":     existingUser.Id,
+			}).Error; err != nil {
+			return err
+		}
+	}
+
+	if user.BankDetails != nil {
+		if err := s.Storage.Postgres.Set("one:audit_user_id", auditId).
+			Model(&models.BankDetails{}).
+			Where("user_id = ?", existingUser.Id).
+			FirstOrCreate(map[string]any{
+				"account_holder": user.BankDetails.AccountHolder,
+				"account_number": user.BankDetails.AccountNumber,
+				"bank_name":      user.BankDetails.BankName,
+				"branch_code":    user.BankDetails.BranchCode,
+				"user_id":        existingUser.Id,
+			}).Error; err != nil {
+			return err
+		}
+	}
+
 	return nil
 }
 
@@ -194,6 +242,8 @@ func (s *UsersService) GetById(id uuid.UUID) (*models.User, error) {
 		Preload("Roles").
 		Preload("Organizations.Owner").
 		Preload("ModifiedByUser").
+		Preload("Address").
+		Preload("BankDetails").
 		Find(&user).Error; err != nil {
 		return nil, err
 	}

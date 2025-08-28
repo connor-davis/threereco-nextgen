@@ -28,7 +28,7 @@ var AddressSchema = openapi3.NewSchema().
 		"lineOne",
 		"city",
 		"state",
-		"zip",
+		"postalCode",
 		"country",
 		"createdAt",
 		"updatedAt",
@@ -46,7 +46,7 @@ var CreateAddressPayloadSchema = openapi3.NewSchema().
 		"lineOne",
 		"city",
 		"state",
-		"zip",
+		"postalCode",
 		"country",
 	}).NewRef()
 
