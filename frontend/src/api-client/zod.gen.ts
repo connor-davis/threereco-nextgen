@@ -76,10 +76,10 @@ export const zCreateAddressPayload = z.object({
 });
 
 export const zCreateBankDetailsPayload = z.object({
-  accountHolder: z.optional(z.string().min(1)),
-  accountNumber: z.optional(z.string().min(1)),
-  bankName: z.optional(z.string().min(1)),
-  branchCode: z.optional(z.string().min(1)),
+  accountHolder: z.string().min(1),
+  accountNumber: z.string().min(1),
+  bankName: z.string().min(1),
+  branchCode: z.string().min(1),
 });
 
 export const zCreateMaterialPayload = z.object({
@@ -125,10 +125,10 @@ export const zCreateUserPayload = z.object({
   }),
   bankDetails: z.optional(
     z.object({
-      accountHolder: z.optional(z.string().min(1)),
-      accountNumber: z.optional(z.string().min(1)),
-      bankName: z.optional(z.string().min(1)),
-      branchCode: z.optional(z.string().min(1)),
+      accountHolder: z.string().min(1),
+      accountNumber: z.string().min(1),
+      bankName: z.string().min(1),
+      branchCode: z.string().min(1),
     })
   ),
   email: z.email().min(1),
@@ -17109,10 +17109,10 @@ export const zPostApiUsersData = z.object({
     }),
     bankDetails: z.optional(
       z.object({
-        accountHolder: z.optional(z.string().min(1)),
-        accountNumber: z.optional(z.string().min(1)),
-        bankName: z.optional(z.string().min(1)),
-        branchCode: z.optional(z.string().min(1)),
+        accountHolder: z.string().min(1),
+        accountNumber: z.string().min(1),
+        bankName: z.string().min(1),
+        branchCode: z.string().min(1),
       })
     ),
     email: z.email().min(1),

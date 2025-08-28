@@ -73,10 +73,10 @@ export type CreateAddressPayload = {
 };
 
 export type CreateBankDetailsPayload = {
-  accountHolder?: string;
-  accountNumber?: string;
-  bankName?: string;
-  branchCode?: string;
+  accountHolder: string;
+  accountNumber: string;
+  bankName: string;
+  branchCode: string;
 };
 
 export type CreateMaterialPayload = {
@@ -121,10 +121,10 @@ export type CreateUserPayload = {
     zip: number;
   };
   bankDetails?: {
-    accountHolder?: string;
-    accountNumber?: string;
-    bankName?: string;
-    branchCode?: string;
+    accountHolder: string;
+    accountNumber: string;
+    bankName: string;
+    branchCode: string;
   };
   email: string;
   jobTitle?: string | null;
@@ -16655,10 +16655,10 @@ export type PostApiUsersData = {
       zip: number;
     };
     bankDetails?: {
-      accountHolder?: string;
-      accountNumber?: string;
-      bankName?: string;
-      branchCode?: string;
+      accountHolder: string;
+      accountNumber: string;
+      bankName: string;
+      branchCode: string;
     };
     email: string;
     jobTitle?: string | null;
