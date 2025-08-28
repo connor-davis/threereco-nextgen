@@ -1,12 +1,18 @@
 import { postApiUsersMutation } from '@/api-client/@tanstack/react-query.gen';
 import { SiMastercard } from '@icons-pack/react-simple-icons';
 import { useMutation } from '@tanstack/react-query';
-import { Link, createFileRoute, useRouter } from '@tanstack/react-router';
+import {
+  ErrorComponent,
+  Link,
+  createFileRoute,
+  useRouter,
+} from '@tanstack/react-router';
 import {
   ArrowLeftIcon,
   CheckIcon,
   CircleAlertIcon,
   IdCardIcon,
+  KeyIcon,
   LoaderCircleIcon,
   MapPinIcon,
   WalletIcon,
@@ -16,10 +22,17 @@ import { useForm } from 'react-hook-form';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { toast } from 'sonner';
+import z from 'zod';
 
-import type { CreateUserPayload, ErrorResponse } from '@/api-client';
+import {
+  type CreateUserPayload,
+  type ErrorResponse,
+  type Role,
+  getApiRoles,
+} from '@/api-client';
 import { zCreateUserPayload } from '@/api-client/zod.gen';
 import PermissionGuard from '@/components/guards/permission';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import {
@@ -29,6 +42,8 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
+import { Checkbox } from '@/components/ui/checkbox';
+import { DebounceInput } from '@/components/ui/debounce-input';
 import {
   Form,
   FormControl,
@@ -62,10 +77,57 @@ export const Route = createFileRoute('/users/create')({
       <RouteComponent />
     </PermissionGuard>
   ),
+  validateSearch: z.object({
+    rolesPage: z.number().min(1).optional(),
+    rolesSearch: z.string().min(2).max(100).optional(),
+  }),
+  pendingComponent: () => (
+    <div className="flex flex-col w-full h-full items-center justify-center">
+      <Label className="text-muted-foreground">Loading roles...</Label>
+    </div>
+  ),
+  errorComponent: ({ error }: { error: Error | ErrorResponse }) => {
+    if ('error' in error) {
+      // Render a custom error message
+      return (
+        <div className="flex flex-col w-full h-full items-center justify-center">
+          <Alert variant="destructive" className="w-full max-w-lg">
+            <AlertTitle>{error.error}</AlertTitle>
+            <AlertDescription>{error.message}</AlertDescription>
+          </Alert>
+        </div>
+      );
+    }
+
+    // Fallback to the default ErrorComponent
+    return <ErrorComponent error={error} />;
+  },
+  wrapInSuspense: true,
+  loaderDeps: ({ search: { rolesPage, rolesSearch } }) => ({
+    rolesPage,
+    rolesSearch,
+  }),
+  loader: async ({ deps: { rolesPage, rolesSearch } }) => {
+    const { data: roles } = await getApiRoles({
+      client: apiClient,
+      query: {
+        page: rolesPage,
+        search: rolesSearch,
+      },
+      throwOnError: true,
+    });
+
+    return {
+      roles: (roles.items ?? []) as Array<Role>,
+      rolesPageDetails: roles.pageDetails ?? {},
+    };
+  },
 });
 
 function RouteComponent() {
   const router = useRouter();
+  const { rolesPage, rolesSearch } = Route.useLoaderDeps();
+  const { roles, rolesPageDetails } = Route.useLoaderData();
 
   const [currentStep, setCurrentStep] = useState<number>(1);
 
@@ -97,7 +159,7 @@ function RouteComponent() {
 
       createForm.reset();
 
-      setCurrentStep(5);
+      setCurrentStep(6);
 
       return router.invalidate();
     },
@@ -263,11 +325,51 @@ function RouteComponent() {
                   asChild
                 >
                   <StepperIndicator className="size-8 border-2 data-[state=completed]:text-white data-[state=completed]:bg-primary data-[state=inactive]:bg-transparent data-[state=inactive]:border-border data-[state=inactive]:text-muted-foreground">
-                    <CircleAlertIcon className="size-4" />
+                    <KeyIcon className="size-4" />
                   </StepperIndicator>
                   <div className="flex flex-col items-start gap-1">
                     <div className="text-[10px] font-semibold uppercase text-muted-foreground">
                       Step 4
+                    </div>
+                    <StepperTitle className="text-start text-base font-semibold group-data-[state=inactive]/step:text-muted-foreground">
+                      User Roles
+                    </StepperTitle>
+                    <div>
+                      <Badge
+                        variant="secondary"
+                        className="hidden group-data-[state=active]/step:inline-flex"
+                      >
+                        In Progress
+                      </Badge>
+                      <Badge
+                        variant="default"
+                        className="hidden group-data-[state=completed]/step:inline-flex"
+                      >
+                        Completed
+                      </Badge>
+                      <Badge
+                        variant="outline"
+                        className="hidden group-data-[state=inactive]/step:inline-flex text-muted-foreground"
+                      >
+                        Pending
+                      </Badge>
+                    </div>
+                  </div>
+                </StepperTrigger>
+                <StepperSeparator className="absolute top-4 inset-x-0 start-9 m-0 group-data-[orientation=horizontal]/stepper-nav:w-[calc(100%-2rem)] group-data-[orientation=horizontal]/stepper-nav:flex-none  group-data-[state=completed]/step:bg-primary" />
+              </StepperItem>
+
+              <StepperItem step={5} className="relative flex-1 items-start">
+                <StepperTrigger
+                  className="flex flex-col items-start justify-center gap-2.5 grow"
+                  asChild
+                >
+                  <StepperIndicator className="size-8 border-2 data-[state=completed]:text-white data-[state=completed]:bg-primary data-[state=inactive]:bg-transparent data-[state=inactive]:border-border data-[state=inactive]:text-muted-foreground">
+                    <CircleAlertIcon className="size-4" />
+                  </StepperIndicator>
+                  <div className="flex flex-col items-start gap-1">
+                    <div className="text-[10px] font-semibold uppercase text-muted-foreground">
+                      Step 5
                     </div>
                     <StepperTitle className="text-start text-base font-semibold group-data-[state=inactive]/step:text-muted-foreground">
                       User Overview
@@ -298,7 +400,7 @@ function RouteComponent() {
               </StepperItem>
 
               <StepperItem
-                step={5}
+                step={6}
                 className="relative items-start"
                 loading={createUser.isPending}
               >
@@ -758,6 +860,135 @@ function RouteComponent() {
 
               <StepperContent
                 value={4}
+                className="flex flex-col w-full h-full gap-3"
+              >
+                <div className="flex flex-col w-full h-full overflow-hidden gap-3">
+                  <div className="flex items-center justify-between w-full h-auto gap-3">
+                    <div className="flex items-center gap-3">
+                      <Label>Available Roles</Label>
+                    </div>
+
+                    <div className="flex items-center gap-3">
+                      <DebounceInput
+                        type="text"
+                        placeholder="Search roles..."
+                        className="w-64"
+                        defaultValue={rolesSearch}
+                        onChange={(e) => {
+                          const search = e.target.value;
+
+                          router.navigate({
+                            to: '/users/create',
+                            search: {
+                              rolesPage: rolesPage,
+                              rolesSearch: search,
+                            },
+                          });
+                        }}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="flex flex-col w-full h-full overflow-y-auto gap-3">
+                    {roles.map((role) => (
+                      <Label className="hover:bg-accent flex items-center justify-between gap-3 rounded-lg border p-3">
+                        <Checkbox
+                          id="toggle-2"
+                          checked={(createForm.watch().roles ?? []).includes(
+                            role.id
+                          )}
+                          onCheckedChange={(checked) => {
+                            if (checked) {
+                              createForm.setValue('roles', [
+                                ...(createForm.getValues().roles ?? []),
+                                role.id,
+                              ]);
+                            } else {
+                              createForm.setValue('roles', [
+                                ...(createForm.getValues().roles ?? []).filter(
+                                  (id) => id !== role.id
+                                ),
+                              ]);
+                            }
+                          }}
+                          className="data-[state=checked]:border-primary data-[state=checked]:bg-primary data-[state=checked]:text-white"
+                        />
+
+                        <div className="flex items-center justify-between w-full h-auto gap-3">
+                          <div className="flex flex-col">
+                            <Label>{role.name}</Label>
+                            <Label className="text-xs text-muted-foreground">
+                              {role.description}
+                            </Label>
+                          </div>
+                        </div>
+                      </Label>
+                    ))}
+                  </div>
+
+                  {rolesPageDetails.pages && (
+                    <div className="flex items-center justify-end w-full">
+                      <Label className="text-xs text-muted-foreground">
+                        Page {rolesPage} of {rolesPageDetails.pages}
+                      </Label>
+
+                      <Link
+                        to="/users/create"
+                        search={{
+                          rolesPage: rolesPageDetails.previousPage,
+                          rolesSearch,
+                        }}
+                        disabled={rolesPage === rolesPageDetails.previousPage}
+                      >
+                        <Button
+                          variant="outline"
+                          className="ml-3"
+                          disabled={rolesPage === rolesPageDetails.previousPage}
+                        >
+                          Previous
+                        </Button>
+                      </Link>
+                      <Link
+                        to="/users/create"
+                        search={{
+                          rolesPage: rolesPageDetails.nextPage,
+                          rolesSearch,
+                        }}
+                        disabled={rolesPage === rolesPageDetails.nextPage}
+                      >
+                        <Button
+                          variant="outline"
+                          className="ml-1"
+                          disabled={rolesPage === rolesPageDetails.nextPage}
+                        >
+                          Next
+                        </Button>
+                      </Link>
+                    </div>
+                  )}
+                </div>
+
+                <div className="grid grid-cols-2 w-full h-auto gap-5 items-center">
+                  <Button
+                    type="button"
+                    variant="outline"
+                    className="w-full"
+                    onClick={() => setCurrentStep(3)}
+                  >
+                    Back
+                  </Button>
+                  <Button
+                    type="button"
+                    className="w-full"
+                    onClick={() => setCurrentStep(5)}
+                  >
+                    Continue
+                  </Button>
+                </div>
+              </StepperContent>
+
+              <StepperContent
+                value={5}
                 className="flex flex-col w-full h-full overflow-hidden gap-10"
               >
                 <div className="grid grid-cols-2 w-full h-full overflow-y-auto gap-3">
@@ -896,7 +1127,7 @@ function RouteComponent() {
                     type="button"
                     variant="outline"
                     className="w-full"
-                    onClick={() => setCurrentStep(3)}
+                    onClick={() => setCurrentStep(4)}
                   >
                     Back
                   </Button>
@@ -907,7 +1138,7 @@ function RouteComponent() {
               </StepperContent>
 
               <StepperContent
-                value={5}
+                value={6}
                 className="flex flex-col w-full h-full gap-3"
               >
                 <div className="flex flex-col w-full h-full gap-5">
