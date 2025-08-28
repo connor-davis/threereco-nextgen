@@ -64,12 +64,12 @@ export type BankDetails = {
 };
 
 export type CreateAddressPayload = {
-  city?: string;
-  country?: string;
-  lineOne?: string;
+  city: string;
+  country: string;
+  lineOne: string;
   lineTwo?: string | null;
-  state?: string;
-  zip?: number;
+  state: string;
+  zip: number;
 };
 
 export type CreateBankDetailsPayload = {
@@ -112,30 +112,24 @@ export type CreateTransactionPayload = {
 };
 
 export type CreateUserPayload = {
-  address?: {
-    city?: string;
-    country?: string;
-    createdAt?: string;
-    id?: string;
-    lineOne?: string;
+  address: {
+    city: string;
+    country: string;
+    lineOne: string;
     lineTwo?: string | null;
-    state?: string;
-    updatedAt?: string;
-    zip?: number;
-  } | null;
+    state: string;
+    zip: number;
+  };
   bankDetails?: {
     accountHolder?: string;
     accountNumber?: string;
     bankName?: string;
     branchCode?: string;
-    createdAt?: string;
-    id?: string;
-    updatedAt?: string;
-  } | null;
-  email?: string;
+  };
+  email: string;
   jobTitle?: string | null;
-  name?: string | null;
-  password?: string;
+  name: string | null;
+  password: string;
   phone?: string | null;
   roles?: Array<string> | null;
   tags?: Array<string> | null;
@@ -16652,30 +16646,24 @@ export type GetApiUsersResponse =
 
 export type PostApiUsersData = {
   body: {
-    address?: {
-      city?: string;
-      country?: string;
-      createdAt?: string;
-      id?: string;
-      lineOne?: string;
+    address: {
+      city: string;
+      country: string;
+      lineOne: string;
       lineTwo?: string | null;
-      state?: string;
-      updatedAt?: string;
-      zip?: number;
-    } | null;
+      state: string;
+      zip: number;
+    };
     bankDetails?: {
       accountHolder?: string;
       accountNumber?: string;
       bankName?: string;
       branchCode?: string;
-      createdAt?: string;
-      id?: string;
-      updatedAt?: string;
-    } | null;
-    email?: string;
+    };
+    email: string;
     jobTitle?: string | null;
-    name?: string | null;
-    password?: string;
+    name: string | null;
+    password: string;
     phone?: string | null;
     roles?: Array<string> | null;
     tags?: Array<string> | null;

@@ -67,12 +67,12 @@ export const zBankDetails = z.object({
 });
 
 export const zCreateAddressPayload = z.object({
-  city: z.optional(z.string().min(1)),
-  country: z.optional(z.string().min(1)),
-  lineOne: z.optional(z.string().min(1)),
+  city: z.string().min(1),
+  country: z.string().min(1),
+  lineOne: z.string().min(1),
   lineTwo: z.optional(z.union([z.string(), z.null()])),
-  state: z.optional(z.string().min(1)),
-  zip: z.optional(z.int()),
+  state: z.string().min(1),
+  zip: z.int(),
 });
 
 export const zCreateBankDetailsPayload = z.object({
@@ -115,40 +115,26 @@ export const zCreateTransactionPayload = z.object({
 });
 
 export const zCreateUserPayload = z.object({
-  address: z.optional(
-    z.union([
-      z.object({
-        city: z.optional(z.string().min(1)),
-        country: z.optional(z.string().min(1)),
-        createdAt: z.optional(z.iso.datetime()),
-        id: z.optional(z.uuid()),
-        lineOne: z.optional(z.string().min(1)),
-        lineTwo: z.optional(z.union([z.string(), z.null()])),
-        state: z.optional(z.string().min(1)),
-        updatedAt: z.optional(z.iso.datetime()),
-        zip: z.optional(z.int()),
-      }),
-      z.null(),
-    ])
-  ),
+  address: z.object({
+    city: z.string().min(1),
+    country: z.string().min(1),
+    lineOne: z.string().min(1),
+    lineTwo: z.optional(z.union([z.string(), z.null()])),
+    state: z.string().min(1),
+    zip: z.int(),
+  }),
   bankDetails: z.optional(
-    z.union([
-      z.object({
-        accountHolder: z.optional(z.string().min(1)),
-        accountNumber: z.optional(z.string().min(1)),
-        bankName: z.optional(z.string().min(1)),
-        branchCode: z.optional(z.string().min(1)),
-        createdAt: z.optional(z.iso.datetime()),
-        id: z.optional(z.uuid()),
-        updatedAt: z.optional(z.iso.datetime()),
-      }),
-      z.null(),
-    ])
+    z.object({
+      accountHolder: z.optional(z.string().min(1)),
+      accountNumber: z.optional(z.string().min(1)),
+      bankName: z.optional(z.string().min(1)),
+      branchCode: z.optional(z.string().min(1)),
+    })
   ),
-  email: z.optional(z.email().min(1)),
+  email: z.email().min(1),
   jobTitle: z.optional(z.union([z.string(), z.null()])),
-  name: z.optional(z.union([z.string(), z.null()])),
-  password: z.optional(z.string().min(8)),
+  name: z.union([z.string(), z.null()]),
+  password: z.string().min(8),
   phone: z.optional(z.union([z.string(), z.null()])),
   roles: z.optional(z.union([z.array(z.uuid()), z.null()])),
   tags: z.optional(z.union([z.array(z.string()), z.null()])),
@@ -17113,40 +17099,26 @@ export const zGetApiUsersResponse = z.object({
 
 export const zPostApiUsersData = z.object({
   body: z.object({
-    address: z.optional(
-      z.union([
-        z.object({
-          city: z.optional(z.string().min(1)),
-          country: z.optional(z.string().min(1)),
-          createdAt: z.optional(z.iso.datetime()),
-          id: z.optional(z.uuid()),
-          lineOne: z.optional(z.string().min(1)),
-          lineTwo: z.optional(z.union([z.string(), z.null()])),
-          state: z.optional(z.string().min(1)),
-          updatedAt: z.optional(z.iso.datetime()),
-          zip: z.optional(z.int()),
-        }),
-        z.null(),
-      ])
-    ),
+    address: z.object({
+      city: z.string().min(1),
+      country: z.string().min(1),
+      lineOne: z.string().min(1),
+      lineTwo: z.optional(z.union([z.string(), z.null()])),
+      state: z.string().min(1),
+      zip: z.int(),
+    }),
     bankDetails: z.optional(
-      z.union([
-        z.object({
-          accountHolder: z.optional(z.string().min(1)),
-          accountNumber: z.optional(z.string().min(1)),
-          bankName: z.optional(z.string().min(1)),
-          branchCode: z.optional(z.string().min(1)),
-          createdAt: z.optional(z.iso.datetime()),
-          id: z.optional(z.uuid()),
-          updatedAt: z.optional(z.iso.datetime()),
-        }),
-        z.null(),
-      ])
+      z.object({
+        accountHolder: z.optional(z.string().min(1)),
+        accountNumber: z.optional(z.string().min(1)),
+        bankName: z.optional(z.string().min(1)),
+        branchCode: z.optional(z.string().min(1)),
+      })
     ),
-    email: z.optional(z.email().min(1)),
+    email: z.email().min(1),
     jobTitle: z.optional(z.union([z.string(), z.null()])),
-    name: z.optional(z.union([z.string(), z.null()])),
-    password: z.optional(z.string().min(8)),
+    name: z.union([z.string(), z.null()]),
+    password: z.string().min(8),
     phone: z.optional(z.union([z.string(), z.null()])),
     roles: z.optional(z.union([z.array(z.uuid()), z.null()])),
     tags: z.optional(z.union([z.array(z.string()), z.null()])),
