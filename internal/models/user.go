@@ -39,11 +39,11 @@ type User struct {
 	MfaSecret             []byte         `json:"-" gorm:"type:bytea;"`
 	MfaEnabled            bool           `json:"mfaEnabled" gorm:"default:false;"`
 	MfaVerified           bool           `json:"mfaVerified" gorm:"default:false;"`
-	Roles                 []Role         `json:"-" gorm:"many2many:users_roles;constraint:OnDelete:CASCADE;"`
-	Organizations         []Organization `json:"-" gorm:"many2many:organizations_users;constraint:OnDelete:CASCADE;"`
+	Roles                 []Role         `json:"roles" gorm:"many2many:users_roles;constraint:OnDelete:CASCADE;"`
+	Organizations         []Organization `json:"organizations" gorm:"many2many:organizations_users;constraint:OnDelete:CASCADE;"`
 	Sales                 []Transaction  `json:"-" gorm:"polymorphic:Seller;constraint:OnDelete:CASCADE;"`
 	Purchases             []Transaction  `json:"-" gorm:"polymorphic:Buyer;constraint:OnDelete:CASCADE;"`
-	Notifications         []Notification `json:"-" gorm:"foreignKey:UserId;references:Id;constraint:OnDelete:CASCADE;"`
+	Notifications         []Notification `json:"notifications" gorm:"foreignKey:UserId;references:Id;constraint:OnDelete:CASCADE;"`
 	Tags                  pq.StringArray `json:"tags" gorm:"type:text[];default:'{}';"`
 	Address               *Address       `json:"address" gorm:"foreignKey:UserId;references:Id;constraint:OnDelete:CASCADE;"`
 	BankDetails           *BankDetails   `json:"bankDetails" gorm:"foreignKey:UserId;references:Id;constraint:OnDelete:CASCADE;"`

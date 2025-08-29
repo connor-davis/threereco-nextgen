@@ -15,6 +15,14 @@ import (
 var UserSchema = openapi3.NewSchema().
 	WithProperties(properties.UserProperties).
 	WithProperty(
+		"roles",
+		RoleArraySchema.Value,
+	).
+	WithProperty(
+		"organizations",
+		OrganizationArraySchema.Value,
+	).
+	WithProperty(
 		"address",
 		AddressSchema.Value,
 	).
