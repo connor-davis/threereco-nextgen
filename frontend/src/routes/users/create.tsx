@@ -78,8 +78,8 @@ export const Route = createFileRoute('/users/create')({
     </PermissionGuard>
   ),
   validateSearch: z.object({
-    rolesPage: z.number().min(1).optional(),
-    rolesSearch: z.string().min(2).max(100).optional(),
+    rolesPage: z.number().default(1),
+    rolesSearch: z.string().default(''),
   }),
   pendingComponent: () => (
     <div className="flex flex-col w-full h-full items-center justify-center">

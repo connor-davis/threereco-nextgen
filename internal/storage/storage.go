@@ -102,13 +102,16 @@ func (s *Storage) SeedPostgres() {
 	organizationId := uuid.New()
 	organizationAdminUserId := uuid.New()
 	organizationAdminRoleId := uuid.New()
+	organizationUserRoleId := uuid.New()
 
 	organizationAdminRoleDescription := "Has full access to the organization, including user management, settings, and data."
+	organizationUserRoleDescription := "Has limited access to the organization, primarily for their own profile information or data related to them that has been created by other users with their information."
 
 	organizationAdminRole := &models.Role{
-		Name:             "Organization Admin",
+		Name:             "Administrator",
 		Description:      &organizationAdminRoleDescription,
 		Permissions:      []string{"*"},
+		IsDefault:        true,
 		ModifiedByUserId: organizationAdminUserId,
 	}
 
@@ -124,6 +127,28 @@ func (s *Storage) SeedPostgres() {
 		log.Info("🔄 Creating organization admin role...")
 
 		organizationAdminRole.Id = organizationAdminRoleId
+	}
+
+	organizationUserRole := &models.Role{
+		Name:             "User",
+		Description:      &organizationUserRoleDescription,
+		Permissions:      []string{"users.view.self", "users.update.self", "users.delete.self"},
+		IsDefault:        true,
+		ModifiedByUserId: organizationAdminUserId,
+	}
+
+	if err := s.Postgres.
+		Where("name = ?", organizationUserRole.Name).
+		Find(&organizationUserRole).Error; err != nil {
+		log.Errorf("❌ Failed to find organization user role: %v", err)
+
+		return
+	}
+
+	if organizationUserRole.Id == uuid.Nil {
+		log.Info("🔄 Creating organization user role...")
+
+		organizationUserRole.Id = organizationUserRoleId
 	}
 
 	organizationAdminUserName := string(env.DEFAULT_ORGANIZATION_ADMIN_NAME)
@@ -169,7 +194,7 @@ func (s *Storage) SeedPostgres() {
 		ModifiedByUserId: organizationAdminUser.Id,
 		ModifiedByUser:   organizationAdminUser,
 		Users:            []models.User{*organizationAdminUser},
-		Roles:            []models.Role{*organizationAdminRole},
+		Roles:            []models.Role{*organizationAdminRole, *organizationUserRole},
 	}
 
 	if err := s.Postgres.
@@ -187,7 +212,7 @@ func (s *Storage) SeedPostgres() {
 	}
 
 	if err := s.Postgres.
-		Set("one:audit_user_id", organizationAdminUser.Id).
+		Set("one:ignore_audit_log", true).
 		Assign(&organization).
 		FirstOrCreate(&organization).Error; err != nil {
 		log.Errorf("❌ Failed to create organization admin user: %v", err)

@@ -27,7 +27,7 @@ var AvailablePermissionsGroups = []models.AvailablePermissionsGroup{
 		Permissions: []models.AvailablePermission{
 			{
 				Value:       "*",
-				Description: "All permissions",
+				Description: "All permissions.",
 			},
 		},
 	},
@@ -36,23 +36,51 @@ var AvailablePermissionsGroups = []models.AvailablePermissionsGroup{
 		Permissions: []models.AvailablePermission{
 			{
 				Value:       "users.*",
-				Description: "All user permissions",
+				Description: "All permissions related to users.",
+			},
+			{
+				Value:       "users.access",
+				Description: "Permission to access users management.",
 			},
 			{
 				Value:       "users.create",
-				Description: "Create user permission",
+				Description: "Permission to create users.",
 			},
 			{
 				Value:       "users.view",
-				Description: "View user permission",
+				Description: "Permission to view users.",
+			},
+			{
+				Value:       "users.view.self",
+				Description: "Permission to view own user.",
+			},
+			{
+				Value:       "users.view.other",
+				Description: "Permission to view other user.",
 			},
 			{
 				Value:       "users.update",
-				Description: "Update user permission",
+				Description: "Permission to update users.",
+			},
+			{
+				Value:       "users.update.self",
+				Description: "Permission to update own user.",
+			},
+			{
+				Value:       "users.view.other",
+				Description: "Permission to view other user.",
 			},
 			{
 				Value:       "users.delete",
-				Description: "Delete user permission",
+				Description: "Permission to delete users.",
+			},
+			{
+				Value:       "users.delete.self",
+				Description: "Permission to delete own user.",
+			},
+			{
+				Value:       "users.delete.other",
+				Description: "Permission to delete other user.",
 			},
 		},
 	},
@@ -61,23 +89,27 @@ var AvailablePermissionsGroups = []models.AvailablePermissionsGroup{
 		Permissions: []models.AvailablePermission{
 			{
 				Value:       "organizations.*",
-				Description: "All organization permissions",
+				Description: "All permissions related to organizations.",
+			},
+			{
+				Value:       "organizations.access",
+				Description: "Permission to access organizations management.",
 			},
 			{
 				Value:       "organizations.create",
-				Description: "Create organization permission",
+				Description: "Permission to create organizations.",
 			},
 			{
 				Value:       "organizations.view",
-				Description: "View organization permission",
+				Description: "Permission to view organizations.",
 			},
 			{
 				Value:       "organizations.update",
-				Description: "Update organization permission",
+				Description: "Permission to update organizations.",
 			},
 			{
 				Value:       "organizations.delete",
-				Description: "Delete organization permission",
+				Description: "Permission to delete organizations.",
 			},
 		},
 	},
@@ -86,23 +118,27 @@ var AvailablePermissionsGroups = []models.AvailablePermissionsGroup{
 		Permissions: []models.AvailablePermission{
 			{
 				Value:       "roles.*",
-				Description: "All role permissions",
+				Description: "All permissions related to roles.",
+			},
+			{
+				Value:       "roles.access",
+				Description: "Permission to access roles management.",
 			},
 			{
 				Value:       "roles.create",
-				Description: "Create role permission",
+				Description: "Permission to create roles.",
 			},
 			{
 				Value:       "roles.view",
-				Description: "View role permission",
+				Description: "Permission to view roles.",
 			},
 			{
 				Value:       "roles.update",
-				Description: "Update role permission",
+				Description: "Permission to update roles.",
 			},
 			{
 				Value:       "roles.delete",
-				Description: "Delete role permission",
+				Description: "Permission to delete roles.",
 			},
 		},
 	},
@@ -111,23 +147,23 @@ var AvailablePermissionsGroups = []models.AvailablePermissionsGroup{
 		Permissions: []models.AvailablePermission{
 			{
 				Value:       "audit_logs.*",
-				Description: "All audit log permissions",
+				Description: "All permissions related to audit logs.",
 			},
 			{
 				Value:       "audit_logs.create",
-				Description: "Create audit log permission",
+				Description: "Permission to create audit logs.",
 			},
 			{
 				Value:       "audit_logs.view",
-				Description: "View audit log permission",
+				Description: "Permission to view audit logs.",
 			},
 			{
 				Value:       "audit_logs.update",
-				Description: "Update audit log permission",
+				Description: "Permission to update audit logs.",
 			},
 			{
 				Value:       "audit_logs.delete",
-				Description: "Delete audit log permission",
+				Description: "Permission to delete audit logs.",
 			},
 		},
 	},
@@ -136,23 +172,27 @@ var AvailablePermissionsGroups = []models.AvailablePermissionsGroup{
 		Permissions: []models.AvailablePermission{
 			{
 				Value:       "materials.*",
-				Description: "All material permissions",
+				Description: "All permissions related to materials.",
+			},
+			{
+				Value:       "materials.access",
+				Description: "Permission to access materials management.",
 			},
 			{
 				Value:       "materials.create",
-				Description: "Create material permission",
+				Description: "Permission to create materials.",
 			},
 			{
 				Value:       "materials.view",
-				Description: "View material permission",
+				Description: "Permission to view materials.",
 			},
 			{
 				Value:       "materials.update",
-				Description: "Update material permission",
+				Description: "Permission to update materials.",
 			},
 			{
 				Value:       "materials.delete",
-				Description: "Delete material permission",
+				Description: "Permission to delete materials.",
 			},
 		},
 	},
@@ -161,23 +201,27 @@ var AvailablePermissionsGroups = []models.AvailablePermissionsGroup{
 		Permissions: []models.AvailablePermission{
 			{
 				Value:       "products.*",
-				Description: "All product permissions",
+				Description: "All permissions related to products.",
+			},
+			{
+				Value:       "products.access",
+				Description: "Permission to access products management.",
 			},
 			{
 				Value:       "products.create",
-				Description: "Create product permission",
+				Description: "Permission to create products.",
 			},
 			{
 				Value:       "products.view",
-				Description: "View product permission",
+				Description: "Permission to view products.",
 			},
 			{
 				Value:       "products.update",
-				Description: "Update product permission",
+				Description: "Permission to update products.",
 			},
 			{
 				Value:       "products.delete",
-				Description: "Delete product permission",
+				Description: "Permission to delete products.",
 			},
 		},
 	},
@@ -186,23 +230,27 @@ var AvailablePermissionsGroups = []models.AvailablePermissionsGroup{
 		Permissions: []models.AvailablePermission{
 			{
 				Value:       "transactions.*",
-				Description: "All transaction permissions",
+				Description: "All permissions related to transactions.",
+			},
+			{
+				Value:       "transactions.access",
+				Description: "Permission to access transactions management.",
 			},
 			{
 				Value:       "transactions.create",
-				Description: "Create transaction permission",
+				Description: "Permission to create transactions.",
 			},
 			{
 				Value:       "transactions.view",
-				Description: "View transaction permission",
+				Description: "Permission to view transactions.",
 			},
 			{
 				Value:       "transactions.update",
-				Description: "Update transaction permission",
+				Description: "Permission to update transactions.",
 			},
 			{
 				Value:       "transactions.delete",
-				Description: "Delete transaction permission",
+				Description: "Permission to delete transactions.",
 			},
 		},
 	},
@@ -211,23 +259,27 @@ var AvailablePermissionsGroups = []models.AvailablePermissionsGroup{
 		Permissions: []models.AvailablePermission{
 			{
 				Value:       "notifications.*",
-				Description: "All notification permissions",
+				Description: "All permissions related to notifications.",
+			},
+			{
+				Value:       "notifications.access",
+				Description: "Permission to access notifications management.",
 			},
 			{
 				Value:       "notifications.create",
-				Description: "Create notification permission",
+				Description: "Permission to create notifications.",
 			},
 			{
 				Value:       "notifications.view",
-				Description: "View notification permission",
+				Description: "Permission to view notifications.",
 			},
 			{
 				Value:       "notifications.update",
-				Description: "Update notification permission",
+				Description: "Permission to update notifications.",
 			},
 			{
 				Value:       "notifications.delete",
-				Description: "Delete notification permission",
+				Description: "Permission to delete notifications.",
 			},
 		},
 	},
