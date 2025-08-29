@@ -396,8 +396,83 @@ export const zSuccessResponse = z.object({
         ),
         modifiedById: z.uuid(),
         name: z.optional(z.string()),
+        organizations: z.optional(
+          z.array(
+            z.object({
+              createdAt: z.iso.datetime(),
+              domain: z.string().min(1),
+              id: z.uuid(),
+              modifiedBy: z.optional(
+                z.object({
+                  createdAt: z.iso.datetime(),
+                  email: z.email().min(1),
+                  id: z.uuid(),
+                  image: z.optional(z.string()),
+                  jobTitle: z.optional(z.string()),
+                  mfaEnabled: z.boolean().default(false),
+                  mfaVerified: z.boolean().default(false),
+                  modifiedById: z.uuid(),
+                  name: z.optional(z.string()),
+                  phone: z.optional(z.string()),
+                  primaryOrganizationId: z.optional(z.uuid()),
+                  tags: z.array(z.string()),
+                  updatedAt: z.iso.datetime(),
+                })
+              ),
+              modifiedById: z.uuid(),
+              name: z.string().min(1),
+              owner: z.object({
+                createdAt: z.iso.datetime(),
+                email: z.email().min(1),
+                id: z.uuid(),
+                image: z.optional(z.string()),
+                jobTitle: z.optional(z.string()),
+                mfaEnabled: z.boolean().default(false),
+                mfaVerified: z.boolean().default(false),
+                modifiedById: z.uuid(),
+                name: z.optional(z.string()),
+                phone: z.optional(z.string()),
+                primaryOrganizationId: z.optional(z.uuid()),
+                tags: z.array(z.string()),
+                updatedAt: z.iso.datetime(),
+              }),
+              ownerId: z.uuid(),
+              updatedAt: z.iso.datetime(),
+            })
+          )
+        ),
         phone: z.optional(z.string()),
         primaryOrganizationId: z.optional(z.uuid()),
+        roles: z.optional(
+          z.array(
+            z.object({
+              createdAt: z.iso.datetime(),
+              description: z.string(),
+              id: z.uuid(),
+              modifiedBy: z.optional(
+                z.object({
+                  createdAt: z.iso.datetime(),
+                  email: z.email().min(1),
+                  id: z.uuid(),
+                  image: z.optional(z.string()),
+                  jobTitle: z.optional(z.string()),
+                  mfaEnabled: z.boolean().default(false),
+                  mfaVerified: z.boolean().default(false),
+                  modifiedById: z.uuid(),
+                  name: z.optional(z.string()),
+                  phone: z.optional(z.string()),
+                  primaryOrganizationId: z.optional(z.uuid()),
+                  tags: z.array(z.string()),
+                  updatedAt: z.iso.datetime(),
+                })
+              ),
+              modifiedById: z.uuid(),
+              name: z.string().min(1),
+              permissions: z.array(z.string()).default([]),
+              updatedAt: z.iso.datetime(),
+            })
+          )
+        ),
         tags: z.array(z.string()),
         updatedAt: z.iso.datetime(),
       }),
@@ -779,8 +854,83 @@ export const zSuccessResponse = z.object({
           ),
           modifiedById: z.uuid(),
           name: z.optional(z.string()),
+          organizations: z.optional(
+            z.array(
+              z.object({
+                createdAt: z.iso.datetime(),
+                domain: z.string().min(1),
+                id: z.uuid(),
+                modifiedBy: z.optional(
+                  z.object({
+                    createdAt: z.iso.datetime(),
+                    email: z.email().min(1),
+                    id: z.uuid(),
+                    image: z.optional(z.string()),
+                    jobTitle: z.optional(z.string()),
+                    mfaEnabled: z.boolean().default(false),
+                    mfaVerified: z.boolean().default(false),
+                    modifiedById: z.uuid(),
+                    name: z.optional(z.string()),
+                    phone: z.optional(z.string()),
+                    primaryOrganizationId: z.optional(z.uuid()),
+                    tags: z.array(z.string()),
+                    updatedAt: z.iso.datetime(),
+                  })
+                ),
+                modifiedById: z.uuid(),
+                name: z.string().min(1),
+                owner: z.object({
+                  createdAt: z.iso.datetime(),
+                  email: z.email().min(1),
+                  id: z.uuid(),
+                  image: z.optional(z.string()),
+                  jobTitle: z.optional(z.string()),
+                  mfaEnabled: z.boolean().default(false),
+                  mfaVerified: z.boolean().default(false),
+                  modifiedById: z.uuid(),
+                  name: z.optional(z.string()),
+                  phone: z.optional(z.string()),
+                  primaryOrganizationId: z.optional(z.uuid()),
+                  tags: z.array(z.string()),
+                  updatedAt: z.iso.datetime(),
+                }),
+                ownerId: z.uuid(),
+                updatedAt: z.iso.datetime(),
+              })
+            )
+          ),
           phone: z.optional(z.string()),
           primaryOrganizationId: z.optional(z.uuid()),
+          roles: z.optional(
+            z.array(
+              z.object({
+                createdAt: z.iso.datetime(),
+                description: z.string(),
+                id: z.uuid(),
+                modifiedBy: z.optional(
+                  z.object({
+                    createdAt: z.iso.datetime(),
+                    email: z.email().min(1),
+                    id: z.uuid(),
+                    image: z.optional(z.string()),
+                    jobTitle: z.optional(z.string()),
+                    mfaEnabled: z.boolean().default(false),
+                    mfaVerified: z.boolean().default(false),
+                    modifiedById: z.uuid(),
+                    name: z.optional(z.string()),
+                    phone: z.optional(z.string()),
+                    primaryOrganizationId: z.optional(z.uuid()),
+                    tags: z.array(z.string()),
+                    updatedAt: z.iso.datetime(),
+                  })
+                ),
+                modifiedById: z.uuid(),
+                name: z.string().min(1),
+                permissions: z.array(z.string()).default([]),
+                updatedAt: z.iso.datetime(),
+              })
+            )
+          ),
           tags: z.array(z.string()),
           updatedAt: z.iso.datetime(),
         })
@@ -1362,8 +1512,83 @@ export const zUser = z.object({
   ),
   modifiedById: z.uuid(),
   name: z.optional(z.string()),
+  organizations: z.optional(
+    z.array(
+      z.object({
+        createdAt: z.iso.datetime(),
+        domain: z.string().min(1),
+        id: z.uuid(),
+        modifiedBy: z.optional(
+          z.object({
+            createdAt: z.iso.datetime(),
+            email: z.email().min(1),
+            id: z.uuid(),
+            image: z.optional(z.string()),
+            jobTitle: z.optional(z.string()),
+            mfaEnabled: z.boolean().default(false),
+            mfaVerified: z.boolean().default(false),
+            modifiedById: z.uuid(),
+            name: z.optional(z.string()),
+            phone: z.optional(z.string()),
+            primaryOrganizationId: z.optional(z.uuid()),
+            tags: z.array(z.string()),
+            updatedAt: z.iso.datetime(),
+          })
+        ),
+        modifiedById: z.uuid(),
+        name: z.string().min(1),
+        owner: z.object({
+          createdAt: z.iso.datetime(),
+          email: z.email().min(1),
+          id: z.uuid(),
+          image: z.optional(z.string()),
+          jobTitle: z.optional(z.string()),
+          mfaEnabled: z.boolean().default(false),
+          mfaVerified: z.boolean().default(false),
+          modifiedById: z.uuid(),
+          name: z.optional(z.string()),
+          phone: z.optional(z.string()),
+          primaryOrganizationId: z.optional(z.uuid()),
+          tags: z.array(z.string()),
+          updatedAt: z.iso.datetime(),
+        }),
+        ownerId: z.uuid(),
+        updatedAt: z.iso.datetime(),
+      })
+    )
+  ),
   phone: z.optional(z.string()),
   primaryOrganizationId: z.optional(z.uuid()),
+  roles: z.optional(
+    z.array(
+      z.object({
+        createdAt: z.iso.datetime(),
+        description: z.string(),
+        id: z.uuid(),
+        modifiedBy: z.optional(
+          z.object({
+            createdAt: z.iso.datetime(),
+            email: z.email().min(1),
+            id: z.uuid(),
+            image: z.optional(z.string()),
+            jobTitle: z.optional(z.string()),
+            mfaEnabled: z.boolean().default(false),
+            mfaVerified: z.boolean().default(false),
+            modifiedById: z.uuid(),
+            name: z.optional(z.string()),
+            phone: z.optional(z.string()),
+            primaryOrganizationId: z.optional(z.uuid()),
+            tags: z.array(z.string()),
+            updatedAt: z.iso.datetime(),
+          })
+        ),
+        modifiedById: z.uuid(),
+        name: z.string().min(1),
+        permissions: z.array(z.string()).default([]),
+        updatedAt: z.iso.datetime(),
+      })
+    )
+  ),
   tags: z.array(z.string()),
   updatedAt: z.iso.datetime(),
 });
@@ -1436,8 +1661,83 @@ export const zGetApiAuditlogsResponse = z.object({
         ),
         modifiedById: z.uuid(),
         name: z.optional(z.string()),
+        organizations: z.optional(
+          z.array(
+            z.object({
+              createdAt: z.iso.datetime(),
+              domain: z.string().min(1),
+              id: z.uuid(),
+              modifiedBy: z.optional(
+                z.object({
+                  createdAt: z.iso.datetime(),
+                  email: z.email().min(1),
+                  id: z.uuid(),
+                  image: z.optional(z.string()),
+                  jobTitle: z.optional(z.string()),
+                  mfaEnabled: z.boolean().default(false),
+                  mfaVerified: z.boolean().default(false),
+                  modifiedById: z.uuid(),
+                  name: z.optional(z.string()),
+                  phone: z.optional(z.string()),
+                  primaryOrganizationId: z.optional(z.uuid()),
+                  tags: z.array(z.string()),
+                  updatedAt: z.iso.datetime(),
+                })
+              ),
+              modifiedById: z.uuid(),
+              name: z.string().min(1),
+              owner: z.object({
+                createdAt: z.iso.datetime(),
+                email: z.email().min(1),
+                id: z.uuid(),
+                image: z.optional(z.string()),
+                jobTitle: z.optional(z.string()),
+                mfaEnabled: z.boolean().default(false),
+                mfaVerified: z.boolean().default(false),
+                modifiedById: z.uuid(),
+                name: z.optional(z.string()),
+                phone: z.optional(z.string()),
+                primaryOrganizationId: z.optional(z.uuid()),
+                tags: z.array(z.string()),
+                updatedAt: z.iso.datetime(),
+              }),
+              ownerId: z.uuid(),
+              updatedAt: z.iso.datetime(),
+            })
+          )
+        ),
         phone: z.optional(z.string()),
         primaryOrganizationId: z.optional(z.uuid()),
+        roles: z.optional(
+          z.array(
+            z.object({
+              createdAt: z.iso.datetime(),
+              description: z.string(),
+              id: z.uuid(),
+              modifiedBy: z.optional(
+                z.object({
+                  createdAt: z.iso.datetime(),
+                  email: z.email().min(1),
+                  id: z.uuid(),
+                  image: z.optional(z.string()),
+                  jobTitle: z.optional(z.string()),
+                  mfaEnabled: z.boolean().default(false),
+                  mfaVerified: z.boolean().default(false),
+                  modifiedById: z.uuid(),
+                  name: z.optional(z.string()),
+                  phone: z.optional(z.string()),
+                  primaryOrganizationId: z.optional(z.uuid()),
+                  tags: z.array(z.string()),
+                  updatedAt: z.iso.datetime(),
+                })
+              ),
+              modifiedById: z.uuid(),
+              name: z.string().min(1),
+              permissions: z.array(z.string()).default([]),
+              updatedAt: z.iso.datetime(),
+            })
+          )
+        ),
         tags: z.array(z.string()),
         updatedAt: z.iso.datetime(),
       }),
@@ -1819,8 +2119,83 @@ export const zGetApiAuditlogsResponse = z.object({
           ),
           modifiedById: z.uuid(),
           name: z.optional(z.string()),
+          organizations: z.optional(
+            z.array(
+              z.object({
+                createdAt: z.iso.datetime(),
+                domain: z.string().min(1),
+                id: z.uuid(),
+                modifiedBy: z.optional(
+                  z.object({
+                    createdAt: z.iso.datetime(),
+                    email: z.email().min(1),
+                    id: z.uuid(),
+                    image: z.optional(z.string()),
+                    jobTitle: z.optional(z.string()),
+                    mfaEnabled: z.boolean().default(false),
+                    mfaVerified: z.boolean().default(false),
+                    modifiedById: z.uuid(),
+                    name: z.optional(z.string()),
+                    phone: z.optional(z.string()),
+                    primaryOrganizationId: z.optional(z.uuid()),
+                    tags: z.array(z.string()),
+                    updatedAt: z.iso.datetime(),
+                  })
+                ),
+                modifiedById: z.uuid(),
+                name: z.string().min(1),
+                owner: z.object({
+                  createdAt: z.iso.datetime(),
+                  email: z.email().min(1),
+                  id: z.uuid(),
+                  image: z.optional(z.string()),
+                  jobTitle: z.optional(z.string()),
+                  mfaEnabled: z.boolean().default(false),
+                  mfaVerified: z.boolean().default(false),
+                  modifiedById: z.uuid(),
+                  name: z.optional(z.string()),
+                  phone: z.optional(z.string()),
+                  primaryOrganizationId: z.optional(z.uuid()),
+                  tags: z.array(z.string()),
+                  updatedAt: z.iso.datetime(),
+                }),
+                ownerId: z.uuid(),
+                updatedAt: z.iso.datetime(),
+              })
+            )
+          ),
           phone: z.optional(z.string()),
           primaryOrganizationId: z.optional(z.uuid()),
+          roles: z.optional(
+            z.array(
+              z.object({
+                createdAt: z.iso.datetime(),
+                description: z.string(),
+                id: z.uuid(),
+                modifiedBy: z.optional(
+                  z.object({
+                    createdAt: z.iso.datetime(),
+                    email: z.email().min(1),
+                    id: z.uuid(),
+                    image: z.optional(z.string()),
+                    jobTitle: z.optional(z.string()),
+                    mfaEnabled: z.boolean().default(false),
+                    mfaVerified: z.boolean().default(false),
+                    modifiedById: z.uuid(),
+                    name: z.optional(z.string()),
+                    phone: z.optional(z.string()),
+                    primaryOrganizationId: z.optional(z.uuid()),
+                    tags: z.array(z.string()),
+                    updatedAt: z.iso.datetime(),
+                  })
+                ),
+                modifiedById: z.uuid(),
+                name: z.string().min(1),
+                permissions: z.array(z.string()).default([]),
+                updatedAt: z.iso.datetime(),
+              })
+            )
+          ),
           tags: z.array(z.string()),
           updatedAt: z.iso.datetime(),
         })
@@ -2249,8 +2624,83 @@ export const zGetApiAuditlogsByIdResponse = z.object({
         ),
         modifiedById: z.uuid(),
         name: z.optional(z.string()),
+        organizations: z.optional(
+          z.array(
+            z.object({
+              createdAt: z.iso.datetime(),
+              domain: z.string().min(1),
+              id: z.uuid(),
+              modifiedBy: z.optional(
+                z.object({
+                  createdAt: z.iso.datetime(),
+                  email: z.email().min(1),
+                  id: z.uuid(),
+                  image: z.optional(z.string()),
+                  jobTitle: z.optional(z.string()),
+                  mfaEnabled: z.boolean().default(false),
+                  mfaVerified: z.boolean().default(false),
+                  modifiedById: z.uuid(),
+                  name: z.optional(z.string()),
+                  phone: z.optional(z.string()),
+                  primaryOrganizationId: z.optional(z.uuid()),
+                  tags: z.array(z.string()),
+                  updatedAt: z.iso.datetime(),
+                })
+              ),
+              modifiedById: z.uuid(),
+              name: z.string().min(1),
+              owner: z.object({
+                createdAt: z.iso.datetime(),
+                email: z.email().min(1),
+                id: z.uuid(),
+                image: z.optional(z.string()),
+                jobTitle: z.optional(z.string()),
+                mfaEnabled: z.boolean().default(false),
+                mfaVerified: z.boolean().default(false),
+                modifiedById: z.uuid(),
+                name: z.optional(z.string()),
+                phone: z.optional(z.string()),
+                primaryOrganizationId: z.optional(z.uuid()),
+                tags: z.array(z.string()),
+                updatedAt: z.iso.datetime(),
+              }),
+              ownerId: z.uuid(),
+              updatedAt: z.iso.datetime(),
+            })
+          )
+        ),
         phone: z.optional(z.string()),
         primaryOrganizationId: z.optional(z.uuid()),
+        roles: z.optional(
+          z.array(
+            z.object({
+              createdAt: z.iso.datetime(),
+              description: z.string(),
+              id: z.uuid(),
+              modifiedBy: z.optional(
+                z.object({
+                  createdAt: z.iso.datetime(),
+                  email: z.email().min(1),
+                  id: z.uuid(),
+                  image: z.optional(z.string()),
+                  jobTitle: z.optional(z.string()),
+                  mfaEnabled: z.boolean().default(false),
+                  mfaVerified: z.boolean().default(false),
+                  modifiedById: z.uuid(),
+                  name: z.optional(z.string()),
+                  phone: z.optional(z.string()),
+                  primaryOrganizationId: z.optional(z.uuid()),
+                  tags: z.array(z.string()),
+                  updatedAt: z.iso.datetime(),
+                })
+              ),
+              modifiedById: z.uuid(),
+              name: z.string().min(1),
+              permissions: z.array(z.string()).default([]),
+              updatedAt: z.iso.datetime(),
+            })
+          )
+        ),
         tags: z.array(z.string()),
         updatedAt: z.iso.datetime(),
       }),
@@ -2632,8 +3082,83 @@ export const zGetApiAuditlogsByIdResponse = z.object({
           ),
           modifiedById: z.uuid(),
           name: z.optional(z.string()),
+          organizations: z.optional(
+            z.array(
+              z.object({
+                createdAt: z.iso.datetime(),
+                domain: z.string().min(1),
+                id: z.uuid(),
+                modifiedBy: z.optional(
+                  z.object({
+                    createdAt: z.iso.datetime(),
+                    email: z.email().min(1),
+                    id: z.uuid(),
+                    image: z.optional(z.string()),
+                    jobTitle: z.optional(z.string()),
+                    mfaEnabled: z.boolean().default(false),
+                    mfaVerified: z.boolean().default(false),
+                    modifiedById: z.uuid(),
+                    name: z.optional(z.string()),
+                    phone: z.optional(z.string()),
+                    primaryOrganizationId: z.optional(z.uuid()),
+                    tags: z.array(z.string()),
+                    updatedAt: z.iso.datetime(),
+                  })
+                ),
+                modifiedById: z.uuid(),
+                name: z.string().min(1),
+                owner: z.object({
+                  createdAt: z.iso.datetime(),
+                  email: z.email().min(1),
+                  id: z.uuid(),
+                  image: z.optional(z.string()),
+                  jobTitle: z.optional(z.string()),
+                  mfaEnabled: z.boolean().default(false),
+                  mfaVerified: z.boolean().default(false),
+                  modifiedById: z.uuid(),
+                  name: z.optional(z.string()),
+                  phone: z.optional(z.string()),
+                  primaryOrganizationId: z.optional(z.uuid()),
+                  tags: z.array(z.string()),
+                  updatedAt: z.iso.datetime(),
+                }),
+                ownerId: z.uuid(),
+                updatedAt: z.iso.datetime(),
+              })
+            )
+          ),
           phone: z.optional(z.string()),
           primaryOrganizationId: z.optional(z.uuid()),
+          roles: z.optional(
+            z.array(
+              z.object({
+                createdAt: z.iso.datetime(),
+                description: z.string(),
+                id: z.uuid(),
+                modifiedBy: z.optional(
+                  z.object({
+                    createdAt: z.iso.datetime(),
+                    email: z.email().min(1),
+                    id: z.uuid(),
+                    image: z.optional(z.string()),
+                    jobTitle: z.optional(z.string()),
+                    mfaEnabled: z.boolean().default(false),
+                    mfaVerified: z.boolean().default(false),
+                    modifiedById: z.uuid(),
+                    name: z.optional(z.string()),
+                    phone: z.optional(z.string()),
+                    primaryOrganizationId: z.optional(z.uuid()),
+                    tags: z.array(z.string()),
+                    updatedAt: z.iso.datetime(),
+                  })
+                ),
+                modifiedById: z.uuid(),
+                name: z.string().min(1),
+                permissions: z.array(z.string()).default([]),
+                updatedAt: z.iso.datetime(),
+              })
+            )
+          ),
           tags: z.array(z.string()),
           updatedAt: z.iso.datetime(),
         })
@@ -3060,8 +3585,83 @@ export const zGetApiAuthenticationCheckResponse = z.object({
         ),
         modifiedById: z.uuid(),
         name: z.optional(z.string()),
+        organizations: z.optional(
+          z.array(
+            z.object({
+              createdAt: z.iso.datetime(),
+              domain: z.string().min(1),
+              id: z.uuid(),
+              modifiedBy: z.optional(
+                z.object({
+                  createdAt: z.iso.datetime(),
+                  email: z.email().min(1),
+                  id: z.uuid(),
+                  image: z.optional(z.string()),
+                  jobTitle: z.optional(z.string()),
+                  mfaEnabled: z.boolean().default(false),
+                  mfaVerified: z.boolean().default(false),
+                  modifiedById: z.uuid(),
+                  name: z.optional(z.string()),
+                  phone: z.optional(z.string()),
+                  primaryOrganizationId: z.optional(z.uuid()),
+                  tags: z.array(z.string()),
+                  updatedAt: z.iso.datetime(),
+                })
+              ),
+              modifiedById: z.uuid(),
+              name: z.string().min(1),
+              owner: z.object({
+                createdAt: z.iso.datetime(),
+                email: z.email().min(1),
+                id: z.uuid(),
+                image: z.optional(z.string()),
+                jobTitle: z.optional(z.string()),
+                mfaEnabled: z.boolean().default(false),
+                mfaVerified: z.boolean().default(false),
+                modifiedById: z.uuid(),
+                name: z.optional(z.string()),
+                phone: z.optional(z.string()),
+                primaryOrganizationId: z.optional(z.uuid()),
+                tags: z.array(z.string()),
+                updatedAt: z.iso.datetime(),
+              }),
+              ownerId: z.uuid(),
+              updatedAt: z.iso.datetime(),
+            })
+          )
+        ),
         phone: z.optional(z.string()),
         primaryOrganizationId: z.optional(z.uuid()),
+        roles: z.optional(
+          z.array(
+            z.object({
+              createdAt: z.iso.datetime(),
+              description: z.string(),
+              id: z.uuid(),
+              modifiedBy: z.optional(
+                z.object({
+                  createdAt: z.iso.datetime(),
+                  email: z.email().min(1),
+                  id: z.uuid(),
+                  image: z.optional(z.string()),
+                  jobTitle: z.optional(z.string()),
+                  mfaEnabled: z.boolean().default(false),
+                  mfaVerified: z.boolean().default(false),
+                  modifiedById: z.uuid(),
+                  name: z.optional(z.string()),
+                  phone: z.optional(z.string()),
+                  primaryOrganizationId: z.optional(z.uuid()),
+                  tags: z.array(z.string()),
+                  updatedAt: z.iso.datetime(),
+                })
+              ),
+              modifiedById: z.uuid(),
+              name: z.string().min(1),
+              permissions: z.array(z.string()).default([]),
+              updatedAt: z.iso.datetime(),
+            })
+          )
+        ),
         tags: z.array(z.string()),
         updatedAt: z.iso.datetime(),
       }),
@@ -3443,8 +4043,83 @@ export const zGetApiAuthenticationCheckResponse = z.object({
           ),
           modifiedById: z.uuid(),
           name: z.optional(z.string()),
+          organizations: z.optional(
+            z.array(
+              z.object({
+                createdAt: z.iso.datetime(),
+                domain: z.string().min(1),
+                id: z.uuid(),
+                modifiedBy: z.optional(
+                  z.object({
+                    createdAt: z.iso.datetime(),
+                    email: z.email().min(1),
+                    id: z.uuid(),
+                    image: z.optional(z.string()),
+                    jobTitle: z.optional(z.string()),
+                    mfaEnabled: z.boolean().default(false),
+                    mfaVerified: z.boolean().default(false),
+                    modifiedById: z.uuid(),
+                    name: z.optional(z.string()),
+                    phone: z.optional(z.string()),
+                    primaryOrganizationId: z.optional(z.uuid()),
+                    tags: z.array(z.string()),
+                    updatedAt: z.iso.datetime(),
+                  })
+                ),
+                modifiedById: z.uuid(),
+                name: z.string().min(1),
+                owner: z.object({
+                  createdAt: z.iso.datetime(),
+                  email: z.email().min(1),
+                  id: z.uuid(),
+                  image: z.optional(z.string()),
+                  jobTitle: z.optional(z.string()),
+                  mfaEnabled: z.boolean().default(false),
+                  mfaVerified: z.boolean().default(false),
+                  modifiedById: z.uuid(),
+                  name: z.optional(z.string()),
+                  phone: z.optional(z.string()),
+                  primaryOrganizationId: z.optional(z.uuid()),
+                  tags: z.array(z.string()),
+                  updatedAt: z.iso.datetime(),
+                }),
+                ownerId: z.uuid(),
+                updatedAt: z.iso.datetime(),
+              })
+            )
+          ),
           phone: z.optional(z.string()),
           primaryOrganizationId: z.optional(z.uuid()),
+          roles: z.optional(
+            z.array(
+              z.object({
+                createdAt: z.iso.datetime(),
+                description: z.string(),
+                id: z.uuid(),
+                modifiedBy: z.optional(
+                  z.object({
+                    createdAt: z.iso.datetime(),
+                    email: z.email().min(1),
+                    id: z.uuid(),
+                    image: z.optional(z.string()),
+                    jobTitle: z.optional(z.string()),
+                    mfaEnabled: z.boolean().default(false),
+                    mfaVerified: z.boolean().default(false),
+                    modifiedById: z.uuid(),
+                    name: z.optional(z.string()),
+                    phone: z.optional(z.string()),
+                    primaryOrganizationId: z.optional(z.uuid()),
+                    tags: z.array(z.string()),
+                    updatedAt: z.iso.datetime(),
+                  })
+                ),
+                modifiedById: z.uuid(),
+                name: z.string().min(1),
+                permissions: z.array(z.string()).default([]),
+                updatedAt: z.iso.datetime(),
+              })
+            )
+          ),
           tags: z.array(z.string()),
           updatedAt: z.iso.datetime(),
         })
@@ -3900,8 +4575,83 @@ export const zGetApiAuthenticationOrganizationsResponse = z.object({
         ),
         modifiedById: z.uuid(),
         name: z.optional(z.string()),
+        organizations: z.optional(
+          z.array(
+            z.object({
+              createdAt: z.iso.datetime(),
+              domain: z.string().min(1),
+              id: z.uuid(),
+              modifiedBy: z.optional(
+                z.object({
+                  createdAt: z.iso.datetime(),
+                  email: z.email().min(1),
+                  id: z.uuid(),
+                  image: z.optional(z.string()),
+                  jobTitle: z.optional(z.string()),
+                  mfaEnabled: z.boolean().default(false),
+                  mfaVerified: z.boolean().default(false),
+                  modifiedById: z.uuid(),
+                  name: z.optional(z.string()),
+                  phone: z.optional(z.string()),
+                  primaryOrganizationId: z.optional(z.uuid()),
+                  tags: z.array(z.string()),
+                  updatedAt: z.iso.datetime(),
+                })
+              ),
+              modifiedById: z.uuid(),
+              name: z.string().min(1),
+              owner: z.object({
+                createdAt: z.iso.datetime(),
+                email: z.email().min(1),
+                id: z.uuid(),
+                image: z.optional(z.string()),
+                jobTitle: z.optional(z.string()),
+                mfaEnabled: z.boolean().default(false),
+                mfaVerified: z.boolean().default(false),
+                modifiedById: z.uuid(),
+                name: z.optional(z.string()),
+                phone: z.optional(z.string()),
+                primaryOrganizationId: z.optional(z.uuid()),
+                tags: z.array(z.string()),
+                updatedAt: z.iso.datetime(),
+              }),
+              ownerId: z.uuid(),
+              updatedAt: z.iso.datetime(),
+            })
+          )
+        ),
         phone: z.optional(z.string()),
         primaryOrganizationId: z.optional(z.uuid()),
+        roles: z.optional(
+          z.array(
+            z.object({
+              createdAt: z.iso.datetime(),
+              description: z.string(),
+              id: z.uuid(),
+              modifiedBy: z.optional(
+                z.object({
+                  createdAt: z.iso.datetime(),
+                  email: z.email().min(1),
+                  id: z.uuid(),
+                  image: z.optional(z.string()),
+                  jobTitle: z.optional(z.string()),
+                  mfaEnabled: z.boolean().default(false),
+                  mfaVerified: z.boolean().default(false),
+                  modifiedById: z.uuid(),
+                  name: z.optional(z.string()),
+                  phone: z.optional(z.string()),
+                  primaryOrganizationId: z.optional(z.uuid()),
+                  tags: z.array(z.string()),
+                  updatedAt: z.iso.datetime(),
+                })
+              ),
+              modifiedById: z.uuid(),
+              name: z.string().min(1),
+              permissions: z.array(z.string()).default([]),
+              updatedAt: z.iso.datetime(),
+            })
+          )
+        ),
         tags: z.array(z.string()),
         updatedAt: z.iso.datetime(),
       }),
@@ -4283,8 +5033,83 @@ export const zGetApiAuthenticationOrganizationsResponse = z.object({
           ),
           modifiedById: z.uuid(),
           name: z.optional(z.string()),
+          organizations: z.optional(
+            z.array(
+              z.object({
+                createdAt: z.iso.datetime(),
+                domain: z.string().min(1),
+                id: z.uuid(),
+                modifiedBy: z.optional(
+                  z.object({
+                    createdAt: z.iso.datetime(),
+                    email: z.email().min(1),
+                    id: z.uuid(),
+                    image: z.optional(z.string()),
+                    jobTitle: z.optional(z.string()),
+                    mfaEnabled: z.boolean().default(false),
+                    mfaVerified: z.boolean().default(false),
+                    modifiedById: z.uuid(),
+                    name: z.optional(z.string()),
+                    phone: z.optional(z.string()),
+                    primaryOrganizationId: z.optional(z.uuid()),
+                    tags: z.array(z.string()),
+                    updatedAt: z.iso.datetime(),
+                  })
+                ),
+                modifiedById: z.uuid(),
+                name: z.string().min(1),
+                owner: z.object({
+                  createdAt: z.iso.datetime(),
+                  email: z.email().min(1),
+                  id: z.uuid(),
+                  image: z.optional(z.string()),
+                  jobTitle: z.optional(z.string()),
+                  mfaEnabled: z.boolean().default(false),
+                  mfaVerified: z.boolean().default(false),
+                  modifiedById: z.uuid(),
+                  name: z.optional(z.string()),
+                  phone: z.optional(z.string()),
+                  primaryOrganizationId: z.optional(z.uuid()),
+                  tags: z.array(z.string()),
+                  updatedAt: z.iso.datetime(),
+                }),
+                ownerId: z.uuid(),
+                updatedAt: z.iso.datetime(),
+              })
+            )
+          ),
           phone: z.optional(z.string()),
           primaryOrganizationId: z.optional(z.uuid()),
+          roles: z.optional(
+            z.array(
+              z.object({
+                createdAt: z.iso.datetime(),
+                description: z.string(),
+                id: z.uuid(),
+                modifiedBy: z.optional(
+                  z.object({
+                    createdAt: z.iso.datetime(),
+                    email: z.email().min(1),
+                    id: z.uuid(),
+                    image: z.optional(z.string()),
+                    jobTitle: z.optional(z.string()),
+                    mfaEnabled: z.boolean().default(false),
+                    mfaVerified: z.boolean().default(false),
+                    modifiedById: z.uuid(),
+                    name: z.optional(z.string()),
+                    phone: z.optional(z.string()),
+                    primaryOrganizationId: z.optional(z.uuid()),
+                    tags: z.array(z.string()),
+                    updatedAt: z.iso.datetime(),
+                  })
+                ),
+                modifiedById: z.uuid(),
+                name: z.string().min(1),
+                permissions: z.array(z.string()).default([]),
+                updatedAt: z.iso.datetime(),
+              })
+            )
+          ),
           tags: z.array(z.string()),
           updatedAt: z.iso.datetime(),
         })
@@ -4711,8 +5536,83 @@ export const zGetApiAuthenticationPermissionsResponse = z.object({
         ),
         modifiedById: z.uuid(),
         name: z.optional(z.string()),
+        organizations: z.optional(
+          z.array(
+            z.object({
+              createdAt: z.iso.datetime(),
+              domain: z.string().min(1),
+              id: z.uuid(),
+              modifiedBy: z.optional(
+                z.object({
+                  createdAt: z.iso.datetime(),
+                  email: z.email().min(1),
+                  id: z.uuid(),
+                  image: z.optional(z.string()),
+                  jobTitle: z.optional(z.string()),
+                  mfaEnabled: z.boolean().default(false),
+                  mfaVerified: z.boolean().default(false),
+                  modifiedById: z.uuid(),
+                  name: z.optional(z.string()),
+                  phone: z.optional(z.string()),
+                  primaryOrganizationId: z.optional(z.uuid()),
+                  tags: z.array(z.string()),
+                  updatedAt: z.iso.datetime(),
+                })
+              ),
+              modifiedById: z.uuid(),
+              name: z.string().min(1),
+              owner: z.object({
+                createdAt: z.iso.datetime(),
+                email: z.email().min(1),
+                id: z.uuid(),
+                image: z.optional(z.string()),
+                jobTitle: z.optional(z.string()),
+                mfaEnabled: z.boolean().default(false),
+                mfaVerified: z.boolean().default(false),
+                modifiedById: z.uuid(),
+                name: z.optional(z.string()),
+                phone: z.optional(z.string()),
+                primaryOrganizationId: z.optional(z.uuid()),
+                tags: z.array(z.string()),
+                updatedAt: z.iso.datetime(),
+              }),
+              ownerId: z.uuid(),
+              updatedAt: z.iso.datetime(),
+            })
+          )
+        ),
         phone: z.optional(z.string()),
         primaryOrganizationId: z.optional(z.uuid()),
+        roles: z.optional(
+          z.array(
+            z.object({
+              createdAt: z.iso.datetime(),
+              description: z.string(),
+              id: z.uuid(),
+              modifiedBy: z.optional(
+                z.object({
+                  createdAt: z.iso.datetime(),
+                  email: z.email().min(1),
+                  id: z.uuid(),
+                  image: z.optional(z.string()),
+                  jobTitle: z.optional(z.string()),
+                  mfaEnabled: z.boolean().default(false),
+                  mfaVerified: z.boolean().default(false),
+                  modifiedById: z.uuid(),
+                  name: z.optional(z.string()),
+                  phone: z.optional(z.string()),
+                  primaryOrganizationId: z.optional(z.uuid()),
+                  tags: z.array(z.string()),
+                  updatedAt: z.iso.datetime(),
+                })
+              ),
+              modifiedById: z.uuid(),
+              name: z.string().min(1),
+              permissions: z.array(z.string()).default([]),
+              updatedAt: z.iso.datetime(),
+            })
+          )
+        ),
         tags: z.array(z.string()),
         updatedAt: z.iso.datetime(),
       }),
@@ -5094,8 +5994,83 @@ export const zGetApiAuthenticationPermissionsResponse = z.object({
           ),
           modifiedById: z.uuid(),
           name: z.optional(z.string()),
+          organizations: z.optional(
+            z.array(
+              z.object({
+                createdAt: z.iso.datetime(),
+                domain: z.string().min(1),
+                id: z.uuid(),
+                modifiedBy: z.optional(
+                  z.object({
+                    createdAt: z.iso.datetime(),
+                    email: z.email().min(1),
+                    id: z.uuid(),
+                    image: z.optional(z.string()),
+                    jobTitle: z.optional(z.string()),
+                    mfaEnabled: z.boolean().default(false),
+                    mfaVerified: z.boolean().default(false),
+                    modifiedById: z.uuid(),
+                    name: z.optional(z.string()),
+                    phone: z.optional(z.string()),
+                    primaryOrganizationId: z.optional(z.uuid()),
+                    tags: z.array(z.string()),
+                    updatedAt: z.iso.datetime(),
+                  })
+                ),
+                modifiedById: z.uuid(),
+                name: z.string().min(1),
+                owner: z.object({
+                  createdAt: z.iso.datetime(),
+                  email: z.email().min(1),
+                  id: z.uuid(),
+                  image: z.optional(z.string()),
+                  jobTitle: z.optional(z.string()),
+                  mfaEnabled: z.boolean().default(false),
+                  mfaVerified: z.boolean().default(false),
+                  modifiedById: z.uuid(),
+                  name: z.optional(z.string()),
+                  phone: z.optional(z.string()),
+                  primaryOrganizationId: z.optional(z.uuid()),
+                  tags: z.array(z.string()),
+                  updatedAt: z.iso.datetime(),
+                }),
+                ownerId: z.uuid(),
+                updatedAt: z.iso.datetime(),
+              })
+            )
+          ),
           phone: z.optional(z.string()),
           primaryOrganizationId: z.optional(z.uuid()),
+          roles: z.optional(
+            z.array(
+              z.object({
+                createdAt: z.iso.datetime(),
+                description: z.string(),
+                id: z.uuid(),
+                modifiedBy: z.optional(
+                  z.object({
+                    createdAt: z.iso.datetime(),
+                    email: z.email().min(1),
+                    id: z.uuid(),
+                    image: z.optional(z.string()),
+                    jobTitle: z.optional(z.string()),
+                    mfaEnabled: z.boolean().default(false),
+                    mfaVerified: z.boolean().default(false),
+                    modifiedById: z.uuid(),
+                    name: z.optional(z.string()),
+                    phone: z.optional(z.string()),
+                    primaryOrganizationId: z.optional(z.uuid()),
+                    tags: z.array(z.string()),
+                    updatedAt: z.iso.datetime(),
+                  })
+                ),
+                modifiedById: z.uuid(),
+                name: z.string().min(1),
+                permissions: z.array(z.string()).default([]),
+                updatedAt: z.iso.datetime(),
+              })
+            )
+          ),
           tags: z.array(z.string()),
           updatedAt: z.iso.datetime(),
         })
@@ -5527,8 +6502,83 @@ export const zGetApiMaterialsResponse = z.object({
         ),
         modifiedById: z.uuid(),
         name: z.optional(z.string()),
+        organizations: z.optional(
+          z.array(
+            z.object({
+              createdAt: z.iso.datetime(),
+              domain: z.string().min(1),
+              id: z.uuid(),
+              modifiedBy: z.optional(
+                z.object({
+                  createdAt: z.iso.datetime(),
+                  email: z.email().min(1),
+                  id: z.uuid(),
+                  image: z.optional(z.string()),
+                  jobTitle: z.optional(z.string()),
+                  mfaEnabled: z.boolean().default(false),
+                  mfaVerified: z.boolean().default(false),
+                  modifiedById: z.uuid(),
+                  name: z.optional(z.string()),
+                  phone: z.optional(z.string()),
+                  primaryOrganizationId: z.optional(z.uuid()),
+                  tags: z.array(z.string()),
+                  updatedAt: z.iso.datetime(),
+                })
+              ),
+              modifiedById: z.uuid(),
+              name: z.string().min(1),
+              owner: z.object({
+                createdAt: z.iso.datetime(),
+                email: z.email().min(1),
+                id: z.uuid(),
+                image: z.optional(z.string()),
+                jobTitle: z.optional(z.string()),
+                mfaEnabled: z.boolean().default(false),
+                mfaVerified: z.boolean().default(false),
+                modifiedById: z.uuid(),
+                name: z.optional(z.string()),
+                phone: z.optional(z.string()),
+                primaryOrganizationId: z.optional(z.uuid()),
+                tags: z.array(z.string()),
+                updatedAt: z.iso.datetime(),
+              }),
+              ownerId: z.uuid(),
+              updatedAt: z.iso.datetime(),
+            })
+          )
+        ),
         phone: z.optional(z.string()),
         primaryOrganizationId: z.optional(z.uuid()),
+        roles: z.optional(
+          z.array(
+            z.object({
+              createdAt: z.iso.datetime(),
+              description: z.string(),
+              id: z.uuid(),
+              modifiedBy: z.optional(
+                z.object({
+                  createdAt: z.iso.datetime(),
+                  email: z.email().min(1),
+                  id: z.uuid(),
+                  image: z.optional(z.string()),
+                  jobTitle: z.optional(z.string()),
+                  mfaEnabled: z.boolean().default(false),
+                  mfaVerified: z.boolean().default(false),
+                  modifiedById: z.uuid(),
+                  name: z.optional(z.string()),
+                  phone: z.optional(z.string()),
+                  primaryOrganizationId: z.optional(z.uuid()),
+                  tags: z.array(z.string()),
+                  updatedAt: z.iso.datetime(),
+                })
+              ),
+              modifiedById: z.uuid(),
+              name: z.string().min(1),
+              permissions: z.array(z.string()).default([]),
+              updatedAt: z.iso.datetime(),
+            })
+          )
+        ),
         tags: z.array(z.string()),
         updatedAt: z.iso.datetime(),
       }),
@@ -5910,8 +6960,83 @@ export const zGetApiMaterialsResponse = z.object({
           ),
           modifiedById: z.uuid(),
           name: z.optional(z.string()),
+          organizations: z.optional(
+            z.array(
+              z.object({
+                createdAt: z.iso.datetime(),
+                domain: z.string().min(1),
+                id: z.uuid(),
+                modifiedBy: z.optional(
+                  z.object({
+                    createdAt: z.iso.datetime(),
+                    email: z.email().min(1),
+                    id: z.uuid(),
+                    image: z.optional(z.string()),
+                    jobTitle: z.optional(z.string()),
+                    mfaEnabled: z.boolean().default(false),
+                    mfaVerified: z.boolean().default(false),
+                    modifiedById: z.uuid(),
+                    name: z.optional(z.string()),
+                    phone: z.optional(z.string()),
+                    primaryOrganizationId: z.optional(z.uuid()),
+                    tags: z.array(z.string()),
+                    updatedAt: z.iso.datetime(),
+                  })
+                ),
+                modifiedById: z.uuid(),
+                name: z.string().min(1),
+                owner: z.object({
+                  createdAt: z.iso.datetime(),
+                  email: z.email().min(1),
+                  id: z.uuid(),
+                  image: z.optional(z.string()),
+                  jobTitle: z.optional(z.string()),
+                  mfaEnabled: z.boolean().default(false),
+                  mfaVerified: z.boolean().default(false),
+                  modifiedById: z.uuid(),
+                  name: z.optional(z.string()),
+                  phone: z.optional(z.string()),
+                  primaryOrganizationId: z.optional(z.uuid()),
+                  tags: z.array(z.string()),
+                  updatedAt: z.iso.datetime(),
+                }),
+                ownerId: z.uuid(),
+                updatedAt: z.iso.datetime(),
+              })
+            )
+          ),
           phone: z.optional(z.string()),
           primaryOrganizationId: z.optional(z.uuid()),
+          roles: z.optional(
+            z.array(
+              z.object({
+                createdAt: z.iso.datetime(),
+                description: z.string(),
+                id: z.uuid(),
+                modifiedBy: z.optional(
+                  z.object({
+                    createdAt: z.iso.datetime(),
+                    email: z.email().min(1),
+                    id: z.uuid(),
+                    image: z.optional(z.string()),
+                    jobTitle: z.optional(z.string()),
+                    mfaEnabled: z.boolean().default(false),
+                    mfaVerified: z.boolean().default(false),
+                    modifiedById: z.uuid(),
+                    name: z.optional(z.string()),
+                    phone: z.optional(z.string()),
+                    primaryOrganizationId: z.optional(z.uuid()),
+                    tags: z.array(z.string()),
+                    updatedAt: z.iso.datetime(),
+                  })
+                ),
+                modifiedById: z.uuid(),
+                name: z.string().min(1),
+                permissions: z.array(z.string()).default([]),
+                updatedAt: z.iso.datetime(),
+              })
+            )
+          ),
           tags: z.array(z.string()),
           updatedAt: z.iso.datetime(),
         })
@@ -6358,8 +7483,83 @@ export const zGetApiMaterialsByIdResponse = z.object({
         ),
         modifiedById: z.uuid(),
         name: z.optional(z.string()),
+        organizations: z.optional(
+          z.array(
+            z.object({
+              createdAt: z.iso.datetime(),
+              domain: z.string().min(1),
+              id: z.uuid(),
+              modifiedBy: z.optional(
+                z.object({
+                  createdAt: z.iso.datetime(),
+                  email: z.email().min(1),
+                  id: z.uuid(),
+                  image: z.optional(z.string()),
+                  jobTitle: z.optional(z.string()),
+                  mfaEnabled: z.boolean().default(false),
+                  mfaVerified: z.boolean().default(false),
+                  modifiedById: z.uuid(),
+                  name: z.optional(z.string()),
+                  phone: z.optional(z.string()),
+                  primaryOrganizationId: z.optional(z.uuid()),
+                  tags: z.array(z.string()),
+                  updatedAt: z.iso.datetime(),
+                })
+              ),
+              modifiedById: z.uuid(),
+              name: z.string().min(1),
+              owner: z.object({
+                createdAt: z.iso.datetime(),
+                email: z.email().min(1),
+                id: z.uuid(),
+                image: z.optional(z.string()),
+                jobTitle: z.optional(z.string()),
+                mfaEnabled: z.boolean().default(false),
+                mfaVerified: z.boolean().default(false),
+                modifiedById: z.uuid(),
+                name: z.optional(z.string()),
+                phone: z.optional(z.string()),
+                primaryOrganizationId: z.optional(z.uuid()),
+                tags: z.array(z.string()),
+                updatedAt: z.iso.datetime(),
+              }),
+              ownerId: z.uuid(),
+              updatedAt: z.iso.datetime(),
+            })
+          )
+        ),
         phone: z.optional(z.string()),
         primaryOrganizationId: z.optional(z.uuid()),
+        roles: z.optional(
+          z.array(
+            z.object({
+              createdAt: z.iso.datetime(),
+              description: z.string(),
+              id: z.uuid(),
+              modifiedBy: z.optional(
+                z.object({
+                  createdAt: z.iso.datetime(),
+                  email: z.email().min(1),
+                  id: z.uuid(),
+                  image: z.optional(z.string()),
+                  jobTitle: z.optional(z.string()),
+                  mfaEnabled: z.boolean().default(false),
+                  mfaVerified: z.boolean().default(false),
+                  modifiedById: z.uuid(),
+                  name: z.optional(z.string()),
+                  phone: z.optional(z.string()),
+                  primaryOrganizationId: z.optional(z.uuid()),
+                  tags: z.array(z.string()),
+                  updatedAt: z.iso.datetime(),
+                })
+              ),
+              modifiedById: z.uuid(),
+              name: z.string().min(1),
+              permissions: z.array(z.string()).default([]),
+              updatedAt: z.iso.datetime(),
+            })
+          )
+        ),
         tags: z.array(z.string()),
         updatedAt: z.iso.datetime(),
       }),
@@ -6741,8 +7941,83 @@ export const zGetApiMaterialsByIdResponse = z.object({
           ),
           modifiedById: z.uuid(),
           name: z.optional(z.string()),
+          organizations: z.optional(
+            z.array(
+              z.object({
+                createdAt: z.iso.datetime(),
+                domain: z.string().min(1),
+                id: z.uuid(),
+                modifiedBy: z.optional(
+                  z.object({
+                    createdAt: z.iso.datetime(),
+                    email: z.email().min(1),
+                    id: z.uuid(),
+                    image: z.optional(z.string()),
+                    jobTitle: z.optional(z.string()),
+                    mfaEnabled: z.boolean().default(false),
+                    mfaVerified: z.boolean().default(false),
+                    modifiedById: z.uuid(),
+                    name: z.optional(z.string()),
+                    phone: z.optional(z.string()),
+                    primaryOrganizationId: z.optional(z.uuid()),
+                    tags: z.array(z.string()),
+                    updatedAt: z.iso.datetime(),
+                  })
+                ),
+                modifiedById: z.uuid(),
+                name: z.string().min(1),
+                owner: z.object({
+                  createdAt: z.iso.datetime(),
+                  email: z.email().min(1),
+                  id: z.uuid(),
+                  image: z.optional(z.string()),
+                  jobTitle: z.optional(z.string()),
+                  mfaEnabled: z.boolean().default(false),
+                  mfaVerified: z.boolean().default(false),
+                  modifiedById: z.uuid(),
+                  name: z.optional(z.string()),
+                  phone: z.optional(z.string()),
+                  primaryOrganizationId: z.optional(z.uuid()),
+                  tags: z.array(z.string()),
+                  updatedAt: z.iso.datetime(),
+                }),
+                ownerId: z.uuid(),
+                updatedAt: z.iso.datetime(),
+              })
+            )
+          ),
           phone: z.optional(z.string()),
           primaryOrganizationId: z.optional(z.uuid()),
+          roles: z.optional(
+            z.array(
+              z.object({
+                createdAt: z.iso.datetime(),
+                description: z.string(),
+                id: z.uuid(),
+                modifiedBy: z.optional(
+                  z.object({
+                    createdAt: z.iso.datetime(),
+                    email: z.email().min(1),
+                    id: z.uuid(),
+                    image: z.optional(z.string()),
+                    jobTitle: z.optional(z.string()),
+                    mfaEnabled: z.boolean().default(false),
+                    mfaVerified: z.boolean().default(false),
+                    modifiedById: z.uuid(),
+                    name: z.optional(z.string()),
+                    phone: z.optional(z.string()),
+                    primaryOrganizationId: z.optional(z.uuid()),
+                    tags: z.array(z.string()),
+                    updatedAt: z.iso.datetime(),
+                  })
+                ),
+                modifiedById: z.uuid(),
+                name: z.string().min(1),
+                permissions: z.array(z.string()).default([]),
+                updatedAt: z.iso.datetime(),
+              })
+            )
+          ),
           tags: z.array(z.string()),
           updatedAt: z.iso.datetime(),
         })
@@ -7186,8 +8461,83 @@ export const zGetApiNotificationsResponse = z.object({
         ),
         modifiedById: z.uuid(),
         name: z.optional(z.string()),
+        organizations: z.optional(
+          z.array(
+            z.object({
+              createdAt: z.iso.datetime(),
+              domain: z.string().min(1),
+              id: z.uuid(),
+              modifiedBy: z.optional(
+                z.object({
+                  createdAt: z.iso.datetime(),
+                  email: z.email().min(1),
+                  id: z.uuid(),
+                  image: z.optional(z.string()),
+                  jobTitle: z.optional(z.string()),
+                  mfaEnabled: z.boolean().default(false),
+                  mfaVerified: z.boolean().default(false),
+                  modifiedById: z.uuid(),
+                  name: z.optional(z.string()),
+                  phone: z.optional(z.string()),
+                  primaryOrganizationId: z.optional(z.uuid()),
+                  tags: z.array(z.string()),
+                  updatedAt: z.iso.datetime(),
+                })
+              ),
+              modifiedById: z.uuid(),
+              name: z.string().min(1),
+              owner: z.object({
+                createdAt: z.iso.datetime(),
+                email: z.email().min(1),
+                id: z.uuid(),
+                image: z.optional(z.string()),
+                jobTitle: z.optional(z.string()),
+                mfaEnabled: z.boolean().default(false),
+                mfaVerified: z.boolean().default(false),
+                modifiedById: z.uuid(),
+                name: z.optional(z.string()),
+                phone: z.optional(z.string()),
+                primaryOrganizationId: z.optional(z.uuid()),
+                tags: z.array(z.string()),
+                updatedAt: z.iso.datetime(),
+              }),
+              ownerId: z.uuid(),
+              updatedAt: z.iso.datetime(),
+            })
+          )
+        ),
         phone: z.optional(z.string()),
         primaryOrganizationId: z.optional(z.uuid()),
+        roles: z.optional(
+          z.array(
+            z.object({
+              createdAt: z.iso.datetime(),
+              description: z.string(),
+              id: z.uuid(),
+              modifiedBy: z.optional(
+                z.object({
+                  createdAt: z.iso.datetime(),
+                  email: z.email().min(1),
+                  id: z.uuid(),
+                  image: z.optional(z.string()),
+                  jobTitle: z.optional(z.string()),
+                  mfaEnabled: z.boolean().default(false),
+                  mfaVerified: z.boolean().default(false),
+                  modifiedById: z.uuid(),
+                  name: z.optional(z.string()),
+                  phone: z.optional(z.string()),
+                  primaryOrganizationId: z.optional(z.uuid()),
+                  tags: z.array(z.string()),
+                  updatedAt: z.iso.datetime(),
+                })
+              ),
+              modifiedById: z.uuid(),
+              name: z.string().min(1),
+              permissions: z.array(z.string()).default([]),
+              updatedAt: z.iso.datetime(),
+            })
+          )
+        ),
         tags: z.array(z.string()),
         updatedAt: z.iso.datetime(),
       }),
@@ -7569,8 +8919,83 @@ export const zGetApiNotificationsResponse = z.object({
           ),
           modifiedById: z.uuid(),
           name: z.optional(z.string()),
+          organizations: z.optional(
+            z.array(
+              z.object({
+                createdAt: z.iso.datetime(),
+                domain: z.string().min(1),
+                id: z.uuid(),
+                modifiedBy: z.optional(
+                  z.object({
+                    createdAt: z.iso.datetime(),
+                    email: z.email().min(1),
+                    id: z.uuid(),
+                    image: z.optional(z.string()),
+                    jobTitle: z.optional(z.string()),
+                    mfaEnabled: z.boolean().default(false),
+                    mfaVerified: z.boolean().default(false),
+                    modifiedById: z.uuid(),
+                    name: z.optional(z.string()),
+                    phone: z.optional(z.string()),
+                    primaryOrganizationId: z.optional(z.uuid()),
+                    tags: z.array(z.string()),
+                    updatedAt: z.iso.datetime(),
+                  })
+                ),
+                modifiedById: z.uuid(),
+                name: z.string().min(1),
+                owner: z.object({
+                  createdAt: z.iso.datetime(),
+                  email: z.email().min(1),
+                  id: z.uuid(),
+                  image: z.optional(z.string()),
+                  jobTitle: z.optional(z.string()),
+                  mfaEnabled: z.boolean().default(false),
+                  mfaVerified: z.boolean().default(false),
+                  modifiedById: z.uuid(),
+                  name: z.optional(z.string()),
+                  phone: z.optional(z.string()),
+                  primaryOrganizationId: z.optional(z.uuid()),
+                  tags: z.array(z.string()),
+                  updatedAt: z.iso.datetime(),
+                }),
+                ownerId: z.uuid(),
+                updatedAt: z.iso.datetime(),
+              })
+            )
+          ),
           phone: z.optional(z.string()),
           primaryOrganizationId: z.optional(z.uuid()),
+          roles: z.optional(
+            z.array(
+              z.object({
+                createdAt: z.iso.datetime(),
+                description: z.string(),
+                id: z.uuid(),
+                modifiedBy: z.optional(
+                  z.object({
+                    createdAt: z.iso.datetime(),
+                    email: z.email().min(1),
+                    id: z.uuid(),
+                    image: z.optional(z.string()),
+                    jobTitle: z.optional(z.string()),
+                    mfaEnabled: z.boolean().default(false),
+                    mfaVerified: z.boolean().default(false),
+                    modifiedById: z.uuid(),
+                    name: z.optional(z.string()),
+                    phone: z.optional(z.string()),
+                    primaryOrganizationId: z.optional(z.uuid()),
+                    tags: z.array(z.string()),
+                    updatedAt: z.iso.datetime(),
+                  })
+                ),
+                modifiedById: z.uuid(),
+                name: z.string().min(1),
+                permissions: z.array(z.string()).default([]),
+                updatedAt: z.iso.datetime(),
+              })
+            )
+          ),
           tags: z.array(z.string()),
           updatedAt: z.iso.datetime(),
         })
@@ -8024,8 +9449,83 @@ export const zGetApiNotificationsByIdResponse = z.object({
         ),
         modifiedById: z.uuid(),
         name: z.optional(z.string()),
+        organizations: z.optional(
+          z.array(
+            z.object({
+              createdAt: z.iso.datetime(),
+              domain: z.string().min(1),
+              id: z.uuid(),
+              modifiedBy: z.optional(
+                z.object({
+                  createdAt: z.iso.datetime(),
+                  email: z.email().min(1),
+                  id: z.uuid(),
+                  image: z.optional(z.string()),
+                  jobTitle: z.optional(z.string()),
+                  mfaEnabled: z.boolean().default(false),
+                  mfaVerified: z.boolean().default(false),
+                  modifiedById: z.uuid(),
+                  name: z.optional(z.string()),
+                  phone: z.optional(z.string()),
+                  primaryOrganizationId: z.optional(z.uuid()),
+                  tags: z.array(z.string()),
+                  updatedAt: z.iso.datetime(),
+                })
+              ),
+              modifiedById: z.uuid(),
+              name: z.string().min(1),
+              owner: z.object({
+                createdAt: z.iso.datetime(),
+                email: z.email().min(1),
+                id: z.uuid(),
+                image: z.optional(z.string()),
+                jobTitle: z.optional(z.string()),
+                mfaEnabled: z.boolean().default(false),
+                mfaVerified: z.boolean().default(false),
+                modifiedById: z.uuid(),
+                name: z.optional(z.string()),
+                phone: z.optional(z.string()),
+                primaryOrganizationId: z.optional(z.uuid()),
+                tags: z.array(z.string()),
+                updatedAt: z.iso.datetime(),
+              }),
+              ownerId: z.uuid(),
+              updatedAt: z.iso.datetime(),
+            })
+          )
+        ),
         phone: z.optional(z.string()),
         primaryOrganizationId: z.optional(z.uuid()),
+        roles: z.optional(
+          z.array(
+            z.object({
+              createdAt: z.iso.datetime(),
+              description: z.string(),
+              id: z.uuid(),
+              modifiedBy: z.optional(
+                z.object({
+                  createdAt: z.iso.datetime(),
+                  email: z.email().min(1),
+                  id: z.uuid(),
+                  image: z.optional(z.string()),
+                  jobTitle: z.optional(z.string()),
+                  mfaEnabled: z.boolean().default(false),
+                  mfaVerified: z.boolean().default(false),
+                  modifiedById: z.uuid(),
+                  name: z.optional(z.string()),
+                  phone: z.optional(z.string()),
+                  primaryOrganizationId: z.optional(z.uuid()),
+                  tags: z.array(z.string()),
+                  updatedAt: z.iso.datetime(),
+                })
+              ),
+              modifiedById: z.uuid(),
+              name: z.string().min(1),
+              permissions: z.array(z.string()).default([]),
+              updatedAt: z.iso.datetime(),
+            })
+          )
+        ),
         tags: z.array(z.string()),
         updatedAt: z.iso.datetime(),
       }),
@@ -8407,8 +9907,83 @@ export const zGetApiNotificationsByIdResponse = z.object({
           ),
           modifiedById: z.uuid(),
           name: z.optional(z.string()),
+          organizations: z.optional(
+            z.array(
+              z.object({
+                createdAt: z.iso.datetime(),
+                domain: z.string().min(1),
+                id: z.uuid(),
+                modifiedBy: z.optional(
+                  z.object({
+                    createdAt: z.iso.datetime(),
+                    email: z.email().min(1),
+                    id: z.uuid(),
+                    image: z.optional(z.string()),
+                    jobTitle: z.optional(z.string()),
+                    mfaEnabled: z.boolean().default(false),
+                    mfaVerified: z.boolean().default(false),
+                    modifiedById: z.uuid(),
+                    name: z.optional(z.string()),
+                    phone: z.optional(z.string()),
+                    primaryOrganizationId: z.optional(z.uuid()),
+                    tags: z.array(z.string()),
+                    updatedAt: z.iso.datetime(),
+                  })
+                ),
+                modifiedById: z.uuid(),
+                name: z.string().min(1),
+                owner: z.object({
+                  createdAt: z.iso.datetime(),
+                  email: z.email().min(1),
+                  id: z.uuid(),
+                  image: z.optional(z.string()),
+                  jobTitle: z.optional(z.string()),
+                  mfaEnabled: z.boolean().default(false),
+                  mfaVerified: z.boolean().default(false),
+                  modifiedById: z.uuid(),
+                  name: z.optional(z.string()),
+                  phone: z.optional(z.string()),
+                  primaryOrganizationId: z.optional(z.uuid()),
+                  tags: z.array(z.string()),
+                  updatedAt: z.iso.datetime(),
+                }),
+                ownerId: z.uuid(),
+                updatedAt: z.iso.datetime(),
+              })
+            )
+          ),
           phone: z.optional(z.string()),
           primaryOrganizationId: z.optional(z.uuid()),
+          roles: z.optional(
+            z.array(
+              z.object({
+                createdAt: z.iso.datetime(),
+                description: z.string(),
+                id: z.uuid(),
+                modifiedBy: z.optional(
+                  z.object({
+                    createdAt: z.iso.datetime(),
+                    email: z.email().min(1),
+                    id: z.uuid(),
+                    image: z.optional(z.string()),
+                    jobTitle: z.optional(z.string()),
+                    mfaEnabled: z.boolean().default(false),
+                    mfaVerified: z.boolean().default(false),
+                    modifiedById: z.uuid(),
+                    name: z.optional(z.string()),
+                    phone: z.optional(z.string()),
+                    primaryOrganizationId: z.optional(z.uuid()),
+                    tags: z.array(z.string()),
+                    updatedAt: z.iso.datetime(),
+                  })
+                ),
+                modifiedById: z.uuid(),
+                name: z.string().min(1),
+                permissions: z.array(z.string()).default([]),
+                updatedAt: z.iso.datetime(),
+              })
+            )
+          ),
           tags: z.array(z.string()),
           updatedAt: z.iso.datetime(),
         })
@@ -8862,8 +10437,83 @@ export const zGetApiOrganizationsResponse = z.object({
         ),
         modifiedById: z.uuid(),
         name: z.optional(z.string()),
+        organizations: z.optional(
+          z.array(
+            z.object({
+              createdAt: z.iso.datetime(),
+              domain: z.string().min(1),
+              id: z.uuid(),
+              modifiedBy: z.optional(
+                z.object({
+                  createdAt: z.iso.datetime(),
+                  email: z.email().min(1),
+                  id: z.uuid(),
+                  image: z.optional(z.string()),
+                  jobTitle: z.optional(z.string()),
+                  mfaEnabled: z.boolean().default(false),
+                  mfaVerified: z.boolean().default(false),
+                  modifiedById: z.uuid(),
+                  name: z.optional(z.string()),
+                  phone: z.optional(z.string()),
+                  primaryOrganizationId: z.optional(z.uuid()),
+                  tags: z.array(z.string()),
+                  updatedAt: z.iso.datetime(),
+                })
+              ),
+              modifiedById: z.uuid(),
+              name: z.string().min(1),
+              owner: z.object({
+                createdAt: z.iso.datetime(),
+                email: z.email().min(1),
+                id: z.uuid(),
+                image: z.optional(z.string()),
+                jobTitle: z.optional(z.string()),
+                mfaEnabled: z.boolean().default(false),
+                mfaVerified: z.boolean().default(false),
+                modifiedById: z.uuid(),
+                name: z.optional(z.string()),
+                phone: z.optional(z.string()),
+                primaryOrganizationId: z.optional(z.uuid()),
+                tags: z.array(z.string()),
+                updatedAt: z.iso.datetime(),
+              }),
+              ownerId: z.uuid(),
+              updatedAt: z.iso.datetime(),
+            })
+          )
+        ),
         phone: z.optional(z.string()),
         primaryOrganizationId: z.optional(z.uuid()),
+        roles: z.optional(
+          z.array(
+            z.object({
+              createdAt: z.iso.datetime(),
+              description: z.string(),
+              id: z.uuid(),
+              modifiedBy: z.optional(
+                z.object({
+                  createdAt: z.iso.datetime(),
+                  email: z.email().min(1),
+                  id: z.uuid(),
+                  image: z.optional(z.string()),
+                  jobTitle: z.optional(z.string()),
+                  mfaEnabled: z.boolean().default(false),
+                  mfaVerified: z.boolean().default(false),
+                  modifiedById: z.uuid(),
+                  name: z.optional(z.string()),
+                  phone: z.optional(z.string()),
+                  primaryOrganizationId: z.optional(z.uuid()),
+                  tags: z.array(z.string()),
+                  updatedAt: z.iso.datetime(),
+                })
+              ),
+              modifiedById: z.uuid(),
+              name: z.string().min(1),
+              permissions: z.array(z.string()).default([]),
+              updatedAt: z.iso.datetime(),
+            })
+          )
+        ),
         tags: z.array(z.string()),
         updatedAt: z.iso.datetime(),
       }),
@@ -9245,8 +10895,83 @@ export const zGetApiOrganizationsResponse = z.object({
           ),
           modifiedById: z.uuid(),
           name: z.optional(z.string()),
+          organizations: z.optional(
+            z.array(
+              z.object({
+                createdAt: z.iso.datetime(),
+                domain: z.string().min(1),
+                id: z.uuid(),
+                modifiedBy: z.optional(
+                  z.object({
+                    createdAt: z.iso.datetime(),
+                    email: z.email().min(1),
+                    id: z.uuid(),
+                    image: z.optional(z.string()),
+                    jobTitle: z.optional(z.string()),
+                    mfaEnabled: z.boolean().default(false),
+                    mfaVerified: z.boolean().default(false),
+                    modifiedById: z.uuid(),
+                    name: z.optional(z.string()),
+                    phone: z.optional(z.string()),
+                    primaryOrganizationId: z.optional(z.uuid()),
+                    tags: z.array(z.string()),
+                    updatedAt: z.iso.datetime(),
+                  })
+                ),
+                modifiedById: z.uuid(),
+                name: z.string().min(1),
+                owner: z.object({
+                  createdAt: z.iso.datetime(),
+                  email: z.email().min(1),
+                  id: z.uuid(),
+                  image: z.optional(z.string()),
+                  jobTitle: z.optional(z.string()),
+                  mfaEnabled: z.boolean().default(false),
+                  mfaVerified: z.boolean().default(false),
+                  modifiedById: z.uuid(),
+                  name: z.optional(z.string()),
+                  phone: z.optional(z.string()),
+                  primaryOrganizationId: z.optional(z.uuid()),
+                  tags: z.array(z.string()),
+                  updatedAt: z.iso.datetime(),
+                }),
+                ownerId: z.uuid(),
+                updatedAt: z.iso.datetime(),
+              })
+            )
+          ),
           phone: z.optional(z.string()),
           primaryOrganizationId: z.optional(z.uuid()),
+          roles: z.optional(
+            z.array(
+              z.object({
+                createdAt: z.iso.datetime(),
+                description: z.string(),
+                id: z.uuid(),
+                modifiedBy: z.optional(
+                  z.object({
+                    createdAt: z.iso.datetime(),
+                    email: z.email().min(1),
+                    id: z.uuid(),
+                    image: z.optional(z.string()),
+                    jobTitle: z.optional(z.string()),
+                    mfaEnabled: z.boolean().default(false),
+                    mfaVerified: z.boolean().default(false),
+                    modifiedById: z.uuid(),
+                    name: z.optional(z.string()),
+                    phone: z.optional(z.string()),
+                    primaryOrganizationId: z.optional(z.uuid()),
+                    tags: z.array(z.string()),
+                    updatedAt: z.iso.datetime(),
+                  })
+                ),
+                modifiedById: z.uuid(),
+                name: z.string().min(1),
+                permissions: z.array(z.string()).default([]),
+                updatedAt: z.iso.datetime(),
+              })
+            )
+          ),
           tags: z.array(z.string()),
           updatedAt: z.iso.datetime(),
         })
@@ -9709,8 +11434,83 @@ export const zGetApiOrganizationsByIdResponse = z.object({
         ),
         modifiedById: z.uuid(),
         name: z.optional(z.string()),
+        organizations: z.optional(
+          z.array(
+            z.object({
+              createdAt: z.iso.datetime(),
+              domain: z.string().min(1),
+              id: z.uuid(),
+              modifiedBy: z.optional(
+                z.object({
+                  createdAt: z.iso.datetime(),
+                  email: z.email().min(1),
+                  id: z.uuid(),
+                  image: z.optional(z.string()),
+                  jobTitle: z.optional(z.string()),
+                  mfaEnabled: z.boolean().default(false),
+                  mfaVerified: z.boolean().default(false),
+                  modifiedById: z.uuid(),
+                  name: z.optional(z.string()),
+                  phone: z.optional(z.string()),
+                  primaryOrganizationId: z.optional(z.uuid()),
+                  tags: z.array(z.string()),
+                  updatedAt: z.iso.datetime(),
+                })
+              ),
+              modifiedById: z.uuid(),
+              name: z.string().min(1),
+              owner: z.object({
+                createdAt: z.iso.datetime(),
+                email: z.email().min(1),
+                id: z.uuid(),
+                image: z.optional(z.string()),
+                jobTitle: z.optional(z.string()),
+                mfaEnabled: z.boolean().default(false),
+                mfaVerified: z.boolean().default(false),
+                modifiedById: z.uuid(),
+                name: z.optional(z.string()),
+                phone: z.optional(z.string()),
+                primaryOrganizationId: z.optional(z.uuid()),
+                tags: z.array(z.string()),
+                updatedAt: z.iso.datetime(),
+              }),
+              ownerId: z.uuid(),
+              updatedAt: z.iso.datetime(),
+            })
+          )
+        ),
         phone: z.optional(z.string()),
         primaryOrganizationId: z.optional(z.uuid()),
+        roles: z.optional(
+          z.array(
+            z.object({
+              createdAt: z.iso.datetime(),
+              description: z.string(),
+              id: z.uuid(),
+              modifiedBy: z.optional(
+                z.object({
+                  createdAt: z.iso.datetime(),
+                  email: z.email().min(1),
+                  id: z.uuid(),
+                  image: z.optional(z.string()),
+                  jobTitle: z.optional(z.string()),
+                  mfaEnabled: z.boolean().default(false),
+                  mfaVerified: z.boolean().default(false),
+                  modifiedById: z.uuid(),
+                  name: z.optional(z.string()),
+                  phone: z.optional(z.string()),
+                  primaryOrganizationId: z.optional(z.uuid()),
+                  tags: z.array(z.string()),
+                  updatedAt: z.iso.datetime(),
+                })
+              ),
+              modifiedById: z.uuid(),
+              name: z.string().min(1),
+              permissions: z.array(z.string()).default([]),
+              updatedAt: z.iso.datetime(),
+            })
+          )
+        ),
         tags: z.array(z.string()),
         updatedAt: z.iso.datetime(),
       }),
@@ -10092,8 +11892,83 @@ export const zGetApiOrganizationsByIdResponse = z.object({
           ),
           modifiedById: z.uuid(),
           name: z.optional(z.string()),
+          organizations: z.optional(
+            z.array(
+              z.object({
+                createdAt: z.iso.datetime(),
+                domain: z.string().min(1),
+                id: z.uuid(),
+                modifiedBy: z.optional(
+                  z.object({
+                    createdAt: z.iso.datetime(),
+                    email: z.email().min(1),
+                    id: z.uuid(),
+                    image: z.optional(z.string()),
+                    jobTitle: z.optional(z.string()),
+                    mfaEnabled: z.boolean().default(false),
+                    mfaVerified: z.boolean().default(false),
+                    modifiedById: z.uuid(),
+                    name: z.optional(z.string()),
+                    phone: z.optional(z.string()),
+                    primaryOrganizationId: z.optional(z.uuid()),
+                    tags: z.array(z.string()),
+                    updatedAt: z.iso.datetime(),
+                  })
+                ),
+                modifiedById: z.uuid(),
+                name: z.string().min(1),
+                owner: z.object({
+                  createdAt: z.iso.datetime(),
+                  email: z.email().min(1),
+                  id: z.uuid(),
+                  image: z.optional(z.string()),
+                  jobTitle: z.optional(z.string()),
+                  mfaEnabled: z.boolean().default(false),
+                  mfaVerified: z.boolean().default(false),
+                  modifiedById: z.uuid(),
+                  name: z.optional(z.string()),
+                  phone: z.optional(z.string()),
+                  primaryOrganizationId: z.optional(z.uuid()),
+                  tags: z.array(z.string()),
+                  updatedAt: z.iso.datetime(),
+                }),
+                ownerId: z.uuid(),
+                updatedAt: z.iso.datetime(),
+              })
+            )
+          ),
           phone: z.optional(z.string()),
           primaryOrganizationId: z.optional(z.uuid()),
+          roles: z.optional(
+            z.array(
+              z.object({
+                createdAt: z.iso.datetime(),
+                description: z.string(),
+                id: z.uuid(),
+                modifiedBy: z.optional(
+                  z.object({
+                    createdAt: z.iso.datetime(),
+                    email: z.email().min(1),
+                    id: z.uuid(),
+                    image: z.optional(z.string()),
+                    jobTitle: z.optional(z.string()),
+                    mfaEnabled: z.boolean().default(false),
+                    mfaVerified: z.boolean().default(false),
+                    modifiedById: z.uuid(),
+                    name: z.optional(z.string()),
+                    phone: z.optional(z.string()),
+                    primaryOrganizationId: z.optional(z.uuid()),
+                    tags: z.array(z.string()),
+                    updatedAt: z.iso.datetime(),
+                  })
+                ),
+                modifiedById: z.uuid(),
+                name: z.string().min(1),
+                permissions: z.array(z.string()).default([]),
+                updatedAt: z.iso.datetime(),
+              })
+            )
+          ),
           tags: z.array(z.string()),
           updatedAt: z.iso.datetime(),
         })
@@ -10543,8 +12418,83 @@ export const zGetApiProductsResponse = z.object({
         ),
         modifiedById: z.uuid(),
         name: z.optional(z.string()),
+        organizations: z.optional(
+          z.array(
+            z.object({
+              createdAt: z.iso.datetime(),
+              domain: z.string().min(1),
+              id: z.uuid(),
+              modifiedBy: z.optional(
+                z.object({
+                  createdAt: z.iso.datetime(),
+                  email: z.email().min(1),
+                  id: z.uuid(),
+                  image: z.optional(z.string()),
+                  jobTitle: z.optional(z.string()),
+                  mfaEnabled: z.boolean().default(false),
+                  mfaVerified: z.boolean().default(false),
+                  modifiedById: z.uuid(),
+                  name: z.optional(z.string()),
+                  phone: z.optional(z.string()),
+                  primaryOrganizationId: z.optional(z.uuid()),
+                  tags: z.array(z.string()),
+                  updatedAt: z.iso.datetime(),
+                })
+              ),
+              modifiedById: z.uuid(),
+              name: z.string().min(1),
+              owner: z.object({
+                createdAt: z.iso.datetime(),
+                email: z.email().min(1),
+                id: z.uuid(),
+                image: z.optional(z.string()),
+                jobTitle: z.optional(z.string()),
+                mfaEnabled: z.boolean().default(false),
+                mfaVerified: z.boolean().default(false),
+                modifiedById: z.uuid(),
+                name: z.optional(z.string()),
+                phone: z.optional(z.string()),
+                primaryOrganizationId: z.optional(z.uuid()),
+                tags: z.array(z.string()),
+                updatedAt: z.iso.datetime(),
+              }),
+              ownerId: z.uuid(),
+              updatedAt: z.iso.datetime(),
+            })
+          )
+        ),
         phone: z.optional(z.string()),
         primaryOrganizationId: z.optional(z.uuid()),
+        roles: z.optional(
+          z.array(
+            z.object({
+              createdAt: z.iso.datetime(),
+              description: z.string(),
+              id: z.uuid(),
+              modifiedBy: z.optional(
+                z.object({
+                  createdAt: z.iso.datetime(),
+                  email: z.email().min(1),
+                  id: z.uuid(),
+                  image: z.optional(z.string()),
+                  jobTitle: z.optional(z.string()),
+                  mfaEnabled: z.boolean().default(false),
+                  mfaVerified: z.boolean().default(false),
+                  modifiedById: z.uuid(),
+                  name: z.optional(z.string()),
+                  phone: z.optional(z.string()),
+                  primaryOrganizationId: z.optional(z.uuid()),
+                  tags: z.array(z.string()),
+                  updatedAt: z.iso.datetime(),
+                })
+              ),
+              modifiedById: z.uuid(),
+              name: z.string().min(1),
+              permissions: z.array(z.string()).default([]),
+              updatedAt: z.iso.datetime(),
+            })
+          )
+        ),
         tags: z.array(z.string()),
         updatedAt: z.iso.datetime(),
       }),
@@ -10926,8 +12876,83 @@ export const zGetApiProductsResponse = z.object({
           ),
           modifiedById: z.uuid(),
           name: z.optional(z.string()),
+          organizations: z.optional(
+            z.array(
+              z.object({
+                createdAt: z.iso.datetime(),
+                domain: z.string().min(1),
+                id: z.uuid(),
+                modifiedBy: z.optional(
+                  z.object({
+                    createdAt: z.iso.datetime(),
+                    email: z.email().min(1),
+                    id: z.uuid(),
+                    image: z.optional(z.string()),
+                    jobTitle: z.optional(z.string()),
+                    mfaEnabled: z.boolean().default(false),
+                    mfaVerified: z.boolean().default(false),
+                    modifiedById: z.uuid(),
+                    name: z.optional(z.string()),
+                    phone: z.optional(z.string()),
+                    primaryOrganizationId: z.optional(z.uuid()),
+                    tags: z.array(z.string()),
+                    updatedAt: z.iso.datetime(),
+                  })
+                ),
+                modifiedById: z.uuid(),
+                name: z.string().min(1),
+                owner: z.object({
+                  createdAt: z.iso.datetime(),
+                  email: z.email().min(1),
+                  id: z.uuid(),
+                  image: z.optional(z.string()),
+                  jobTitle: z.optional(z.string()),
+                  mfaEnabled: z.boolean().default(false),
+                  mfaVerified: z.boolean().default(false),
+                  modifiedById: z.uuid(),
+                  name: z.optional(z.string()),
+                  phone: z.optional(z.string()),
+                  primaryOrganizationId: z.optional(z.uuid()),
+                  tags: z.array(z.string()),
+                  updatedAt: z.iso.datetime(),
+                }),
+                ownerId: z.uuid(),
+                updatedAt: z.iso.datetime(),
+              })
+            )
+          ),
           phone: z.optional(z.string()),
           primaryOrganizationId: z.optional(z.uuid()),
+          roles: z.optional(
+            z.array(
+              z.object({
+                createdAt: z.iso.datetime(),
+                description: z.string(),
+                id: z.uuid(),
+                modifiedBy: z.optional(
+                  z.object({
+                    createdAt: z.iso.datetime(),
+                    email: z.email().min(1),
+                    id: z.uuid(),
+                    image: z.optional(z.string()),
+                    jobTitle: z.optional(z.string()),
+                    mfaEnabled: z.boolean().default(false),
+                    mfaVerified: z.boolean().default(false),
+                    modifiedById: z.uuid(),
+                    name: z.optional(z.string()),
+                    phone: z.optional(z.string()),
+                    primaryOrganizationId: z.optional(z.uuid()),
+                    tags: z.array(z.string()),
+                    updatedAt: z.iso.datetime(),
+                  })
+                ),
+                modifiedById: z.uuid(),
+                name: z.string().min(1),
+                permissions: z.array(z.string()).default([]),
+                updatedAt: z.iso.datetime(),
+              })
+            )
+          ),
           tags: z.array(z.string()),
           updatedAt: z.iso.datetime(),
         })
@@ -11374,8 +13399,83 @@ export const zGetApiProductsByIdResponse = z.object({
         ),
         modifiedById: z.uuid(),
         name: z.optional(z.string()),
+        organizations: z.optional(
+          z.array(
+            z.object({
+              createdAt: z.iso.datetime(),
+              domain: z.string().min(1),
+              id: z.uuid(),
+              modifiedBy: z.optional(
+                z.object({
+                  createdAt: z.iso.datetime(),
+                  email: z.email().min(1),
+                  id: z.uuid(),
+                  image: z.optional(z.string()),
+                  jobTitle: z.optional(z.string()),
+                  mfaEnabled: z.boolean().default(false),
+                  mfaVerified: z.boolean().default(false),
+                  modifiedById: z.uuid(),
+                  name: z.optional(z.string()),
+                  phone: z.optional(z.string()),
+                  primaryOrganizationId: z.optional(z.uuid()),
+                  tags: z.array(z.string()),
+                  updatedAt: z.iso.datetime(),
+                })
+              ),
+              modifiedById: z.uuid(),
+              name: z.string().min(1),
+              owner: z.object({
+                createdAt: z.iso.datetime(),
+                email: z.email().min(1),
+                id: z.uuid(),
+                image: z.optional(z.string()),
+                jobTitle: z.optional(z.string()),
+                mfaEnabled: z.boolean().default(false),
+                mfaVerified: z.boolean().default(false),
+                modifiedById: z.uuid(),
+                name: z.optional(z.string()),
+                phone: z.optional(z.string()),
+                primaryOrganizationId: z.optional(z.uuid()),
+                tags: z.array(z.string()),
+                updatedAt: z.iso.datetime(),
+              }),
+              ownerId: z.uuid(),
+              updatedAt: z.iso.datetime(),
+            })
+          )
+        ),
         phone: z.optional(z.string()),
         primaryOrganizationId: z.optional(z.uuid()),
+        roles: z.optional(
+          z.array(
+            z.object({
+              createdAt: z.iso.datetime(),
+              description: z.string(),
+              id: z.uuid(),
+              modifiedBy: z.optional(
+                z.object({
+                  createdAt: z.iso.datetime(),
+                  email: z.email().min(1),
+                  id: z.uuid(),
+                  image: z.optional(z.string()),
+                  jobTitle: z.optional(z.string()),
+                  mfaEnabled: z.boolean().default(false),
+                  mfaVerified: z.boolean().default(false),
+                  modifiedById: z.uuid(),
+                  name: z.optional(z.string()),
+                  phone: z.optional(z.string()),
+                  primaryOrganizationId: z.optional(z.uuid()),
+                  tags: z.array(z.string()),
+                  updatedAt: z.iso.datetime(),
+                })
+              ),
+              modifiedById: z.uuid(),
+              name: z.string().min(1),
+              permissions: z.array(z.string()).default([]),
+              updatedAt: z.iso.datetime(),
+            })
+          )
+        ),
         tags: z.array(z.string()),
         updatedAt: z.iso.datetime(),
       }),
@@ -11757,8 +13857,83 @@ export const zGetApiProductsByIdResponse = z.object({
           ),
           modifiedById: z.uuid(),
           name: z.optional(z.string()),
+          organizations: z.optional(
+            z.array(
+              z.object({
+                createdAt: z.iso.datetime(),
+                domain: z.string().min(1),
+                id: z.uuid(),
+                modifiedBy: z.optional(
+                  z.object({
+                    createdAt: z.iso.datetime(),
+                    email: z.email().min(1),
+                    id: z.uuid(),
+                    image: z.optional(z.string()),
+                    jobTitle: z.optional(z.string()),
+                    mfaEnabled: z.boolean().default(false),
+                    mfaVerified: z.boolean().default(false),
+                    modifiedById: z.uuid(),
+                    name: z.optional(z.string()),
+                    phone: z.optional(z.string()),
+                    primaryOrganizationId: z.optional(z.uuid()),
+                    tags: z.array(z.string()),
+                    updatedAt: z.iso.datetime(),
+                  })
+                ),
+                modifiedById: z.uuid(),
+                name: z.string().min(1),
+                owner: z.object({
+                  createdAt: z.iso.datetime(),
+                  email: z.email().min(1),
+                  id: z.uuid(),
+                  image: z.optional(z.string()),
+                  jobTitle: z.optional(z.string()),
+                  mfaEnabled: z.boolean().default(false),
+                  mfaVerified: z.boolean().default(false),
+                  modifiedById: z.uuid(),
+                  name: z.optional(z.string()),
+                  phone: z.optional(z.string()),
+                  primaryOrganizationId: z.optional(z.uuid()),
+                  tags: z.array(z.string()),
+                  updatedAt: z.iso.datetime(),
+                }),
+                ownerId: z.uuid(),
+                updatedAt: z.iso.datetime(),
+              })
+            )
+          ),
           phone: z.optional(z.string()),
           primaryOrganizationId: z.optional(z.uuid()),
+          roles: z.optional(
+            z.array(
+              z.object({
+                createdAt: z.iso.datetime(),
+                description: z.string(),
+                id: z.uuid(),
+                modifiedBy: z.optional(
+                  z.object({
+                    createdAt: z.iso.datetime(),
+                    email: z.email().min(1),
+                    id: z.uuid(),
+                    image: z.optional(z.string()),
+                    jobTitle: z.optional(z.string()),
+                    mfaEnabled: z.boolean().default(false),
+                    mfaVerified: z.boolean().default(false),
+                    modifiedById: z.uuid(),
+                    name: z.optional(z.string()),
+                    phone: z.optional(z.string()),
+                    primaryOrganizationId: z.optional(z.uuid()),
+                    tags: z.array(z.string()),
+                    updatedAt: z.iso.datetime(),
+                  })
+                ),
+                modifiedById: z.uuid(),
+                name: z.string().min(1),
+                permissions: z.array(z.string()).default([]),
+                updatedAt: z.iso.datetime(),
+              })
+            )
+          ),
           tags: z.array(z.string()),
           updatedAt: z.iso.datetime(),
         })
@@ -12202,8 +14377,83 @@ export const zGetApiRolesResponse = z.object({
         ),
         modifiedById: z.uuid(),
         name: z.optional(z.string()),
+        organizations: z.optional(
+          z.array(
+            z.object({
+              createdAt: z.iso.datetime(),
+              domain: z.string().min(1),
+              id: z.uuid(),
+              modifiedBy: z.optional(
+                z.object({
+                  createdAt: z.iso.datetime(),
+                  email: z.email().min(1),
+                  id: z.uuid(),
+                  image: z.optional(z.string()),
+                  jobTitle: z.optional(z.string()),
+                  mfaEnabled: z.boolean().default(false),
+                  mfaVerified: z.boolean().default(false),
+                  modifiedById: z.uuid(),
+                  name: z.optional(z.string()),
+                  phone: z.optional(z.string()),
+                  primaryOrganizationId: z.optional(z.uuid()),
+                  tags: z.array(z.string()),
+                  updatedAt: z.iso.datetime(),
+                })
+              ),
+              modifiedById: z.uuid(),
+              name: z.string().min(1),
+              owner: z.object({
+                createdAt: z.iso.datetime(),
+                email: z.email().min(1),
+                id: z.uuid(),
+                image: z.optional(z.string()),
+                jobTitle: z.optional(z.string()),
+                mfaEnabled: z.boolean().default(false),
+                mfaVerified: z.boolean().default(false),
+                modifiedById: z.uuid(),
+                name: z.optional(z.string()),
+                phone: z.optional(z.string()),
+                primaryOrganizationId: z.optional(z.uuid()),
+                tags: z.array(z.string()),
+                updatedAt: z.iso.datetime(),
+              }),
+              ownerId: z.uuid(),
+              updatedAt: z.iso.datetime(),
+            })
+          )
+        ),
         phone: z.optional(z.string()),
         primaryOrganizationId: z.optional(z.uuid()),
+        roles: z.optional(
+          z.array(
+            z.object({
+              createdAt: z.iso.datetime(),
+              description: z.string(),
+              id: z.uuid(),
+              modifiedBy: z.optional(
+                z.object({
+                  createdAt: z.iso.datetime(),
+                  email: z.email().min(1),
+                  id: z.uuid(),
+                  image: z.optional(z.string()),
+                  jobTitle: z.optional(z.string()),
+                  mfaEnabled: z.boolean().default(false),
+                  mfaVerified: z.boolean().default(false),
+                  modifiedById: z.uuid(),
+                  name: z.optional(z.string()),
+                  phone: z.optional(z.string()),
+                  primaryOrganizationId: z.optional(z.uuid()),
+                  tags: z.array(z.string()),
+                  updatedAt: z.iso.datetime(),
+                })
+              ),
+              modifiedById: z.uuid(),
+              name: z.string().min(1),
+              permissions: z.array(z.string()).default([]),
+              updatedAt: z.iso.datetime(),
+            })
+          )
+        ),
         tags: z.array(z.string()),
         updatedAt: z.iso.datetime(),
       }),
@@ -12585,8 +14835,83 @@ export const zGetApiRolesResponse = z.object({
           ),
           modifiedById: z.uuid(),
           name: z.optional(z.string()),
+          organizations: z.optional(
+            z.array(
+              z.object({
+                createdAt: z.iso.datetime(),
+                domain: z.string().min(1),
+                id: z.uuid(),
+                modifiedBy: z.optional(
+                  z.object({
+                    createdAt: z.iso.datetime(),
+                    email: z.email().min(1),
+                    id: z.uuid(),
+                    image: z.optional(z.string()),
+                    jobTitle: z.optional(z.string()),
+                    mfaEnabled: z.boolean().default(false),
+                    mfaVerified: z.boolean().default(false),
+                    modifiedById: z.uuid(),
+                    name: z.optional(z.string()),
+                    phone: z.optional(z.string()),
+                    primaryOrganizationId: z.optional(z.uuid()),
+                    tags: z.array(z.string()),
+                    updatedAt: z.iso.datetime(),
+                  })
+                ),
+                modifiedById: z.uuid(),
+                name: z.string().min(1),
+                owner: z.object({
+                  createdAt: z.iso.datetime(),
+                  email: z.email().min(1),
+                  id: z.uuid(),
+                  image: z.optional(z.string()),
+                  jobTitle: z.optional(z.string()),
+                  mfaEnabled: z.boolean().default(false),
+                  mfaVerified: z.boolean().default(false),
+                  modifiedById: z.uuid(),
+                  name: z.optional(z.string()),
+                  phone: z.optional(z.string()),
+                  primaryOrganizationId: z.optional(z.uuid()),
+                  tags: z.array(z.string()),
+                  updatedAt: z.iso.datetime(),
+                }),
+                ownerId: z.uuid(),
+                updatedAt: z.iso.datetime(),
+              })
+            )
+          ),
           phone: z.optional(z.string()),
           primaryOrganizationId: z.optional(z.uuid()),
+          roles: z.optional(
+            z.array(
+              z.object({
+                createdAt: z.iso.datetime(),
+                description: z.string(),
+                id: z.uuid(),
+                modifiedBy: z.optional(
+                  z.object({
+                    createdAt: z.iso.datetime(),
+                    email: z.email().min(1),
+                    id: z.uuid(),
+                    image: z.optional(z.string()),
+                    jobTitle: z.optional(z.string()),
+                    mfaEnabled: z.boolean().default(false),
+                    mfaVerified: z.boolean().default(false),
+                    modifiedById: z.uuid(),
+                    name: z.optional(z.string()),
+                    phone: z.optional(z.string()),
+                    primaryOrganizationId: z.optional(z.uuid()),
+                    tags: z.array(z.string()),
+                    updatedAt: z.iso.datetime(),
+                  })
+                ),
+                modifiedById: z.uuid(),
+                name: z.string().min(1),
+                permissions: z.array(z.string()).default([]),
+                updatedAt: z.iso.datetime(),
+              })
+            )
+          ),
           tags: z.array(z.string()),
           updatedAt: z.iso.datetime(),
         })
@@ -13023,8 +15348,83 @@ export const zGetApiRolesAvailablePermissionsResponse = z.object({
         ),
         modifiedById: z.uuid(),
         name: z.optional(z.string()),
+        organizations: z.optional(
+          z.array(
+            z.object({
+              createdAt: z.iso.datetime(),
+              domain: z.string().min(1),
+              id: z.uuid(),
+              modifiedBy: z.optional(
+                z.object({
+                  createdAt: z.iso.datetime(),
+                  email: z.email().min(1),
+                  id: z.uuid(),
+                  image: z.optional(z.string()),
+                  jobTitle: z.optional(z.string()),
+                  mfaEnabled: z.boolean().default(false),
+                  mfaVerified: z.boolean().default(false),
+                  modifiedById: z.uuid(),
+                  name: z.optional(z.string()),
+                  phone: z.optional(z.string()),
+                  primaryOrganizationId: z.optional(z.uuid()),
+                  tags: z.array(z.string()),
+                  updatedAt: z.iso.datetime(),
+                })
+              ),
+              modifiedById: z.uuid(),
+              name: z.string().min(1),
+              owner: z.object({
+                createdAt: z.iso.datetime(),
+                email: z.email().min(1),
+                id: z.uuid(),
+                image: z.optional(z.string()),
+                jobTitle: z.optional(z.string()),
+                mfaEnabled: z.boolean().default(false),
+                mfaVerified: z.boolean().default(false),
+                modifiedById: z.uuid(),
+                name: z.optional(z.string()),
+                phone: z.optional(z.string()),
+                primaryOrganizationId: z.optional(z.uuid()),
+                tags: z.array(z.string()),
+                updatedAt: z.iso.datetime(),
+              }),
+              ownerId: z.uuid(),
+              updatedAt: z.iso.datetime(),
+            })
+          )
+        ),
         phone: z.optional(z.string()),
         primaryOrganizationId: z.optional(z.uuid()),
+        roles: z.optional(
+          z.array(
+            z.object({
+              createdAt: z.iso.datetime(),
+              description: z.string(),
+              id: z.uuid(),
+              modifiedBy: z.optional(
+                z.object({
+                  createdAt: z.iso.datetime(),
+                  email: z.email().min(1),
+                  id: z.uuid(),
+                  image: z.optional(z.string()),
+                  jobTitle: z.optional(z.string()),
+                  mfaEnabled: z.boolean().default(false),
+                  mfaVerified: z.boolean().default(false),
+                  modifiedById: z.uuid(),
+                  name: z.optional(z.string()),
+                  phone: z.optional(z.string()),
+                  primaryOrganizationId: z.optional(z.uuid()),
+                  tags: z.array(z.string()),
+                  updatedAt: z.iso.datetime(),
+                })
+              ),
+              modifiedById: z.uuid(),
+              name: z.string().min(1),
+              permissions: z.array(z.string()).default([]),
+              updatedAt: z.iso.datetime(),
+            })
+          )
+        ),
         tags: z.array(z.string()),
         updatedAt: z.iso.datetime(),
       }),
@@ -13406,8 +15806,83 @@ export const zGetApiRolesAvailablePermissionsResponse = z.object({
           ),
           modifiedById: z.uuid(),
           name: z.optional(z.string()),
+          organizations: z.optional(
+            z.array(
+              z.object({
+                createdAt: z.iso.datetime(),
+                domain: z.string().min(1),
+                id: z.uuid(),
+                modifiedBy: z.optional(
+                  z.object({
+                    createdAt: z.iso.datetime(),
+                    email: z.email().min(1),
+                    id: z.uuid(),
+                    image: z.optional(z.string()),
+                    jobTitle: z.optional(z.string()),
+                    mfaEnabled: z.boolean().default(false),
+                    mfaVerified: z.boolean().default(false),
+                    modifiedById: z.uuid(),
+                    name: z.optional(z.string()),
+                    phone: z.optional(z.string()),
+                    primaryOrganizationId: z.optional(z.uuid()),
+                    tags: z.array(z.string()),
+                    updatedAt: z.iso.datetime(),
+                  })
+                ),
+                modifiedById: z.uuid(),
+                name: z.string().min(1),
+                owner: z.object({
+                  createdAt: z.iso.datetime(),
+                  email: z.email().min(1),
+                  id: z.uuid(),
+                  image: z.optional(z.string()),
+                  jobTitle: z.optional(z.string()),
+                  mfaEnabled: z.boolean().default(false),
+                  mfaVerified: z.boolean().default(false),
+                  modifiedById: z.uuid(),
+                  name: z.optional(z.string()),
+                  phone: z.optional(z.string()),
+                  primaryOrganizationId: z.optional(z.uuid()),
+                  tags: z.array(z.string()),
+                  updatedAt: z.iso.datetime(),
+                }),
+                ownerId: z.uuid(),
+                updatedAt: z.iso.datetime(),
+              })
+            )
+          ),
           phone: z.optional(z.string()),
           primaryOrganizationId: z.optional(z.uuid()),
+          roles: z.optional(
+            z.array(
+              z.object({
+                createdAt: z.iso.datetime(),
+                description: z.string(),
+                id: z.uuid(),
+                modifiedBy: z.optional(
+                  z.object({
+                    createdAt: z.iso.datetime(),
+                    email: z.email().min(1),
+                    id: z.uuid(),
+                    image: z.optional(z.string()),
+                    jobTitle: z.optional(z.string()),
+                    mfaEnabled: z.boolean().default(false),
+                    mfaVerified: z.boolean().default(false),
+                    modifiedById: z.uuid(),
+                    name: z.optional(z.string()),
+                    phone: z.optional(z.string()),
+                    primaryOrganizationId: z.optional(z.uuid()),
+                    tags: z.array(z.string()),
+                    updatedAt: z.iso.datetime(),
+                  })
+                ),
+                modifiedById: z.uuid(),
+                name: z.string().min(1),
+                permissions: z.array(z.string()).default([]),
+                updatedAt: z.iso.datetime(),
+              })
+            )
+          ),
           tags: z.array(z.string()),
           updatedAt: z.iso.datetime(),
         })
@@ -13844,8 +16319,83 @@ export const zGetApiRolesByIdResponse = z.object({
         ),
         modifiedById: z.uuid(),
         name: z.optional(z.string()),
+        organizations: z.optional(
+          z.array(
+            z.object({
+              createdAt: z.iso.datetime(),
+              domain: z.string().min(1),
+              id: z.uuid(),
+              modifiedBy: z.optional(
+                z.object({
+                  createdAt: z.iso.datetime(),
+                  email: z.email().min(1),
+                  id: z.uuid(),
+                  image: z.optional(z.string()),
+                  jobTitle: z.optional(z.string()),
+                  mfaEnabled: z.boolean().default(false),
+                  mfaVerified: z.boolean().default(false),
+                  modifiedById: z.uuid(),
+                  name: z.optional(z.string()),
+                  phone: z.optional(z.string()),
+                  primaryOrganizationId: z.optional(z.uuid()),
+                  tags: z.array(z.string()),
+                  updatedAt: z.iso.datetime(),
+                })
+              ),
+              modifiedById: z.uuid(),
+              name: z.string().min(1),
+              owner: z.object({
+                createdAt: z.iso.datetime(),
+                email: z.email().min(1),
+                id: z.uuid(),
+                image: z.optional(z.string()),
+                jobTitle: z.optional(z.string()),
+                mfaEnabled: z.boolean().default(false),
+                mfaVerified: z.boolean().default(false),
+                modifiedById: z.uuid(),
+                name: z.optional(z.string()),
+                phone: z.optional(z.string()),
+                primaryOrganizationId: z.optional(z.uuid()),
+                tags: z.array(z.string()),
+                updatedAt: z.iso.datetime(),
+              }),
+              ownerId: z.uuid(),
+              updatedAt: z.iso.datetime(),
+            })
+          )
+        ),
         phone: z.optional(z.string()),
         primaryOrganizationId: z.optional(z.uuid()),
+        roles: z.optional(
+          z.array(
+            z.object({
+              createdAt: z.iso.datetime(),
+              description: z.string(),
+              id: z.uuid(),
+              modifiedBy: z.optional(
+                z.object({
+                  createdAt: z.iso.datetime(),
+                  email: z.email().min(1),
+                  id: z.uuid(),
+                  image: z.optional(z.string()),
+                  jobTitle: z.optional(z.string()),
+                  mfaEnabled: z.boolean().default(false),
+                  mfaVerified: z.boolean().default(false),
+                  modifiedById: z.uuid(),
+                  name: z.optional(z.string()),
+                  phone: z.optional(z.string()),
+                  primaryOrganizationId: z.optional(z.uuid()),
+                  tags: z.array(z.string()),
+                  updatedAt: z.iso.datetime(),
+                })
+              ),
+              modifiedById: z.uuid(),
+              name: z.string().min(1),
+              permissions: z.array(z.string()).default([]),
+              updatedAt: z.iso.datetime(),
+            })
+          )
+        ),
         tags: z.array(z.string()),
         updatedAt: z.iso.datetime(),
       }),
@@ -14227,8 +16777,83 @@ export const zGetApiRolesByIdResponse = z.object({
           ),
           modifiedById: z.uuid(),
           name: z.optional(z.string()),
+          organizations: z.optional(
+            z.array(
+              z.object({
+                createdAt: z.iso.datetime(),
+                domain: z.string().min(1),
+                id: z.uuid(),
+                modifiedBy: z.optional(
+                  z.object({
+                    createdAt: z.iso.datetime(),
+                    email: z.email().min(1),
+                    id: z.uuid(),
+                    image: z.optional(z.string()),
+                    jobTitle: z.optional(z.string()),
+                    mfaEnabled: z.boolean().default(false),
+                    mfaVerified: z.boolean().default(false),
+                    modifiedById: z.uuid(),
+                    name: z.optional(z.string()),
+                    phone: z.optional(z.string()),
+                    primaryOrganizationId: z.optional(z.uuid()),
+                    tags: z.array(z.string()),
+                    updatedAt: z.iso.datetime(),
+                  })
+                ),
+                modifiedById: z.uuid(),
+                name: z.string().min(1),
+                owner: z.object({
+                  createdAt: z.iso.datetime(),
+                  email: z.email().min(1),
+                  id: z.uuid(),
+                  image: z.optional(z.string()),
+                  jobTitle: z.optional(z.string()),
+                  mfaEnabled: z.boolean().default(false),
+                  mfaVerified: z.boolean().default(false),
+                  modifiedById: z.uuid(),
+                  name: z.optional(z.string()),
+                  phone: z.optional(z.string()),
+                  primaryOrganizationId: z.optional(z.uuid()),
+                  tags: z.array(z.string()),
+                  updatedAt: z.iso.datetime(),
+                }),
+                ownerId: z.uuid(),
+                updatedAt: z.iso.datetime(),
+              })
+            )
+          ),
           phone: z.optional(z.string()),
           primaryOrganizationId: z.optional(z.uuid()),
+          roles: z.optional(
+            z.array(
+              z.object({
+                createdAt: z.iso.datetime(),
+                description: z.string(),
+                id: z.uuid(),
+                modifiedBy: z.optional(
+                  z.object({
+                    createdAt: z.iso.datetime(),
+                    email: z.email().min(1),
+                    id: z.uuid(),
+                    image: z.optional(z.string()),
+                    jobTitle: z.optional(z.string()),
+                    mfaEnabled: z.boolean().default(false),
+                    mfaVerified: z.boolean().default(false),
+                    modifiedById: z.uuid(),
+                    name: z.optional(z.string()),
+                    phone: z.optional(z.string()),
+                    primaryOrganizationId: z.optional(z.uuid()),
+                    tags: z.array(z.string()),
+                    updatedAt: z.iso.datetime(),
+                  })
+                ),
+                modifiedById: z.uuid(),
+                name: z.string().min(1),
+                permissions: z.array(z.string()).default([]),
+                updatedAt: z.iso.datetime(),
+              })
+            )
+          ),
           tags: z.array(z.string()),
           updatedAt: z.iso.datetime(),
         })
@@ -14672,8 +17297,83 @@ export const zGetApiTransactionsResponse = z.object({
         ),
         modifiedById: z.uuid(),
         name: z.optional(z.string()),
+        organizations: z.optional(
+          z.array(
+            z.object({
+              createdAt: z.iso.datetime(),
+              domain: z.string().min(1),
+              id: z.uuid(),
+              modifiedBy: z.optional(
+                z.object({
+                  createdAt: z.iso.datetime(),
+                  email: z.email().min(1),
+                  id: z.uuid(),
+                  image: z.optional(z.string()),
+                  jobTitle: z.optional(z.string()),
+                  mfaEnabled: z.boolean().default(false),
+                  mfaVerified: z.boolean().default(false),
+                  modifiedById: z.uuid(),
+                  name: z.optional(z.string()),
+                  phone: z.optional(z.string()),
+                  primaryOrganizationId: z.optional(z.uuid()),
+                  tags: z.array(z.string()),
+                  updatedAt: z.iso.datetime(),
+                })
+              ),
+              modifiedById: z.uuid(),
+              name: z.string().min(1),
+              owner: z.object({
+                createdAt: z.iso.datetime(),
+                email: z.email().min(1),
+                id: z.uuid(),
+                image: z.optional(z.string()),
+                jobTitle: z.optional(z.string()),
+                mfaEnabled: z.boolean().default(false),
+                mfaVerified: z.boolean().default(false),
+                modifiedById: z.uuid(),
+                name: z.optional(z.string()),
+                phone: z.optional(z.string()),
+                primaryOrganizationId: z.optional(z.uuid()),
+                tags: z.array(z.string()),
+                updatedAt: z.iso.datetime(),
+              }),
+              ownerId: z.uuid(),
+              updatedAt: z.iso.datetime(),
+            })
+          )
+        ),
         phone: z.optional(z.string()),
         primaryOrganizationId: z.optional(z.uuid()),
+        roles: z.optional(
+          z.array(
+            z.object({
+              createdAt: z.iso.datetime(),
+              description: z.string(),
+              id: z.uuid(),
+              modifiedBy: z.optional(
+                z.object({
+                  createdAt: z.iso.datetime(),
+                  email: z.email().min(1),
+                  id: z.uuid(),
+                  image: z.optional(z.string()),
+                  jobTitle: z.optional(z.string()),
+                  mfaEnabled: z.boolean().default(false),
+                  mfaVerified: z.boolean().default(false),
+                  modifiedById: z.uuid(),
+                  name: z.optional(z.string()),
+                  phone: z.optional(z.string()),
+                  primaryOrganizationId: z.optional(z.uuid()),
+                  tags: z.array(z.string()),
+                  updatedAt: z.iso.datetime(),
+                })
+              ),
+              modifiedById: z.uuid(),
+              name: z.string().min(1),
+              permissions: z.array(z.string()).default([]),
+              updatedAt: z.iso.datetime(),
+            })
+          )
+        ),
         tags: z.array(z.string()),
         updatedAt: z.iso.datetime(),
       }),
@@ -15055,8 +17755,83 @@ export const zGetApiTransactionsResponse = z.object({
           ),
           modifiedById: z.uuid(),
           name: z.optional(z.string()),
+          organizations: z.optional(
+            z.array(
+              z.object({
+                createdAt: z.iso.datetime(),
+                domain: z.string().min(1),
+                id: z.uuid(),
+                modifiedBy: z.optional(
+                  z.object({
+                    createdAt: z.iso.datetime(),
+                    email: z.email().min(1),
+                    id: z.uuid(),
+                    image: z.optional(z.string()),
+                    jobTitle: z.optional(z.string()),
+                    mfaEnabled: z.boolean().default(false),
+                    mfaVerified: z.boolean().default(false),
+                    modifiedById: z.uuid(),
+                    name: z.optional(z.string()),
+                    phone: z.optional(z.string()),
+                    primaryOrganizationId: z.optional(z.uuid()),
+                    tags: z.array(z.string()),
+                    updatedAt: z.iso.datetime(),
+                  })
+                ),
+                modifiedById: z.uuid(),
+                name: z.string().min(1),
+                owner: z.object({
+                  createdAt: z.iso.datetime(),
+                  email: z.email().min(1),
+                  id: z.uuid(),
+                  image: z.optional(z.string()),
+                  jobTitle: z.optional(z.string()),
+                  mfaEnabled: z.boolean().default(false),
+                  mfaVerified: z.boolean().default(false),
+                  modifiedById: z.uuid(),
+                  name: z.optional(z.string()),
+                  phone: z.optional(z.string()),
+                  primaryOrganizationId: z.optional(z.uuid()),
+                  tags: z.array(z.string()),
+                  updatedAt: z.iso.datetime(),
+                }),
+                ownerId: z.uuid(),
+                updatedAt: z.iso.datetime(),
+              })
+            )
+          ),
           phone: z.optional(z.string()),
           primaryOrganizationId: z.optional(z.uuid()),
+          roles: z.optional(
+            z.array(
+              z.object({
+                createdAt: z.iso.datetime(),
+                description: z.string(),
+                id: z.uuid(),
+                modifiedBy: z.optional(
+                  z.object({
+                    createdAt: z.iso.datetime(),
+                    email: z.email().min(1),
+                    id: z.uuid(),
+                    image: z.optional(z.string()),
+                    jobTitle: z.optional(z.string()),
+                    mfaEnabled: z.boolean().default(false),
+                    mfaVerified: z.boolean().default(false),
+                    modifiedById: z.uuid(),
+                    name: z.optional(z.string()),
+                    phone: z.optional(z.string()),
+                    primaryOrganizationId: z.optional(z.uuid()),
+                    tags: z.array(z.string()),
+                    updatedAt: z.iso.datetime(),
+                  })
+                ),
+                modifiedById: z.uuid(),
+                name: z.string().min(1),
+                permissions: z.array(z.string()).default([]),
+                updatedAt: z.iso.datetime(),
+              })
+            )
+          ),
           tags: z.array(z.string()),
           updatedAt: z.iso.datetime(),
         })
@@ -15505,8 +18280,83 @@ export const zGetApiTransactionsByIdResponse = z.object({
         ),
         modifiedById: z.uuid(),
         name: z.optional(z.string()),
+        organizations: z.optional(
+          z.array(
+            z.object({
+              createdAt: z.iso.datetime(),
+              domain: z.string().min(1),
+              id: z.uuid(),
+              modifiedBy: z.optional(
+                z.object({
+                  createdAt: z.iso.datetime(),
+                  email: z.email().min(1),
+                  id: z.uuid(),
+                  image: z.optional(z.string()),
+                  jobTitle: z.optional(z.string()),
+                  mfaEnabled: z.boolean().default(false),
+                  mfaVerified: z.boolean().default(false),
+                  modifiedById: z.uuid(),
+                  name: z.optional(z.string()),
+                  phone: z.optional(z.string()),
+                  primaryOrganizationId: z.optional(z.uuid()),
+                  tags: z.array(z.string()),
+                  updatedAt: z.iso.datetime(),
+                })
+              ),
+              modifiedById: z.uuid(),
+              name: z.string().min(1),
+              owner: z.object({
+                createdAt: z.iso.datetime(),
+                email: z.email().min(1),
+                id: z.uuid(),
+                image: z.optional(z.string()),
+                jobTitle: z.optional(z.string()),
+                mfaEnabled: z.boolean().default(false),
+                mfaVerified: z.boolean().default(false),
+                modifiedById: z.uuid(),
+                name: z.optional(z.string()),
+                phone: z.optional(z.string()),
+                primaryOrganizationId: z.optional(z.uuid()),
+                tags: z.array(z.string()),
+                updatedAt: z.iso.datetime(),
+              }),
+              ownerId: z.uuid(),
+              updatedAt: z.iso.datetime(),
+            })
+          )
+        ),
         phone: z.optional(z.string()),
         primaryOrganizationId: z.optional(z.uuid()),
+        roles: z.optional(
+          z.array(
+            z.object({
+              createdAt: z.iso.datetime(),
+              description: z.string(),
+              id: z.uuid(),
+              modifiedBy: z.optional(
+                z.object({
+                  createdAt: z.iso.datetime(),
+                  email: z.email().min(1),
+                  id: z.uuid(),
+                  image: z.optional(z.string()),
+                  jobTitle: z.optional(z.string()),
+                  mfaEnabled: z.boolean().default(false),
+                  mfaVerified: z.boolean().default(false),
+                  modifiedById: z.uuid(),
+                  name: z.optional(z.string()),
+                  phone: z.optional(z.string()),
+                  primaryOrganizationId: z.optional(z.uuid()),
+                  tags: z.array(z.string()),
+                  updatedAt: z.iso.datetime(),
+                })
+              ),
+              modifiedById: z.uuid(),
+              name: z.string().min(1),
+              permissions: z.array(z.string()).default([]),
+              updatedAt: z.iso.datetime(),
+            })
+          )
+        ),
         tags: z.array(z.string()),
         updatedAt: z.iso.datetime(),
       }),
@@ -15888,8 +18738,83 @@ export const zGetApiTransactionsByIdResponse = z.object({
           ),
           modifiedById: z.uuid(),
           name: z.optional(z.string()),
+          organizations: z.optional(
+            z.array(
+              z.object({
+                createdAt: z.iso.datetime(),
+                domain: z.string().min(1),
+                id: z.uuid(),
+                modifiedBy: z.optional(
+                  z.object({
+                    createdAt: z.iso.datetime(),
+                    email: z.email().min(1),
+                    id: z.uuid(),
+                    image: z.optional(z.string()),
+                    jobTitle: z.optional(z.string()),
+                    mfaEnabled: z.boolean().default(false),
+                    mfaVerified: z.boolean().default(false),
+                    modifiedById: z.uuid(),
+                    name: z.optional(z.string()),
+                    phone: z.optional(z.string()),
+                    primaryOrganizationId: z.optional(z.uuid()),
+                    tags: z.array(z.string()),
+                    updatedAt: z.iso.datetime(),
+                  })
+                ),
+                modifiedById: z.uuid(),
+                name: z.string().min(1),
+                owner: z.object({
+                  createdAt: z.iso.datetime(),
+                  email: z.email().min(1),
+                  id: z.uuid(),
+                  image: z.optional(z.string()),
+                  jobTitle: z.optional(z.string()),
+                  mfaEnabled: z.boolean().default(false),
+                  mfaVerified: z.boolean().default(false),
+                  modifiedById: z.uuid(),
+                  name: z.optional(z.string()),
+                  phone: z.optional(z.string()),
+                  primaryOrganizationId: z.optional(z.uuid()),
+                  tags: z.array(z.string()),
+                  updatedAt: z.iso.datetime(),
+                }),
+                ownerId: z.uuid(),
+                updatedAt: z.iso.datetime(),
+              })
+            )
+          ),
           phone: z.optional(z.string()),
           primaryOrganizationId: z.optional(z.uuid()),
+          roles: z.optional(
+            z.array(
+              z.object({
+                createdAt: z.iso.datetime(),
+                description: z.string(),
+                id: z.uuid(),
+                modifiedBy: z.optional(
+                  z.object({
+                    createdAt: z.iso.datetime(),
+                    email: z.email().min(1),
+                    id: z.uuid(),
+                    image: z.optional(z.string()),
+                    jobTitle: z.optional(z.string()),
+                    mfaEnabled: z.boolean().default(false),
+                    mfaVerified: z.boolean().default(false),
+                    modifiedById: z.uuid(),
+                    name: z.optional(z.string()),
+                    phone: z.optional(z.string()),
+                    primaryOrganizationId: z.optional(z.uuid()),
+                    tags: z.array(z.string()),
+                    updatedAt: z.iso.datetime(),
+                  })
+                ),
+                modifiedById: z.uuid(),
+                name: z.string().min(1),
+                permissions: z.array(z.string()).default([]),
+                updatedAt: z.iso.datetime(),
+              })
+            )
+          ),
           tags: z.array(z.string()),
           updatedAt: z.iso.datetime(),
         })
@@ -16337,8 +19262,83 @@ export const zGetApiUsersResponse = z.object({
         ),
         modifiedById: z.uuid(),
         name: z.optional(z.string()),
+        organizations: z.optional(
+          z.array(
+            z.object({
+              createdAt: z.iso.datetime(),
+              domain: z.string().min(1),
+              id: z.uuid(),
+              modifiedBy: z.optional(
+                z.object({
+                  createdAt: z.iso.datetime(),
+                  email: z.email().min(1),
+                  id: z.uuid(),
+                  image: z.optional(z.string()),
+                  jobTitle: z.optional(z.string()),
+                  mfaEnabled: z.boolean().default(false),
+                  mfaVerified: z.boolean().default(false),
+                  modifiedById: z.uuid(),
+                  name: z.optional(z.string()),
+                  phone: z.optional(z.string()),
+                  primaryOrganizationId: z.optional(z.uuid()),
+                  tags: z.array(z.string()),
+                  updatedAt: z.iso.datetime(),
+                })
+              ),
+              modifiedById: z.uuid(),
+              name: z.string().min(1),
+              owner: z.object({
+                createdAt: z.iso.datetime(),
+                email: z.email().min(1),
+                id: z.uuid(),
+                image: z.optional(z.string()),
+                jobTitle: z.optional(z.string()),
+                mfaEnabled: z.boolean().default(false),
+                mfaVerified: z.boolean().default(false),
+                modifiedById: z.uuid(),
+                name: z.optional(z.string()),
+                phone: z.optional(z.string()),
+                primaryOrganizationId: z.optional(z.uuid()),
+                tags: z.array(z.string()),
+                updatedAt: z.iso.datetime(),
+              }),
+              ownerId: z.uuid(),
+              updatedAt: z.iso.datetime(),
+            })
+          )
+        ),
         phone: z.optional(z.string()),
         primaryOrganizationId: z.optional(z.uuid()),
+        roles: z.optional(
+          z.array(
+            z.object({
+              createdAt: z.iso.datetime(),
+              description: z.string(),
+              id: z.uuid(),
+              modifiedBy: z.optional(
+                z.object({
+                  createdAt: z.iso.datetime(),
+                  email: z.email().min(1),
+                  id: z.uuid(),
+                  image: z.optional(z.string()),
+                  jobTitle: z.optional(z.string()),
+                  mfaEnabled: z.boolean().default(false),
+                  mfaVerified: z.boolean().default(false),
+                  modifiedById: z.uuid(),
+                  name: z.optional(z.string()),
+                  phone: z.optional(z.string()),
+                  primaryOrganizationId: z.optional(z.uuid()),
+                  tags: z.array(z.string()),
+                  updatedAt: z.iso.datetime(),
+                })
+              ),
+              modifiedById: z.uuid(),
+              name: z.string().min(1),
+              permissions: z.array(z.string()).default([]),
+              updatedAt: z.iso.datetime(),
+            })
+          )
+        ),
         tags: z.array(z.string()),
         updatedAt: z.iso.datetime(),
       }),
@@ -16720,8 +19720,83 @@ export const zGetApiUsersResponse = z.object({
           ),
           modifiedById: z.uuid(),
           name: z.optional(z.string()),
+          organizations: z.optional(
+            z.array(
+              z.object({
+                createdAt: z.iso.datetime(),
+                domain: z.string().min(1),
+                id: z.uuid(),
+                modifiedBy: z.optional(
+                  z.object({
+                    createdAt: z.iso.datetime(),
+                    email: z.email().min(1),
+                    id: z.uuid(),
+                    image: z.optional(z.string()),
+                    jobTitle: z.optional(z.string()),
+                    mfaEnabled: z.boolean().default(false),
+                    mfaVerified: z.boolean().default(false),
+                    modifiedById: z.uuid(),
+                    name: z.optional(z.string()),
+                    phone: z.optional(z.string()),
+                    primaryOrganizationId: z.optional(z.uuid()),
+                    tags: z.array(z.string()),
+                    updatedAt: z.iso.datetime(),
+                  })
+                ),
+                modifiedById: z.uuid(),
+                name: z.string().min(1),
+                owner: z.object({
+                  createdAt: z.iso.datetime(),
+                  email: z.email().min(1),
+                  id: z.uuid(),
+                  image: z.optional(z.string()),
+                  jobTitle: z.optional(z.string()),
+                  mfaEnabled: z.boolean().default(false),
+                  mfaVerified: z.boolean().default(false),
+                  modifiedById: z.uuid(),
+                  name: z.optional(z.string()),
+                  phone: z.optional(z.string()),
+                  primaryOrganizationId: z.optional(z.uuid()),
+                  tags: z.array(z.string()),
+                  updatedAt: z.iso.datetime(),
+                }),
+                ownerId: z.uuid(),
+                updatedAt: z.iso.datetime(),
+              })
+            )
+          ),
           phone: z.optional(z.string()),
           primaryOrganizationId: z.optional(z.uuid()),
+          roles: z.optional(
+            z.array(
+              z.object({
+                createdAt: z.iso.datetime(),
+                description: z.string(),
+                id: z.uuid(),
+                modifiedBy: z.optional(
+                  z.object({
+                    createdAt: z.iso.datetime(),
+                    email: z.email().min(1),
+                    id: z.uuid(),
+                    image: z.optional(z.string()),
+                    jobTitle: z.optional(z.string()),
+                    mfaEnabled: z.boolean().default(false),
+                    mfaVerified: z.boolean().default(false),
+                    modifiedById: z.uuid(),
+                    name: z.optional(z.string()),
+                    phone: z.optional(z.string()),
+                    primaryOrganizationId: z.optional(z.uuid()),
+                    tags: z.array(z.string()),
+                    updatedAt: z.iso.datetime(),
+                  })
+                ),
+                modifiedById: z.uuid(),
+                name: z.string().min(1),
+                permissions: z.array(z.string()).default([]),
+                updatedAt: z.iso.datetime(),
+              })
+            )
+          ),
           tags: z.array(z.string()),
           updatedAt: z.iso.datetime(),
         })
@@ -17188,8 +20263,83 @@ export const zGetApiUsersByIdResponse = z.object({
         ),
         modifiedById: z.uuid(),
         name: z.optional(z.string()),
+        organizations: z.optional(
+          z.array(
+            z.object({
+              createdAt: z.iso.datetime(),
+              domain: z.string().min(1),
+              id: z.uuid(),
+              modifiedBy: z.optional(
+                z.object({
+                  createdAt: z.iso.datetime(),
+                  email: z.email().min(1),
+                  id: z.uuid(),
+                  image: z.optional(z.string()),
+                  jobTitle: z.optional(z.string()),
+                  mfaEnabled: z.boolean().default(false),
+                  mfaVerified: z.boolean().default(false),
+                  modifiedById: z.uuid(),
+                  name: z.optional(z.string()),
+                  phone: z.optional(z.string()),
+                  primaryOrganizationId: z.optional(z.uuid()),
+                  tags: z.array(z.string()),
+                  updatedAt: z.iso.datetime(),
+                })
+              ),
+              modifiedById: z.uuid(),
+              name: z.string().min(1),
+              owner: z.object({
+                createdAt: z.iso.datetime(),
+                email: z.email().min(1),
+                id: z.uuid(),
+                image: z.optional(z.string()),
+                jobTitle: z.optional(z.string()),
+                mfaEnabled: z.boolean().default(false),
+                mfaVerified: z.boolean().default(false),
+                modifiedById: z.uuid(),
+                name: z.optional(z.string()),
+                phone: z.optional(z.string()),
+                primaryOrganizationId: z.optional(z.uuid()),
+                tags: z.array(z.string()),
+                updatedAt: z.iso.datetime(),
+              }),
+              ownerId: z.uuid(),
+              updatedAt: z.iso.datetime(),
+            })
+          )
+        ),
         phone: z.optional(z.string()),
         primaryOrganizationId: z.optional(z.uuid()),
+        roles: z.optional(
+          z.array(
+            z.object({
+              createdAt: z.iso.datetime(),
+              description: z.string(),
+              id: z.uuid(),
+              modifiedBy: z.optional(
+                z.object({
+                  createdAt: z.iso.datetime(),
+                  email: z.email().min(1),
+                  id: z.uuid(),
+                  image: z.optional(z.string()),
+                  jobTitle: z.optional(z.string()),
+                  mfaEnabled: z.boolean().default(false),
+                  mfaVerified: z.boolean().default(false),
+                  modifiedById: z.uuid(),
+                  name: z.optional(z.string()),
+                  phone: z.optional(z.string()),
+                  primaryOrganizationId: z.optional(z.uuid()),
+                  tags: z.array(z.string()),
+                  updatedAt: z.iso.datetime(),
+                })
+              ),
+              modifiedById: z.uuid(),
+              name: z.string().min(1),
+              permissions: z.array(z.string()).default([]),
+              updatedAt: z.iso.datetime(),
+            })
+          )
+        ),
         tags: z.array(z.string()),
         updatedAt: z.iso.datetime(),
       }),
@@ -17571,8 +20721,83 @@ export const zGetApiUsersByIdResponse = z.object({
           ),
           modifiedById: z.uuid(),
           name: z.optional(z.string()),
+          organizations: z.optional(
+            z.array(
+              z.object({
+                createdAt: z.iso.datetime(),
+                domain: z.string().min(1),
+                id: z.uuid(),
+                modifiedBy: z.optional(
+                  z.object({
+                    createdAt: z.iso.datetime(),
+                    email: z.email().min(1),
+                    id: z.uuid(),
+                    image: z.optional(z.string()),
+                    jobTitle: z.optional(z.string()),
+                    mfaEnabled: z.boolean().default(false),
+                    mfaVerified: z.boolean().default(false),
+                    modifiedById: z.uuid(),
+                    name: z.optional(z.string()),
+                    phone: z.optional(z.string()),
+                    primaryOrganizationId: z.optional(z.uuid()),
+                    tags: z.array(z.string()),
+                    updatedAt: z.iso.datetime(),
+                  })
+                ),
+                modifiedById: z.uuid(),
+                name: z.string().min(1),
+                owner: z.object({
+                  createdAt: z.iso.datetime(),
+                  email: z.email().min(1),
+                  id: z.uuid(),
+                  image: z.optional(z.string()),
+                  jobTitle: z.optional(z.string()),
+                  mfaEnabled: z.boolean().default(false),
+                  mfaVerified: z.boolean().default(false),
+                  modifiedById: z.uuid(),
+                  name: z.optional(z.string()),
+                  phone: z.optional(z.string()),
+                  primaryOrganizationId: z.optional(z.uuid()),
+                  tags: z.array(z.string()),
+                  updatedAt: z.iso.datetime(),
+                }),
+                ownerId: z.uuid(),
+                updatedAt: z.iso.datetime(),
+              })
+            )
+          ),
           phone: z.optional(z.string()),
           primaryOrganizationId: z.optional(z.uuid()),
+          roles: z.optional(
+            z.array(
+              z.object({
+                createdAt: z.iso.datetime(),
+                description: z.string(),
+                id: z.uuid(),
+                modifiedBy: z.optional(
+                  z.object({
+                    createdAt: z.iso.datetime(),
+                    email: z.email().min(1),
+                    id: z.uuid(),
+                    image: z.optional(z.string()),
+                    jobTitle: z.optional(z.string()),
+                    mfaEnabled: z.boolean().default(false),
+                    mfaVerified: z.boolean().default(false),
+                    modifiedById: z.uuid(),
+                    name: z.optional(z.string()),
+                    phone: z.optional(z.string()),
+                    primaryOrganizationId: z.optional(z.uuid()),
+                    tags: z.array(z.string()),
+                    updatedAt: z.iso.datetime(),
+                  })
+                ),
+                modifiedById: z.uuid(),
+                name: z.string().min(1),
+                permissions: z.array(z.string()).default([]),
+                updatedAt: z.iso.datetime(),
+              })
+            )
+          ),
           tags: z.array(z.string()),
           updatedAt: z.iso.datetime(),
         })
