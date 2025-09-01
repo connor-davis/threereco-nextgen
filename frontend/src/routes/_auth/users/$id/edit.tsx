@@ -147,7 +147,14 @@ function RouteComponent() {
   const updateForm = useForm<z.infer<typeof zUpdateUserPayload>>({
     resolver: zodResolver(zUpdateUserPayload),
     values: {
-      ...user,
+      name: user.name,
+      email: user.email,
+      jobTitle: user.jobTitle,
+      phone: user.phone,
+      address: user.address,
+      bankDetails: user.bankDetails,
+      roles: user.roles?.map((role) => role.id),
+      tags: user.tags,
     },
   });
 
@@ -658,6 +665,7 @@ function RouteComponent() {
                         <FormControl>
                           <NumberInput
                             placeholder="Zip Code"
+                            className="w-full"
                             {...field}
                             value={field.value ?? undefined}
                             onValueChange={field.onChange}

@@ -668,6 +668,7 @@ function RouteComponent() {
                         <FormControl>
                           <NumberInput
                             placeholder="Zip Code"
+                            className="w-full"
                             {...field}
                             value={field.value ?? undefined}
                             onValueChange={field.onChange}

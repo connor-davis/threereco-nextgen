@@ -121,14 +121,14 @@ export const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(
     return (
       <div className="flex items-center w-full lg:w-auto">
         <Button
-          aria-label="Increase value"
-          className="px-2 h-9 rounded-l-md rounded-r-none border-input border-l border-r-0 focus-visible:relative"
+          aria-label="Decrease value"
+          className="px-2 h-9 rounded-r-none rounded-l-md border-input border-r-0 focus-visible:relative"
           variant="outline"
-          onClick={handleIncrement}
-          disabled={value === max}
+          onClick={handleDecrement}
+          disabled={value === min}
           type="button"
         >
-          <PlusIcon className="size-4" />
+          <MinusIcon className="size-4" />
         </Button>
 
         <NumericFormat
@@ -157,14 +157,14 @@ export const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(
         />
 
         <Button
-          aria-label="Decrease value"
-          className="px-2 h-9 rounded-l-none rounded-r-md border-input border-l-0 focus-visible:relative"
+          aria-label="Increase value"
+          className="px-2 h-9 rounded-r-md rounded-l-none border-input border-l-0 focus-visible:relative"
           variant="outline"
-          onClick={handleDecrement}
-          disabled={value === min}
+          onClick={handleIncrement}
+          disabled={value === max}
           type="button"
         >
-          <MinusIcon className="size-4" />
+          <PlusIcon className="size-4" />
         </Button>
       </div>
     );
