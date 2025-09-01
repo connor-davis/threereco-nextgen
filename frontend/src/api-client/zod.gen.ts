@@ -342,6 +342,13 @@ export const zRole = z.object({
   updatedAt: z.iso.datetime(),
 });
 
+export const zSignUpPayload = z.object({
+  email: z.optional(z.email()),
+  name: z.string().min(2).max(100),
+  password: z.string().min(6).max(100),
+  phone: z.optional(z.string().min(10).max(15)),
+});
+
 export const zSuccessResponse = z.object({
   item: z.optional(
     z.union([

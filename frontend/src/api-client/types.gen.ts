@@ -317,6 +317,13 @@ export type Role = {
   updatedAt: string;
 };
 
+export type SignUpPayload = {
+  email?: string;
+  name: string;
+  password: string;
+  phone?: string;
+};
+
 export type SuccessResponse = {
   item?:
     | {

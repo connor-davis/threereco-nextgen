@@ -42,8 +42,8 @@ export default function AuthenticationGuard({
 
   const loginForm = useForm<z.infer<typeof zLoginPayload>>({
     defaultValues: {
-      Email: '',
-      Password: '',
+      emailOrPhone: '',
+      password: '',
     },
   });
 
@@ -102,15 +102,19 @@ export default function AuthenticationGuard({
             >
               <FormField
                 control={loginForm.control}
-                name="Email"
+                name="emailOrPhone"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Email</FormLabel>
+                    <FormLabel>Email or Phone</FormLabel>
                     <FormControl>
-                      <Input type="email" placeholder="Email" {...field} />
+                      <Input
+                        type="text"
+                        placeholder="Email or Phone"
+                        {...field}
+                      />
                     </FormControl>
                     <FormDescription>
-                      Please enter your email address.
+                      Please enter your email address or phone number (+27).
                     </FormDescription>
                     <FormMessage />
                   </FormItem>
@@ -119,7 +123,7 @@ export default function AuthenticationGuard({
 
               <FormField
                 control={loginForm.control}
-                name="Password"
+                name="password"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Password</FormLabel>

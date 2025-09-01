@@ -249,6 +249,7 @@ func (h *HttpRouter) InitializeOpenAPI() *openapi3.T {
 				"AuditLog":                  schemas.AuditLogSchema,
 				"MfaVerifyPayload":          schemas.MfaVerifyPayloadSchema,
 				"LoginPayload":              schemas.LoginPayloadSchema,
+				"SignUpPayload":             schemas.SignUpPayloadSchema,
 				"CreateMaterialPayload":     schemas.CreateMaterialPayloadSchema,
 				"UpdateMaterialPayload":     schemas.UpdateMaterialPayloadSchema,
 				"Material":                  schemas.MaterialSchema,
