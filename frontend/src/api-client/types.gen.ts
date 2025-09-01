@@ -141,8 +141,8 @@ export type ErrorResponse = {
 };
 
 export type LoginPayload = {
-  Email?: string;
-  Password?: string;
+  emailOrPhone: string;
+  password: string;
 };
 
 export type Material = {
@@ -4028,8 +4028,8 @@ export type GetApiAuthenticationCheckResponse =
 
 export type PostApiAuthenticationLoginData = {
   body: {
-    Email?: string;
-    Password?: string;
+    emailOrPhone: string;
+    password: string;
   };
   path?: never;
   query?: never;
@@ -5910,6 +5910,46 @@ export type GetApiAuthenticationPermissionsResponses = {
 
 export type GetApiAuthenticationPermissionsResponse =
   GetApiAuthenticationPermissionsResponses[keyof GetApiAuthenticationPermissionsResponses];
+
+export type PostApiAuthenticationSignUpData = {
+  body: {
+    email?: string;
+    name: string;
+    password: string;
+    phone?: string;
+  };
+  path?: never;
+  query?: never;
+  url: '/api/authentication/sign-up';
+};
+
+export type PostApiAuthenticationSignUpErrors = {
+  /**
+   * Invalid request.
+   */
+  400: {
+    error?: string;
+    message?: string;
+  };
+  /**
+   * Internal Server Error.
+   */
+  500: {
+    error?: string;
+    message?: string;
+  };
+  default: unknown;
+};
+
+export type PostApiAuthenticationSignUpError =
+  PostApiAuthenticationSignUpErrors[keyof PostApiAuthenticationSignUpErrors];
+
+export type PostApiAuthenticationSignUpResponses = {
+  /**
+   * The user has been successfully signed up.
+   */
+  200: unknown;
+};
 
 export type GetApiMaterialsData = {
   body?: never;

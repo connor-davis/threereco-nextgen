@@ -150,8 +150,8 @@ export const zErrorResponse = z.object({
 });
 
 export const zLoginPayload = z.object({
-  Email: z.optional(z.email()),
-  Password: z.optional(z.string().min(6).max(100)),
+  emailOrPhone: z.email(),
+  password: z.string().min(6).max(100),
 });
 
 export const zMaterial = z.object({
@@ -4485,8 +4485,8 @@ export const zGetApiAuthenticationCheckResponse = z.object({
 
 export const zPostApiAuthenticationLoginData = z.object({
   body: z.object({
-    Email: z.optional(z.email()),
-    Password: z.optional(z.string().min(6).max(100)),
+    emailOrPhone: z.email(),
+    password: z.string().min(6).max(100),
   }),
   path: z.optional(z.never()),
   query: z.optional(z.never()),
@@ -6432,6 +6432,17 @@ export const zGetApiAuthenticationPermissionsResponse = z.object({
       z.null(),
     ])
   ),
+});
+
+export const zPostApiAuthenticationSignUpData = z.object({
+  body: z.object({
+    email: z.optional(z.email()),
+    name: z.string().min(2).max(100),
+    password: z.string().min(6).max(100),
+    phone: z.optional(z.string().min(10).max(15)),
+  }),
+  path: z.optional(z.never()),
+  query: z.optional(z.never()),
 });
 
 export const zGetApiMaterialsData = z.object({

@@ -41,6 +41,7 @@ import {
   postApiAuthenticationLogin,
   postApiAuthenticationLogout,
   postApiAuthenticationMfaVerify,
+  postApiAuthenticationSignUp,
   postApiMaterials,
   postApiNotifications,
   postApiOrganizations,
@@ -118,6 +119,8 @@ import type {
   PostApiAuthenticationLogoutError,
   PostApiAuthenticationMfaVerifyData,
   PostApiAuthenticationMfaVerifyError,
+  PostApiAuthenticationSignUpData,
+  PostApiAuthenticationSignUpError,
   PostApiMaterialsData,
   PostApiMaterialsError,
   PostApiNotificationsData,
@@ -583,6 +586,59 @@ export const getApiAuthenticationPermissionsOptions = (
     },
     queryKey: getApiAuthenticationPermissionsQueryKey(options),
   });
+};
+
+export const postApiAuthenticationSignUpQueryKey = (
+  options: Options<PostApiAuthenticationSignUpData>
+) => createQueryKey('postApiAuthenticationSignUp', options);
+
+/**
+ * Sign Up
+ * Signs up a new user with email and password.
+ */
+export const postApiAuthenticationSignUpOptions = (
+  options: Options<PostApiAuthenticationSignUpData>
+) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await postApiAuthenticationSignUp({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: postApiAuthenticationSignUpQueryKey(options),
+  });
+};
+
+/**
+ * Sign Up
+ * Signs up a new user with email and password.
+ */
+export const postApiAuthenticationSignUpMutation = (
+  options?: Partial<Options<PostApiAuthenticationSignUpData>>
+): UseMutationOptions<
+  unknown,
+  PostApiAuthenticationSignUpError,
+  Options<PostApiAuthenticationSignUpData>
+> => {
+  const mutationOptions: UseMutationOptions<
+    unknown,
+    PostApiAuthenticationSignUpError,
+    Options<PostApiAuthenticationSignUpData>
+  > = {
+    mutationFn: async (localOptions) => {
+      const { data } = await postApiAuthenticationSignUp({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
 };
 
 export const getApiMaterialsQueryKey = (

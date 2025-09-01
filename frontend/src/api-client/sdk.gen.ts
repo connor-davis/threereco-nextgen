@@ -98,6 +98,9 @@ import type {
   PostApiAuthenticationMfaVerifyData,
   PostApiAuthenticationMfaVerifyErrors,
   PostApiAuthenticationMfaVerifyResponses,
+  PostApiAuthenticationSignUpData,
+  PostApiAuthenticationSignUpErrors,
+  PostApiAuthenticationSignUpResponses,
   PostApiMaterialsData,
   PostApiMaterialsErrors,
   PostApiMaterialsResponses,
@@ -335,6 +338,29 @@ export const getApiAuthenticationPermissions = <
   >({
     url: '/api/authentication/permissions',
     ...options,
+  });
+};
+
+/**
+ * Sign Up
+ * Signs up a new user with email and password.
+ */
+export const postApiAuthenticationSignUp = <
+  ThrowOnError extends boolean = false,
+>(
+  options: Options<PostApiAuthenticationSignUpData, ThrowOnError>
+) => {
+  return (options.client ?? _heyApiClient).post<
+    PostApiAuthenticationSignUpResponses,
+    PostApiAuthenticationSignUpErrors,
+    ThrowOnError
+  >({
+    url: '/api/authentication/sign-up',
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...options.headers,
+    },
   });
 };
 
