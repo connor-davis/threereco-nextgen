@@ -21,6 +21,7 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { PhoneInput } from '@/components/ui/phone-input';
 import { apiClient } from '@/lib/utils';
 
 export const Route = createFileRoute('/sign-up')({
@@ -59,7 +60,7 @@ function RouteComponent() {
 
   return (
     <div className="flex flex-col items-center justify-center w-full h-full">
-      <div className="flex flex-col w-full md:max-w-96 items-center justify-center gap-5 md:gap-10 p-5 md:p-10 m-5 md:m-10 border rounded-md bg-popover">
+      <div className="flex flex-col w-full md:max-w-120 items-center justify-center gap-5 md:gap-10 p-5 md:p-10 m-5 md:m-10 border rounded-md bg-popover">
         <div className="flex flex-col w-full h-auto gap-5 items-center justify-center text-center">
           <img src="/logo.png" className="w-full h-20 object-contain" />
 
@@ -118,7 +119,12 @@ function RouteComponent() {
                 <FormItem>
                   <FormLabel>Phone</FormLabel>
                   <FormControl>
-                    <Input type="text" placeholder="Phone" {...field} />
+                    <PhoneInput
+                      defaultCountry="ZA"
+                      type="text"
+                      placeholder="Phone"
+                      {...field}
+                    />
                   </FormControl>
                   <FormDescription>
                     Please enter your phone number (optional).

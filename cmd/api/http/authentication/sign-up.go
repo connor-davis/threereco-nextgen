@@ -132,9 +132,12 @@ func (r *AuthenticationRouter) SignUpRoute() routing.Route {
 			}
 
 			newUser := models.User{
-				Id:       newUserId,
-				Name:     &payload.Name,
-				Password: hashedPassword,
+				Id:                    newUserId,
+				Name:                  &payload.Name,
+				Password:              hashedPassword,
+				ModifiedByUserId:      newUserId,
+				PrimaryOrganizationId: &newOrganizationId,
+				Roles:                 []models.Role{organizationAdminRole},
 			}
 
 			if payload.Email != nil {
@@ -150,7 +153,7 @@ func (r *AuthenticationRouter) SignUpRoute() routing.Route {
 				}
 
 				if emailUser.Id != uuid.Nil {
-					log.Warnf("⚠️ User with email %s already exists", payload.Email)
+					log.Warnf("⚠️ User with email %s already exists", *payload.Email)
 
 					return c.Status(fiber.StatusConflict).JSON(&fiber.Map{
 						"error":   constants.ConflictError,
@@ -174,7 +177,7 @@ func (r *AuthenticationRouter) SignUpRoute() routing.Route {
 				}
 
 				if phoneUser.Id != uuid.Nil {
-					log.Warnf("⚠️ User with phone %s already exists", payload.Phone)
+					log.Warnf("⚠️ User with phone %s already exists", *payload.Phone)
 
 					return c.Status(fiber.StatusConflict).JSON(&fiber.Map{
 						"error":   constants.ConflictError,
@@ -190,6 +193,7 @@ func (r *AuthenticationRouter) SignUpRoute() routing.Route {
 				Name:             fmt.Sprintf("%s's Organization", payload.Name),
 				Domain:           fmt.Sprintf("%s.com", payload.Name),
 				OwnerId:          newUserId,
+				Owner:            newUser,
 				ModifiedByUserId: newUserId,
 				Users:            []models.User{newUser},
 				Roles:            []models.Role{organizationAdminRole, organizationUserRole},

@@ -15,8 +15,8 @@ import (
 )
 
 type LoginPayload struct {
-	Email    string `json:"email"`
-	Password string `json:"password"`
+	EmailOrPhone string `json:"emailOrPhone"`
+	Password     string `json:"password"`
 }
 
 func (r *AuthenticationRouter) LoginRoute() routing.Route {
@@ -96,7 +96,7 @@ func (r *AuthenticationRouter) LoginRoute() routing.Route {
 				})
 			}
 
-			user, err := r.Services.Users.GetByEmail(payload.Email)
+			user, err := r.Services.Users.GetByEmailOrPhone(payload.EmailOrPhone)
 
 			if err != nil {
 				log.Errorf("🔥 Error retrieving user: %s", err.Error())
@@ -108,7 +108,7 @@ func (r *AuthenticationRouter) LoginRoute() routing.Route {
 			}
 
 			if user.Id == uuid.Nil {
-				log.Warnf("⚠️ User with email %s not found", payload.Email)
+				log.Warnf("⚠️ User with email or phone %s not found", payload.EmailOrPhone)
 
 				return c.Status(fiber.StatusUnauthorized).JSON(&fiber.Map{
 					"error":   constants.UnauthorizedError,
@@ -119,7 +119,7 @@ func (r *AuthenticationRouter) LoginRoute() routing.Route {
 			err = bcrypt.CompareHashAndPassword(user.Password, []byte(payload.Password))
 
 			if err != nil {
-				log.Warnf("⚠️ Invalid password for user %s: %s", payload.Email, err.Error())
+				log.Warnf("⚠️ Invalid password for user %s: %s", payload.EmailOrPhone, err.Error())
 
 				return c.Status(fiber.StatusUnauthorized).JSON(&fiber.Map{
 					"error":   constants.UnauthorizedError,

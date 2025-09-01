@@ -335,11 +335,52 @@ func (s *UsersService) GetByEmail(email string) (*models.User, error) {
 	return &user, nil
 }
 
+// GetByPhone retrieves a user by the given phone number and eagerly loads related
+// associations (Roles, Organizations.Owner, ModifiedByUser, Address, BankDetails).
+//
+// Returns the populated *models.User on success. Because GORM's Find is used,
+// if no matching user exists the returned user will be zero-valued and the
+// error will be nil. Any database/query error is returned.
 func (s *UsersService) GetByPhone(phone string) (*models.User, error) {
 	var user models.User
 
 	if err := s.Storage.Postgres.
 		Where("phone = ?", phone).
+		Preload("Roles").
+		Preload("Organizations.Owner").
+		Preload("ModifiedByUser").
+		Preload("Address").
+		Preload("BankDetails").
+		Find(&user).Error; err != nil {
+		return nil, err
+	}
+
+	return &user, nil
+}
+
+// GetByEmailOrPhone queries the underlying Postgres storage for a single user whose
+// email OR phone matches the supplied value. It preloads the associated relations:
+//   - Roles
+//   - Organizations.Owner
+//   - ModifiedByUser
+//   - Address
+//   - BankDetails
+//
+// Returns a pointer to the matched user and a non-nil error only if the database
+// operation fails. If no user matches, GORM's Find on a struct does not return
+// an error; the returned user will be the zero-value (e.g., ID == 0). Callers
+// should check a distinguishing field (such as user.ID) to determine existence.
+//
+// Note: Using Find with a struct and an OR condition may return an arbitrary
+// matching row if multiple records satisfy the predicate, without an explicit
+// ordering. If deterministic or unique results are required, enforce uniqueness
+// at the database level (unique index on email and phone) or switch to a query
+// method such as First/Take with additional constraints.
+func (s *UsersService) GetByEmailOrPhone(emailOrPhone string) (*models.User, error) {
+	var user models.User
+
+	if err := s.Storage.Postgres.
+		Where("email = ? OR phone = ?", emailOrPhone, emailOrPhone).
 		Preload("Roles").
 		Preload("Organizations.Owner").
 		Preload("ModifiedByUser").
