@@ -1,9 +1,8 @@
-import { Link, createFileRoute } from '@tanstack/react-router';
+import { createFileRoute } from '@tanstack/react-router';
 
-import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 
-export const Route = createFileRoute('/sign-up/')({
+export const Route = createFileRoute('/sign-up')({
   component: RouteComponent,
 });
 
@@ -15,17 +14,8 @@ function RouteComponent() {
           <img src="/logo.png" className="w-full h-20 object-contain" />
 
           <Label className="text-muted-foreground">
-            Welcome to 3REco, please select your starting point below.
+            Welcome to 3REco, Please fill out your information below to sign up.
           </Label>
-        </div>
-
-        <div className="flex flex-col w-full h-auto gap-5 items-center justify-center">
-          <Link to="/sign-up/individual" className="w-full">
-            <Button className="w-full">I am an individual.</Button>
-          </Link>
-          <Link to="/sign-up/" className="w-full">
-            <Button className="w-full">I am a business.</Button>
-          </Link>
         </div>
       </div>
     </div>

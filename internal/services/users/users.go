@@ -326,6 +326,25 @@ func (s *UsersService) GetByEmail(email string) (*models.User, error) {
 		Preload("Roles").
 		Preload("Organizations.Owner").
 		Preload("ModifiedByUser").
+		Preload("Address").
+		Preload("BankDetails").
+		Find(&user).Error; err != nil {
+		return nil, err
+	}
+
+	return &user, nil
+}
+
+func (s *UsersService) GetByPhone(phone string) (*models.User, error) {
+	var user models.User
+
+	if err := s.Storage.Postgres.
+		Where("phone = ?", phone).
+		Preload("Roles").
+		Preload("Organizations.Owner").
+		Preload("ModifiedByUser").
+		Preload("Address").
+		Preload("BankDetails").
 		Find(&user).Error; err != nil {
 		return nil, err
 	}

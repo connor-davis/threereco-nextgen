@@ -9,11 +9,9 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as SignUpRouteImport } from './routes/sign-up'
 import { Route as AuthRouteImport } from './routes/_auth'
-import { Route as SignUpIndexRouteImport } from './routes/sign-up/index'
 import { Route as AuthIndexRouteImport } from './routes/_auth/index'
-import { Route as SignUpIndividualRouteImport } from './routes/sign-up/individual'
-import { Route as SignUpBusinessRouteImport } from './routes/sign-up/business'
 import { Route as AuthUsersIndexRouteImport } from './routes/_auth/users/index'
 import { Route as AuthTransactionsIndexRouteImport } from './routes/_auth/transactions/index'
 import { Route as AuthRolesIndexRouteImport } from './routes/_auth/roles/index'
@@ -38,29 +36,19 @@ import { Route as AuthRolesIdEditRouteImport } from './routes/_auth/roles/$id/ed
 import { Route as AuthProductsIdEditRouteImport } from './routes/_auth/products/$id/edit'
 import { Route as AuthMaterialsIdEditRouteImport } from './routes/_auth/materials/$id/edit'
 
-const AuthRoute = AuthRouteImport.update({
-  id: '/_auth',
+const SignUpRoute = SignUpRouteImport.update({
+  id: '/sign-up',
+  path: '/sign-up',
   getParentRoute: () => rootRouteImport,
 } as any)
-const SignUpIndexRoute = SignUpIndexRouteImport.update({
-  id: '/sign-up/',
-  path: '/sign-up/',
+const AuthRoute = AuthRouteImport.update({
+  id: '/_auth',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthIndexRoute = AuthIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => AuthRoute,
-} as any)
-const SignUpIndividualRoute = SignUpIndividualRouteImport.update({
-  id: '/sign-up/individual',
-  path: '/sign-up/individual',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const SignUpBusinessRoute = SignUpBusinessRouteImport.update({
-  id: '/sign-up/business',
-  path: '/sign-up/business',
-  getParentRoute: () => rootRouteImport,
 } as any)
 const AuthUsersIndexRoute = AuthUsersIndexRouteImport.update({
   id: '/users/',
@@ -179,10 +167,8 @@ const AuthMaterialsIdEditRoute = AuthMaterialsIdEditRouteImport.update({
 } as any)
 
 export interface FileRoutesByFullPath {
-  '/sign-up/business': typeof SignUpBusinessRoute
-  '/sign-up/individual': typeof SignUpIndividualRoute
+  '/sign-up': typeof SignUpRoute
   '/': typeof AuthIndexRoute
-  '/sign-up': typeof SignUpIndexRoute
   '/audit-logs/$id': typeof AuthAuditLogsIdRoute
   '/materials/create': typeof AuthMaterialsCreateRoute
   '/products/create': typeof AuthProductsCreateRoute
@@ -208,10 +194,8 @@ export interface FileRoutesByFullPath {
   '/users/$id': typeof AuthUsersIdIndexRoute
 }
 export interface FileRoutesByTo {
-  '/sign-up/business': typeof SignUpBusinessRoute
-  '/sign-up/individual': typeof SignUpIndividualRoute
+  '/sign-up': typeof SignUpRoute
   '/': typeof AuthIndexRoute
-  '/sign-up': typeof SignUpIndexRoute
   '/audit-logs/$id': typeof AuthAuditLogsIdRoute
   '/materials/create': typeof AuthMaterialsCreateRoute
   '/products/create': typeof AuthProductsCreateRoute
@@ -239,10 +223,8 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_auth': typeof AuthRouteWithChildren
-  '/sign-up/business': typeof SignUpBusinessRoute
-  '/sign-up/individual': typeof SignUpIndividualRoute
+  '/sign-up': typeof SignUpRoute
   '/_auth/': typeof AuthIndexRoute
-  '/sign-up/': typeof SignUpIndexRoute
   '/_auth/audit-logs/$id': typeof AuthAuditLogsIdRoute
   '/_auth/materials/create': typeof AuthMaterialsCreateRoute
   '/_auth/products/create': typeof AuthProductsCreateRoute
@@ -270,10 +252,8 @@ export interface FileRoutesById {
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    | '/sign-up/business'
-    | '/sign-up/individual'
-    | '/'
     | '/sign-up'
+    | '/'
     | '/audit-logs/$id'
     | '/materials/create'
     | '/products/create'
@@ -299,10 +279,8 @@ export interface FileRouteTypes {
     | '/users/$id'
   fileRoutesByTo: FileRoutesByTo
   to:
-    | '/sign-up/business'
-    | '/sign-up/individual'
-    | '/'
     | '/sign-up'
+    | '/'
     | '/audit-logs/$id'
     | '/materials/create'
     | '/products/create'
@@ -329,10 +307,8 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/_auth'
-    | '/sign-up/business'
-    | '/sign-up/individual'
+    | '/sign-up'
     | '/_auth/'
-    | '/sign-up/'
     | '/_auth/audit-logs/$id'
     | '/_auth/materials/create'
     | '/_auth/products/create'
@@ -360,25 +336,23 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   AuthRoute: typeof AuthRouteWithChildren
-  SignUpBusinessRoute: typeof SignUpBusinessRoute
-  SignUpIndividualRoute: typeof SignUpIndividualRoute
-  SignUpIndexRoute: typeof SignUpIndexRoute
+  SignUpRoute: typeof SignUpRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/sign-up': {
+      id: '/sign-up'
+      path: '/sign-up'
+      fullPath: '/sign-up'
+      preLoaderRoute: typeof SignUpRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/_auth': {
       id: '/_auth'
       path: ''
       fullPath: ''
       preLoaderRoute: typeof AuthRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/sign-up/': {
-      id: '/sign-up/'
-      path: '/sign-up'
-      fullPath: '/sign-up'
-      preLoaderRoute: typeof SignUpIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_auth/': {
@@ -387,20 +361,6 @@ declare module '@tanstack/react-router' {
       fullPath: '/'
       preLoaderRoute: typeof AuthIndexRouteImport
       parentRoute: typeof AuthRoute
-    }
-    '/sign-up/individual': {
-      id: '/sign-up/individual'
-      path: '/sign-up/individual'
-      fullPath: '/sign-up/individual'
-      preLoaderRoute: typeof SignUpIndividualRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/sign-up/business': {
-      id: '/sign-up/business'
-      path: '/sign-up/business'
-      fullPath: '/sign-up/business'
-      preLoaderRoute: typeof SignUpBusinessRouteImport
-      parentRoute: typeof rootRouteImport
     }
     '/_auth/users/': {
       id: '/_auth/users/'
@@ -624,9 +584,7 @@ const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   AuthRoute: AuthRouteWithChildren,
-  SignUpBusinessRoute: SignUpBusinessRoute,
-  SignUpIndividualRoute: SignUpIndividualRoute,
-  SignUpIndexRoute: SignUpIndexRoute,
+  SignUpRoute: SignUpRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

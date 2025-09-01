@@ -8,6 +8,13 @@ import (
 var LoginPayloadSchema = openapi3.NewSchema().
 	WithProperties(properties.LoginPayloadProperties).
 	WithRequired([]string{
-		"email",
+		"emailOrPhone",
+		"password",
+	}).NewRef()
+
+var SignUpPayloadSchema = openapi3.NewSchema().
+	WithProperties(properties.SignUpPayloadProperties).
+	WithRequired([]string{
+		"name",
 		"password",
 	}).NewRef()

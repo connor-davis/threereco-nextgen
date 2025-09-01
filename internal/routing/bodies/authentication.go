@@ -8,3 +8,7 @@ import (
 var LoginPayloadBody = &openapi3.RequestBodyRef{
 	Value: openapi3.NewRequestBody().WithJSONSchemaRef(schemas.LoginPayloadSchema).WithRequired(true),
 }
+
+var SignUpPayloadBody = &openapi3.RequestBodyRef{
+	Value: openapi3.NewRequestBody().WithJSONSchemaRef(schemas.SignUpPayloadSchema).WithRequired(true),
+}

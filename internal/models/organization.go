@@ -29,8 +29,8 @@ import (
 //   - UpdatedAt: Timestamp when the organization was last updated, automatically set.
 type Organization struct {
 	Id               uuid.UUID     `json:"id" gorm:"type:uuid;default:gen_random_uuid();primaryKey;"`
-	Name             string        `json:"name" gorm:"type:text;uniqueIndex;not null;"`
-	Domain           string        `json:"domain" gorm:"type:text;uniqueIndex;not null;"`
+	Name             string        `json:"name" gorm:"type:text;not null;"`
+	Domain           string        `json:"domain" gorm:"type:text;not null;"`
 	OwnerId          uuid.UUID     `json:"ownerId" gorm:"type:uuid;not null;"`
 	Owner            User          `json:"owner"`
 	Users            []User        `json:"-" gorm:"many2many:organizations_users;constraint:OnDelete:CASCADE;"`
