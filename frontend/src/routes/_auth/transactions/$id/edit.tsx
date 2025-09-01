@@ -15,7 +15,6 @@ import {
   LoaderCircleIcon,
   UserIcon,
 } from 'lucide-react';
-import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -81,6 +80,7 @@ export const Route = createFileRoute('/_auth/transactions/$id/edit')({
     productsSearch: z.string().default(''),
     accountsPage: z.coerce.number().default(1),
     accountsSearch: z.string().default(''),
+    step: z.coerce.number().default(1),
   }),
   pendingComponent: () => (
     <div className="flex flex-col w-full h-full items-center justify-center">
@@ -108,12 +108,19 @@ export const Route = createFileRoute('/_auth/transactions/$id/edit')({
 
   wrapInSuspense: true,
   loaderDeps: ({
-    search: { productsPage, productsSearch, accountsPage, accountsSearch },
+    search: {
+      productsPage,
+      productsSearch,
+      accountsPage,
+      accountsSearch,
+      step,
+    },
   }) => ({
     productsPage,
     productsSearch,
     accountsPage,
     accountsSearch,
+    step,
   }),
   loader: async ({
     params: { id },
@@ -158,7 +165,7 @@ export const Route = createFileRoute('/_auth/transactions/$id/edit')({
 function RouteComponent() {
   const router = useRouter();
   const { id } = Route.useParams();
-  const { productsPage, productsSearch, accountsPage, accountsSearch } =
+  const { productsPage, productsSearch, accountsPage, accountsSearch, step } =
     Route.useLoaderDeps();
   const {
     transaction,
@@ -167,8 +174,6 @@ function RouteComponent() {
     accounts,
     accountsPageDetails,
   } = Route.useLoaderData();
-
-  const [currentStep, setCurrentStep] = useState(1);
 
   const updateForm = useForm<z.infer<typeof zUpdateTransactionPayload>>({
     resolver: zodResolver(zUpdateTransactionPayload),
@@ -193,7 +198,20 @@ function RouteComponent() {
         duration: 2000,
       });
 
-      setCurrentStep(6);
+      router.navigate({
+        to: '/transactions/$id/edit',
+        params: {
+          id,
+        },
+        search: {
+          productsPage,
+          productsSearch,
+          accountsPage,
+          accountsSearch,
+          step: 6,
+        },
+      });
+
       updateForm.reset();
 
       return router.invalidate();
@@ -225,13 +243,40 @@ function RouteComponent() {
                 },
                 body: values,
               }),
-            () => setCurrentStep(1)
+            () =>
+              router.navigate({
+                to: '/transactions/$id/edit',
+                params: {
+                  id,
+                },
+                search: {
+                  productsPage,
+                  productsSearch,
+                  accountsPage,
+                  accountsSearch,
+                  step: 1,
+                },
+              })
           )}
           className="flex flex-col w-full h-full"
         >
           <Stepper
-            value={currentStep}
-            onValueChange={setCurrentStep}
+            value={step}
+            onValueChange={(step) =>
+              router.navigate({
+                to: '/transactions/$id/edit',
+                params: {
+                  id,
+                },
+                search: {
+                  productsPage,
+                  productsSearch,
+                  accountsPage,
+                  accountsSearch,
+                  step,
+                },
+              })
+            }
             indicators={{
               completed: <CheckIcon className="size-4" />,
               loading: <LoaderCircleIcon className="size-4 animate-spin" />,
@@ -516,7 +561,21 @@ function RouteComponent() {
                   <Button
                     type="button"
                     className="w-full"
-                    onClick={() => setCurrentStep(2)}
+                    onClick={() =>
+                      router.navigate({
+                        to: '/transactions/$id/edit',
+                        params: {
+                          id,
+                        },
+                        search: {
+                          productsPage,
+                          productsSearch,
+                          accountsPage,
+                          accountsSearch,
+                          step: 2,
+                        },
+                      })
+                    }
                   >
                     Continue
                   </Button>
@@ -630,10 +689,12 @@ function RouteComponent() {
                           productsSearch,
                           accountsPage,
                           accountsSearch,
+                          step,
                         }}
                         disabled={
                           productsPage === productsPageDetails.previousPage
                         }
+                        reloadDocument={false}
                       >
                         <Button
                           variant="outline"
@@ -655,8 +716,10 @@ function RouteComponent() {
                           productsSearch,
                           accountsPage,
                           accountsSearch,
+                          step,
                         }}
                         disabled={productsPage === productsPageDetails.nextPage}
+                        reloadDocument={false}
                       >
                         <Button
                           variant="outline"
@@ -677,14 +740,42 @@ function RouteComponent() {
                     type="button"
                     variant="outline"
                     className="w-full"
-                    onClick={() => setCurrentStep(1)}
+                    onClick={() =>
+                      router.navigate({
+                        to: '/transactions/$id/edit',
+                        params: {
+                          id,
+                        },
+                        search: {
+                          productsPage,
+                          productsSearch,
+                          accountsPage,
+                          accountsSearch,
+                          step: 1,
+                        },
+                      })
+                    }
                   >
                     Back
                   </Button>
                   <Button
                     type="button"
                     className="w-full"
-                    onClick={() => setCurrentStep(3)}
+                    onClick={() =>
+                      router.navigate({
+                        to: '/transactions/$id/edit',
+                        params: {
+                          id,
+                        },
+                        search: {
+                          productsPage,
+                          productsSearch,
+                          accountsPage,
+                          accountsSearch,
+                          step: 3,
+                        },
+                      })
+                    }
                   >
                     Continue
                   </Button>
@@ -798,11 +889,13 @@ function RouteComponent() {
                                   accountsPage:
                                     accountsPageDetails.previousPage,
                                   accountsSearch,
+                                  step,
                                 }}
                                 disabled={
                                   accountsPage ===
                                   accountsPageDetails.previousPage
                                 }
+                                reloadDocument={false}
                               >
                                 <Button
                                   variant="outline"
@@ -822,10 +915,12 @@ function RouteComponent() {
                                   productsSearch,
                                   accountsPage: accountsPageDetails.nextPage,
                                   accountsSearch,
+                                  step,
                                 }}
                                 disabled={
                                   accountsPage === accountsPageDetails.nextPage
                                 }
+                                reloadDocument={false}
                               >
                                 <Button
                                   variant="outline"
@@ -852,14 +947,42 @@ function RouteComponent() {
                     type="button"
                     variant="outline"
                     className="w-full"
-                    onClick={() => setCurrentStep(2)}
+                    onClick={() =>
+                      router.navigate({
+                        to: '/transactions/$id/edit',
+                        params: {
+                          id,
+                        },
+                        search: {
+                          productsPage,
+                          productsSearch,
+                          accountsPage,
+                          accountsSearch,
+                          step: 2,
+                        },
+                      })
+                    }
                   >
                     Back
                   </Button>
                   <Button
                     type="button"
                     className="w-full"
-                    onClick={() => setCurrentStep(4)}
+                    onClick={() =>
+                      router.navigate({
+                        to: '/transactions/$id/edit',
+                        params: {
+                          id,
+                        },
+                        search: {
+                          productsPage,
+                          productsSearch,
+                          accountsPage,
+                          accountsSearch,
+                          step: 4,
+                        },
+                      })
+                    }
                   >
                     Continue
                   </Button>
@@ -1037,7 +1160,21 @@ function RouteComponent() {
                           type="button"
                           variant="outline"
                           className="w-full"
-                          onClick={() => setCurrentStep(3)}
+                          onClick={() =>
+                            router.navigate({
+                              to: '/transactions/$id/edit',
+                              params: {
+                                id,
+                              },
+                              search: {
+                                productsPage,
+                                productsSearch,
+                                accountsPage,
+                                accountsSearch,
+                                step: 3,
+                              },
+                            })
+                          }
                         >
                           Back
                         </Button>
@@ -1062,7 +1199,24 @@ function RouteComponent() {
                     </p>
                   </div>
 
-                  <Button className="w-full" onClick={() => setCurrentStep(1)}>
+                  <Button
+                    className="w-full"
+                    onClick={() =>
+                      router.navigate({
+                        to: '/transactions/$id/edit',
+                        params: {
+                          id,
+                        },
+                        search: {
+                          productsPage,
+                          productsSearch,
+                          accountsPage,
+                          accountsSearch,
+                          step: 1,
+                        },
+                      })
+                    }
+                  >
                     Start Over
                   </Button>
                 </div>

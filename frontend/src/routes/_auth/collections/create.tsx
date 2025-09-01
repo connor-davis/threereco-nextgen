@@ -15,7 +15,6 @@ import {
   LoaderCircleIcon,
   UserIcon,
 } from 'lucide-react';
-import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -80,6 +79,7 @@ export const Route = createFileRoute('/_auth/collections/create')({
     productsSearch: z.string().default(''),
     accountsPage: z.coerce.number().default(1),
     accountsSearch: z.string().default(''),
+    step: z.coerce.number().default(1),
   }),
   pendingComponent: () => (
     <div className="flex flex-col w-full h-full items-center justify-center">
@@ -104,12 +104,19 @@ export const Route = createFileRoute('/_auth/collections/create')({
   },
   wrapInSuspense: true,
   loaderDeps: ({
-    search: { productsPage, productsSearch, accountsPage, accountsSearch },
+    search: {
+      productsPage,
+      productsSearch,
+      accountsPage,
+      accountsSearch,
+      step,
+    },
   }) => ({
     productsPage,
     productsSearch,
     accountsPage,
     accountsSearch,
+    step,
   }),
   loader: async ({
     deps: { productsPage, productsSearch, accountsPage, accountsSearch },
@@ -143,12 +150,10 @@ export const Route = createFileRoute('/_auth/collections/create')({
 
 function RouteComponent() {
   const router = useRouter();
-  const { productsPage, productsSearch, accountsPage, accountsSearch } =
+  const { productsPage, productsSearch, accountsPage, accountsSearch, step } =
     Route.useLoaderDeps();
   const { products, productsPageDetails, accounts, accountsPageDetails } =
     Route.useLoaderData();
-
-  const [currentStep, setCurrentStep] = useState(1);
 
   const createForm = useForm<CreateTransactionPayload>({
     resolver: zodResolver(zCreateTransactionPayload),
@@ -176,7 +181,17 @@ function RouteComponent() {
         duration: 2000,
       });
 
-      setCurrentStep(6);
+      router.navigate({
+        to: '/collections/create',
+        search: {
+          productsPage,
+          productsSearch,
+          accountsPage,
+          accountsSearch,
+          step: 6,
+        },
+      });
+
       createForm.reset();
 
       return router.invalidate();
@@ -205,13 +220,34 @@ function RouteComponent() {
               createTransaction.mutate({
                 body: values,
               }),
-            () => setCurrentStep(1)
+            () =>
+              router.navigate({
+                to: '/collections/create',
+                search: {
+                  productsPage,
+                  productsSearch,
+                  accountsPage,
+                  accountsSearch,
+                  step: 1,
+                },
+              })
           )}
           className="flex flex-col w-full h-full overflow-hidden"
         >
           <Stepper
-            value={currentStep}
-            onValueChange={setCurrentStep}
+            value={step}
+            onValueChange={(step) =>
+              router.navigate({
+                to: '/collections/create',
+                search: {
+                  productsPage,
+                  productsSearch,
+                  accountsPage,
+                  accountsSearch,
+                  step,
+                },
+              })
+            }
             indicators={{
               completed: <CheckIcon className="size-4" />,
               loading: <LoaderCircleIcon className="size-4 animate-spin" />,
@@ -496,7 +532,18 @@ function RouteComponent() {
                   <Button
                     type="button"
                     className="w-full"
-                    onClick={() => setCurrentStep(2)}
+                    onClick={() =>
+                      router.navigate({
+                        to: '/collections/create',
+                        search: {
+                          productsPage,
+                          productsSearch,
+                          accountsPage,
+                          accountsSearch,
+                          step: 2,
+                        },
+                      })
+                    }
                   >
                     Continue
                   </Button>
@@ -523,10 +570,13 @@ function RouteComponent() {
                           const search = e.target.value;
 
                           router.navigate({
-                            to: '/transactions/create',
+                            to: '/collections/create',
                             search: {
-                              productsPage: productsPage,
+                              productsPage,
                               productsSearch: search,
+                              accountsPage,
+                              accountsSearch,
+                              step,
                             },
                           });
                         }}
@@ -598,16 +648,18 @@ function RouteComponent() {
                       </Label>
 
                       <Link
-                        to="/transactions/create"
+                        to="/collections/create"
                         search={{
                           productsPage: productsPageDetails.previousPage,
                           productsSearch,
                           accountsPage,
                           accountsSearch,
+                          step,
                         }}
                         disabled={
                           productsPage === productsPageDetails.previousPage
                         }
+                        reloadDocument={false}
                       >
                         <Button
                           variant="outline"
@@ -620,14 +672,16 @@ function RouteComponent() {
                         </Button>
                       </Link>
                       <Link
-                        to="/transactions/create"
+                        to="/collections/create"
                         search={{
                           productsPage: productsPageDetails.nextPage,
                           productsSearch,
                           accountsPage,
                           accountsSearch,
+                          step,
                         }}
                         disabled={productsPage === productsPageDetails.nextPage}
+                        reloadDocument={false}
                       >
                         <Button
                           variant="outline"
@@ -648,14 +702,36 @@ function RouteComponent() {
                     type="button"
                     variant="outline"
                     className="w-full"
-                    onClick={() => setCurrentStep(1)}
+                    onClick={() =>
+                      router.navigate({
+                        to: '/collections/create',
+                        search: {
+                          productsPage,
+                          productsSearch,
+                          accountsPage,
+                          accountsSearch,
+                          step: 1,
+                        },
+                      })
+                    }
                   >
                     Back
                   </Button>
                   <Button
                     type="button"
                     className="w-full"
-                    onClick={() => setCurrentStep(3)}
+                    onClick={() =>
+                      router.navigate({
+                        to: '/collections/create',
+                        search: {
+                          productsPage,
+                          productsSearch,
+                          accountsPage,
+                          accountsSearch,
+                          step: 3,
+                        },
+                      })
+                    }
                   >
                     Continue
                   </Button>
@@ -688,12 +764,13 @@ function RouteComponent() {
                                   const search = e.target.value;
 
                                   router.navigate({
-                                    to: '/transactions/create',
+                                    to: '/collections/create',
                                     search: {
                                       productsPage,
                                       productsSearch,
                                       accountsPage,
                                       accountsSearch: search,
+                                      step,
                                     },
                                   });
                                 }}
@@ -762,18 +839,20 @@ function RouteComponent() {
                               </Label>
 
                               <Link
-                                to="/transactions/create"
+                                to="/collections/create"
                                 search={{
                                   productsPage,
                                   productsSearch,
                                   accountsPage:
                                     accountsPageDetails.previousPage,
                                   accountsSearch,
+                                  step,
                                 }}
                                 disabled={
                                   accountsPage ===
                                   accountsPageDetails.previousPage
                                 }
+                                reloadDocument={false}
                               >
                                 <Button
                                   variant="outline"
@@ -787,16 +866,18 @@ function RouteComponent() {
                                 </Button>
                               </Link>
                               <Link
-                                to="/transactions/create"
+                                to="/collections/create"
                                 search={{
                                   productsPage,
                                   productsSearch,
                                   accountsPage: accountsPageDetails.nextPage,
                                   accountsSearch,
+                                  step,
                                 }}
                                 disabled={
                                   accountsPage === accountsPageDetails.nextPage
                                 }
+                                reloadDocument={false}
                               >
                                 <Button
                                   variant="outline"
@@ -823,14 +904,36 @@ function RouteComponent() {
                     type="button"
                     variant="outline"
                     className="w-full"
-                    onClick={() => setCurrentStep(2)}
+                    onClick={() =>
+                      router.navigate({
+                        to: '/collections/create',
+                        search: {
+                          productsPage,
+                          productsSearch,
+                          accountsPage,
+                          accountsSearch,
+                          step: 2,
+                        },
+                      })
+                    }
                   >
                     Back
                   </Button>
                   <Button
                     type="button"
                     className="w-full"
-                    onClick={() => setCurrentStep(4)}
+                    onClick={() =>
+                      router.navigate({
+                        to: '/collections/create',
+                        search: {
+                          productsPage,
+                          productsSearch,
+                          accountsPage,
+                          accountsSearch,
+                          step: 4,
+                        },
+                      })
+                    }
                   >
                     Continue
                   </Button>
@@ -1008,7 +1111,18 @@ function RouteComponent() {
                           type="button"
                           variant="outline"
                           className="w-full"
-                          onClick={() => setCurrentStep(3)}
+                          onClick={() =>
+                            router.navigate({
+                              to: '/collections/create',
+                              search: {
+                                productsPage,
+                                productsSearch,
+                                accountsPage,
+                                accountsSearch,
+                                step: 3,
+                              },
+                            })
+                          }
                         >
                           Back
                         </Button>
@@ -1033,7 +1147,21 @@ function RouteComponent() {
                     </p>
                   </div>
 
-                  <Button className="w-full" onClick={() => setCurrentStep(1)}>
+                  <Button
+                    className="w-full"
+                    onClick={() =>
+                      router.navigate({
+                        to: '/collections/create',
+                        search: {
+                          productsPage,
+                          productsSearch,
+                          accountsPage,
+                          accountsSearch,
+                          step: 1,
+                        },
+                      })
+                    }
+                  >
                     Create New Collection
                   </Button>
                 </div>
