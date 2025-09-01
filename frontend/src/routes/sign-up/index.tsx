@@ -20,7 +20,7 @@ function RouteComponent() {
         </div>
 
         <div className="flex flex-col w-full h-auto gap-5 items-center justify-center">
-          <Link to="/sign-up/" className="w-full">
+          <Link to="/sign-up/individual" className="w-full">
             <Button className="w-full">I am an individual.</Button>
           </Link>
           <Link to="/sign-up/" className="w-full">
