@@ -23,6 +23,7 @@ import {
   getApiAuthenticationMfaEnable,
   getApiAuthenticationOrganizations,
   getApiAuthenticationPermissions,
+  getApiCollections,
   getApiMaterials,
   getApiMaterialsById,
   getApiNotifications,
@@ -84,6 +85,9 @@ import type {
   GetApiAuthenticationMfaEnableData,
   GetApiAuthenticationOrganizationsData,
   GetApiAuthenticationPermissionsData,
+  GetApiCollectionsData,
+  GetApiCollectionsError,
+  GetApiCollectionsResponse,
   GetApiMaterialsByIdData,
   GetApiMaterialsData,
   GetApiMaterialsError,
@@ -639,6 +643,83 @@ export const postApiAuthenticationSignUpMutation = (
     },
   };
   return mutationOptions;
+};
+
+export const getApiCollectionsQueryKey = (
+  options?: Options<GetApiCollectionsData>
+) => createQueryKey('getApiCollections', options);
+
+/**
+ * View Collections
+ * Endpoint to retrieve a list of collections with pagination and optional search query
+ */
+export const getApiCollectionsOptions = (
+  options?: Options<GetApiCollectionsData>
+) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await getApiCollections({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: getApiCollectionsQueryKey(options),
+  });
+};
+
+export const getApiCollectionsInfiniteQueryKey = (
+  options?: Options<GetApiCollectionsData>
+): QueryKey<Options<GetApiCollectionsData>> =>
+  createQueryKey('getApiCollections', options, true);
+
+/**
+ * View Collections
+ * Endpoint to retrieve a list of collections with pagination and optional search query
+ */
+export const getApiCollectionsInfiniteOptions = (
+  options?: Options<GetApiCollectionsData>
+) => {
+  return infiniteQueryOptions<
+    GetApiCollectionsResponse,
+    GetApiCollectionsError,
+    InfiniteData<GetApiCollectionsResponse>,
+    QueryKey<Options<GetApiCollectionsData>>,
+    | number
+    | Pick<
+        QueryKey<Options<GetApiCollectionsData>>[0],
+        'body' | 'headers' | 'path' | 'query'
+      >
+  >(
+    // @ts-ignore
+    {
+      queryFn: async ({ pageParam, queryKey, signal }) => {
+        // @ts-ignore
+        const page: Pick<
+          QueryKey<Options<GetApiCollectionsData>>[0],
+          'body' | 'headers' | 'path' | 'query'
+        > =
+          typeof pageParam === 'object'
+            ? pageParam
+            : {
+                query: {
+                  page: pageParam,
+                },
+              };
+        const params = createInfiniteParams(queryKey, page);
+        const { data } = await getApiCollections({
+          ...options,
+          ...params,
+          signal,
+          throwOnError: true,
+        });
+        return data;
+      },
+      queryKey: getApiCollectionsInfiniteQueryKey(options),
+    }
+  );
 };
 
 export const getApiMaterialsQueryKey = (

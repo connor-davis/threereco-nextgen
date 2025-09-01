@@ -6,6 +6,7 @@ import {
   LayoutDashboardIcon,
   NotebookIcon,
   ScrollTextIcon,
+  TruckIcon,
   UsersIcon,
 } from 'lucide-react';
 
@@ -110,6 +111,21 @@ export default function AppSidebar() {
                 </TooltipTrigger>
                 <TooltipContent side="right" hidden={state === 'expanded'}>
                   Transactions
+                </TooltipContent>
+              </Tooltip>
+              <Tooltip>
+                <TooltipTrigger>
+                  <SidebarMenuItem>
+                    <SidebarMenuButton asChild>
+                      <Link to="/collections">
+                        <TruckIcon />
+                        <span>Collections</span>
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                </TooltipTrigger>
+                <TooltipContent side="right" hidden={state === 'expanded'}>
+                  Collections
                 </TooltipContent>
               </Tooltip>
             </SidebarMenu>

@@ -1,4 +1,4 @@
-import { postApiTransactionsMutation } from '@/api-client/@tanstack/react-query.gen';
+import { putApiTransactionsByIdMutation } from '@/api-client/@tanstack/react-query.gen';
 import { useMutation } from '@tanstack/react-query';
 import {
   ErrorComponent,
@@ -23,14 +23,15 @@ import { toast } from 'sonner';
 import z from 'zod';
 
 import {
-  type CreateTransactionPayload,
   type ErrorResponse,
   type Product,
+  type Transaction,
   type User,
   getApiProducts,
+  getApiTransactionsById,
   getApiUsers,
 } from '@/api-client';
-import { zCreateTransactionPayload } from '@/api-client/zod.gen';
+import { zUpdateTransactionPayload } from '@/api-client/zod.gen';
 import PermissionGuard from '@/components/guards/permission';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Badge } from '@/components/ui/badge';
@@ -69,9 +70,9 @@ import {
 } from '@/components/ui/stepper';
 import { apiClient } from '@/lib/utils';
 
-export const Route = createFileRoute('/_auth/transactions/create')({
+export const Route = createFileRoute('/_auth/collections/$id/edit')({
   component: () => (
-    <PermissionGuard value="transactions.create" isPage={true}>
+    <PermissionGuard value="transactions.update" isPage={true}>
       <RouteComponent />
     </PermissionGuard>
   ),
@@ -83,7 +84,9 @@ export const Route = createFileRoute('/_auth/transactions/create')({
   }),
   pendingComponent: () => (
     <div className="flex flex-col w-full h-full items-center justify-center">
-      <Label className="text-muted-foreground">Loading transactions...</Label>
+      <Label className="text-muted-foreground">
+        Loading transaction information...
+      </Label>
     </div>
   ),
   errorComponent: ({ error }: { error: Error | ErrorResponse }) => {
@@ -102,6 +105,7 @@ export const Route = createFileRoute('/_auth/transactions/create')({
     // Fallback to the default ErrorComponent
     return <ErrorComponent error={error} />;
   },
+
   wrapInSuspense: true,
   loaderDeps: ({
     search: { productsPage, productsSearch, accountsPage, accountsSearch },
@@ -112,8 +116,17 @@ export const Route = createFileRoute('/_auth/transactions/create')({
     accountsSearch,
   }),
   loader: async ({
+    params: { id },
     deps: { productsPage, productsSearch, accountsPage, accountsSearch },
   }) => {
+    const { data: collection } = await getApiTransactionsById({
+      client: apiClient,
+      path: {
+        id,
+      },
+      throwOnError: true,
+    });
+
     const { data: products } = await getApiProducts({
       client: apiClient,
       query: {
@@ -133,6 +146,7 @@ export const Route = createFileRoute('/_auth/transactions/create')({
     });
 
     return {
+      collection: (collection.item ?? {}) as Transaction,
       products: (products.items ?? []) as Array<Product>,
       productsPageDetails: products.pageDetails ?? {},
       accounts: (accounts.items ?? []) as Array<User>,
@@ -143,26 +157,29 @@ export const Route = createFileRoute('/_auth/transactions/create')({
 
 function RouteComponent() {
   const router = useRouter();
+  const { id } = Route.useParams();
   const { productsPage, productsSearch, accountsPage, accountsSearch } =
     Route.useLoaderDeps();
-  const { products, productsPageDetails, accounts, accountsPageDetails } =
-    Route.useLoaderData();
+  const {
+    collection,
+    products,
+    productsPageDetails,
+    accounts,
+    accountsPageDetails,
+  } = Route.useLoaderData();
 
   const [currentStep, setCurrentStep] = useState(1);
 
-  const createForm = useForm<CreateTransactionPayload>({
-    resolver: zodResolver(zCreateTransactionPayload),
-    defaultValues: {
-      type: 'transaction',
-      amount: 0,
-      products: undefined,
-      sellerId: undefined,
-      weight: undefined,
+  const updateForm = useForm<z.infer<typeof zUpdateTransactionPayload>>({
+    resolver: zodResolver(zUpdateTransactionPayload),
+    values: {
+      ...collection,
+      products: collection.products.map((product) => product.id),
     },
   });
 
-  const createTransaction = useMutation({
-    ...postApiTransactionsMutation({
+  const updateTransaction = useMutation({
+    ...putApiTransactionsByIdMutation({
       client: apiClient,
     }),
     onError: (error: ErrorResponse) =>
@@ -172,12 +189,12 @@ function RouteComponent() {
       }),
     onSuccess: () => {
       toast.success('Success', {
-        description: 'The transaction has been created successfully.',
+        description: 'The collection has been updated successfully.',
         duration: 2000,
       });
 
       setCurrentStep(6);
-      createForm.reset();
+      updateForm.reset();
 
       return router.invalidate();
     },
@@ -187,27 +204,30 @@ function RouteComponent() {
     <div className="flex flex-col w-full h-full bg-popover border-t p-3 gap-3">
       <div className="flex items-center justify-between w-full h-auto">
         <div className="flex items-center gap-3">
-          <Link to="/transactions">
+          <Link to="/collections">
             <Button variant="ghost" size="icon">
               <ArrowLeftIcon className="size-4" />
             </Button>
           </Link>
 
-          <Label className="text-lg">Create Transaction</Label>
+          <Label className="text-lg">Edit Collection</Label>
         </div>
         <div className="flex items-center gap-3"></div>
       </div>
 
-      <Form {...createForm}>
+      <Form {...updateForm}>
         <form
-          onSubmit={createForm.handleSubmit(
+          onSubmit={updateForm.handleSubmit(
             (values) =>
-              createTransaction.mutate({
+              updateTransaction.mutate({
+                path: {
+                  id,
+                },
                 body: values,
               }),
             () => setCurrentStep(1)
           )}
-          className="flex flex-col w-full h-full overflow-hidden"
+          className="flex flex-col w-full h-full"
         >
           <Stepper
             value={currentStep}
@@ -232,7 +252,7 @@ function RouteComponent() {
                       Step 1
                     </div>
                     <StepperTitle className="text-start text-base font-semibold group-data-[state=inactive]/step:text-muted-foreground">
-                      Transaction Details
+                      Collection Details
                     </StepperTitle>
                     <div>
                       <Badge
@@ -272,7 +292,7 @@ function RouteComponent() {
                       Step 2
                     </div>
                     <StepperTitle className="text-start text-base font-semibold group-data-[state=inactive]/step:text-muted-foreground">
-                      Transaction Products
+                      Collection Products
                     </StepperTitle>
                     <div>
                       <Badge
@@ -302,7 +322,7 @@ function RouteComponent() {
               <StepperItem
                 step={3}
                 className="relative flex-1 items-start"
-                loading={createTransaction.isPending}
+                loading={updateTransaction.isPending}
               >
                 <StepperTrigger
                   className="flex flex-col items-start justify-center gap-2.5 grow"
@@ -316,7 +336,7 @@ function RouteComponent() {
                       Step 3
                     </div>
                     <StepperTitle className="text-start text-base font-semibold group-data-[state=inactive]/step:text-muted-foreground">
-                      Transaction Account
+                      Collection Account
                     </StepperTitle>
                     <div>
                       <Badge
@@ -346,7 +366,7 @@ function RouteComponent() {
               <StepperItem
                 step={4}
                 className="relative flex-1 items-start"
-                loading={createTransaction.isPending}
+                loading={updateTransaction.isPending}
               >
                 <StepperTrigger
                   className="flex flex-col items-start justify-center gap-2.5 grow"
@@ -360,7 +380,7 @@ function RouteComponent() {
                       Step 3
                     </div>
                     <StepperTitle className="text-start text-base font-semibold group-data-[state=inactive]/step:text-muted-foreground">
-                      Transaction Overview
+                      Collection Overview
                     </StepperTitle>
                     <div>
                       <Badge
@@ -390,7 +410,7 @@ function RouteComponent() {
               <StepperItem
                 step={5}
                 className="relative items-start"
-                loading={createTransaction.isPending}
+                loading={updateTransaction.isPending}
               >
                 <StepperTrigger
                   className="flex flex-col items-start justify-center gap-2.5"
@@ -402,7 +422,7 @@ function RouteComponent() {
                   <div className="flex flex-col items-start gap-1">
                     <div className="text-[10px] font-semibold uppercase text-muted-foreground"></div>
                     <StepperTitle className="text-start text-base font-semibold group-data-[state=inactive]/step:text-muted-foreground">
-                      Transaction Created
+                      Transaction Updated
                     </StepperTitle>
                     <div>
                       <Badge
@@ -436,7 +456,7 @@ function RouteComponent() {
               >
                 <div className="flex flex-col w-full h-full gap-5">
                   <FormField
-                    control={createForm.control}
+                    control={updateForm.control}
                     name="weight"
                     render={({ field }) => (
                       <FormItem>
@@ -452,15 +472,15 @@ function RouteComponent() {
                             onChange={() => {}}
                             onValueChange={(value) => {
                               const previousWeight = Number.isNaN(
-                                Number(createForm.getValues().weight)
+                                Number(updateForm.getValues().weight)
                               )
                                 ? 0
-                                : Number(createForm.getValues().weight);
+                                : Number(updateForm.getValues().weight);
                               const previousAmount = Number.isNaN(
-                                Number(createForm.getValues().amount)
+                                Number(updateForm.getValues().amount)
                               )
                                 ? 0
-                                : Number(createForm.getValues().amount);
+                                : Number(updateForm.getValues().amount);
                               const amountMultiplier = Number.isNaN(
                                 Number(previousAmount / previousWeight)
                               )
@@ -473,13 +493,13 @@ function RouteComponent() {
 
                               const newAmount = newWeight * amountMultiplier;
 
-                              createForm.setValue('amount', newAmount);
+                              updateForm.setValue('amount', newAmount);
                               field.onChange(value);
                             }}
                           />
                         </FormControl>
                         <FormDescription>
-                          Enter the transaction's weight (kg).
+                          Enter the collection's weight (kg).
                         </FormDescription>
                         <FormMessage />
                       </FormItem>
@@ -523,7 +543,8 @@ function RouteComponent() {
                           const search = e.target.value;
 
                           router.navigate({
-                            to: '/transactions/create',
+                            to: '/collections/$id/edit',
+                            params: { id },
                             search: {
                               productsPage: productsPage,
                               productsSearch: search,
@@ -539,35 +560,35 @@ function RouteComponent() {
                       <Label className="hover:bg-accent flex items-center justify-between gap-3 rounded-lg border p-3">
                         <Checkbox
                           id="toggle-2"
-                          checked={(createForm.watch().products ?? []).includes(
+                          checked={(updateForm.watch().products ?? []).includes(
                             product.id
                           )}
                           onCheckedChange={(checked) => {
                             const currentAmount =
-                              createForm.getValues().amount ?? 0;
+                              updateForm.getValues().amount ?? 0;
                             const currentWeight =
-                              createForm.getValues().weight ?? 0;
+                              updateForm.getValues().weight ?? 0;
                             const weightMultipliedByProductValue =
                               currentWeight * product.value;
 
                             if (checked) {
-                              createForm.setValue('products', [
-                                ...(createForm.getValues().products ?? []),
+                              updateForm.setValue('products', [
+                                ...(updateForm.getValues().products ?? []),
                                 product.id,
                               ]);
 
-                              createForm.setValue(
+                              updateForm.setValue(
                                 'amount',
                                 currentAmount + weightMultipliedByProductValue
                               );
                             } else {
-                              createForm.setValue('products', [
+                              updateForm.setValue('products', [
                                 ...(
-                                  createForm.getValues().products ?? []
+                                  updateForm.getValues().products ?? []
                                 ).filter((id) => id !== product.id),
                               ]);
 
-                              createForm.setValue(
+                              updateForm.setValue(
                                 'amount',
                                 currentAmount - weightMultipliedByProductValue
                               );
@@ -598,7 +619,10 @@ function RouteComponent() {
                       </Label>
 
                       <Link
-                        to="/transactions/create"
+                        to="/collections/$id/edit"
+                        params={{
+                          id,
+                        }}
                         search={{
                           productsPage: productsPageDetails.previousPage,
                           productsSearch,
@@ -620,7 +644,10 @@ function RouteComponent() {
                         </Button>
                       </Link>
                       <Link
-                        to="/transactions/create"
+                        to="/collections/$id/edit"
+                        params={{
+                          id,
+                        }}
                         search={{
                           productsPage: productsPageDetails.nextPage,
                           productsSearch,
@@ -667,7 +694,7 @@ function RouteComponent() {
                 className="flex flex-col w-full h-full gap-3"
               >
                 <FormField
-                  control={createForm.control}
+                  control={updateForm.control}
                   name="sellerId"
                   render={() => (
                     <FormItem>
@@ -688,7 +715,8 @@ function RouteComponent() {
                                   const search = e.target.value;
 
                                   router.navigate({
-                                    to: '/transactions/create',
+                                    to: '/collections/$id/edit',
+                                    params: { id },
                                     search: {
                                       productsPage,
                                       productsSearch,
@@ -707,17 +735,17 @@ function RouteComponent() {
                                 <Checkbox
                                   id="toggle-2"
                                   checked={
-                                    (createForm.watch().sellerId ?? []) ===
+                                    (updateForm.watch().sellerId ?? []) ===
                                     account.id
                                   }
                                   onCheckedChange={(checked) => {
                                     if (checked) {
-                                      createForm.setValue(
+                                      updateForm.setValue(
                                         'sellerId',
                                         account.id
                                       );
                                     } else {
-                                      createForm.setValue('sellerId', '');
+                                      updateForm.setValue('sellerId', '');
                                     }
                                   }}
                                   className="data-[state=checked]:border-primary data-[state=checked]:bg-primary data-[state=checked]:text-white"
@@ -762,7 +790,10 @@ function RouteComponent() {
                               </Label>
 
                               <Link
-                                to="/transactions/create"
+                                to="/collections/$id/edit"
+                                params={{
+                                  id,
+                                }}
                                 search={{
                                   productsPage,
                                   productsSearch,
@@ -787,7 +818,10 @@ function RouteComponent() {
                                 </Button>
                               </Link>
                               <Link
-                                to="/transactions/create"
+                                to="/collections/$id/edit"
+                                params={{
+                                  id,
+                                }}
                                 search={{
                                   productsPage,
                                   productsSearch,
@@ -855,7 +889,7 @@ function RouteComponent() {
                           <div className="flex items-center justify-between w-full h-auto gap-3">
                             {accounts.find(
                               (account) =>
-                                account.id === createForm.getValues().sellerId
+                                account.id === updateForm.getValues().sellerId
                             )?.name && (
                               <div className="flex flex-col">
                                 <Label className="text-sm">
@@ -863,7 +897,7 @@ function RouteComponent() {
                                     accounts.find(
                                       (account) =>
                                         account.id ===
-                                        createForm.getValues().sellerId
+                                        updateForm.getValues().sellerId
                                     )?.name
                                   }
                                 </Label>
@@ -872,7 +906,7 @@ function RouteComponent() {
                                     accounts.find(
                                       (account) =>
                                         account.id ===
-                                        createForm.getValues().sellerId
+                                        updateForm.getValues().sellerId
                                     )?.email
                                   }
                                 </Label>
@@ -881,7 +915,7 @@ function RouteComponent() {
 
                             {!accounts.find(
                               (account) =>
-                                account.id === createForm.getValues().sellerId
+                                account.id === updateForm.getValues().sellerId
                             )?.name && (
                               <div className="flex flex-col">
                                 <Label className="text-sm">
@@ -889,7 +923,7 @@ function RouteComponent() {
                                     accounts.find(
                                       (account) =>
                                         account.id ===
-                                        createForm.getValues().sellerId
+                                        updateForm.getValues().sellerId
                                     )?.email
                                   }
                                 </Label>
@@ -901,14 +935,14 @@ function RouteComponent() {
                                 accounts.find(
                                   (account) =>
                                     account.id ===
-                                    createForm.getValues().sellerId
+                                    updateForm.getValues().sellerId
                                 )?.tags ?? []
                               ).length > 0 &&
                                 accounts
                                   .find(
                                     (account) =>
                                       account.id ===
-                                      createForm.getValues().sellerId
+                                      updateForm.getValues().sellerId
                                   )
                                   ?.tags.map((tag) => (
                                     <Badge key={tag}>{tag}</Badge>
@@ -923,18 +957,18 @@ function RouteComponent() {
                       <CardHeader>
                         <CardTitle>Added Products</CardTitle>
                         <CardDescription>
-                          Review the products added to the transaction.
+                          Review the products added to the collection.
                         </CardDescription>
                       </CardHeader>
                       <CardContent className="flex flex-col w-full h-full overflow-hidden">
                         <div className="flex flex-col w-full h-full overflow-y-auto gap-3">
-                          {(createForm.getValues().products ?? []).length ===
+                          {(updateForm.getValues().products ?? []).length ===
                           0 ? (
                             <Label className="text-muted-foreground">
                               No products added
                             </Label>
                           ) : (
-                            createForm
+                            updateForm
                               .getValues()
                               .products?.map((productId) => {
                                 const product = products.find(
@@ -970,9 +1004,9 @@ function RouteComponent() {
 
                   <Card className="border-dashed">
                     <CardHeader>
-                      <CardTitle>Transaction Details</CardTitle>
+                      <CardTitle>Collection Details</CardTitle>
                       <CardDescription>
-                        Review the transaction details before creating.
+                        Review the collection details before creating.
                       </CardDescription>
                     </CardHeader>
                     <CardContent className="flex flex-col w-full h-full gap-3 justify-start items-start">
@@ -982,10 +1016,10 @@ function RouteComponent() {
                           {new Intl.NumberFormat('en-ZA', {
                             style: 'currency',
                             currency: 'ZAR',
-                          }).format(createForm.getValues().amount)}
+                          }).format(updateForm.getValues().amount ?? 0)}
                         </Label>
                         <Label className="text-sm text-muted-foreground">
-                          This will be the transactions amount.
+                          This will be the collections amount.
                         </Label>
                       </div>
 
@@ -995,10 +1029,10 @@ function RouteComponent() {
                           {new Intl.NumberFormat('en-ZA', {
                             style: 'unit',
                             unit: 'kilogram',
-                          }).format(createForm.getValues().weight ?? 0)}
+                          }).format(updateForm.getValues().weight ?? 0)}
                         </Label>
                         <Label className="text-sm text-muted-foreground">
-                          This will be the transactions weight.
+                          This will be the collections weight.
                         </Label>
                       </div>
                     </CardContent>
@@ -1012,7 +1046,7 @@ function RouteComponent() {
                         >
                           Back
                         </Button>
-                        <Button className="w-full">Create Transaction</Button>
+                        <Button className="w-full">Update Collection</Button>
                       </div>
                     </CardFooter>
                   </Card>
@@ -1026,15 +1060,15 @@ function RouteComponent() {
                 <div className="flex flex-col w-full h-full gap-5">
                   <div className="flex flex-col w-full h-auto items-center justify-center gap-3">
                     <p className="text-lg font-semibold">
-                      Transaction created successfully!
+                      Collection created successfully!
                     </p>
                     <p className="text-sm text-muted-foreground">
-                      You can view your transaction in the transaction list.
+                      You can view your collection in the collection list.
                     </p>
                   </div>
 
                   <Button className="w-full" onClick={() => setCurrentStep(1)}>
-                    Create New Transaction
+                    Start Over
                   </Button>
                 </div>
               </StepperContent>

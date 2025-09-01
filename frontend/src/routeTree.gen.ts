@@ -17,24 +17,28 @@ import { Route as AuthTransactionsIndexRouteImport } from './routes/_auth/transa
 import { Route as AuthRolesIndexRouteImport } from './routes/_auth/roles/index'
 import { Route as AuthProductsIndexRouteImport } from './routes/_auth/products/index'
 import { Route as AuthMaterialsIndexRouteImport } from './routes/_auth/materials/index'
+import { Route as AuthCollectionsIndexRouteImport } from './routes/_auth/collections/index'
 import { Route as AuthAuditLogsIndexRouteImport } from './routes/_auth/audit-logs/index'
 import { Route as AuthUsersCreateRouteImport } from './routes/_auth/users/create'
 import { Route as AuthTransactionsCreateRouteImport } from './routes/_auth/transactions/create'
 import { Route as AuthRolesCreateRouteImport } from './routes/_auth/roles/create'
 import { Route as AuthProductsCreateRouteImport } from './routes/_auth/products/create'
 import { Route as AuthMaterialsCreateRouteImport } from './routes/_auth/materials/create'
+import { Route as AuthCollectionsCreateRouteImport } from './routes/_auth/collections/create'
 import { Route as AuthAuditLogsIdRouteImport } from './routes/_auth/audit-logs/$id'
 import { Route as AuthUsersIdIndexRouteImport } from './routes/_auth/users/$id/index'
 import { Route as AuthTransactionsIdIndexRouteImport } from './routes/_auth/transactions/$id/index'
 import { Route as AuthRolesIdIndexRouteImport } from './routes/_auth/roles/$id/index'
 import { Route as AuthProductsIdIndexRouteImport } from './routes/_auth/products/$id/index'
 import { Route as AuthMaterialsIdIndexRouteImport } from './routes/_auth/materials/$id/index'
+import { Route as AuthCollectionsIdIndexRouteImport } from './routes/_auth/collections/$id/index'
 import { Route as AuthUsersIdEditRouteImport } from './routes/_auth/users/$id/edit'
 import { Route as AuthTransactionsIdEditRouteImport } from './routes/_auth/transactions/$id/edit'
 import { Route as AuthRolesIdPermissionsRouteImport } from './routes/_auth/roles/$id/permissions'
 import { Route as AuthRolesIdEditRouteImport } from './routes/_auth/roles/$id/edit'
 import { Route as AuthProductsIdEditRouteImport } from './routes/_auth/products/$id/edit'
 import { Route as AuthMaterialsIdEditRouteImport } from './routes/_auth/materials/$id/edit'
+import { Route as AuthCollectionsIdEditRouteImport } from './routes/_auth/collections/$id/edit'
 
 const SignUpRoute = SignUpRouteImport.update({
   id: '/sign-up',
@@ -75,6 +79,11 @@ const AuthMaterialsIndexRoute = AuthMaterialsIndexRouteImport.update({
   path: '/materials/',
   getParentRoute: () => AuthRoute,
 } as any)
+const AuthCollectionsIndexRoute = AuthCollectionsIndexRouteImport.update({
+  id: '/collections/',
+  path: '/collections/',
+  getParentRoute: () => AuthRoute,
+} as any)
 const AuthAuditLogsIndexRoute = AuthAuditLogsIndexRouteImport.update({
   id: '/audit-logs/',
   path: '/audit-logs/',
@@ -103,6 +112,11 @@ const AuthProductsCreateRoute = AuthProductsCreateRouteImport.update({
 const AuthMaterialsCreateRoute = AuthMaterialsCreateRouteImport.update({
   id: '/materials/create',
   path: '/materials/create',
+  getParentRoute: () => AuthRoute,
+} as any)
+const AuthCollectionsCreateRoute = AuthCollectionsCreateRouteImport.update({
+  id: '/collections/create',
+  path: '/collections/create',
   getParentRoute: () => AuthRoute,
 } as any)
 const AuthAuditLogsIdRoute = AuthAuditLogsIdRouteImport.update({
@@ -135,6 +149,11 @@ const AuthMaterialsIdIndexRoute = AuthMaterialsIdIndexRouteImport.update({
   path: '/materials/$id/',
   getParentRoute: () => AuthRoute,
 } as any)
+const AuthCollectionsIdIndexRoute = AuthCollectionsIdIndexRouteImport.update({
+  id: '/collections/$id/',
+  path: '/collections/$id/',
+  getParentRoute: () => AuthRoute,
+} as any)
 const AuthUsersIdEditRoute = AuthUsersIdEditRouteImport.update({
   id: '/users/$id/edit',
   path: '/users/$id/edit',
@@ -165,28 +184,37 @@ const AuthMaterialsIdEditRoute = AuthMaterialsIdEditRouteImport.update({
   path: '/materials/$id/edit',
   getParentRoute: () => AuthRoute,
 } as any)
+const AuthCollectionsIdEditRoute = AuthCollectionsIdEditRouteImport.update({
+  id: '/collections/$id/edit',
+  path: '/collections/$id/edit',
+  getParentRoute: () => AuthRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/sign-up': typeof SignUpRoute
   '/': typeof AuthIndexRoute
   '/audit-logs/$id': typeof AuthAuditLogsIdRoute
+  '/collections/create': typeof AuthCollectionsCreateRoute
   '/materials/create': typeof AuthMaterialsCreateRoute
   '/products/create': typeof AuthProductsCreateRoute
   '/roles/create': typeof AuthRolesCreateRoute
   '/transactions/create': typeof AuthTransactionsCreateRoute
   '/users/create': typeof AuthUsersCreateRoute
   '/audit-logs': typeof AuthAuditLogsIndexRoute
+  '/collections': typeof AuthCollectionsIndexRoute
   '/materials': typeof AuthMaterialsIndexRoute
   '/products': typeof AuthProductsIndexRoute
   '/roles': typeof AuthRolesIndexRoute
   '/transactions': typeof AuthTransactionsIndexRoute
   '/users': typeof AuthUsersIndexRoute
+  '/collections/$id/edit': typeof AuthCollectionsIdEditRoute
   '/materials/$id/edit': typeof AuthMaterialsIdEditRoute
   '/products/$id/edit': typeof AuthProductsIdEditRoute
   '/roles/$id/edit': typeof AuthRolesIdEditRoute
   '/roles/$id/permissions': typeof AuthRolesIdPermissionsRoute
   '/transactions/$id/edit': typeof AuthTransactionsIdEditRoute
   '/users/$id/edit': typeof AuthUsersIdEditRoute
+  '/collections/$id': typeof AuthCollectionsIdIndexRoute
   '/materials/$id': typeof AuthMaterialsIdIndexRoute
   '/products/$id': typeof AuthProductsIdIndexRoute
   '/roles/$id': typeof AuthRolesIdIndexRoute
@@ -197,23 +225,27 @@ export interface FileRoutesByTo {
   '/sign-up': typeof SignUpRoute
   '/': typeof AuthIndexRoute
   '/audit-logs/$id': typeof AuthAuditLogsIdRoute
+  '/collections/create': typeof AuthCollectionsCreateRoute
   '/materials/create': typeof AuthMaterialsCreateRoute
   '/products/create': typeof AuthProductsCreateRoute
   '/roles/create': typeof AuthRolesCreateRoute
   '/transactions/create': typeof AuthTransactionsCreateRoute
   '/users/create': typeof AuthUsersCreateRoute
   '/audit-logs': typeof AuthAuditLogsIndexRoute
+  '/collections': typeof AuthCollectionsIndexRoute
   '/materials': typeof AuthMaterialsIndexRoute
   '/products': typeof AuthProductsIndexRoute
   '/roles': typeof AuthRolesIndexRoute
   '/transactions': typeof AuthTransactionsIndexRoute
   '/users': typeof AuthUsersIndexRoute
+  '/collections/$id/edit': typeof AuthCollectionsIdEditRoute
   '/materials/$id/edit': typeof AuthMaterialsIdEditRoute
   '/products/$id/edit': typeof AuthProductsIdEditRoute
   '/roles/$id/edit': typeof AuthRolesIdEditRoute
   '/roles/$id/permissions': typeof AuthRolesIdPermissionsRoute
   '/transactions/$id/edit': typeof AuthTransactionsIdEditRoute
   '/users/$id/edit': typeof AuthUsersIdEditRoute
+  '/collections/$id': typeof AuthCollectionsIdIndexRoute
   '/materials/$id': typeof AuthMaterialsIdIndexRoute
   '/products/$id': typeof AuthProductsIdIndexRoute
   '/roles/$id': typeof AuthRolesIdIndexRoute
@@ -226,23 +258,27 @@ export interface FileRoutesById {
   '/sign-up': typeof SignUpRoute
   '/_auth/': typeof AuthIndexRoute
   '/_auth/audit-logs/$id': typeof AuthAuditLogsIdRoute
+  '/_auth/collections/create': typeof AuthCollectionsCreateRoute
   '/_auth/materials/create': typeof AuthMaterialsCreateRoute
   '/_auth/products/create': typeof AuthProductsCreateRoute
   '/_auth/roles/create': typeof AuthRolesCreateRoute
   '/_auth/transactions/create': typeof AuthTransactionsCreateRoute
   '/_auth/users/create': typeof AuthUsersCreateRoute
   '/_auth/audit-logs/': typeof AuthAuditLogsIndexRoute
+  '/_auth/collections/': typeof AuthCollectionsIndexRoute
   '/_auth/materials/': typeof AuthMaterialsIndexRoute
   '/_auth/products/': typeof AuthProductsIndexRoute
   '/_auth/roles/': typeof AuthRolesIndexRoute
   '/_auth/transactions/': typeof AuthTransactionsIndexRoute
   '/_auth/users/': typeof AuthUsersIndexRoute
+  '/_auth/collections/$id/edit': typeof AuthCollectionsIdEditRoute
   '/_auth/materials/$id/edit': typeof AuthMaterialsIdEditRoute
   '/_auth/products/$id/edit': typeof AuthProductsIdEditRoute
   '/_auth/roles/$id/edit': typeof AuthRolesIdEditRoute
   '/_auth/roles/$id/permissions': typeof AuthRolesIdPermissionsRoute
   '/_auth/transactions/$id/edit': typeof AuthTransactionsIdEditRoute
   '/_auth/users/$id/edit': typeof AuthUsersIdEditRoute
+  '/_auth/collections/$id/': typeof AuthCollectionsIdIndexRoute
   '/_auth/materials/$id/': typeof AuthMaterialsIdIndexRoute
   '/_auth/products/$id/': typeof AuthProductsIdIndexRoute
   '/_auth/roles/$id/': typeof AuthRolesIdIndexRoute
@@ -255,23 +291,27 @@ export interface FileRouteTypes {
     | '/sign-up'
     | '/'
     | '/audit-logs/$id'
+    | '/collections/create'
     | '/materials/create'
     | '/products/create'
     | '/roles/create'
     | '/transactions/create'
     | '/users/create'
     | '/audit-logs'
+    | '/collections'
     | '/materials'
     | '/products'
     | '/roles'
     | '/transactions'
     | '/users'
+    | '/collections/$id/edit'
     | '/materials/$id/edit'
     | '/products/$id/edit'
     | '/roles/$id/edit'
     | '/roles/$id/permissions'
     | '/transactions/$id/edit'
     | '/users/$id/edit'
+    | '/collections/$id'
     | '/materials/$id'
     | '/products/$id'
     | '/roles/$id'
@@ -282,23 +322,27 @@ export interface FileRouteTypes {
     | '/sign-up'
     | '/'
     | '/audit-logs/$id'
+    | '/collections/create'
     | '/materials/create'
     | '/products/create'
     | '/roles/create'
     | '/transactions/create'
     | '/users/create'
     | '/audit-logs'
+    | '/collections'
     | '/materials'
     | '/products'
     | '/roles'
     | '/transactions'
     | '/users'
+    | '/collections/$id/edit'
     | '/materials/$id/edit'
     | '/products/$id/edit'
     | '/roles/$id/edit'
     | '/roles/$id/permissions'
     | '/transactions/$id/edit'
     | '/users/$id/edit'
+    | '/collections/$id'
     | '/materials/$id'
     | '/products/$id'
     | '/roles/$id'
@@ -310,23 +354,27 @@ export interface FileRouteTypes {
     | '/sign-up'
     | '/_auth/'
     | '/_auth/audit-logs/$id'
+    | '/_auth/collections/create'
     | '/_auth/materials/create'
     | '/_auth/products/create'
     | '/_auth/roles/create'
     | '/_auth/transactions/create'
     | '/_auth/users/create'
     | '/_auth/audit-logs/'
+    | '/_auth/collections/'
     | '/_auth/materials/'
     | '/_auth/products/'
     | '/_auth/roles/'
     | '/_auth/transactions/'
     | '/_auth/users/'
+    | '/_auth/collections/$id/edit'
     | '/_auth/materials/$id/edit'
     | '/_auth/products/$id/edit'
     | '/_auth/roles/$id/edit'
     | '/_auth/roles/$id/permissions'
     | '/_auth/transactions/$id/edit'
     | '/_auth/users/$id/edit'
+    | '/_auth/collections/$id/'
     | '/_auth/materials/$id/'
     | '/_auth/products/$id/'
     | '/_auth/roles/$id/'
@@ -397,6 +445,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthMaterialsIndexRouteImport
       parentRoute: typeof AuthRoute
     }
+    '/_auth/collections/': {
+      id: '/_auth/collections/'
+      path: '/collections'
+      fullPath: '/collections'
+      preLoaderRoute: typeof AuthCollectionsIndexRouteImport
+      parentRoute: typeof AuthRoute
+    }
     '/_auth/audit-logs/': {
       id: '/_auth/audit-logs/'
       path: '/audit-logs'
@@ -437,6 +492,13 @@ declare module '@tanstack/react-router' {
       path: '/materials/create'
       fullPath: '/materials/create'
       preLoaderRoute: typeof AuthMaterialsCreateRouteImport
+      parentRoute: typeof AuthRoute
+    }
+    '/_auth/collections/create': {
+      id: '/_auth/collections/create'
+      path: '/collections/create'
+      fullPath: '/collections/create'
+      preLoaderRoute: typeof AuthCollectionsCreateRouteImport
       parentRoute: typeof AuthRoute
     }
     '/_auth/audit-logs/$id': {
@@ -481,6 +543,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthMaterialsIdIndexRouteImport
       parentRoute: typeof AuthRoute
     }
+    '/_auth/collections/$id/': {
+      id: '/_auth/collections/$id/'
+      path: '/collections/$id'
+      fullPath: '/collections/$id'
+      preLoaderRoute: typeof AuthCollectionsIdIndexRouteImport
+      parentRoute: typeof AuthRoute
+    }
     '/_auth/users/$id/edit': {
       id: '/_auth/users/$id/edit'
       path: '/users/$id/edit'
@@ -523,29 +592,40 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthMaterialsIdEditRouteImport
       parentRoute: typeof AuthRoute
     }
+    '/_auth/collections/$id/edit': {
+      id: '/_auth/collections/$id/edit'
+      path: '/collections/$id/edit'
+      fullPath: '/collections/$id/edit'
+      preLoaderRoute: typeof AuthCollectionsIdEditRouteImport
+      parentRoute: typeof AuthRoute
+    }
   }
 }
 
 interface AuthRouteChildren {
   AuthIndexRoute: typeof AuthIndexRoute
   AuthAuditLogsIdRoute: typeof AuthAuditLogsIdRoute
+  AuthCollectionsCreateRoute: typeof AuthCollectionsCreateRoute
   AuthMaterialsCreateRoute: typeof AuthMaterialsCreateRoute
   AuthProductsCreateRoute: typeof AuthProductsCreateRoute
   AuthRolesCreateRoute: typeof AuthRolesCreateRoute
   AuthTransactionsCreateRoute: typeof AuthTransactionsCreateRoute
   AuthUsersCreateRoute: typeof AuthUsersCreateRoute
   AuthAuditLogsIndexRoute: typeof AuthAuditLogsIndexRoute
+  AuthCollectionsIndexRoute: typeof AuthCollectionsIndexRoute
   AuthMaterialsIndexRoute: typeof AuthMaterialsIndexRoute
   AuthProductsIndexRoute: typeof AuthProductsIndexRoute
   AuthRolesIndexRoute: typeof AuthRolesIndexRoute
   AuthTransactionsIndexRoute: typeof AuthTransactionsIndexRoute
   AuthUsersIndexRoute: typeof AuthUsersIndexRoute
+  AuthCollectionsIdEditRoute: typeof AuthCollectionsIdEditRoute
   AuthMaterialsIdEditRoute: typeof AuthMaterialsIdEditRoute
   AuthProductsIdEditRoute: typeof AuthProductsIdEditRoute
   AuthRolesIdEditRoute: typeof AuthRolesIdEditRoute
   AuthRolesIdPermissionsRoute: typeof AuthRolesIdPermissionsRoute
   AuthTransactionsIdEditRoute: typeof AuthTransactionsIdEditRoute
   AuthUsersIdEditRoute: typeof AuthUsersIdEditRoute
+  AuthCollectionsIdIndexRoute: typeof AuthCollectionsIdIndexRoute
   AuthMaterialsIdIndexRoute: typeof AuthMaterialsIdIndexRoute
   AuthProductsIdIndexRoute: typeof AuthProductsIdIndexRoute
   AuthRolesIdIndexRoute: typeof AuthRolesIdIndexRoute
@@ -556,23 +636,27 @@ interface AuthRouteChildren {
 const AuthRouteChildren: AuthRouteChildren = {
   AuthIndexRoute: AuthIndexRoute,
   AuthAuditLogsIdRoute: AuthAuditLogsIdRoute,
+  AuthCollectionsCreateRoute: AuthCollectionsCreateRoute,
   AuthMaterialsCreateRoute: AuthMaterialsCreateRoute,
   AuthProductsCreateRoute: AuthProductsCreateRoute,
   AuthRolesCreateRoute: AuthRolesCreateRoute,
   AuthTransactionsCreateRoute: AuthTransactionsCreateRoute,
   AuthUsersCreateRoute: AuthUsersCreateRoute,
   AuthAuditLogsIndexRoute: AuthAuditLogsIndexRoute,
+  AuthCollectionsIndexRoute: AuthCollectionsIndexRoute,
   AuthMaterialsIndexRoute: AuthMaterialsIndexRoute,
   AuthProductsIndexRoute: AuthProductsIndexRoute,
   AuthRolesIndexRoute: AuthRolesIndexRoute,
   AuthTransactionsIndexRoute: AuthTransactionsIndexRoute,
   AuthUsersIndexRoute: AuthUsersIndexRoute,
+  AuthCollectionsIdEditRoute: AuthCollectionsIdEditRoute,
   AuthMaterialsIdEditRoute: AuthMaterialsIdEditRoute,
   AuthProductsIdEditRoute: AuthProductsIdEditRoute,
   AuthRolesIdEditRoute: AuthRolesIdEditRoute,
   AuthRolesIdPermissionsRoute: AuthRolesIdPermissionsRoute,
   AuthTransactionsIdEditRoute: AuthTransactionsIdEditRoute,
   AuthUsersIdEditRoute: AuthUsersIdEditRoute,
+  AuthCollectionsIdIndexRoute: AuthCollectionsIdIndexRoute,
   AuthMaterialsIdIndexRoute: AuthMaterialsIdIndexRoute,
   AuthProductsIdIndexRoute: AuthProductsIdIndexRoute,
   AuthRolesIdIndexRoute: AuthRolesIdIndexRoute,

@@ -543,7 +543,10 @@ function RouteComponent() {
                           const search = e.target.value;
 
                           router.navigate({
-                            to: '/transactions/create',
+                            to: '/transactions/$id/edit',
+                            params: {
+                              id,
+                            },
                             search: {
                               productsPage: productsPage,
                               productsSearch: search,
@@ -618,7 +621,10 @@ function RouteComponent() {
                       </Label>
 
                       <Link
-                        to="/transactions/create"
+                        to="/transactions/$id/edit"
+                        params={{
+                          id,
+                        }}
                         search={{
                           productsPage: productsPageDetails.previousPage,
                           productsSearch,
@@ -640,7 +646,10 @@ function RouteComponent() {
                         </Button>
                       </Link>
                       <Link
-                        to="/transactions/create"
+                        to="/transactions/$id/edit"
+                        params={{
+                          id,
+                        }}
                         search={{
                           productsPage: productsPageDetails.nextPage,
                           productsSearch,

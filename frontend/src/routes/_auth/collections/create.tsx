@@ -69,7 +69,7 @@ import {
 } from '@/components/ui/stepper';
 import { apiClient } from '@/lib/utils';
 
-export const Route = createFileRoute('/_auth/transactions/create')({
+export const Route = createFileRoute('/_auth/collections/create')({
   component: () => (
     <PermissionGuard value="transactions.create" isPage={true}>
       <RouteComponent />
@@ -83,7 +83,7 @@ export const Route = createFileRoute('/_auth/transactions/create')({
   }),
   pendingComponent: () => (
     <div className="flex flex-col w-full h-full items-center justify-center">
-      <Label className="text-muted-foreground">Loading transactions...</Label>
+      <Label className="text-muted-foreground">Loading collections...</Label>
     </div>
   ),
   errorComponent: ({ error }: { error: Error | ErrorResponse }) => {
@@ -153,7 +153,7 @@ function RouteComponent() {
   const createForm = useForm<CreateTransactionPayload>({
     resolver: zodResolver(zCreateTransactionPayload),
     defaultValues: {
-      type: 'transaction',
+      type: 'collection',
       amount: 0,
       products: undefined,
       sellerId: undefined,
@@ -172,7 +172,7 @@ function RouteComponent() {
       }),
     onSuccess: () => {
       toast.success('Success', {
-        description: 'The transaction has been created successfully.',
+        description: 'The collection has been created successfully.',
         duration: 2000,
       });
 
@@ -187,13 +187,13 @@ function RouteComponent() {
     <div className="flex flex-col w-full h-full bg-popover border-t p-3 gap-3">
       <div className="flex items-center justify-between w-full h-auto">
         <div className="flex items-center gap-3">
-          <Link to="/transactions">
+          <Link to="/collections">
             <Button variant="ghost" size="icon">
               <ArrowLeftIcon className="size-4" />
             </Button>
           </Link>
 
-          <Label className="text-lg">Create Transaction</Label>
+          <Label className="text-lg">Create Collection</Label>
         </div>
         <div className="flex items-center gap-3"></div>
       </div>
@@ -232,7 +232,7 @@ function RouteComponent() {
                       Step 1
                     </div>
                     <StepperTitle className="text-start text-base font-semibold group-data-[state=inactive]/step:text-muted-foreground">
-                      Transaction Details
+                      Collection Details
                     </StepperTitle>
                     <div>
                       <Badge
@@ -272,7 +272,7 @@ function RouteComponent() {
                       Step 2
                     </div>
                     <StepperTitle className="text-start text-base font-semibold group-data-[state=inactive]/step:text-muted-foreground">
-                      Transaction Products
+                      Collection Products
                     </StepperTitle>
                     <div>
                       <Badge
@@ -316,7 +316,7 @@ function RouteComponent() {
                       Step 3
                     </div>
                     <StepperTitle className="text-start text-base font-semibold group-data-[state=inactive]/step:text-muted-foreground">
-                      Transaction Account
+                      Collection Account
                     </StepperTitle>
                     <div>
                       <Badge
@@ -360,7 +360,7 @@ function RouteComponent() {
                       Step 3
                     </div>
                     <StepperTitle className="text-start text-base font-semibold group-data-[state=inactive]/step:text-muted-foreground">
-                      Transaction Overview
+                      Collection Overview
                     </StepperTitle>
                     <div>
                       <Badge
@@ -402,7 +402,7 @@ function RouteComponent() {
                   <div className="flex flex-col items-start gap-1">
                     <div className="text-[10px] font-semibold uppercase text-muted-foreground"></div>
                     <StepperTitle className="text-start text-base font-semibold group-data-[state=inactive]/step:text-muted-foreground">
-                      Transaction Created
+                      Collection Created
                     </StepperTitle>
                     <div>
                       <Badge
@@ -923,7 +923,7 @@ function RouteComponent() {
                       <CardHeader>
                         <CardTitle>Added Products</CardTitle>
                         <CardDescription>
-                          Review the products added to the transaction.
+                          Review the products added to the collection.
                         </CardDescription>
                       </CardHeader>
                       <CardContent className="flex flex-col w-full h-full overflow-hidden">
@@ -970,9 +970,9 @@ function RouteComponent() {
 
                   <Card className="border-dashed">
                     <CardHeader>
-                      <CardTitle>Transaction Details</CardTitle>
+                      <CardTitle>Collection Details</CardTitle>
                       <CardDescription>
-                        Review the transaction details before creating.
+                        Review the collection details before creating.
                       </CardDescription>
                     </CardHeader>
                     <CardContent className="flex flex-col w-full h-full gap-3 justify-start items-start">
@@ -985,7 +985,7 @@ function RouteComponent() {
                           }).format(createForm.getValues().amount)}
                         </Label>
                         <Label className="text-sm text-muted-foreground">
-                          This will be the transactions amount.
+                          This will be the collections amount.
                         </Label>
                       </div>
 
@@ -998,7 +998,7 @@ function RouteComponent() {
                           }).format(createForm.getValues().weight ?? 0)}
                         </Label>
                         <Label className="text-sm text-muted-foreground">
-                          This will be the transactions weight.
+                          This will be the collections weight.
                         </Label>
                       </div>
                     </CardContent>
@@ -1012,7 +1012,7 @@ function RouteComponent() {
                         >
                           Back
                         </Button>
-                        <Button className="w-full">Create Transaction</Button>
+                        <Button className="w-full">Create Collection</Button>
                       </div>
                     </CardFooter>
                   </Card>
@@ -1026,15 +1026,15 @@ function RouteComponent() {
                 <div className="flex flex-col w-full h-full gap-5">
                   <div className="flex flex-col w-full h-auto items-center justify-center gap-3">
                     <p className="text-lg font-semibold">
-                      Transaction created successfully!
+                      Collection created successfully!
                     </p>
                     <p className="text-sm text-muted-foreground">
-                      You can view your transaction in the transaction list.
+                      You can view your collection in the collection list.
                     </p>
                   </div>
 
                   <Button className="w-full" onClick={() => setCurrentStep(1)}>
-                    Create New Transaction
+                    Create New Collection
                   </Button>
                 </div>
               </StepperContent>

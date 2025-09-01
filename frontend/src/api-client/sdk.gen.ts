@@ -44,6 +44,9 @@ import type {
   GetApiAuthenticationPermissionsData,
   GetApiAuthenticationPermissionsErrors,
   GetApiAuthenticationPermissionsResponses,
+  GetApiCollectionsData,
+  GetApiCollectionsErrors,
+  GetApiCollectionsResponses,
   GetApiMaterialsByIdData,
   GetApiMaterialsByIdErrors,
   GetApiMaterialsByIdResponses,
@@ -361,6 +364,23 @@ export const postApiAuthenticationSignUp = <
       'Content-Type': 'application/json',
       ...options.headers,
     },
+  });
+};
+
+/**
+ * View Collections
+ * Endpoint to retrieve a list of collections with pagination and optional search query
+ */
+export const getApiCollections = <ThrowOnError extends boolean = false>(
+  options?: Options<GetApiCollectionsData, ThrowOnError>
+) => {
+  return (options?.client ?? _heyApiClient).get<
+    GetApiCollectionsResponses,
+    GetApiCollectionsErrors,
+    ThrowOnError
+  >({
+    url: '/api/collections',
+    ...options,
   });
 };
 

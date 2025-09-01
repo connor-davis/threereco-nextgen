@@ -26,6 +26,7 @@ func NewTransactionsRouter(storage *storage.Storage, sessions *session.Store, se
 
 func (r *TransactionsRouter) InitializeRoutes() []routing.Route {
 	viewRoute := r.ViewRoute()
+	viewCollectionsRoute := r.ViewCollectionsRoute()
 	viewByIdRoute := r.ViewByIdRoute()
 
 	createRoute := r.CreateRoute()
@@ -34,6 +35,7 @@ func (r *TransactionsRouter) InitializeRoutes() []routing.Route {
 
 	return []routing.Route{
 		viewRoute,
+		viewCollectionsRoute,
 		viewByIdRoute,
 		createRoute,
 		updateByIdRoute,
