@@ -1,6 +1,6 @@
 import { postApiAuthenticationLoginMutation } from '@/api-client/@tanstack/react-query.gen';
 import { useMutation } from '@tanstack/react-query';
-import { useRouter } from '@tanstack/react-router';
+import { Link, useRouter } from '@tanstack/react-router';
 import { type ReactNode } from 'react';
 import { useForm } from 'react-hook-form';
 
@@ -141,6 +141,15 @@ export default function AuthenticationGuard({
               <Button type="submit" className="w-full">
                 Continue
               </Button>
+
+              <div className="flex flex-col w-full h-auto gap-3 items-center justify-center">
+                <Label className="text-muted-foreground">
+                  Are you a new user?{' '}
+                  <Link to="/sign-up" className="text-primary">
+                    Sign up
+                  </Link>
+                </Label>
+              </div>
             </form>
           </Form>
         </div>
