@@ -1,7 +1,7 @@
 exports.apps = [
   {
     name: "three-api",
-    script: "/home/connor/threereco-nextgen/cmd/api/main.go",
+    script: "~/threereco-nextgen/cmd/api/main.go",
     interpreter: "go",
     interpreter_args: "run",
   },
@@ -9,8 +9,8 @@ exports.apps = [
     name: "three-app",
     script: "serve",
     env: {
-      PM2_SERVE_PATH: "/home/connor/threereco-nextgen/frontend/dist",
-      PM2_SERVE_PORT: 5177,
+      PM2_SERVE_PATH: "~/threereco-nextgen/frontend/dist",
+      PM2_SERVE_PORT: 5173,
       PM2_SERVE_SPA: "true",
       PM2_SERVE_HOMEPAGE: "/index.html",
     },
