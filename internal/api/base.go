@@ -305,9 +305,49 @@ func (c *baseApi[Entity]) UpdateRoute(middleware ...fiber.Handler) routing.Route
 					"message": err.Error(),
 				})
 			}
+
+			if err := replaceAssociations(c.storage.Database(), &existingEntity, &entity); err != nil {
+				return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+					"error":   "Internal Server Error",
+					"message": err.Error(),
+				})
+			}
+
 			return ctx.Status(fiber.StatusOK).SendString("OK")
 		},
 	}
+}
+
+func replaceAssociations(db *gorm.DB, existingEntity any, newEntity any) error {
+	v := reflect.ValueOf(newEntity)
+
+	if v.Kind() == reflect.Ptr {
+		v = v.Elem()
+	}
+
+	t := v.Type()
+
+	for i := 0; i < v.NumField(); i++ {
+		field := t.Field(i)
+		fieldVal := v.Field(i)
+
+		// Only handle exported fields
+		if !fieldVal.CanInterface() {
+			continue
+		}
+
+		// Detect slice or struct (associations)
+		if fieldVal.Kind() == reflect.Slice || fieldVal.Type() != reflect.TypeOf([]byte{}) && fieldVal.Type() != reflect.TypeOf(pq.StringArray{}) {
+			assocName := field.Name
+			val := fieldVal.Interface()
+
+			// Replace association
+			if err := db.Model(existingEntity).Association(assocName).Replace(val); err != nil {
+				return fmt.Errorf("failed replacing %s: %w", assocName, err)
+			}
+		}
+	}
+	return nil
 }
 
 func (c *baseApi[Entity]) DeleteRoute(middleware ...fiber.Handler) routing.Route {
