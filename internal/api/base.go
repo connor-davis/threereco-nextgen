@@ -6,6 +6,7 @@ import (
 	"reflect"
 	"strings"
 
+	"github.com/connor-davis/threereco-nextgen/internal/models"
 	"github.com/connor-davis/threereco-nextgen/internal/routing"
 	"github.com/connor-davis/threereco-nextgen/internal/routing/schemas"
 	"github.com/connor-davis/threereco-nextgen/internal/storage"
@@ -337,7 +338,7 @@ func replaceAssociations(db *gorm.DB, existingEntity any, newEntity any) error {
 		}
 
 		// Detect slice or struct (associations)
-		if fieldVal.Kind() == reflect.Slice || fieldVal.Type() != reflect.TypeOf([]byte{}) && fieldVal.Type() != reflect.TypeOf(pq.StringArray{}) {
+		if fieldVal.Kind() == reflect.Slice && (fieldVal.Type() == reflect.TypeOf([]models.Business{}) || fieldVal.Type() == reflect.TypeOf([]models.Role{})) {
 			assocName := field.Name
 			val := fieldVal.Interface()
 
