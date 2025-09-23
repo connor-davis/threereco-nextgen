@@ -1,91 +1,68 @@
 package middleware
 
 import (
-	"time"
+	"strings"
 
-	"github.com/connor-davis/threereco-nextgen/internal/constants"
+	"github.com/connor-davis/threereco-nextgen/internal/models"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/log"
-	"github.com/google/uuid"
 )
 
-// Authorized is a middleware handler that verifies if the current request is associated with an authorized user session.
-// It retrieves the session from the request context, checks for a valid user ID, and fetches the corresponding user.
-// If the session or user is invalid, it responds with a 401 Unauthorized error and logs the event.
-// On successful authorization, it sets user-related data in the request context and refreshes the session expiry.
-// Returns fiber.Handler to be used in the middleware chain.
-func (m *Middleware) Authorized() fiber.Handler {
+func (m *middleware) Authorized(permissions ...string) fiber.Handler {
 	return func(c *fiber.Ctx) error {
-		currentSession, err := m.Sessions.Get(c)
+		user, ok := c.Locals("user").(*models.User)
 
-		if err != nil {
-			log.Errorf("🔥 Error retrieving session: %s", err.Error())
-
+		if !ok || user == nil {
 			return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
-				"error":   constants.UnauthorizedError,
-				"details": constants.UnauthorizedErrorDetails,
+				"error":   "Unauthorized",
+				"message": "You must be logged in to access this resource.",
 			})
 		}
 
-		currentUserId, ok := currentSession.Get("user_id").(string)
+		combinedPermissions := []string{}
 
-		if !ok || currentUserId == "" {
-			log.Warn("🚫 Unauthorized access attempt: No user ID in session")
+		for _, permission := range user.Permissions {
+			combinedPermissions = append(combinedPermissions, permission)
+		}
 
-			return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
-				"error":   constants.UnauthorizedError,
-				"details": constants.UnauthorizedErrorDetails,
+		for _, role := range user.Roles {
+			for _, permission := range role.Permissions {
+				combinedPermissions = append(combinedPermissions, permission)
+			}
+		}
+
+		if len(combinedPermissions) == 0 {
+			return c.Status(fiber.StatusForbidden).JSON(fiber.Map{
+				"error":   "Forbidden",
+				"message": "You do not have permission to access this resource.",
 			})
 		}
 
-		currentUserIdUUID, err := uuid.Parse(currentUserId)
+		for _, userPermission := range combinedPermissions {
+			if userPermission == "*" {
+				return c.Next()
+			}
 
-		if err != nil {
-			log.Errorf("🔥 Error parsing user ID: %s", err.Error())
+			userPermission = strings.TrimSuffix(strings.TrimSpace(userPermission), ".*")
 
-			return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
-				"error":   constants.UnauthorizedError,
-				"details": constants.UnauthorizedErrorDetails,
-			})
+			for _, requiredPermission := range permissions {
+				requiredPermission = strings.TrimSpace(requiredPermission)
+
+				if userPermission == requiredPermission {
+					return c.Next()
+				}
+
+				if strings.HasPrefix(requiredPermission, userPermission) {
+					return c.Next()
+				}
+			}
 		}
 
-		log.Infof("🔐 Authorized User with ID: %s", currentUserIdUUID)
+		log.Warnf("⚠️ User %s does not have required permissions: %v", user.Username, permissions)
 
-		currentUser, err := m.Services.Users.GetById(currentUserIdUUID)
-
-		if err != nil {
-			log.Errorf("🔥 Error retrieving user: %s", err.Error())
-
-			return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
-				"error":   constants.UnauthorizedError,
-				"details": constants.UnauthorizedErrorDetails,
-			})
-		}
-
-		if currentUser == nil {
-			log.Warn("🚫 Unauthorized access attempt: User not found")
-
-			return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
-				"error":   constants.UnauthorizedError,
-				"details": constants.UnauthorizedErrorDetails,
-			})
-		}
-
-		c.Locals("user_id", currentUser.Id.String())
-		c.Locals("user", currentUser)
-
-		currentSession.Set("user_id", currentUser.Id.String())
-		currentSession.SetExpiry(1 * time.Hour)
-
-		if err := currentSession.Save(); err != nil {
-			log.Errorf("🔥 Error saving session: %s", err.Error())
-
-			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
-				"error":   constants.InternalServerError,
-				"details": constants.InternalServerErrorDetails,
-			})
-		}
-
-		return c.Next()
+		return c.Status(fiber.StatusForbidden).JSON(fiber.Map{
+			"error":   "Forbidden",
+			"message": "You do not have permission to access this resource.",
+		})
 	}
 }

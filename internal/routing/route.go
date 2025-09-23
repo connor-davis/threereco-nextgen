@@ -1,31 +1,39 @@
 package routing
 
-import "github.com/gofiber/fiber/v2"
+import (
+	"github.com/getkin/kin-openapi/openapi3"
+	"github.com/gofiber/fiber/v2"
+)
+
+type OpenAPIMetadata struct {
+	Summary     string
+	Description string
+	Tags        []string
+	Parameters  []*openapi3.ParameterRef
+	RequestBody *openapi3.RequestBodyRef
+	Responses   *openapi3.Responses
+}
 
 type RouteMethod string
 
 const (
-	GetMethod     RouteMethod = "GET"
-	PostMethod    RouteMethod = "POST"
-	PutMethod     RouteMethod = "PUT"
-	PatchMethod   RouteMethod = "PATCH"
-	OptionsMethod RouteMethod = "OPTIONS"
-	DeleteMethod  RouteMethod = "DELETE"
+	GET    RouteMethod = "GET"
+	POST   RouteMethod = "POST"
+	PUT    RouteMethod = "PUT"
+	PATCH  RouteMethod = "PATCH"
+	DELETE RouteMethod = "DELETE"
 )
 
-// Route represents an HTTP route configuration, including its method, path, associated middlewares, and handler function.
-// It also embeds OpenAPIMetadata for OpenAPI specification support.
-//
-// Fields:
-//   - Method: The HTTP method (e.g., GET, POST) for the route.
-//   - Path: The URL path pattern for the route.
-//   - Middlewares: A slice of Fiber middleware handlers to be executed before the main handler.
-//   - Handler: The main handler function for processing requests to this route.
 type Route struct {
 	OpenAPIMetadata
+
+	Entity string
+
+	CreateRef *string
+	UpdateRef *string
 
 	Method      RouteMethod
 	Path        string
 	Middlewares []fiber.Handler
-	Handler     func(*fiber.Ctx) error
+	Handler     fiber.Handler
 }

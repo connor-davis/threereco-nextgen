@@ -1,96 +1,208 @@
 package schemas
 
-import (
-	"github.com/connor-davis/threereco-nextgen/internal/routing/properties"
-	"github.com/getkin/kin-openapi/openapi3"
-)
+import "github.com/getkin/kin-openapi/openapi3"
 
-// UserSchema defines the OpenAPI schema for a User object.
-// It includes the following properties:
-//   - organizations: an array of Organization objects, each defined by OrganizationProperties.
-//   - roles: an array of Role objects, each defined by RoleProperties.
-//   - modifiedBy: a User object representing the user who last modified this record, defined by UserProperties.
-//
-// The base properties for the User object are provided by UserProperties.
-var UserSchema = openapi3.NewSchema().
-	WithProperties(properties.UserProperties).
-	WithProperty(
-		"roles",
-		RoleArraySchema.Value,
-	).
-	WithProperty(
-		"organizations",
-		OrganizationArraySchema.Value,
-	).
-	WithProperty(
-		"address",
-		AddressSchema.Value,
-	).
-	WithProperty(
-		"bankDetails",
-		BankDetailsSchema.Value,
-	).
-	WithProperty(
-		"modifiedBy",
-		ModifiedByUserSchema.Value,
-	).
-	WithRequired([]string{
-		"id",
-		"email",
-		"mfaEnabled",
-		"mfaVerified",
-		"tags",
-		"modifiedById",
-		"createdAt",
-		"updatedAt",
-	}).NewRef()
+var UserSchema = &openapi3.SchemaRef{
+	Value: &openapi3.Schema{
+		Type: openapi3.NewObjectSchema().Type,
+		Properties: map[string]*openapi3.SchemaRef{
+			"id": {
+				Value: openapi3.NewUUIDSchema(),
+			},
+			"name": {
+				Value: openapi3.NewStringSchema().WithFormat("text").WithMin(3),
+			},
+			"username": {
+				Value: openapi3.NewStringSchema().
+					WithPattern(`(?:\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b)|(?:\b(?:\+?\d{1,3}[-.\s]?)?(?:\(?\d{2,4}\)?[-.\s]?)?\d{3,4}[-.\s]?\d{3,4}\b)`),
+			},
+			"mfaEnabled": {
+				Value: openapi3.NewBoolSchema(),
+			},
+			"mfaVerified": {
+				Value: openapi3.NewBoolSchema(),
+			},
+			"permissions": {
+				Value: openapi3.NewArraySchema().WithItems(
+					openapi3.NewStringSchema().
+						WithPattern(`^(\*|[a-zA-Z0-9]+(\.(\*|[a-zA-Z0-9]+))*)$`),
+				),
+			},
+			"type": {
+				Value: openapi3.NewStringSchema().WithEnum("system", "collector", "business"),
+			},
+			"businessId": {
+				Value: openapi3.NewUUIDSchema().WithNullable(),
+			},
+			"address": {
+				Ref: "#/components/schemas/Address",
+			},
+			"bankDetails": {
+				Ref: "#/components/schemas/BankDetails",
+			},
+			"roles": {
+				Ref: "#/components/schemas/Roles",
+			},
+			"businesses": {
+				Value: &openapi3.Schema{
+					Type: openapi3.NewArraySchema().Type,
+					Items: &openapi3.SchemaRef{
+						Ref: "#/components/schemas/Business",
+					},
+				},
+			},
+			"createdAt": {
+				Value: openapi3.NewDateTimeSchema(),
+			},
+			"updatedAt": {
+				Value: openapi3.NewDateTimeSchema(),
+			},
+		},
+		Required: []string{
+			"id",
+			"name",
+			"username",
+			"mfaEnabled",
+			"mfaVerified",
+			"permissions",
+			"type",
+			"businessId",
+			"roles",
+			"businesses",
+			"address",
+			"bankDetails",
+			"createdAt",
+			"updatedAt",
+		},
+	},
+}
 
-// UserArraySchema defines an OpenAPI array schema for a collection of User objects.
-// Each item in the array conforms to the UserSchema specification.
-// This schema can be used to describe API responses or request bodies that return or accept
-// multiple users in a single payload.
-var UserArraySchema = openapi3.NewArraySchema().
-	WithItems(UserSchema.Value).NewRef()
+var UsersSchema = &openapi3.SchemaRef{
+	Value: &openapi3.Schema{
+		Type: openapi3.NewArraySchema().Type,
+		Items: &openapi3.SchemaRef{
+			Ref: "#/components/schemas/User",
+		},
+	},
+}
 
-var ModifiedByUserSchema = openapi3.NewObjectSchema().
-	WithProperties(properties.UserProperties).
-	WithRequired([]string{
-		"id",
-		"email",
-		"mfaEnabled",
-		"mfaVerified",
-		"tags",
-		"modifiedById",
-		"createdAt",
-		"updatedAt",
-	}).NewRef()
+var AssignUserSchema = &openapi3.SchemaRef{
+	Value: &openapi3.Schema{
+		Type: openapi3.NewObjectSchema().Type,
+		Properties: map[string]*openapi3.SchemaRef{
+			"id": {
+				Value: openapi3.NewUUIDSchema(),
+			},
+		},
+		Required: []string{
+			"id",
+		},
+	},
+}
 
-var CreateUserPayloadSchema = openapi3.NewSchema().
-	WithProperties(properties.CreateUserPayloadProperties).
-	WithProperty(
-		"address",
-		CreateAddressPayloadSchema.Value,
-	).
-	WithProperty(
-		"bankDetails",
-		openapi3.NewSchema().
-			WithProperties(properties.CreateBankDetailsPayloadProperties),
-	).
-	WithRequired([]string{
-		"email",
-		"password",
-		"name",
-		"address",
-	}).NewRef()
+var AssignUsersSchema = &openapi3.SchemaRef{
+	Value: &openapi3.Schema{
+		Type: openapi3.NewArraySchema().Type,
+		Items: &openapi3.SchemaRef{
+			Ref: "#/components/schemas/AssignUser",
+		},
+	},
+}
 
-var UpdateUserPayloadSchema = openapi3.NewSchema().
-	WithProperties(properties.UpdateUserPayloadProperties).
-	WithProperty(
-		"address",
-		UpdateAddressPayloadSchema.Value,
-	).
-	WithProperty(
-		"bankDetails",
-		openapi3.NewSchema().
-			WithProperties(properties.UpdateBankDetailsPayloadProperties),
-	).NewRef()
+var CreateUserSchema = &openapi3.SchemaRef{
+	Value: &openapi3.Schema{
+		Type: openapi3.NewObjectSchema().Type,
+		Properties: map[string]*openapi3.SchemaRef{
+			"name": {
+				Value: openapi3.NewStringSchema().WithFormat("text").WithMin(3),
+			},
+			"username": {
+				Value: openapi3.NewStringSchema().
+					WithPattern(`(?:\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b)|(?:\b(?:\+?\d{1,3}[-.\s]?)?(?:\(?\d{2,4}\)?[-.\s]?)?\d{3,4}[-.\s]?\d{3,4}\b)`),
+			},
+			"permissions": {
+				Value: openapi3.NewArraySchema().WithItems(
+					openapi3.NewStringSchema().
+						WithPattern(`^(\*|[a-zA-Z0-9]+(\.(\*|[a-zA-Z0-9]+))*)$`),
+				),
+			},
+			"type": {
+				Value: openapi3.NewStringSchema().WithEnum("system", "collector", "business").WithDefault("collector"),
+			},
+			"businessId": {
+				Value: openapi3.NewUUIDSchema(),
+			},
+			"address": {
+				Ref: "#/components/schemas/Address",
+			},
+			"bankDetails": {
+				Ref: "#/components/schemas/BankDetails",
+			},
+			"roles": {
+				Ref: "#/components/schemas/AssignRoles",
+			},
+			"businesses": {
+				Ref: "#/components/schemas/AssignBusinesses",
+			},
+		},
+		Required: []string{
+			"name",
+			"username",
+			"permissions",
+			"type",
+			"address",
+			"bankDetails",
+			"roles",
+			"businesses",
+		},
+	},
+}
+
+var UpdateUserSchema = &openapi3.SchemaRef{
+	Value: &openapi3.Schema{
+		Type: openapi3.NewObjectSchema().Type,
+		Properties: map[string]*openapi3.SchemaRef{
+			"name": {
+				Value: openapi3.NewStringSchema().WithFormat("text").WithMin(3).WithNullable(),
+			},
+			"username": {
+				Value: openapi3.NewStringSchema().
+					WithPattern(`(?:\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b)|(?:\b(?:\+?\d{1,3}[-.\s]?)?(?:\(?\d{2,4}\)?[-.\s]?)?\d{3,4}[-.\s]?\d{3,4}\b)`).
+					WithNullable(),
+			},
+			"permissions": {
+				Value: openapi3.NewArraySchema().WithItems(
+					openapi3.NewStringSchema().WithPattern(`^(\*|[a-zA-Z0-9]+(\.(\*|[a-zA-Z0-9]+))*)$`),
+				).WithNullable(),
+			},
+			"type": {
+				Value: openapi3.NewStringSchema().WithEnum("system", "collector", "business").WithDefault("collector").WithNullable(),
+			},
+			"businessId": {
+				Value: openapi3.NewUUIDSchema().WithNullable(),
+			},
+			"address": {
+				Ref: "#/components/schemas/Address",
+			},
+			"bankDetails": {
+				Ref: "#/components/schemas/BankDetails",
+			},
+			"roles": {
+				Ref: "#/components/schemas/AssignRoles",
+			},
+			"businesses": {
+				Ref: "#/components/schemas/AssignBusinesses",
+			},
+		},
+		Required: []string{
+			"name",
+			"username",
+			"permissions",
+			"type",
+			"address",
+			"bankDetails",
+			"roles",
+			"businesses",
+		},
+	},
+}

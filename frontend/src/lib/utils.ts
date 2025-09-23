@@ -3,6 +3,7 @@ import { QueryClient } from '@tanstack/react-query';
 import { type ClassValue, clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 
+import { type User, getApiAuthenticationCheck } from '@/api-client';
 import {
   type ClientOptions,
   createClient,
@@ -21,3 +22,19 @@ export const apiClient = createClient(
     credentials: 'include',
   })
 );
+
+export async function getUser(): Promise<{
+  user?: User;
+  error: boolean;
+}> {
+  const response = await getApiAuthenticationCheck({
+    client: apiClient,
+  });
+
+  const { data, error } = response;
+
+  return {
+    user: data?.item as User,
+    error: error !== undefined,
+  };
+}

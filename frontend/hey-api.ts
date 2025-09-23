@@ -7,6 +7,7 @@ export default {
   output: {
     clean: true,
     format: 'prettier',
+    lint: 'eslint',
     tsConfigPath: 'tsconfig.json',
     path: 'src/api-client',
   },

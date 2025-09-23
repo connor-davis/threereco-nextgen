@@ -3,23 +3,19 @@ package sessions
 import (
 	"time"
 
-	"github.com/connor-davis/threereco-nextgen/env"
+	"github.com/connor-davis/threereco-nextgen/common"
 	"github.com/gofiber/fiber/v2/middleware/session"
 	fiberPg "github.com/gofiber/storage/postgres/v2"
 )
 
-// NewSessions initializes and returns a new session.Store configured to use PostgreSQL as the storage backend.
-// It sets up session management with specific cookie settings, including domain, path, security, and expiration.
-// The session data is stored in the "sessions" table using the provided PostgreSQL connection URI.
-// Returns a pointer to the configured session.Store.
-func NewSessions() *session.Store {
+func New() *session.Store {
 	return session.New(session.Config{
 		Storage: fiberPg.New(fiberPg.Config{
 			Table:         "sessions",
-			ConnectionURI: string(env.POSTGRES_DSN),
+			ConnectionURI: common.EnvString("APP_DSN", "host=localhost user=<user> password=<password> dbname=<database> port=5432 sslmode=disable TimeZone=Africa/Johannesburg"),
 		}),
-		KeyLookup:         "cookie:threereco_session",
-		CookieDomain:      string(env.COOKIE_DOMAIN),
+		KeyLookup:         common.EnvString("APP_SESSION_KEY", "cookie:threereco_session"),
+		CookieDomain:      common.EnvString("APP_DOMAIN", "localhost"),
 		CookiePath:        "/",
 		CookieSecure:      true,
 		CookieSameSite:    "Strict",

@@ -3,146 +3,164 @@
 export type Address = {
   city: string;
   country: string;
-  createdAt: string;
-  id: string;
   lineOne: string;
-  lineTwo?: string | null;
-  postalCode: number;
-  state: string;
-  updatedAt: string;
-};
+  lineTwo: string | null;
+  province: string;
+  zipCode: string;
+} | null;
 
-export type AuditLog = {
-  createdAt: string;
-  data: {
-    [key: string]: unknown;
-  };
+export type AssignBusiness = {
   id: string;
-  objectId: string;
-  operationType: string;
-  tableName: string;
-  updatedAt: string;
-  user?: {
-    createdAt: string;
-    email: string;
-    id: string;
-    image?: string;
-    jobTitle?: string;
-    mfaEnabled: boolean;
-    mfaVerified: boolean;
-    modifiedById: string;
-    name?: string;
-    phone?: string;
-    primaryOrganizationId?: string;
-    tags: Array<string>;
-    updatedAt: string;
-  };
-  userId: string;
 };
 
-export type AvailablePermission = {
-  description: string;
-  value: string;
-};
+export type AssignBusinesses = Array<AssignBusiness>;
 
-export type AvailablePermissionGroup = {
+export type AssignCollectionMaterial = {
+  carbonFactor: string;
+  gwCode: string;
   name: string;
-  permissions: Array<{
-    description: string;
-    value: string;
-  }>;
+  value: number;
+  weight: number;
 };
+
+export type AssignCollectionMaterials = Array<AssignCollectionMaterial>;
+
+export type AssignMaterial = {
+  id: string;
+};
+
+export type AssignMaterials = Array<AssignMaterial>;
+
+export type AssignRole = {
+  id: string;
+};
+
+export type AssignRoles = Array<AssignRole>;
+
+export type AssignTransactionMaterial = {
+  carbonFactor: string;
+  gwCode: string;
+  id?: string;
+  name: string;
+  value: number;
+  weight: number;
+};
+
+export type AssignTransactionMaterials = Array<AssignTransactionMaterial>;
+
+export type AssignUser = {
+  id: string;
+};
+
+export type AssignUsers = Array<AssignUser>;
 
 export type BankDetails = {
   accountHolder: string;
   accountNumber: string;
   bankName: string;
   branchCode: string;
+} | null;
+
+export type Business = {
+  address: Address;
+  bankDetails: BankDetails;
   createdAt: string;
   id: string;
+  name: string;
+  ownerId: string;
+  roles: Roles;
+  updatedAt: string;
+  users: Array<User>;
+};
+
+export type Businesses = Array<Business>;
+
+export type Collection = {
+  buyer: Business;
+  createdAt: string;
+  id: string;
+  materials: CollectionMaterials;
+  seller: User;
   updatedAt: string;
 };
 
-export type CreateAddressPayload = {
-  city: string;
-  country: string;
-  lineOne: string;
-  lineTwo?: string | null;
-  postalCode: number;
-  state: string;
+export type CollectionMaterial = {
+  carbonFactor?: string;
+  createdAt: string;
+  gwCode?: string;
+  id: string;
+  name?: string;
+  updatedAt: string;
+  value: number;
+  weight: number;
 };
 
-export type CreateBankDetailsPayload = {
-  accountHolder: string;
-  accountNumber: string;
-  bankName: string;
-  branchCode: string;
+export type CollectionMaterials = Array<CollectionMaterial>;
+
+export type Collections = Array<Collection>;
+
+export type CreateBusiness = {
+  address: Address;
+  bankDetails: BankDetails;
+  name: string;
+  ownerId: string;
 };
 
-export type CreateMaterialPayload = {
+export type CreateCollection = {
+  buyerId: string;
+  materials: AssignCollectionMaterials;
+  sellerId: string;
+};
+
+export type CreateCollectionMaterial = {
+  carbonFactor: string;
+  gwCode: string;
+  name: string;
+  value: number;
+  weight: number;
+};
+
+export type CreateMaterial = {
   carbonFactor: string;
   gwCode: string;
   name: string;
 };
 
-export type CreateOrganizationPayload = {
-  domain?: string;
-  name?: string;
-  ownerId?: string;
+export type CreateRole = {
+  description: string;
+  name: string;
+  permissions: Array<string>;
 };
 
-export type CreateProductPayload = {
-  materials?: Array<string>;
+export type CreateTransaction = {
+  buyerId: string;
+  materials: AssignTransactionMaterials;
+  sellerId: string;
+};
+
+export type CreateTransactionMaterial = {
+  carbonFactor: string;
+  gwCode: string;
   name: string;
   value: number;
-};
-
-export type CreateRolePayload = {
-  description?: string | null;
-  name?: string;
-  permissions?: Array<string>;
-};
-
-export type CreateTransactionPayload = {
-  amount: number;
-  products?: Array<string>;
-  sellerId: string;
-  type: string;
   weight: number;
 };
 
-export type CreateUserPayload = {
-  address: {
-    city: string;
-    country: string;
-    lineOne: string;
-    lineTwo?: string | null;
-    postalCode: number;
-    state: string;
-  };
-  bankDetails?: {
-    accountHolder?: string;
-    accountNumber?: string;
-    bankName?: string;
-    branchCode?: string;
-  };
-  email: string;
-  jobTitle?: string | null;
-  name: string | null;
-  password: string;
-  phone?: string | null;
-  roles?: Array<string> | null;
-  tags?: Array<string> | null;
+export type CreateUser = {
+  address: Address;
+  bankDetails: BankDetails;
+  businessId?: string;
+  businesses: AssignBusinesses;
+  name: string;
+  permissions: Array<string>;
+  roles: AssignRoles;
+  type: 'system' | 'collector' | 'business';
+  username: string;
 };
 
 export type ErrorResponse = {
-  error?: string;
-  message?: string;
-};
-
-export type LoginPayload = {
-  emailOrPhone: string;
-  password: string;
+  error: string;
+  message: string;
 };
 
 export type Material = {
@@ -150,3025 +168,351 @@ export type Material = {
   createdAt: string;
   gwCode: string;
   id: string;
-  modifiedBy?: {
-    createdAt: string;
-    email: string;
-    id: string;
-    image?: string;
-    jobTitle?: string;
-    mfaEnabled: boolean;
-    mfaVerified: boolean;
-    modifiedById: string;
-    name?: string;
-    phone?: string;
-    primaryOrganizationId?: string;
-    tags: Array<string>;
-    updatedAt: string;
-  };
-  modifiedById: string;
   name: string;
   updatedAt: string;
 };
 
-export type MfaVerifyPayload = {
-  code?: string;
+export type Materials = Array<Material>;
+
+export type Pagination = {
+  count: number;
+  currentPage: number;
+  nextPage: number;
+  pageSize: number;
+  pages: number;
+  previousPage: number;
 };
 
-export type Notification = {
-  action?: {
-    link?: string;
-    linkText?: string;
-  };
-  closed: boolean;
-  createdAt: string;
-  id: string;
-  message: string;
-  modifiedBy?: {
-    createdAt: string;
-    email: string;
-    id: string;
-    image?: string;
-    jobTitle?: string;
-    mfaEnabled: boolean;
-    mfaVerified: boolean;
-    modifiedById: string;
-    name?: string;
-    phone?: string;
-    primaryOrganizationId?: string;
-    tags: Array<string>;
-    updatedAt: string;
-  };
-  modifiedById: string;
-  title: string;
-  updatedAt: string;
-  userId: string;
+export type Permission = {
+  description: string;
+  label: string;
+  value: string;
 };
 
-export type Organization = {
-  createdAt: string;
-  domain: string;
-  id: string;
-  modifiedBy?: {
-    createdAt: string;
-    email: string;
-    id: string;
-    image?: string;
-    jobTitle?: string;
-    mfaEnabled: boolean;
-    mfaVerified: boolean;
-    modifiedById: string;
-    name?: string;
-    phone?: string;
-    primaryOrganizationId?: string;
-    tags: Array<string>;
-    updatedAt: string;
-  };
-  modifiedById: string;
+export type PermissionGroup = {
   name: string;
-  owner: {
-    createdAt: string;
-    email: string;
-    id: string;
-    image?: string;
-    jobTitle?: string;
-    mfaEnabled: boolean;
-    mfaVerified: boolean;
-    modifiedById: string;
-    name?: string;
-    phone?: string;
-    primaryOrganizationId?: string;
-    tags: Array<string>;
-    updatedAt: string;
-  };
-  ownerId: string;
-  updatedAt: string;
+  permissions: Permissions;
+  subGroups: Array<PermissionGroup>;
 };
 
-export type Product = {
-  createdAt: string;
-  id: string;
-  materials: Array<{
-    carbonFactor: string;
-    createdAt: string;
-    gwCode: string;
-    id: string;
-    modifiedBy?: {
-      createdAt: string;
-      email: string;
-      id: string;
-      image?: string;
-      jobTitle?: string;
-      mfaEnabled: boolean;
-      mfaVerified: boolean;
-      modifiedById: string;
-      name?: string;
-      phone?: string;
-      primaryOrganizationId?: string;
-      tags: Array<string>;
-      updatedAt: string;
-    };
-    modifiedById: string;
-    name: string;
-    updatedAt: string;
-  }>;
-  modifiedBy?: {
-    createdAt: string;
-    email: string;
-    id: string;
-    image?: string;
-    jobTitle?: string;
-    mfaEnabled: boolean;
-    mfaVerified: boolean;
-    modifiedById: string;
-    name?: string;
-    phone?: string;
-    primaryOrganizationId?: string;
-    tags: Array<string>;
-    updatedAt: string;
-  };
-  modifiedById: string;
-  name: string;
-  updatedAt: string;
-  value: number;
+export type PermissionGroups = Array<PermissionGroup>;
+
+export type Permissions = Array<Permission>;
+
+export type Query = {
+  page: number;
+  pageSize: number;
+  searchTerm: string;
 };
 
 export type Role = {
   createdAt: string;
+  default: boolean;
   description: string;
   id: string;
-  modifiedBy?: {
-    createdAt: string;
-    email: string;
-    id: string;
-    image?: string;
-    jobTitle?: string;
-    mfaEnabled: boolean;
-    mfaVerified: boolean;
-    modifiedById: string;
-    name?: string;
-    phone?: string;
-    primaryOrganizationId?: string;
-    tags: Array<string>;
-    updatedAt: string;
-  };
-  modifiedById: string;
   name: string;
   permissions: Array<string>;
   updatedAt: string;
 };
 
-export type SignUpPayload = {
-  email?: string;
-  name: string;
-  password: string;
-  phone?: string;
-};
+export type Roles = Array<Role>;
 
 export type SuccessResponse = {
   item?:
     | {
-        address?: {
-          city: string;
-          country: string;
-          createdAt: string;
-          id: string;
-          lineOne: string;
-          lineTwo?: string | null;
-          postalCode: number;
-          state: string;
-          updatedAt: string;
-        };
-        bankDetails?: {
-          accountHolder: string;
-          accountNumber: string;
-          bankName: string;
-          branchCode: string;
-          createdAt: string;
-          id: string;
-          updatedAt: string;
-        };
+        address: Address;
+        bankDetails: BankDetails;
+        businessId: string | null;
+        businesses: Array<Business>;
         createdAt: string;
-        email: string;
         id: string;
-        image?: string;
-        jobTitle?: string;
         mfaEnabled: boolean;
         mfaVerified: boolean;
-        modifiedBy?: {
-          createdAt: string;
-          email: string;
-          id: string;
-          image?: string;
-          jobTitle?: string;
-          mfaEnabled: boolean;
-          mfaVerified: boolean;
-          modifiedById: string;
-          name?: string;
-          phone?: string;
-          primaryOrganizationId?: string;
-          tags: Array<string>;
-          updatedAt: string;
-        };
-        modifiedById: string;
-        name?: string;
-        organizations?: Array<{
-          createdAt: string;
-          domain: string;
-          id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          name: string;
-          owner: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          ownerId: string;
-          updatedAt: string;
-        }>;
-        phone?: string;
-        primaryOrganizationId?: string;
-        roles?: Array<{
-          createdAt: string;
-          description: string;
-          id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          name: string;
-          permissions: Array<string>;
-          updatedAt: string;
-        }>;
-        tags: Array<string>;
-        updatedAt: string;
-      }
-    | {
-        createdAt: string;
-        domain: string;
-        id: string;
-        modifiedBy?: {
-          createdAt: string;
-          email: string;
-          id: string;
-          image?: string;
-          jobTitle?: string;
-          mfaEnabled: boolean;
-          mfaVerified: boolean;
-          modifiedById: string;
-          name?: string;
-          phone?: string;
-          primaryOrganizationId?: string;
-          tags: Array<string>;
-          updatedAt: string;
-        };
-        modifiedById: string;
         name: string;
-        owner: {
-          createdAt: string;
-          email: string;
-          id: string;
-          image?: string;
-          jobTitle?: string;
-          mfaEnabled: boolean;
-          mfaVerified: boolean;
-          modifiedById: string;
-          name?: string;
-          phone?: string;
-          primaryOrganizationId?: string;
-          tags: Array<string>;
-          updatedAt: string;
-        };
-        ownerId: string;
+        permissions: Array<string>;
+        roles: Roles;
+        type: 'system' | 'collector' | 'business';
         updatedAt: string;
+        username: string;
       }
     | {
         createdAt: string;
+        default: boolean;
         description: string;
         id: string;
-        modifiedBy?: {
-          createdAt: string;
-          email: string;
-          id: string;
-          image?: string;
-          jobTitle?: string;
-          mfaEnabled: boolean;
-          mfaVerified: boolean;
-          modifiedById: string;
-          name?: string;
-          phone?: string;
-          primaryOrganizationId?: string;
-          tags: Array<string>;
-          updatedAt: string;
-        };
-        modifiedById: string;
         name: string;
         permissions: Array<string>;
         updatedAt: string;
-      }
-    | {
-        createdAt: string;
-        data: {
-          [key: string]: unknown;
-        };
-        id: string;
-        objectId: string;
-        operationType: string;
-        tableName: string;
-        updatedAt: string;
-        user?: {
-          createdAt: string;
-          email: string;
-          id: string;
-          image?: string;
-          jobTitle?: string;
-          mfaEnabled: boolean;
-          mfaVerified: boolean;
-          modifiedById: string;
-          name?: string;
-          phone?: string;
-          primaryOrganizationId?: string;
-          tags: Array<string>;
-          updatedAt: string;
-        };
-        userId: string;
       }
     | {
         carbonFactor: string;
         createdAt: string;
         gwCode: string;
         id: string;
-        modifiedBy?: {
-          createdAt: string;
-          email: string;
-          id: string;
-          image?: string;
-          jobTitle?: string;
-          mfaEnabled: boolean;
-          mfaVerified: boolean;
-          modifiedById: string;
-          name?: string;
-          phone?: string;
-          primaryOrganizationId?: string;
-          tags: Array<string>;
-          updatedAt: string;
-        };
-        modifiedById: string;
         name: string;
         updatedAt: string;
       }
     | {
+        buyer: Business;
         createdAt: string;
         id: string;
-        materials: Array<{
-          carbonFactor: string;
-          createdAt: string;
-          gwCode: string;
-          id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          name: string;
-          updatedAt: string;
-        }>;
-        modifiedBy?: {
-          createdAt: string;
-          email: string;
-          id: string;
-          image?: string;
-          jobTitle?: string;
-          mfaEnabled: boolean;
-          mfaVerified: boolean;
-          modifiedById: string;
-          name?: string;
-          phone?: string;
-          primaryOrganizationId?: string;
-          tags: Array<string>;
-          updatedAt: string;
-        };
-        modifiedById: string;
-        name: string;
+        materials: CollectionMaterials;
+        seller: User;
+        updatedAt: string;
+      }
+    | {
+        carbonFactor?: string;
+        createdAt: string;
+        gwCode?: string;
+        id: string;
+        name?: string;
         updatedAt: string;
         value: number;
-      }
-    | {
-        amount: number;
-        buyerId: string;
-        buyerType: string;
-        createdAt: string;
-        id: string;
-        modifiedBy?: {
-          createdAt: string;
-          email: string;
-          id: string;
-          image?: string;
-          jobTitle?: string;
-          mfaEnabled: boolean;
-          mfaVerified: boolean;
-          modifiedById: string;
-          name?: string;
-          phone?: string;
-          primaryOrganizationId?: string;
-          tags: Array<string>;
-          updatedAt: string;
-        };
-        modifiedById?: string;
-        products: Array<{
-          createdAt: string;
-          id: string;
-          materials: Array<{
-            carbonFactor: string;
-            createdAt: string;
-            gwCode: string;
-            id: string;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            updatedAt: string;
-          }>;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          name: string;
-          updatedAt: string;
-          value: number;
-        }>;
-        sellerAccepted: boolean;
-        sellerDeclined: boolean;
-        sellerId: string;
-        sellerType: string;
-        type: string;
-        updatedAt: string;
         weight: number;
       }
     | {
-        action?: {
-          link?: string;
-          linkText?: string;
-        };
-        closed: boolean;
+        buyer: Business;
         createdAt: string;
         id: string;
-        message: string;
-        modifiedBy?: {
-          createdAt: string;
-          email: string;
-          id: string;
-          image?: string;
-          jobTitle?: string;
-          mfaEnabled: boolean;
-          mfaVerified: boolean;
-          modifiedById: string;
-          name?: string;
-          phone?: string;
-          primaryOrganizationId?: string;
-          tags: Array<string>;
-          updatedAt: string;
-        };
-        modifiedById: string;
-        title: string;
+        materials: TransactionMaterials;
+        seller: User;
         updatedAt: string;
-        userId: string;
       }
     | {
+        carbonFactor?: string;
+        createdAt: string;
+        gwCode?: string;
+        id: string;
+        name?: string;
+        updatedAt: string;
+        value: number;
+        weight: number;
+      }
+    | {
+        address: Address;
+        bankDetails: BankDetails;
+        createdAt: string;
+        id: string;
         name: string;
-        permissions: Array<{
-          description: string;
-          value: string;
-        }>;
-      }
-    | {
-        city: string;
-        country: string;
-        createdAt: string;
-        id: string;
-        lineOne: string;
-        lineTwo?: string | null;
-        postalCode: number;
-        state: string;
+        ownerId: string;
+        roles: Roles;
         updatedAt: string;
-      }
-    | {
-        accountHolder: string;
-        accountNumber: string;
-        bankName: string;
-        branchCode: string;
-        createdAt: string;
-        id: string;
-        updatedAt: string;
+        users: Array<User>;
       };
-  items?:
-    | Array<{
-        address?: {
-          city: string;
-          country: string;
-          createdAt: string;
-          id: string;
-          lineOne: string;
-          lineTwo?: string | null;
-          postalCode: number;
-          state: string;
-          updatedAt: string;
-        };
-        bankDetails?: {
-          accountHolder: string;
-          accountNumber: string;
-          bankName: string;
-          branchCode: string;
-          createdAt: string;
-          id: string;
-          updatedAt: string;
-        };
+  items?: Array<
+    | {
+        address: Address;
+        bankDetails: BankDetails;
+        businessId: string | null;
+        businesses: Array<Business>;
         createdAt: string;
-        email: string;
         id: string;
-        image?: string;
-        jobTitle?: string;
         mfaEnabled: boolean;
         mfaVerified: boolean;
-        modifiedBy?: {
-          createdAt: string;
-          email: string;
-          id: string;
-          image?: string;
-          jobTitle?: string;
-          mfaEnabled: boolean;
-          mfaVerified: boolean;
-          modifiedById: string;
-          name?: string;
-          phone?: string;
-          primaryOrganizationId?: string;
-          tags: Array<string>;
-          updatedAt: string;
-        };
-        modifiedById: string;
-        name?: string;
-        organizations?: Array<{
-          createdAt: string;
-          domain: string;
-          id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          name: string;
-          owner: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          ownerId: string;
-          updatedAt: string;
-        }>;
-        phone?: string;
-        primaryOrganizationId?: string;
-        roles?: Array<{
-          createdAt: string;
-          description: string;
-          id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          name: string;
-          permissions: Array<string>;
-          updatedAt: string;
-        }>;
-        tags: Array<string>;
-        updatedAt: string;
-      }>
-    | Array<{
-        createdAt: string;
-        domain: string;
-        id: string;
-        modifiedBy?: {
-          createdAt: string;
-          email: string;
-          id: string;
-          image?: string;
-          jobTitle?: string;
-          mfaEnabled: boolean;
-          mfaVerified: boolean;
-          modifiedById: string;
-          name?: string;
-          phone?: string;
-          primaryOrganizationId?: string;
-          tags: Array<string>;
-          updatedAt: string;
-        };
-        modifiedById: string;
         name: string;
-        owner: {
-          createdAt: string;
-          email: string;
-          id: string;
-          image?: string;
-          jobTitle?: string;
-          mfaEnabled: boolean;
-          mfaVerified: boolean;
-          modifiedById: string;
-          name?: string;
-          phone?: string;
-          primaryOrganizationId?: string;
-          tags: Array<string>;
-          updatedAt: string;
-        };
-        ownerId: string;
+        permissions: Array<string>;
+        roles: Roles;
+        type: 'system' | 'collector' | 'business';
         updatedAt: string;
-      }>
-    | Array<{
+        username: string;
+      }
+    | {
         createdAt: string;
+        default: boolean;
         description: string;
         id: string;
-        modifiedBy?: {
-          createdAt: string;
-          email: string;
-          id: string;
-          image?: string;
-          jobTitle?: string;
-          mfaEnabled: boolean;
-          mfaVerified: boolean;
-          modifiedById: string;
-          name?: string;
-          phone?: string;
-          primaryOrganizationId?: string;
-          tags: Array<string>;
-          updatedAt: string;
-        };
-        modifiedById: string;
         name: string;
         permissions: Array<string>;
         updatedAt: string;
-      }>
-    | Array<{
-        createdAt: string;
-        data: {
-          [key: string]: unknown;
-        };
-        id: string;
-        objectId: string;
-        operationType: string;
-        tableName: string;
-        updatedAt: string;
-        user?: {
-          createdAt: string;
-          email: string;
-          id: string;
-          image?: string;
-          jobTitle?: string;
-          mfaEnabled: boolean;
-          mfaVerified: boolean;
-          modifiedById: string;
-          name?: string;
-          phone?: string;
-          primaryOrganizationId?: string;
-          tags: Array<string>;
-          updatedAt: string;
-        };
-        userId: string;
-      }>
-    | Array<{
+      }
+    | {
         carbonFactor: string;
         createdAt: string;
         gwCode: string;
         id: string;
-        modifiedBy?: {
-          createdAt: string;
-          email: string;
-          id: string;
-          image?: string;
-          jobTitle?: string;
-          mfaEnabled: boolean;
-          mfaVerified: boolean;
-          modifiedById: string;
-          name?: string;
-          phone?: string;
-          primaryOrganizationId?: string;
-          tags: Array<string>;
-          updatedAt: string;
-        };
-        modifiedById: string;
         name: string;
         updatedAt: string;
-      }>
-    | Array<{
+      }
+    | {
+        buyer: Business;
         createdAt: string;
         id: string;
-        materials: Array<{
-          carbonFactor: string;
-          createdAt: string;
-          gwCode: string;
-          id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          name: string;
-          updatedAt: string;
-        }>;
-        modifiedBy?: {
-          createdAt: string;
-          email: string;
-          id: string;
-          image?: string;
-          jobTitle?: string;
-          mfaEnabled: boolean;
-          mfaVerified: boolean;
-          modifiedById: string;
-          name?: string;
-          phone?: string;
-          primaryOrganizationId?: string;
-          tags: Array<string>;
-          updatedAt: string;
-        };
-        modifiedById: string;
-        name: string;
+        materials: CollectionMaterials;
+        seller: User;
+        updatedAt: string;
+      }
+    | {
+        carbonFactor?: string;
+        createdAt: string;
+        gwCode?: string;
+        id: string;
+        name?: string;
         updatedAt: string;
         value: number;
-      }>
-    | Array<{
-        amount: number;
-        buyerId: string;
-        buyerType: string;
-        createdAt: string;
-        id: string;
-        modifiedBy?: {
-          createdAt: string;
-          email: string;
-          id: string;
-          image?: string;
-          jobTitle?: string;
-          mfaEnabled: boolean;
-          mfaVerified: boolean;
-          modifiedById: string;
-          name?: string;
-          phone?: string;
-          primaryOrganizationId?: string;
-          tags: Array<string>;
-          updatedAt: string;
-        };
-        modifiedById?: string;
-        products: Array<{
-          createdAt: string;
-          id: string;
-          materials: Array<{
-            carbonFactor: string;
-            createdAt: string;
-            gwCode: string;
-            id: string;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            updatedAt: string;
-          }>;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          name: string;
-          updatedAt: string;
-          value: number;
-        }>;
-        sellerAccepted: boolean;
-        sellerDeclined: boolean;
-        sellerId: string;
-        sellerType: string;
-        type: string;
-        updatedAt: string;
         weight: number;
-      }>
-    | Array<{
-        action?: {
-          link?: string;
-          linkText?: string;
-        };
-        closed: boolean;
+      }
+    | {
+        buyer: Business;
         createdAt: string;
         id: string;
-        message: string;
-        modifiedBy?: {
-          createdAt: string;
-          email: string;
-          id: string;
-          image?: string;
-          jobTitle?: string;
-          mfaEnabled: boolean;
-          mfaVerified: boolean;
-          modifiedById: string;
-          name?: string;
-          phone?: string;
-          primaryOrganizationId?: string;
-          tags: Array<string>;
-          updatedAt: string;
-        };
-        modifiedById: string;
-        title: string;
+        materials: TransactionMaterials;
+        seller: User;
         updatedAt: string;
-        userId: string;
-      }>
-    | Array<{
+      }
+    | {
+        carbonFactor?: string;
+        createdAt: string;
+        gwCode?: string;
+        id: string;
+        name?: string;
+        updatedAt: string;
+        value: number;
+        weight: number;
+      }
+    | {
+        address: Address;
+        bankDetails: BankDetails;
+        createdAt: string;
+        id: string;
         name: string;
-        permissions: Array<{
-          description: string;
-          value: string;
-        }>;
-      }>
-    | Array<{
-        city: string;
-        country: string;
-        createdAt: string;
-        id: string;
-        lineOne: string;
-        lineTwo?: string | null;
-        postalCode: number;
-        state: string;
+        ownerId: string;
+        roles: Roles;
         updatedAt: string;
-      }>
-    | Array<{
-        accountHolder: string;
-        accountNumber: string;
-        bankName: string;
-        branchCode: string;
-        createdAt: string;
-        id: string;
-        updatedAt: string;
-      }>
-    | Array<string>;
-  pageDetails?: {
-    count?: number;
-    currentPage?: number;
-    nextPage?: number;
-    pages?: number;
-    previousPage?: number;
-  } | null;
+        users: Array<User>;
+      }
+    | {
+        name: string;
+        permissions: Permissions;
+        subGroups: Array<PermissionGroup>;
+      }
+  >;
+  pagination?: Pagination;
 };
 
 export type Transaction = {
-  amount: number;
-  buyerId: string;
-  buyerType: string;
+  buyer: Business;
   createdAt: string;
   id: string;
-  modifiedBy?: {
-    createdAt: string;
-    email: string;
-    id: string;
-    image?: string;
-    jobTitle?: string;
-    mfaEnabled: boolean;
-    mfaVerified: boolean;
-    modifiedById: string;
-    name?: string;
-    phone?: string;
-    primaryOrganizationId?: string;
-    tags: Array<string>;
-    updatedAt: string;
-  };
-  modifiedById?: string;
-  products: Array<{
-    createdAt: string;
-    id: string;
-    materials: Array<{
-      carbonFactor: string;
-      createdAt: string;
-      gwCode: string;
-      id: string;
-      modifiedBy?: {
-        createdAt: string;
-        email: string;
-        id: string;
-        image?: string;
-        jobTitle?: string;
-        mfaEnabled: boolean;
-        mfaVerified: boolean;
-        modifiedById: string;
-        name?: string;
-        phone?: string;
-        primaryOrganizationId?: string;
-        tags: Array<string>;
-        updatedAt: string;
-      };
-      modifiedById: string;
-      name: string;
-      updatedAt: string;
-    }>;
-    modifiedBy?: {
-      createdAt: string;
-      email: string;
-      id: string;
-      image?: string;
-      jobTitle?: string;
-      mfaEnabled: boolean;
-      mfaVerified: boolean;
-      modifiedById: string;
-      name?: string;
-      phone?: string;
-      primaryOrganizationId?: string;
-      tags: Array<string>;
-      updatedAt: string;
-    };
-    modifiedById: string;
-    name: string;
-    updatedAt: string;
-    value: number;
-  }>;
-  sellerAccepted: boolean;
-  sellerDeclined: boolean;
-  sellerId: string;
-  sellerType: string;
-  type: string;
+  materials: TransactionMaterials;
+  seller: User;
   updatedAt: string;
+};
+
+export type TransactionMaterial = {
+  carbonFactor?: string;
+  createdAt: string;
+  gwCode?: string;
+  id: string;
+  name?: string;
+  updatedAt: string;
+  value: number;
   weight: number;
 };
 
-export type UpdateAddressPayload = {
-  city?: string | null;
-  country?: string | null;
-  lineOne?: string | null;
-  lineTwo?: string | null;
-  postalCode?: number | null;
-  state?: string | null;
+export type TransactionMaterials = Array<TransactionMaterial>;
+
+export type Transactions = Array<Transaction>;
+
+export type UpdateBusiness = {
+  address: Address;
+  bankDetails: BankDetails;
+  name: string;
+  ownerId: string;
 };
 
-export type UpdateBankDetailsPayload = {
-  accountHolder?: string | null;
-  accountNumber?: string | null;
-  bankName?: string | null;
-  branchCode?: string | null;
+export type UpdateCollection = {
+  buyerId: string | null;
+  sellerId: string | null;
 };
 
-export type UpdateMaterialPayload = {
-  carbonFactor?: string | null;
-  gwCode?: string | null;
-  name?: string | null;
+export type UpdateCollectionMaterial = {
+  carbonFactor: string;
+  gwCode: string;
+  name: string;
+  value: number | null;
+  weight: number | null;
 };
 
-export type UpdateOrganizationPayload = {
-  domain?: string | null;
-  name?: string | null;
-  ownerId?: string | null;
+export type UpdateMaterial = {
+  carbonFactor: string | null;
+  gwCode: string | null;
+  name: string | null;
 };
 
-export type UpdateProductPayload = {
-  materials?: Array<string>;
-  name?: string | null;
-  value?: number | null;
+export type UpdateRole = {
+  description: string | null;
+  name: string | null;
+  permissions: Array<string> | null;
 };
 
-export type UpdateRolePayload = {
-  description?: string | null;
-  name?: string | null;
-  permissions?: Array<string>;
+export type UpdateTransaction = {
+  buyerId: string | null;
+  sellerId: string | null;
 };
 
-export type UpdateTransactionPayload = {
-  amount?: number | null;
-  products?: Array<string>;
-  sellerAccepted?: boolean | null;
-  sellerDeclined?: boolean | null;
-  sellerId?: string | null;
-  type?: string | null;
-  weight?: number | null;
+export type UpdateTransactionMaterial = {
+  carbonFactor: string;
+  gwCode: string;
+  name: string;
+  value: number | null;
+  weight: number | null;
 };
 
-export type UpdateUserPayload = {
-  address?: {
-    city?: string | null;
-    country?: string | null;
-    lineOne?: string | null;
-    lineTwo?: string | null;
-    postalCode?: number | null;
-    state?: string | null;
-  };
-  bankDetails?: {
-    accountHolder?: string | null;
-    accountNumber?: string | null;
-    bankName?: string | null;
-    branchCode?: string | null;
-  };
-  email?: string | null;
-  jobTitle?: string | null;
-  name?: string | null;
-  organizations?: Array<string> | null;
-  phone?: string | null;
-  primaryOrganizationId?: string | null;
-  roles?: Array<string> | null;
-  tags?: Array<string> | null;
+export type UpdateUser = {
+  address: Address;
+  bankDetails: BankDetails;
+  businessId?: string | null;
+  businesses: AssignBusinesses;
+  name: string | null;
+  permissions: Array<string> | null;
+  roles: AssignRoles;
+  type: 'system' | 'collector' | 'business';
+  username: string | null;
 };
 
 export type User = {
-  address?: {
-    city: string;
-    country: string;
-    createdAt: string;
-    id: string;
-    lineOne: string;
-    lineTwo?: string | null;
-    postalCode: number;
-    state: string;
-    updatedAt: string;
-  };
-  bankDetails?: {
-    accountHolder: string;
-    accountNumber: string;
-    bankName: string;
-    branchCode: string;
-    createdAt: string;
-    id: string;
-    updatedAt: string;
-  };
+  address: Address;
+  bankDetails: BankDetails;
+  businessId: string | null;
+  businesses: Array<Business>;
   createdAt: string;
-  email: string;
   id: string;
-  image?: string;
-  jobTitle?: string;
   mfaEnabled: boolean;
   mfaVerified: boolean;
-  modifiedBy?: {
-    createdAt: string;
-    email: string;
-    id: string;
-    image?: string;
-    jobTitle?: string;
-    mfaEnabled: boolean;
-    mfaVerified: boolean;
-    modifiedById: string;
-    name?: string;
-    phone?: string;
-    primaryOrganizationId?: string;
-    tags: Array<string>;
-    updatedAt: string;
-  };
-  modifiedById: string;
-  name?: string;
-  organizations?: Array<{
-    createdAt: string;
-    domain: string;
-    id: string;
-    modifiedBy?: {
-      createdAt: string;
-      email: string;
-      id: string;
-      image?: string;
-      jobTitle?: string;
-      mfaEnabled: boolean;
-      mfaVerified: boolean;
-      modifiedById: string;
-      name?: string;
-      phone?: string;
-      primaryOrganizationId?: string;
-      tags: Array<string>;
-      updatedAt: string;
-    };
-    modifiedById: string;
-    name: string;
-    owner: {
-      createdAt: string;
-      email: string;
-      id: string;
-      image?: string;
-      jobTitle?: string;
-      mfaEnabled: boolean;
-      mfaVerified: boolean;
-      modifiedById: string;
-      name?: string;
-      phone?: string;
-      primaryOrganizationId?: string;
-      tags: Array<string>;
-      updatedAt: string;
-    };
-    ownerId: string;
-    updatedAt: string;
-  }>;
-  phone?: string;
-  primaryOrganizationId?: string;
-  roles?: Array<{
-    createdAt: string;
-    description: string;
-    id: string;
-    modifiedBy?: {
-      createdAt: string;
-      email: string;
-      id: string;
-      image?: string;
-      jobTitle?: string;
-      mfaEnabled: boolean;
-      mfaVerified: boolean;
-      modifiedById: string;
-      name?: string;
-      phone?: string;
-      primaryOrganizationId?: string;
-      tags: Array<string>;
-      updatedAt: string;
-    };
-    modifiedById: string;
-    name: string;
-    permissions: Array<string>;
-    updatedAt: string;
-  }>;
-  tags: Array<string>;
+  name: string;
+  permissions: Array<string>;
+  roles: Roles;
+  type: 'system' | 'collector' | 'business';
   updatedAt: string;
+  username: string;
 };
 
-export type GetApiAuditlogsData = {
-  body?: never;
-  path?: never;
-  query?: {
-    page?: number;
-    search?: string;
-  };
-  url: '/api/auditlogs';
+export type Users = Array<User>;
+
+/**
+ * Login payload
+ */
+export type LoginPayload = {
+  password: string;
+  username: string;
 };
 
-export type GetApiAuditlogsErrors = {
-  /**
-   * Bad Request.
-   */
-  400: {
-    error?: string;
-    message?: string;
-  };
-  /**
-   * Unauthorized.
-   */
-  401: {
-    error?: string;
-    message?: string;
-  };
-  /**
-   * Internal Server Error.
-   */
-  500: {
-    error?: string;
-    message?: string;
-  };
-  default: unknown;
+/**
+ * Register payload
+ */
+export type RegisterPayload = {
+  name: string;
+  password: string;
+  type: 'business' | 'collector';
+  username: string;
 };
 
-export type GetApiAuditlogsError =
-  GetApiAuditlogsErrors[keyof GetApiAuditlogsErrors];
-
-export type GetApiAuditlogsResponses = {
-  /**
-   * The list of auditlogs for the specified page and search query.
-   */
-  200: {
-    item?:
-      | {
-          address?: {
-            city: string;
-            country: string;
-            createdAt: string;
-            id: string;
-            lineOne: string;
-            lineTwo?: string | null;
-            postalCode: number;
-            state: string;
-            updatedAt: string;
-          };
-          bankDetails?: {
-            accountHolder: string;
-            accountNumber: string;
-            bankName: string;
-            branchCode: string;
-            createdAt: string;
-            id: string;
-            updatedAt: string;
-          };
-          createdAt: string;
-          email: string;
-          id: string;
-          image?: string;
-          jobTitle?: string;
-          mfaEnabled: boolean;
-          mfaVerified: boolean;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          name?: string;
-          organizations?: Array<{
-            createdAt: string;
-            domain: string;
-            id: string;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            owner: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            ownerId: string;
-            updatedAt: string;
-          }>;
-          phone?: string;
-          primaryOrganizationId?: string;
-          roles?: Array<{
-            createdAt: string;
-            description: string;
-            id: string;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            permissions: Array<string>;
-            updatedAt: string;
-          }>;
-          tags: Array<string>;
-          updatedAt: string;
-        }
-      | {
-          createdAt: string;
-          domain: string;
-          id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          name: string;
-          owner: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          ownerId: string;
-          updatedAt: string;
-        }
-      | {
-          createdAt: string;
-          description: string;
-          id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          name: string;
-          permissions: Array<string>;
-          updatedAt: string;
-        }
-      | {
-          createdAt: string;
-          data: {
-            [key: string]: unknown;
-          };
-          id: string;
-          objectId: string;
-          operationType: string;
-          tableName: string;
-          updatedAt: string;
-          user?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          userId: string;
-        }
-      | {
-          carbonFactor: string;
-          createdAt: string;
-          gwCode: string;
-          id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          name: string;
-          updatedAt: string;
-        }
-      | {
-          createdAt: string;
-          id: string;
-          materials: Array<{
-            carbonFactor: string;
-            createdAt: string;
-            gwCode: string;
-            id: string;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            updatedAt: string;
-          }>;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          name: string;
-          updatedAt: string;
-          value: number;
-        }
-      | {
-          amount: number;
-          buyerId: string;
-          buyerType: string;
-          createdAt: string;
-          id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById?: string;
-          products: Array<{
-            createdAt: string;
-            id: string;
-            materials: Array<{
-              carbonFactor: string;
-              createdAt: string;
-              gwCode: string;
-              id: string;
-              modifiedBy?: {
-                createdAt: string;
-                email: string;
-                id: string;
-                image?: string;
-                jobTitle?: string;
-                mfaEnabled: boolean;
-                mfaVerified: boolean;
-                modifiedById: string;
-                name?: string;
-                phone?: string;
-                primaryOrganizationId?: string;
-                tags: Array<string>;
-                updatedAt: string;
-              };
-              modifiedById: string;
-              name: string;
-              updatedAt: string;
-            }>;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            updatedAt: string;
-            value: number;
-          }>;
-          sellerAccepted: boolean;
-          sellerDeclined: boolean;
-          sellerId: string;
-          sellerType: string;
-          type: string;
-          updatedAt: string;
-          weight: number;
-        }
-      | {
-          action?: {
-            link?: string;
-            linkText?: string;
-          };
-          closed: boolean;
-          createdAt: string;
-          id: string;
-          message: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          title: string;
-          updatedAt: string;
-          userId: string;
-        }
-      | {
-          name: string;
-          permissions: Array<{
-            description: string;
-            value: string;
-          }>;
-        }
-      | {
-          city: string;
-          country: string;
-          createdAt: string;
-          id: string;
-          lineOne: string;
-          lineTwo?: string | null;
-          postalCode: number;
-          state: string;
-          updatedAt: string;
-        }
-      | {
-          accountHolder: string;
-          accountNumber: string;
-          bankName: string;
-          branchCode: string;
-          createdAt: string;
-          id: string;
-          updatedAt: string;
-        };
-    items?:
-      | Array<{
-          address?: {
-            city: string;
-            country: string;
-            createdAt: string;
-            id: string;
-            lineOne: string;
-            lineTwo?: string | null;
-            postalCode: number;
-            state: string;
-            updatedAt: string;
-          };
-          bankDetails?: {
-            accountHolder: string;
-            accountNumber: string;
-            bankName: string;
-            branchCode: string;
-            createdAt: string;
-            id: string;
-            updatedAt: string;
-          };
-          createdAt: string;
-          email: string;
-          id: string;
-          image?: string;
-          jobTitle?: string;
-          mfaEnabled: boolean;
-          mfaVerified: boolean;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          name?: string;
-          organizations?: Array<{
-            createdAt: string;
-            domain: string;
-            id: string;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            owner: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            ownerId: string;
-            updatedAt: string;
-          }>;
-          phone?: string;
-          primaryOrganizationId?: string;
-          roles?: Array<{
-            createdAt: string;
-            description: string;
-            id: string;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            permissions: Array<string>;
-            updatedAt: string;
-          }>;
-          tags: Array<string>;
-          updatedAt: string;
-        }>
-      | Array<{
-          createdAt: string;
-          domain: string;
-          id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          name: string;
-          owner: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          ownerId: string;
-          updatedAt: string;
-        }>
-      | Array<{
-          createdAt: string;
-          description: string;
-          id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          name: string;
-          permissions: Array<string>;
-          updatedAt: string;
-        }>
-      | Array<{
-          createdAt: string;
-          data: {
-            [key: string]: unknown;
-          };
-          id: string;
-          objectId: string;
-          operationType: string;
-          tableName: string;
-          updatedAt: string;
-          user?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          userId: string;
-        }>
-      | Array<{
-          carbonFactor: string;
-          createdAt: string;
-          gwCode: string;
-          id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          name: string;
-          updatedAt: string;
-        }>
-      | Array<{
-          createdAt: string;
-          id: string;
-          materials: Array<{
-            carbonFactor: string;
-            createdAt: string;
-            gwCode: string;
-            id: string;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            updatedAt: string;
-          }>;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          name: string;
-          updatedAt: string;
-          value: number;
-        }>
-      | Array<{
-          amount: number;
-          buyerId: string;
-          buyerType: string;
-          createdAt: string;
-          id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById?: string;
-          products: Array<{
-            createdAt: string;
-            id: string;
-            materials: Array<{
-              carbonFactor: string;
-              createdAt: string;
-              gwCode: string;
-              id: string;
-              modifiedBy?: {
-                createdAt: string;
-                email: string;
-                id: string;
-                image?: string;
-                jobTitle?: string;
-                mfaEnabled: boolean;
-                mfaVerified: boolean;
-                modifiedById: string;
-                name?: string;
-                phone?: string;
-                primaryOrganizationId?: string;
-                tags: Array<string>;
-                updatedAt: string;
-              };
-              modifiedById: string;
-              name: string;
-              updatedAt: string;
-            }>;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            updatedAt: string;
-            value: number;
-          }>;
-          sellerAccepted: boolean;
-          sellerDeclined: boolean;
-          sellerId: string;
-          sellerType: string;
-          type: string;
-          updatedAt: string;
-          weight: number;
-        }>
-      | Array<{
-          action?: {
-            link?: string;
-            linkText?: string;
-          };
-          closed: boolean;
-          createdAt: string;
-          id: string;
-          message: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          title: string;
-          updatedAt: string;
-          userId: string;
-        }>
-      | Array<{
-          name: string;
-          permissions: Array<{
-            description: string;
-            value: string;
-          }>;
-        }>
-      | Array<{
-          city: string;
-          country: string;
-          createdAt: string;
-          id: string;
-          lineOne: string;
-          lineTwo?: string | null;
-          postalCode: number;
-          state: string;
-          updatedAt: string;
-        }>
-      | Array<{
-          accountHolder: string;
-          accountNumber: string;
-          bankName: string;
-          branchCode: string;
-          createdAt: string;
-          id: string;
-          updatedAt: string;
-        }>
-      | Array<string>;
-    pageDetails?: {
-      count?: number;
-      currentPage?: number;
-      nextPage?: number;
-      pages?: number;
-      previousPage?: number;
-    } | null;
-  };
+/**
+ * Verify MFA payload
+ */
+export type VerifyMfaPayload = {
+  code: string;
 };
-
-export type GetApiAuditlogsResponse =
-  GetApiAuditlogsResponses[keyof GetApiAuditlogsResponses];
-
-export type GetApiAuditlogsByIdData = {
-  body?: never;
-  path: {
-    id: string;
-  };
-  query?: never;
-  url: '/api/auditlogs/{id}';
-};
-
-export type GetApiAuditlogsByIdErrors = {
-  /**
-   * Bad Request.
-   */
-  400: {
-    error?: string;
-    message?: string;
-  };
-  /**
-   * Unauthorized.
-   */
-  401: {
-    error?: string;
-    message?: string;
-  };
-  /**
-   * AuditLog not found.
-   */
-  404: {
-    error?: string;
-    message?: string;
-  };
-  /**
-   * Internal Server Error.
-   */
-  500: {
-    error?: string;
-    message?: string;
-  };
-  default: unknown;
-};
-
-export type GetApiAuditlogsByIdError =
-  GetApiAuditlogsByIdErrors[keyof GetApiAuditlogsByIdErrors];
-
-export type GetApiAuditlogsByIdResponses = {
-  /**
-   * The auditlog was retrieved successfully.
-   */
-  200: {
-    item?:
-      | {
-          address?: {
-            city: string;
-            country: string;
-            createdAt: string;
-            id: string;
-            lineOne: string;
-            lineTwo?: string | null;
-            postalCode: number;
-            state: string;
-            updatedAt: string;
-          };
-          bankDetails?: {
-            accountHolder: string;
-            accountNumber: string;
-            bankName: string;
-            branchCode: string;
-            createdAt: string;
-            id: string;
-            updatedAt: string;
-          };
-          createdAt: string;
-          email: string;
-          id: string;
-          image?: string;
-          jobTitle?: string;
-          mfaEnabled: boolean;
-          mfaVerified: boolean;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          name?: string;
-          organizations?: Array<{
-            createdAt: string;
-            domain: string;
-            id: string;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            owner: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            ownerId: string;
-            updatedAt: string;
-          }>;
-          phone?: string;
-          primaryOrganizationId?: string;
-          roles?: Array<{
-            createdAt: string;
-            description: string;
-            id: string;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            permissions: Array<string>;
-            updatedAt: string;
-          }>;
-          tags: Array<string>;
-          updatedAt: string;
-        }
-      | {
-          createdAt: string;
-          domain: string;
-          id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          name: string;
-          owner: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          ownerId: string;
-          updatedAt: string;
-        }
-      | {
-          createdAt: string;
-          description: string;
-          id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          name: string;
-          permissions: Array<string>;
-          updatedAt: string;
-        }
-      | {
-          createdAt: string;
-          data: {
-            [key: string]: unknown;
-          };
-          id: string;
-          objectId: string;
-          operationType: string;
-          tableName: string;
-          updatedAt: string;
-          user?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          userId: string;
-        }
-      | {
-          carbonFactor: string;
-          createdAt: string;
-          gwCode: string;
-          id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          name: string;
-          updatedAt: string;
-        }
-      | {
-          createdAt: string;
-          id: string;
-          materials: Array<{
-            carbonFactor: string;
-            createdAt: string;
-            gwCode: string;
-            id: string;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            updatedAt: string;
-          }>;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          name: string;
-          updatedAt: string;
-          value: number;
-        }
-      | {
-          amount: number;
-          buyerId: string;
-          buyerType: string;
-          createdAt: string;
-          id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById?: string;
-          products: Array<{
-            createdAt: string;
-            id: string;
-            materials: Array<{
-              carbonFactor: string;
-              createdAt: string;
-              gwCode: string;
-              id: string;
-              modifiedBy?: {
-                createdAt: string;
-                email: string;
-                id: string;
-                image?: string;
-                jobTitle?: string;
-                mfaEnabled: boolean;
-                mfaVerified: boolean;
-                modifiedById: string;
-                name?: string;
-                phone?: string;
-                primaryOrganizationId?: string;
-                tags: Array<string>;
-                updatedAt: string;
-              };
-              modifiedById: string;
-              name: string;
-              updatedAt: string;
-            }>;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            updatedAt: string;
-            value: number;
-          }>;
-          sellerAccepted: boolean;
-          sellerDeclined: boolean;
-          sellerId: string;
-          sellerType: string;
-          type: string;
-          updatedAt: string;
-          weight: number;
-        }
-      | {
-          action?: {
-            link?: string;
-            linkText?: string;
-          };
-          closed: boolean;
-          createdAt: string;
-          id: string;
-          message: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          title: string;
-          updatedAt: string;
-          userId: string;
-        }
-      | {
-          name: string;
-          permissions: Array<{
-            description: string;
-            value: string;
-          }>;
-        }
-      | {
-          city: string;
-          country: string;
-          createdAt: string;
-          id: string;
-          lineOne: string;
-          lineTwo?: string | null;
-          postalCode: number;
-          state: string;
-          updatedAt: string;
-        }
-      | {
-          accountHolder: string;
-          accountNumber: string;
-          bankName: string;
-          branchCode: string;
-          createdAt: string;
-          id: string;
-          updatedAt: string;
-        };
-    items?:
-      | Array<{
-          address?: {
-            city: string;
-            country: string;
-            createdAt: string;
-            id: string;
-            lineOne: string;
-            lineTwo?: string | null;
-            postalCode: number;
-            state: string;
-            updatedAt: string;
-          };
-          bankDetails?: {
-            accountHolder: string;
-            accountNumber: string;
-            bankName: string;
-            branchCode: string;
-            createdAt: string;
-            id: string;
-            updatedAt: string;
-          };
-          createdAt: string;
-          email: string;
-          id: string;
-          image?: string;
-          jobTitle?: string;
-          mfaEnabled: boolean;
-          mfaVerified: boolean;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          name?: string;
-          organizations?: Array<{
-            createdAt: string;
-            domain: string;
-            id: string;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            owner: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            ownerId: string;
-            updatedAt: string;
-          }>;
-          phone?: string;
-          primaryOrganizationId?: string;
-          roles?: Array<{
-            createdAt: string;
-            description: string;
-            id: string;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            permissions: Array<string>;
-            updatedAt: string;
-          }>;
-          tags: Array<string>;
-          updatedAt: string;
-        }>
-      | Array<{
-          createdAt: string;
-          domain: string;
-          id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          name: string;
-          owner: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          ownerId: string;
-          updatedAt: string;
-        }>
-      | Array<{
-          createdAt: string;
-          description: string;
-          id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          name: string;
-          permissions: Array<string>;
-          updatedAt: string;
-        }>
-      | Array<{
-          createdAt: string;
-          data: {
-            [key: string]: unknown;
-          };
-          id: string;
-          objectId: string;
-          operationType: string;
-          tableName: string;
-          updatedAt: string;
-          user?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          userId: string;
-        }>
-      | Array<{
-          carbonFactor: string;
-          createdAt: string;
-          gwCode: string;
-          id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          name: string;
-          updatedAt: string;
-        }>
-      | Array<{
-          createdAt: string;
-          id: string;
-          materials: Array<{
-            carbonFactor: string;
-            createdAt: string;
-            gwCode: string;
-            id: string;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            updatedAt: string;
-          }>;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          name: string;
-          updatedAt: string;
-          value: number;
-        }>
-      | Array<{
-          amount: number;
-          buyerId: string;
-          buyerType: string;
-          createdAt: string;
-          id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById?: string;
-          products: Array<{
-            createdAt: string;
-            id: string;
-            materials: Array<{
-              carbonFactor: string;
-              createdAt: string;
-              gwCode: string;
-              id: string;
-              modifiedBy?: {
-                createdAt: string;
-                email: string;
-                id: string;
-                image?: string;
-                jobTitle?: string;
-                mfaEnabled: boolean;
-                mfaVerified: boolean;
-                modifiedById: string;
-                name?: string;
-                phone?: string;
-                primaryOrganizationId?: string;
-                tags: Array<string>;
-                updatedAt: string;
-              };
-              modifiedById: string;
-              name: string;
-              updatedAt: string;
-            }>;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            updatedAt: string;
-            value: number;
-          }>;
-          sellerAccepted: boolean;
-          sellerDeclined: boolean;
-          sellerId: string;
-          sellerType: string;
-          type: string;
-          updatedAt: string;
-          weight: number;
-        }>
-      | Array<{
-          action?: {
-            link?: string;
-            linkText?: string;
-          };
-          closed: boolean;
-          createdAt: string;
-          id: string;
-          message: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          title: string;
-          updatedAt: string;
-          userId: string;
-        }>
-      | Array<{
-          name: string;
-          permissions: Array<{
-            description: string;
-            value: string;
-          }>;
-        }>
-      | Array<{
-          city: string;
-          country: string;
-          createdAt: string;
-          id: string;
-          lineOne: string;
-          lineTwo?: string | null;
-          postalCode: number;
-          state: string;
-          updatedAt: string;
-        }>
-      | Array<{
-          accountHolder: string;
-          accountNumber: string;
-          bankName: string;
-          branchCode: string;
-          createdAt: string;
-          id: string;
-          updatedAt: string;
-        }>
-      | Array<string>;
-    pageDetails?: {
-      count?: number;
-      currentPage?: number;
-      nextPage?: number;
-      pages?: number;
-      previousPage?: number;
-    } | null;
-  };
-};
-
-export type GetApiAuditlogsByIdResponse =
-  GetApiAuditlogsByIdResponses[keyof GetApiAuditlogsByIdResponses];
 
 export type GetApiAuthenticationCheckData = {
   body?: never;
@@ -3179,18 +523,32 @@ export type GetApiAuthenticationCheckData = {
 
 export type GetApiAuthenticationCheckErrors = {
   /**
+   * Bad Request
+   */
+  400: {
+    error: string;
+    message: string;
+  };
+  /**
    * Unauthorized
    */
   401: {
-    error?: string;
-    message?: string;
+    error: string;
+    message: string;
   };
   /**
-   * Internal server error.
+   * Forbidden
+   */
+  403: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Internal Server Error
    */
   500: {
-    error?: string;
-    message?: string;
+    error: string;
+    message: string;
   };
   default: unknown;
 };
@@ -3205,828 +563,173 @@ export type GetApiAuthenticationCheckResponses = {
   200: {
     item?:
       | {
-          address?: {
-            city: string;
-            country: string;
-            createdAt: string;
-            id: string;
-            lineOne: string;
-            lineTwo?: string | null;
-            postalCode: number;
-            state: string;
-            updatedAt: string;
-          };
-          bankDetails?: {
-            accountHolder: string;
-            accountNumber: string;
-            bankName: string;
-            branchCode: string;
-            createdAt: string;
-            id: string;
-            updatedAt: string;
-          };
+          address: Address;
+          bankDetails: BankDetails;
+          businessId: string | null;
+          businesses: Array<Business>;
           createdAt: string;
-          email: string;
           id: string;
-          image?: string;
-          jobTitle?: string;
           mfaEnabled: boolean;
           mfaVerified: boolean;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          name?: string;
-          organizations?: Array<{
-            createdAt: string;
-            domain: string;
-            id: string;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            owner: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            ownerId: string;
-            updatedAt: string;
-          }>;
-          phone?: string;
-          primaryOrganizationId?: string;
-          roles?: Array<{
-            createdAt: string;
-            description: string;
-            id: string;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            permissions: Array<string>;
-            updatedAt: string;
-          }>;
-          tags: Array<string>;
-          updatedAt: string;
-        }
-      | {
-          createdAt: string;
-          domain: string;
-          id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
           name: string;
-          owner: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          ownerId: string;
+          permissions: Array<string>;
+          roles: Roles;
+          type: 'system' | 'collector' | 'business';
           updatedAt: string;
+          username: string;
         }
       | {
           createdAt: string;
+          default: boolean;
           description: string;
           id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
           name: string;
           permissions: Array<string>;
           updatedAt: string;
-        }
-      | {
-          createdAt: string;
-          data: {
-            [key: string]: unknown;
-          };
-          id: string;
-          objectId: string;
-          operationType: string;
-          tableName: string;
-          updatedAt: string;
-          user?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          userId: string;
         }
       | {
           carbonFactor: string;
           createdAt: string;
           gwCode: string;
           id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
           name: string;
           updatedAt: string;
         }
       | {
+          buyer: Business;
           createdAt: string;
           id: string;
-          materials: Array<{
-            carbonFactor: string;
-            createdAt: string;
-            gwCode: string;
-            id: string;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            updatedAt: string;
-          }>;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          name: string;
+          materials: CollectionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
           updatedAt: string;
           value: number;
-        }
-      | {
-          amount: number;
-          buyerId: string;
-          buyerType: string;
-          createdAt: string;
-          id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById?: string;
-          products: Array<{
-            createdAt: string;
-            id: string;
-            materials: Array<{
-              carbonFactor: string;
-              createdAt: string;
-              gwCode: string;
-              id: string;
-              modifiedBy?: {
-                createdAt: string;
-                email: string;
-                id: string;
-                image?: string;
-                jobTitle?: string;
-                mfaEnabled: boolean;
-                mfaVerified: boolean;
-                modifiedById: string;
-                name?: string;
-                phone?: string;
-                primaryOrganizationId?: string;
-                tags: Array<string>;
-                updatedAt: string;
-              };
-              modifiedById: string;
-              name: string;
-              updatedAt: string;
-            }>;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            updatedAt: string;
-            value: number;
-          }>;
-          sellerAccepted: boolean;
-          sellerDeclined: boolean;
-          sellerId: string;
-          sellerType: string;
-          type: string;
-          updatedAt: string;
           weight: number;
         }
       | {
-          action?: {
-            link?: string;
-            linkText?: string;
-          };
-          closed: boolean;
+          buyer: Business;
           createdAt: string;
           id: string;
-          message: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          title: string;
+          materials: TransactionMaterials;
+          seller: User;
           updatedAt: string;
-          userId: string;
         }
       | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          createdAt: string;
+          id: string;
           name: string;
-          permissions: Array<{
-            description: string;
-            value: string;
-          }>;
-        }
-      | {
-          city: string;
-          country: string;
-          createdAt: string;
-          id: string;
-          lineOne: string;
-          lineTwo?: string | null;
-          postalCode: number;
-          state: string;
+          ownerId: string;
+          roles: Roles;
           updatedAt: string;
-        }
-      | {
-          accountHolder: string;
-          accountNumber: string;
-          bankName: string;
-          branchCode: string;
-          createdAt: string;
-          id: string;
-          updatedAt: string;
+          users: Array<User>;
         };
-    items?:
-      | Array<{
-          address?: {
-            city: string;
-            country: string;
-            createdAt: string;
-            id: string;
-            lineOne: string;
-            lineTwo?: string | null;
-            postalCode: number;
-            state: string;
-            updatedAt: string;
-          };
-          bankDetails?: {
-            accountHolder: string;
-            accountNumber: string;
-            bankName: string;
-            branchCode: string;
-            createdAt: string;
-            id: string;
-            updatedAt: string;
-          };
+    items?: Array<
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          businessId: string | null;
+          businesses: Array<Business>;
           createdAt: string;
-          email: string;
           id: string;
-          image?: string;
-          jobTitle?: string;
           mfaEnabled: boolean;
           mfaVerified: boolean;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          name?: string;
-          organizations?: Array<{
-            createdAt: string;
-            domain: string;
-            id: string;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            owner: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            ownerId: string;
-            updatedAt: string;
-          }>;
-          phone?: string;
-          primaryOrganizationId?: string;
-          roles?: Array<{
-            createdAt: string;
-            description: string;
-            id: string;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            permissions: Array<string>;
-            updatedAt: string;
-          }>;
-          tags: Array<string>;
-          updatedAt: string;
-        }>
-      | Array<{
-          createdAt: string;
-          domain: string;
-          id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
           name: string;
-          owner: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          ownerId: string;
+          permissions: Array<string>;
+          roles: Roles;
+          type: 'system' | 'collector' | 'business';
           updatedAt: string;
-        }>
-      | Array<{
+          username: string;
+        }
+      | {
           createdAt: string;
+          default: boolean;
           description: string;
           id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
           name: string;
           permissions: Array<string>;
           updatedAt: string;
-        }>
-      | Array<{
-          createdAt: string;
-          data: {
-            [key: string]: unknown;
-          };
-          id: string;
-          objectId: string;
-          operationType: string;
-          tableName: string;
-          updatedAt: string;
-          user?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          userId: string;
-        }>
-      | Array<{
+        }
+      | {
           carbonFactor: string;
           createdAt: string;
           gwCode: string;
           id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
           name: string;
           updatedAt: string;
-        }>
-      | Array<{
+        }
+      | {
+          buyer: Business;
           createdAt: string;
           id: string;
-          materials: Array<{
-            carbonFactor: string;
-            createdAt: string;
-            gwCode: string;
-            id: string;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            updatedAt: string;
-          }>;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          name: string;
+          materials: CollectionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
           updatedAt: string;
           value: number;
-        }>
-      | Array<{
-          amount: number;
-          buyerId: string;
-          buyerType: string;
-          createdAt: string;
-          id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById?: string;
-          products: Array<{
-            createdAt: string;
-            id: string;
-            materials: Array<{
-              carbonFactor: string;
-              createdAt: string;
-              gwCode: string;
-              id: string;
-              modifiedBy?: {
-                createdAt: string;
-                email: string;
-                id: string;
-                image?: string;
-                jobTitle?: string;
-                mfaEnabled: boolean;
-                mfaVerified: boolean;
-                modifiedById: string;
-                name?: string;
-                phone?: string;
-                primaryOrganizationId?: string;
-                tags: Array<string>;
-                updatedAt: string;
-              };
-              modifiedById: string;
-              name: string;
-              updatedAt: string;
-            }>;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            updatedAt: string;
-            value: number;
-          }>;
-          sellerAccepted: boolean;
-          sellerDeclined: boolean;
-          sellerId: string;
-          sellerType: string;
-          type: string;
-          updatedAt: string;
           weight: number;
-        }>
-      | Array<{
-          action?: {
-            link?: string;
-            linkText?: string;
-          };
-          closed: boolean;
+        }
+      | {
+          buyer: Business;
           createdAt: string;
           id: string;
-          message: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          title: string;
+          materials: TransactionMaterials;
+          seller: User;
           updatedAt: string;
-          userId: string;
-        }>
-      | Array<{
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          createdAt: string;
+          id: string;
           name: string;
-          permissions: Array<{
-            description: string;
-            value: string;
-          }>;
-        }>
-      | Array<{
-          city: string;
-          country: string;
-          createdAt: string;
-          id: string;
-          lineOne: string;
-          lineTwo?: string | null;
-          postalCode: number;
-          state: string;
+          ownerId: string;
+          roles: Roles;
           updatedAt: string;
-        }>
-      | Array<{
-          accountHolder: string;
-          accountNumber: string;
-          bankName: string;
-          branchCode: string;
-          createdAt: string;
-          id: string;
-          updatedAt: string;
-        }>
-      | Array<string>;
-    pageDetails?: {
-      count?: number;
-      currentPage?: number;
-      nextPage?: number;
-      pages?: number;
-      previousPage?: number;
-    } | null;
+          users: Array<User>;
+        }
+      | {
+          name: string;
+          permissions: Permissions;
+          subGroups: Array<PermissionGroup>;
+        }
+    >;
+    pagination?: Pagination;
   };
 };
 
@@ -4034,10 +737,10 @@ export type GetApiAuthenticationCheckResponse =
   GetApiAuthenticationCheckResponses[keyof GetApiAuthenticationCheckResponses];
 
 export type PostApiAuthenticationLoginData = {
-  body: {
-    emailOrPhone: string;
-    password: string;
-  };
+  /**
+   * Login payload
+   */
+  body: LoginPayload;
   path?: never;
   query?: never;
   url: '/api/authentication/login';
@@ -4045,25 +748,32 @@ export type PostApiAuthenticationLoginData = {
 
 export type PostApiAuthenticationLoginErrors = {
   /**
-   * Invalid request.
+   * Bad Request
    */
   400: {
-    error?: string;
-    message?: string;
+    error: string;
+    message: string;
   };
   /**
-   * Unauthorized.
+   * Unauthorized
    */
   401: {
-    error?: string;
-    message?: string;
+    error: string;
+    message: string;
   };
   /**
-   * Internal Server Error.
+   * Forbidden
+   */
+  403: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Internal Server Error
    */
   500: {
-    error?: string;
-    message?: string;
+    error: string;
+    message: string;
   };
   default: unknown;
 };
@@ -4073,10 +783,183 @@ export type PostApiAuthenticationLoginError =
 
 export type PostApiAuthenticationLoginResponses = {
   /**
-   * The user has been successfully logged in.
+   * Logged in successfully.
    */
-  200: unknown;
+  200: {
+    item?:
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          businessId: string | null;
+          businesses: Array<Business>;
+          createdAt: string;
+          id: string;
+          mfaEnabled: boolean;
+          mfaVerified: boolean;
+          name: string;
+          permissions: Array<string>;
+          roles: Roles;
+          type: 'system' | 'collector' | 'business';
+          updatedAt: string;
+          username: string;
+        }
+      | {
+          createdAt: string;
+          default: boolean;
+          description: string;
+          id: string;
+          name: string;
+          permissions: Array<string>;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor: string;
+          createdAt: string;
+          gwCode: string;
+          id: string;
+          name: string;
+          updatedAt: string;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: CollectionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: TransactionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          createdAt: string;
+          id: string;
+          name: string;
+          ownerId: string;
+          roles: Roles;
+          updatedAt: string;
+          users: Array<User>;
+        };
+    items?: Array<
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          businessId: string | null;
+          businesses: Array<Business>;
+          createdAt: string;
+          id: string;
+          mfaEnabled: boolean;
+          mfaVerified: boolean;
+          name: string;
+          permissions: Array<string>;
+          roles: Roles;
+          type: 'system' | 'collector' | 'business';
+          updatedAt: string;
+          username: string;
+        }
+      | {
+          createdAt: string;
+          default: boolean;
+          description: string;
+          id: string;
+          name: string;
+          permissions: Array<string>;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor: string;
+          createdAt: string;
+          gwCode: string;
+          id: string;
+          name: string;
+          updatedAt: string;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: CollectionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: TransactionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          createdAt: string;
+          id: string;
+          name: string;
+          ownerId: string;
+          roles: Roles;
+          updatedAt: string;
+          users: Array<User>;
+        }
+      | {
+          name: string;
+          permissions: Permissions;
+          subGroups: Array<PermissionGroup>;
+        }
+    >;
+    pagination?: Pagination;
+  };
 };
+
+export type PostApiAuthenticationLoginResponse =
+  PostApiAuthenticationLoginResponses[keyof PostApiAuthenticationLoginResponses];
 
 export type PostApiAuthenticationLogoutData = {
   body?: never;
@@ -4087,18 +970,32 @@ export type PostApiAuthenticationLogoutData = {
 
 export type PostApiAuthenticationLogoutErrors = {
   /**
+   * Bad Request
+   */
+  400: {
+    error: string;
+    message: string;
+  };
+  /**
    * Unauthorized
    */
   401: {
-    error?: string;
-    message?: string;
+    error: string;
+    message: string;
   };
   /**
-   * Internal server error.
+   * Forbidden
+   */
+  403: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Internal Server Error
    */
   500: {
-    error?: string;
-    message?: string;
+    error: string;
+    message: string;
   };
   default: unknown;
 };
@@ -4110,8 +1007,181 @@ export type PostApiAuthenticationLogoutResponses = {
   /**
    * Successful logout.
    */
-  200: unknown;
+  200: {
+    item?:
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          businessId: string | null;
+          businesses: Array<Business>;
+          createdAt: string;
+          id: string;
+          mfaEnabled: boolean;
+          mfaVerified: boolean;
+          name: string;
+          permissions: Array<string>;
+          roles: Roles;
+          type: 'system' | 'collector' | 'business';
+          updatedAt: string;
+          username: string;
+        }
+      | {
+          createdAt: string;
+          default: boolean;
+          description: string;
+          id: string;
+          name: string;
+          permissions: Array<string>;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor: string;
+          createdAt: string;
+          gwCode: string;
+          id: string;
+          name: string;
+          updatedAt: string;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: CollectionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: TransactionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          createdAt: string;
+          id: string;
+          name: string;
+          ownerId: string;
+          roles: Roles;
+          updatedAt: string;
+          users: Array<User>;
+        };
+    items?: Array<
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          businessId: string | null;
+          businesses: Array<Business>;
+          createdAt: string;
+          id: string;
+          mfaEnabled: boolean;
+          mfaVerified: boolean;
+          name: string;
+          permissions: Array<string>;
+          roles: Roles;
+          type: 'system' | 'collector' | 'business';
+          updatedAt: string;
+          username: string;
+        }
+      | {
+          createdAt: string;
+          default: boolean;
+          description: string;
+          id: string;
+          name: string;
+          permissions: Array<string>;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor: string;
+          createdAt: string;
+          gwCode: string;
+          id: string;
+          name: string;
+          updatedAt: string;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: CollectionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: TransactionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          createdAt: string;
+          id: string;
+          name: string;
+          ownerId: string;
+          roles: Roles;
+          updatedAt: string;
+          users: Array<User>;
+        }
+      | {
+          name: string;
+          permissions: Permissions;
+          subGroups: Array<PermissionGroup>;
+        }
+    >;
+    pagination?: Pagination;
+  };
 };
+
+export type PostApiAuthenticationLogoutResponse =
+  PostApiAuthenticationLogoutResponses[keyof PostApiAuthenticationLogoutResponses];
 
 export type GetApiAuthenticationMfaEnableData = {
   body?: never;
@@ -4122,18 +1192,32 @@ export type GetApiAuthenticationMfaEnableData = {
 
 export type GetApiAuthenticationMfaEnableErrors = {
   /**
+   * Bad Request
+   */
+  400: {
+    error: string;
+    message: string;
+  };
+  /**
    * Unauthorized
    */
   401: {
-    error?: string;
-    message?: string;
+    error: string;
+    message: string;
   };
   /**
-   * Internal server error
+   * Forbidden
+   */
+  403: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Internal Server Error
    */
   500: {
-    error?: string;
-    message?: string;
+    error: string;
+    message: string;
   };
   default: unknown;
 };
@@ -4149,9 +1233,10 @@ export type GetApiAuthenticationMfaEnableResponses = {
 };
 
 export type PostApiAuthenticationMfaVerifyData = {
-  body: {
-    code?: string;
-  };
+  /**
+   * Verify MFA payload
+   */
+  body: VerifyMfaPayload;
   path?: never;
   query?: never;
   url: '/api/authentication/mfa/verify';
@@ -4162,22 +1247,29 @@ export type PostApiAuthenticationMfaVerifyErrors = {
    * Bad Request
    */
   400: {
-    error?: string;
-    message?: string;
+    error: string;
+    message: string;
   };
   /**
    * Unauthorized
    */
   401: {
-    error?: string;
-    message?: string;
+    error: string;
+    message: string;
   };
   /**
-   * Internal server error
+   * Forbidden
+   */
+  403: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Internal Server Error
    */
   500: {
-    error?: string;
-    message?: string;
+    error: string;
+    message: string;
   };
   default: unknown;
 };
@@ -4187,873 +1279,183 @@ export type PostApiAuthenticationMfaVerifyError =
 
 export type PostApiAuthenticationMfaVerifyResponses = {
   /**
-   * MFA verification successful.
-   */
-  200: unknown;
-};
-
-export type GetApiAuthenticationOrganizationsData = {
-  body?: never;
-  path?: never;
-  query?: never;
-  url: '/api/authentication/organizations';
-};
-
-export type GetApiAuthenticationOrganizationsErrors = {
-  /**
-   * Unauthorized
-   */
-  401: {
-    error?: string;
-    message?: string;
-  };
-  /**
-   * Internal server error.
-   */
-  500: {
-    error?: string;
-    message?: string;
-  };
-  default: unknown;
-};
-
-export type GetApiAuthenticationOrganizationsError =
-  GetApiAuthenticationOrganizationsErrors[keyof GetApiAuthenticationOrganizationsErrors];
-
-export type GetApiAuthenticationOrganizationsResponses = {
-  /**
-   * Successful organizations retrieval.
+   * Successful authentication check.
    */
   200: {
     item?:
       | {
-          address?: {
-            city: string;
-            country: string;
-            createdAt: string;
-            id: string;
-            lineOne: string;
-            lineTwo?: string | null;
-            postalCode: number;
-            state: string;
-            updatedAt: string;
-          };
-          bankDetails?: {
-            accountHolder: string;
-            accountNumber: string;
-            bankName: string;
-            branchCode: string;
-            createdAt: string;
-            id: string;
-            updatedAt: string;
-          };
+          address: Address;
+          bankDetails: BankDetails;
+          businessId: string | null;
+          businesses: Array<Business>;
           createdAt: string;
-          email: string;
           id: string;
-          image?: string;
-          jobTitle?: string;
           mfaEnabled: boolean;
           mfaVerified: boolean;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          name?: string;
-          organizations?: Array<{
-            createdAt: string;
-            domain: string;
-            id: string;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            owner: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            ownerId: string;
-            updatedAt: string;
-          }>;
-          phone?: string;
-          primaryOrganizationId?: string;
-          roles?: Array<{
-            createdAt: string;
-            description: string;
-            id: string;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            permissions: Array<string>;
-            updatedAt: string;
-          }>;
-          tags: Array<string>;
-          updatedAt: string;
-        }
-      | {
-          createdAt: string;
-          domain: string;
-          id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
           name: string;
-          owner: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          ownerId: string;
+          permissions: Array<string>;
+          roles: Roles;
+          type: 'system' | 'collector' | 'business';
           updatedAt: string;
+          username: string;
         }
       | {
           createdAt: string;
+          default: boolean;
           description: string;
           id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
           name: string;
           permissions: Array<string>;
           updatedAt: string;
-        }
-      | {
-          createdAt: string;
-          data: {
-            [key: string]: unknown;
-          };
-          id: string;
-          objectId: string;
-          operationType: string;
-          tableName: string;
-          updatedAt: string;
-          user?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          userId: string;
         }
       | {
           carbonFactor: string;
           createdAt: string;
           gwCode: string;
           id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
           name: string;
           updatedAt: string;
         }
       | {
+          buyer: Business;
           createdAt: string;
           id: string;
-          materials: Array<{
-            carbonFactor: string;
-            createdAt: string;
-            gwCode: string;
-            id: string;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            updatedAt: string;
-          }>;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          name: string;
+          materials: CollectionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
           updatedAt: string;
           value: number;
-        }
-      | {
-          amount: number;
-          buyerId: string;
-          buyerType: string;
-          createdAt: string;
-          id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById?: string;
-          products: Array<{
-            createdAt: string;
-            id: string;
-            materials: Array<{
-              carbonFactor: string;
-              createdAt: string;
-              gwCode: string;
-              id: string;
-              modifiedBy?: {
-                createdAt: string;
-                email: string;
-                id: string;
-                image?: string;
-                jobTitle?: string;
-                mfaEnabled: boolean;
-                mfaVerified: boolean;
-                modifiedById: string;
-                name?: string;
-                phone?: string;
-                primaryOrganizationId?: string;
-                tags: Array<string>;
-                updatedAt: string;
-              };
-              modifiedById: string;
-              name: string;
-              updatedAt: string;
-            }>;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            updatedAt: string;
-            value: number;
-          }>;
-          sellerAccepted: boolean;
-          sellerDeclined: boolean;
-          sellerId: string;
-          sellerType: string;
-          type: string;
-          updatedAt: string;
           weight: number;
         }
       | {
-          action?: {
-            link?: string;
-            linkText?: string;
-          };
-          closed: boolean;
+          buyer: Business;
           createdAt: string;
           id: string;
-          message: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          title: string;
+          materials: TransactionMaterials;
+          seller: User;
           updatedAt: string;
-          userId: string;
         }
       | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          createdAt: string;
+          id: string;
           name: string;
-          permissions: Array<{
-            description: string;
-            value: string;
-          }>;
-        }
-      | {
-          city: string;
-          country: string;
-          createdAt: string;
-          id: string;
-          lineOne: string;
-          lineTwo?: string | null;
-          postalCode: number;
-          state: string;
+          ownerId: string;
+          roles: Roles;
           updatedAt: string;
-        }
-      | {
-          accountHolder: string;
-          accountNumber: string;
-          bankName: string;
-          branchCode: string;
-          createdAt: string;
-          id: string;
-          updatedAt: string;
+          users: Array<User>;
         };
-    items?:
-      | Array<{
-          address?: {
-            city: string;
-            country: string;
-            createdAt: string;
-            id: string;
-            lineOne: string;
-            lineTwo?: string | null;
-            postalCode: number;
-            state: string;
-            updatedAt: string;
-          };
-          bankDetails?: {
-            accountHolder: string;
-            accountNumber: string;
-            bankName: string;
-            branchCode: string;
-            createdAt: string;
-            id: string;
-            updatedAt: string;
-          };
+    items?: Array<
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          businessId: string | null;
+          businesses: Array<Business>;
           createdAt: string;
-          email: string;
           id: string;
-          image?: string;
-          jobTitle?: string;
           mfaEnabled: boolean;
           mfaVerified: boolean;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          name?: string;
-          organizations?: Array<{
-            createdAt: string;
-            domain: string;
-            id: string;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            owner: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            ownerId: string;
-            updatedAt: string;
-          }>;
-          phone?: string;
-          primaryOrganizationId?: string;
-          roles?: Array<{
-            createdAt: string;
-            description: string;
-            id: string;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            permissions: Array<string>;
-            updatedAt: string;
-          }>;
-          tags: Array<string>;
-          updatedAt: string;
-        }>
-      | Array<{
-          createdAt: string;
-          domain: string;
-          id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
           name: string;
-          owner: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          ownerId: string;
+          permissions: Array<string>;
+          roles: Roles;
+          type: 'system' | 'collector' | 'business';
           updatedAt: string;
-        }>
-      | Array<{
+          username: string;
+        }
+      | {
           createdAt: string;
+          default: boolean;
           description: string;
           id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
           name: string;
           permissions: Array<string>;
           updatedAt: string;
-        }>
-      | Array<{
-          createdAt: string;
-          data: {
-            [key: string]: unknown;
-          };
-          id: string;
-          objectId: string;
-          operationType: string;
-          tableName: string;
-          updatedAt: string;
-          user?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          userId: string;
-        }>
-      | Array<{
+        }
+      | {
           carbonFactor: string;
           createdAt: string;
           gwCode: string;
           id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
           name: string;
           updatedAt: string;
-        }>
-      | Array<{
+        }
+      | {
+          buyer: Business;
           createdAt: string;
           id: string;
-          materials: Array<{
-            carbonFactor: string;
-            createdAt: string;
-            gwCode: string;
-            id: string;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            updatedAt: string;
-          }>;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          name: string;
+          materials: CollectionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
           updatedAt: string;
           value: number;
-        }>
-      | Array<{
-          amount: number;
-          buyerId: string;
-          buyerType: string;
-          createdAt: string;
-          id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById?: string;
-          products: Array<{
-            createdAt: string;
-            id: string;
-            materials: Array<{
-              carbonFactor: string;
-              createdAt: string;
-              gwCode: string;
-              id: string;
-              modifiedBy?: {
-                createdAt: string;
-                email: string;
-                id: string;
-                image?: string;
-                jobTitle?: string;
-                mfaEnabled: boolean;
-                mfaVerified: boolean;
-                modifiedById: string;
-                name?: string;
-                phone?: string;
-                primaryOrganizationId?: string;
-                tags: Array<string>;
-                updatedAt: string;
-              };
-              modifiedById: string;
-              name: string;
-              updatedAt: string;
-            }>;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            updatedAt: string;
-            value: number;
-          }>;
-          sellerAccepted: boolean;
-          sellerDeclined: boolean;
-          sellerId: string;
-          sellerType: string;
-          type: string;
-          updatedAt: string;
           weight: number;
-        }>
-      | Array<{
-          action?: {
-            link?: string;
-            linkText?: string;
-          };
-          closed: boolean;
+        }
+      | {
+          buyer: Business;
           createdAt: string;
           id: string;
-          message: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          title: string;
+          materials: TransactionMaterials;
+          seller: User;
           updatedAt: string;
-          userId: string;
-        }>
-      | Array<{
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          createdAt: string;
+          id: string;
           name: string;
-          permissions: Array<{
-            description: string;
-            value: string;
-          }>;
-        }>
-      | Array<{
-          city: string;
-          country: string;
-          createdAt: string;
-          id: string;
-          lineOne: string;
-          lineTwo?: string | null;
-          postalCode: number;
-          state: string;
+          ownerId: string;
+          roles: Roles;
           updatedAt: string;
-        }>
-      | Array<{
-          accountHolder: string;
-          accountNumber: string;
-          bankName: string;
-          branchCode: string;
-          createdAt: string;
-          id: string;
-          updatedAt: string;
-        }>
-      | Array<string>;
-    pageDetails?: {
-      count?: number;
-      currentPage?: number;
-      nextPage?: number;
-      pages?: number;
-      previousPage?: number;
-    } | null;
+          users: Array<User>;
+        }
+      | {
+          name: string;
+          permissions: Permissions;
+          subGroups: Array<PermissionGroup>;
+        }
+    >;
+    pagination?: Pagination;
   };
 };
 
-export type GetApiAuthenticationOrganizationsResponse =
-  GetApiAuthenticationOrganizationsResponses[keyof GetApiAuthenticationOrganizationsResponses];
+export type PostApiAuthenticationMfaVerifyResponse =
+  PostApiAuthenticationMfaVerifyResponses[keyof PostApiAuthenticationMfaVerifyResponses];
 
 export type GetApiAuthenticationPermissionsData = {
   body?: never;
@@ -5064,18 +1466,32 @@ export type GetApiAuthenticationPermissionsData = {
 
 export type GetApiAuthenticationPermissionsErrors = {
   /**
+   * Bad Request
+   */
+  400: {
+    error: string;
+    message: string;
+  };
+  /**
    * Unauthorized
    */
   401: {
-    error?: string;
-    message?: string;
+    error: string;
+    message: string;
   };
   /**
-   * Internal server error.
+   * Forbidden
+   */
+  403: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Internal Server Error
    */
   500: {
-    error?: string;
-    message?: string;
+    error: string;
+    message: string;
   };
   default: unknown;
 };
@@ -5085,910 +1501,3003 @@ export type GetApiAuthenticationPermissionsError =
 
 export type GetApiAuthenticationPermissionsResponses = {
   /**
-   * Successful permissions retrieval.
+   * Permissions retrieved successfully.
    */
   200: {
     item?:
       | {
-          address?: {
-            city: string;
-            country: string;
-            createdAt: string;
-            id: string;
-            lineOne: string;
-            lineTwo?: string | null;
-            postalCode: number;
-            state: string;
-            updatedAt: string;
-          };
-          bankDetails?: {
-            accountHolder: string;
-            accountNumber: string;
-            bankName: string;
-            branchCode: string;
-            createdAt: string;
-            id: string;
-            updatedAt: string;
-          };
+          address: Address;
+          bankDetails: BankDetails;
+          businessId: string | null;
+          businesses: Array<Business>;
           createdAt: string;
-          email: string;
           id: string;
-          image?: string;
-          jobTitle?: string;
           mfaEnabled: boolean;
           mfaVerified: boolean;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          name?: string;
-          organizations?: Array<{
-            createdAt: string;
-            domain: string;
-            id: string;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            owner: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            ownerId: string;
-            updatedAt: string;
-          }>;
-          phone?: string;
-          primaryOrganizationId?: string;
-          roles?: Array<{
-            createdAt: string;
-            description: string;
-            id: string;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            permissions: Array<string>;
-            updatedAt: string;
-          }>;
-          tags: Array<string>;
-          updatedAt: string;
-        }
-      | {
-          createdAt: string;
-          domain: string;
-          id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
           name: string;
-          owner: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          ownerId: string;
+          permissions: Array<string>;
+          roles: Roles;
+          type: 'system' | 'collector' | 'business';
           updatedAt: string;
+          username: string;
         }
       | {
           createdAt: string;
+          default: boolean;
           description: string;
           id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
           name: string;
           permissions: Array<string>;
           updatedAt: string;
-        }
-      | {
-          createdAt: string;
-          data: {
-            [key: string]: unknown;
-          };
-          id: string;
-          objectId: string;
-          operationType: string;
-          tableName: string;
-          updatedAt: string;
-          user?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          userId: string;
         }
       | {
           carbonFactor: string;
           createdAt: string;
           gwCode: string;
           id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
           name: string;
           updatedAt: string;
         }
       | {
+          buyer: Business;
           createdAt: string;
           id: string;
-          materials: Array<{
-            carbonFactor: string;
-            createdAt: string;
-            gwCode: string;
-            id: string;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            updatedAt: string;
-          }>;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          name: string;
+          materials: CollectionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
           updatedAt: string;
           value: number;
-        }
-      | {
-          amount: number;
-          buyerId: string;
-          buyerType: string;
-          createdAt: string;
-          id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById?: string;
-          products: Array<{
-            createdAt: string;
-            id: string;
-            materials: Array<{
-              carbonFactor: string;
-              createdAt: string;
-              gwCode: string;
-              id: string;
-              modifiedBy?: {
-                createdAt: string;
-                email: string;
-                id: string;
-                image?: string;
-                jobTitle?: string;
-                mfaEnabled: boolean;
-                mfaVerified: boolean;
-                modifiedById: string;
-                name?: string;
-                phone?: string;
-                primaryOrganizationId?: string;
-                tags: Array<string>;
-                updatedAt: string;
-              };
-              modifiedById: string;
-              name: string;
-              updatedAt: string;
-            }>;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            updatedAt: string;
-            value: number;
-          }>;
-          sellerAccepted: boolean;
-          sellerDeclined: boolean;
-          sellerId: string;
-          sellerType: string;
-          type: string;
-          updatedAt: string;
           weight: number;
         }
       | {
-          action?: {
-            link?: string;
-            linkText?: string;
-          };
-          closed: boolean;
+          buyer: Business;
           createdAt: string;
           id: string;
-          message: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          title: string;
+          materials: TransactionMaterials;
+          seller: User;
           updatedAt: string;
-          userId: string;
         }
       | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          createdAt: string;
+          id: string;
           name: string;
-          permissions: Array<{
-            description: string;
-            value: string;
-          }>;
-        }
-      | {
-          city: string;
-          country: string;
-          createdAt: string;
-          id: string;
-          lineOne: string;
-          lineTwo?: string | null;
-          postalCode: number;
-          state: string;
+          ownerId: string;
+          roles: Roles;
           updatedAt: string;
-        }
-      | {
-          accountHolder: string;
-          accountNumber: string;
-          bankName: string;
-          branchCode: string;
-          createdAt: string;
-          id: string;
-          updatedAt: string;
+          users: Array<User>;
         };
-    items?:
-      | Array<{
-          address?: {
-            city: string;
-            country: string;
-            createdAt: string;
-            id: string;
-            lineOne: string;
-            lineTwo?: string | null;
-            postalCode: number;
-            state: string;
-            updatedAt: string;
-          };
-          bankDetails?: {
-            accountHolder: string;
-            accountNumber: string;
-            bankName: string;
-            branchCode: string;
-            createdAt: string;
-            id: string;
-            updatedAt: string;
-          };
+    items?: Array<
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          businessId: string | null;
+          businesses: Array<Business>;
           createdAt: string;
-          email: string;
           id: string;
-          image?: string;
-          jobTitle?: string;
           mfaEnabled: boolean;
           mfaVerified: boolean;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          name?: string;
-          organizations?: Array<{
-            createdAt: string;
-            domain: string;
-            id: string;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            owner: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            ownerId: string;
-            updatedAt: string;
-          }>;
-          phone?: string;
-          primaryOrganizationId?: string;
-          roles?: Array<{
-            createdAt: string;
-            description: string;
-            id: string;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            permissions: Array<string>;
-            updatedAt: string;
-          }>;
-          tags: Array<string>;
-          updatedAt: string;
-        }>
-      | Array<{
-          createdAt: string;
-          domain: string;
-          id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
           name: string;
-          owner: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          ownerId: string;
+          permissions: Array<string>;
+          roles: Roles;
+          type: 'system' | 'collector' | 'business';
           updatedAt: string;
-        }>
-      | Array<{
+          username: string;
+        }
+      | {
           createdAt: string;
+          default: boolean;
           description: string;
           id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
           name: string;
           permissions: Array<string>;
           updatedAt: string;
-        }>
-      | Array<{
-          createdAt: string;
-          data: {
-            [key: string]: unknown;
-          };
-          id: string;
-          objectId: string;
-          operationType: string;
-          tableName: string;
-          updatedAt: string;
-          user?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          userId: string;
-        }>
-      | Array<{
+        }
+      | {
           carbonFactor: string;
           createdAt: string;
           gwCode: string;
           id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
           name: string;
           updatedAt: string;
-        }>
-      | Array<{
+        }
+      | {
+          buyer: Business;
           createdAt: string;
           id: string;
-          materials: Array<{
-            carbonFactor: string;
-            createdAt: string;
-            gwCode: string;
-            id: string;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            updatedAt: string;
-          }>;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          name: string;
+          materials: CollectionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
           updatedAt: string;
           value: number;
-        }>
-      | Array<{
-          amount: number;
-          buyerId: string;
-          buyerType: string;
-          createdAt: string;
-          id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById?: string;
-          products: Array<{
-            createdAt: string;
-            id: string;
-            materials: Array<{
-              carbonFactor: string;
-              createdAt: string;
-              gwCode: string;
-              id: string;
-              modifiedBy?: {
-                createdAt: string;
-                email: string;
-                id: string;
-                image?: string;
-                jobTitle?: string;
-                mfaEnabled: boolean;
-                mfaVerified: boolean;
-                modifiedById: string;
-                name?: string;
-                phone?: string;
-                primaryOrganizationId?: string;
-                tags: Array<string>;
-                updatedAt: string;
-              };
-              modifiedById: string;
-              name: string;
-              updatedAt: string;
-            }>;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            updatedAt: string;
-            value: number;
-          }>;
-          sellerAccepted: boolean;
-          sellerDeclined: boolean;
-          sellerId: string;
-          sellerType: string;
-          type: string;
-          updatedAt: string;
           weight: number;
-        }>
-      | Array<{
-          action?: {
-            link?: string;
-            linkText?: string;
-          };
-          closed: boolean;
+        }
+      | {
+          buyer: Business;
           createdAt: string;
           id: string;
-          message: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          title: string;
+          materials: TransactionMaterials;
+          seller: User;
           updatedAt: string;
-          userId: string;
-        }>
-      | Array<{
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          createdAt: string;
+          id: string;
           name: string;
-          permissions: Array<{
-            description: string;
-            value: string;
-          }>;
-        }>
-      | Array<{
-          city: string;
-          country: string;
-          createdAt: string;
-          id: string;
-          lineOne: string;
-          lineTwo?: string | null;
-          postalCode: number;
-          state: string;
+          ownerId: string;
+          roles: Roles;
           updatedAt: string;
-        }>
-      | Array<{
-          accountHolder: string;
-          accountNumber: string;
-          bankName: string;
-          branchCode: string;
-          createdAt: string;
-          id: string;
-          updatedAt: string;
-        }>
-      | Array<string>;
-    pageDetails?: {
-      count?: number;
-      currentPage?: number;
-      nextPage?: number;
-      pages?: number;
-      previousPage?: number;
-    } | null;
+          users: Array<User>;
+        }
+      | {
+          name: string;
+          permissions: Permissions;
+          subGroups: Array<PermissionGroup>;
+        }
+    >;
+    pagination?: Pagination;
   };
 };
 
 export type GetApiAuthenticationPermissionsResponse =
   GetApiAuthenticationPermissionsResponses[keyof GetApiAuthenticationPermissionsResponses];
 
-export type PostApiAuthenticationSignUpData = {
-  body: {
-    email?: string;
-    name: string;
-    password: string;
-    phone?: string;
-  };
+export type PostApiAuthenticationRegisterData = {
+  /**
+   * Register payload
+   */
+  body: RegisterPayload;
   path?: never;
   query?: never;
-  url: '/api/authentication/sign-up';
+  url: '/api/authentication/register';
 };
 
-export type PostApiAuthenticationSignUpErrors = {
+export type PostApiAuthenticationRegisterErrors = {
   /**
-   * Invalid request.
+   * Bad Request
    */
   400: {
-    error?: string;
-    message?: string;
+    error: string;
+    message: string;
   };
   /**
-   * Internal Server Error.
+   * Unauthorized
+   */
+  401: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Forbidden
+   */
+  403: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Internal Server Error
    */
   500: {
-    error?: string;
-    message?: string;
+    error: string;
+    message: string;
   };
   default: unknown;
 };
 
-export type PostApiAuthenticationSignUpError =
-  PostApiAuthenticationSignUpErrors[keyof PostApiAuthenticationSignUpErrors];
+export type PostApiAuthenticationRegisterError =
+  PostApiAuthenticationRegisterErrors[keyof PostApiAuthenticationRegisterErrors];
 
-export type PostApiAuthenticationSignUpResponses = {
+export type PostApiAuthenticationRegisterResponses = {
   /**
-   * The user has been successfully signed up.
+   * Registered successfully.
    */
-  200: unknown;
+  200: {
+    item?:
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          businessId: string | null;
+          businesses: Array<Business>;
+          createdAt: string;
+          id: string;
+          mfaEnabled: boolean;
+          mfaVerified: boolean;
+          name: string;
+          permissions: Array<string>;
+          roles: Roles;
+          type: 'system' | 'collector' | 'business';
+          updatedAt: string;
+          username: string;
+        }
+      | {
+          createdAt: string;
+          default: boolean;
+          description: string;
+          id: string;
+          name: string;
+          permissions: Array<string>;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor: string;
+          createdAt: string;
+          gwCode: string;
+          id: string;
+          name: string;
+          updatedAt: string;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: CollectionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: TransactionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          createdAt: string;
+          id: string;
+          name: string;
+          ownerId: string;
+          roles: Roles;
+          updatedAt: string;
+          users: Array<User>;
+        };
+    items?: Array<
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          businessId: string | null;
+          businesses: Array<Business>;
+          createdAt: string;
+          id: string;
+          mfaEnabled: boolean;
+          mfaVerified: boolean;
+          name: string;
+          permissions: Array<string>;
+          roles: Roles;
+          type: 'system' | 'collector' | 'business';
+          updatedAt: string;
+          username: string;
+        }
+      | {
+          createdAt: string;
+          default: boolean;
+          description: string;
+          id: string;
+          name: string;
+          permissions: Array<string>;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor: string;
+          createdAt: string;
+          gwCode: string;
+          id: string;
+          name: string;
+          updatedAt: string;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: CollectionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: TransactionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          createdAt: string;
+          id: string;
+          name: string;
+          ownerId: string;
+          roles: Roles;
+          updatedAt: string;
+          users: Array<User>;
+        }
+      | {
+          name: string;
+          permissions: Permissions;
+          subGroups: Array<PermissionGroup>;
+        }
+    >;
+    pagination?: Pagination;
+  };
 };
+
+export type PostApiAuthenticationRegisterResponse =
+  PostApiAuthenticationRegisterResponses[keyof PostApiAuthenticationRegisterResponses];
+
+export type GetApiBusinessesData = {
+  body?: never;
+  path?: never;
+  query: {
+    page: number;
+    pageSize: number;
+    preload?: Array<string>;
+    searchTerm?: string;
+    searchColumn?: Array<string>;
+  };
+  url: '/api/businesses';
+};
+
+export type GetApiBusinessesErrors = {
+  /**
+   * Bad Request
+   */
+  400: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Unauthorized
+   */
+  401: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Forbidden
+   */
+  403: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Internal Server Error
+   */
+  500: {
+    error: string;
+    message: string;
+  };
+  default: unknown;
+};
+
+export type GetApiBusinessesError =
+  GetApiBusinessesErrors[keyof GetApiBusinessesErrors];
+
+export type GetApiBusinessesResponses = {
+  /**
+   * Business's retrieved successfully.
+   */
+  200: {
+    item?:
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          businessId: string | null;
+          businesses: Array<Business>;
+          createdAt: string;
+          id: string;
+          mfaEnabled: boolean;
+          mfaVerified: boolean;
+          name: string;
+          permissions: Array<string>;
+          roles: Roles;
+          type: 'system' | 'collector' | 'business';
+          updatedAt: string;
+          username: string;
+        }
+      | {
+          createdAt: string;
+          default: boolean;
+          description: string;
+          id: string;
+          name: string;
+          permissions: Array<string>;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor: string;
+          createdAt: string;
+          gwCode: string;
+          id: string;
+          name: string;
+          updatedAt: string;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: CollectionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: TransactionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          createdAt: string;
+          id: string;
+          name: string;
+          ownerId: string;
+          roles: Roles;
+          updatedAt: string;
+          users: Array<User>;
+        };
+    items?: Array<
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          businessId: string | null;
+          businesses: Array<Business>;
+          createdAt: string;
+          id: string;
+          mfaEnabled: boolean;
+          mfaVerified: boolean;
+          name: string;
+          permissions: Array<string>;
+          roles: Roles;
+          type: 'system' | 'collector' | 'business';
+          updatedAt: string;
+          username: string;
+        }
+      | {
+          createdAt: string;
+          default: boolean;
+          description: string;
+          id: string;
+          name: string;
+          permissions: Array<string>;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor: string;
+          createdAt: string;
+          gwCode: string;
+          id: string;
+          name: string;
+          updatedAt: string;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: CollectionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: TransactionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          createdAt: string;
+          id: string;
+          name: string;
+          ownerId: string;
+          roles: Roles;
+          updatedAt: string;
+          users: Array<User>;
+        }
+      | {
+          name: string;
+          permissions: Permissions;
+          subGroups: Array<PermissionGroup>;
+        }
+    >;
+    pagination?: Pagination;
+  };
+};
+
+export type GetApiBusinessesResponse =
+  GetApiBusinessesResponses[keyof GetApiBusinessesResponses];
+
+export type PostApiBusinessesData = {
+  /**
+   * Payload to create a new business.
+   */
+  body: CreateBusiness;
+  path?: never;
+  query?: never;
+  url: '/api/businesses';
+};
+
+export type PostApiBusinessesErrors = {
+  /**
+   * Bad Request
+   */
+  400: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Unauthorized
+   */
+  401: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Forbidden
+   */
+  403: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Internal Server Error
+   */
+  500: {
+    error: string;
+    message: string;
+  };
+  default: unknown;
+};
+
+export type PostApiBusinessesError =
+  PostApiBusinessesErrors[keyof PostApiBusinessesErrors];
+
+export type PostApiBusinessesResponses = {
+  /**
+   * Business created successfully.
+   */
+  200: {
+    item?:
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          businessId: string | null;
+          businesses: Array<Business>;
+          createdAt: string;
+          id: string;
+          mfaEnabled: boolean;
+          mfaVerified: boolean;
+          name: string;
+          permissions: Array<string>;
+          roles: Roles;
+          type: 'system' | 'collector' | 'business';
+          updatedAt: string;
+          username: string;
+        }
+      | {
+          createdAt: string;
+          default: boolean;
+          description: string;
+          id: string;
+          name: string;
+          permissions: Array<string>;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor: string;
+          createdAt: string;
+          gwCode: string;
+          id: string;
+          name: string;
+          updatedAt: string;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: CollectionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: TransactionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          createdAt: string;
+          id: string;
+          name: string;
+          ownerId: string;
+          roles: Roles;
+          updatedAt: string;
+          users: Array<User>;
+        };
+    items?: Array<
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          businessId: string | null;
+          businesses: Array<Business>;
+          createdAt: string;
+          id: string;
+          mfaEnabled: boolean;
+          mfaVerified: boolean;
+          name: string;
+          permissions: Array<string>;
+          roles: Roles;
+          type: 'system' | 'collector' | 'business';
+          updatedAt: string;
+          username: string;
+        }
+      | {
+          createdAt: string;
+          default: boolean;
+          description: string;
+          id: string;
+          name: string;
+          permissions: Array<string>;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor: string;
+          createdAt: string;
+          gwCode: string;
+          id: string;
+          name: string;
+          updatedAt: string;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: CollectionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: TransactionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          createdAt: string;
+          id: string;
+          name: string;
+          ownerId: string;
+          roles: Roles;
+          updatedAt: string;
+          users: Array<User>;
+        }
+      | {
+          name: string;
+          permissions: Permissions;
+          subGroups: Array<PermissionGroup>;
+        }
+    >;
+    pagination?: Pagination;
+  };
+};
+
+export type PostApiBusinessesResponse =
+  PostApiBusinessesResponses[keyof PostApiBusinessesResponses];
+
+export type PostApiBusinessesAssignRoleByBusinessIdByRoleIdData = {
+  body?: never;
+  path: {
+    businessId: string;
+    roleId: string;
+  };
+  query?: never;
+  url: '/api/businesses/assign-role/{businessId}/{roleId}';
+};
+
+export type PostApiBusinessesAssignRoleByBusinessIdByRoleIdErrors = {
+  /**
+   * Bad Request
+   */
+  400: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Unauthorized
+   */
+  401: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Forbidden
+   */
+  403: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Not Found
+   */
+  404: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Internal Server Error
+   */
+  500: {
+    error: string;
+    message: string;
+  };
+  default: unknown;
+};
+
+export type PostApiBusinessesAssignRoleByBusinessIdByRoleIdError =
+  PostApiBusinessesAssignRoleByBusinessIdByRoleIdErrors[keyof PostApiBusinessesAssignRoleByBusinessIdByRoleIdErrors];
+
+export type PostApiBusinessesAssignRoleByBusinessIdByRoleIdResponses = {
+  /**
+   * Role assigned to Business successfully.
+   */
+  200: {
+    item?:
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          businessId: string | null;
+          businesses: Array<Business>;
+          createdAt: string;
+          id: string;
+          mfaEnabled: boolean;
+          mfaVerified: boolean;
+          name: string;
+          permissions: Array<string>;
+          roles: Roles;
+          type: 'system' | 'collector' | 'business';
+          updatedAt: string;
+          username: string;
+        }
+      | {
+          createdAt: string;
+          default: boolean;
+          description: string;
+          id: string;
+          name: string;
+          permissions: Array<string>;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor: string;
+          createdAt: string;
+          gwCode: string;
+          id: string;
+          name: string;
+          updatedAt: string;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: CollectionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: TransactionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          createdAt: string;
+          id: string;
+          name: string;
+          ownerId: string;
+          roles: Roles;
+          updatedAt: string;
+          users: Array<User>;
+        };
+    items?: Array<
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          businessId: string | null;
+          businesses: Array<Business>;
+          createdAt: string;
+          id: string;
+          mfaEnabled: boolean;
+          mfaVerified: boolean;
+          name: string;
+          permissions: Array<string>;
+          roles: Roles;
+          type: 'system' | 'collector' | 'business';
+          updatedAt: string;
+          username: string;
+        }
+      | {
+          createdAt: string;
+          default: boolean;
+          description: string;
+          id: string;
+          name: string;
+          permissions: Array<string>;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor: string;
+          createdAt: string;
+          gwCode: string;
+          id: string;
+          name: string;
+          updatedAt: string;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: CollectionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: TransactionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          createdAt: string;
+          id: string;
+          name: string;
+          ownerId: string;
+          roles: Roles;
+          updatedAt: string;
+          users: Array<User>;
+        }
+      | {
+          name: string;
+          permissions: Permissions;
+          subGroups: Array<PermissionGroup>;
+        }
+    >;
+    pagination?: Pagination;
+  };
+};
+
+export type PostApiBusinessesAssignRoleByBusinessIdByRoleIdResponse =
+  PostApiBusinessesAssignRoleByBusinessIdByRoleIdResponses[keyof PostApiBusinessesAssignRoleByBusinessIdByRoleIdResponses];
+
+export type PostApiBusinessesAssignUserByBusinessIdByUserIdData = {
+  body?: never;
+  path: {
+    businessId: string;
+    userId: string;
+  };
+  query?: never;
+  url: '/api/businesses/assign-user/{businessId}/{userId}';
+};
+
+export type PostApiBusinessesAssignUserByBusinessIdByUserIdErrors = {
+  /**
+   * Bad Request
+   */
+  400: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Unauthorized
+   */
+  401: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Forbidden
+   */
+  403: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Not Found
+   */
+  404: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Internal Server Error
+   */
+  500: {
+    error: string;
+    message: string;
+  };
+  default: unknown;
+};
+
+export type PostApiBusinessesAssignUserByBusinessIdByUserIdError =
+  PostApiBusinessesAssignUserByBusinessIdByUserIdErrors[keyof PostApiBusinessesAssignUserByBusinessIdByUserIdErrors];
+
+export type PostApiBusinessesAssignUserByBusinessIdByUserIdResponses = {
+  /**
+   * User assigned to Business successfully.
+   */
+  200: {
+    item?:
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          businessId: string | null;
+          businesses: Array<Business>;
+          createdAt: string;
+          id: string;
+          mfaEnabled: boolean;
+          mfaVerified: boolean;
+          name: string;
+          permissions: Array<string>;
+          roles: Roles;
+          type: 'system' | 'collector' | 'business';
+          updatedAt: string;
+          username: string;
+        }
+      | {
+          createdAt: string;
+          default: boolean;
+          description: string;
+          id: string;
+          name: string;
+          permissions: Array<string>;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor: string;
+          createdAt: string;
+          gwCode: string;
+          id: string;
+          name: string;
+          updatedAt: string;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: CollectionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: TransactionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          createdAt: string;
+          id: string;
+          name: string;
+          ownerId: string;
+          roles: Roles;
+          updatedAt: string;
+          users: Array<User>;
+        };
+    items?: Array<
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          businessId: string | null;
+          businesses: Array<Business>;
+          createdAt: string;
+          id: string;
+          mfaEnabled: boolean;
+          mfaVerified: boolean;
+          name: string;
+          permissions: Array<string>;
+          roles: Roles;
+          type: 'system' | 'collector' | 'business';
+          updatedAt: string;
+          username: string;
+        }
+      | {
+          createdAt: string;
+          default: boolean;
+          description: string;
+          id: string;
+          name: string;
+          permissions: Array<string>;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor: string;
+          createdAt: string;
+          gwCode: string;
+          id: string;
+          name: string;
+          updatedAt: string;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: CollectionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: TransactionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          createdAt: string;
+          id: string;
+          name: string;
+          ownerId: string;
+          roles: Roles;
+          updatedAt: string;
+          users: Array<User>;
+        }
+      | {
+          name: string;
+          permissions: Permissions;
+          subGroups: Array<PermissionGroup>;
+        }
+    >;
+    pagination?: Pagination;
+  };
+};
+
+export type PostApiBusinessesAssignUserByBusinessIdByUserIdResponse =
+  PostApiBusinessesAssignUserByBusinessIdByUserIdResponses[keyof PostApiBusinessesAssignUserByBusinessIdByUserIdResponses];
+
+export type GetApiBusinessesListRolesByBusinessIdData = {
+  body?: never;
+  path: {
+    businessId: string;
+  };
+  query: {
+    page: number;
+    pageSize: number;
+    preload?: Array<string>;
+    searchTerm?: string;
+    searchColumn?: Array<string>;
+  };
+  url: '/api/businesses/list-roles/{businessId}';
+};
+
+export type GetApiBusinessesListRolesByBusinessIdErrors = {
+  /**
+   * Bad Request
+   */
+  400: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Unauthorized
+   */
+  401: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Forbidden
+   */
+  403: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Not Found
+   */
+  404: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Internal Server Error
+   */
+  500: {
+    error: string;
+    message: string;
+  };
+  default: unknown;
+};
+
+export type GetApiBusinessesListRolesByBusinessIdError =
+  GetApiBusinessesListRolesByBusinessIdErrors[keyof GetApiBusinessesListRolesByBusinessIdErrors];
+
+export type GetApiBusinessesListRolesByBusinessIdResponses = {
+  /**
+   * Role retrieved from Business successfully.
+   */
+  200: {
+    item?:
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          businessId: string | null;
+          businesses: Array<Business>;
+          createdAt: string;
+          id: string;
+          mfaEnabled: boolean;
+          mfaVerified: boolean;
+          name: string;
+          permissions: Array<string>;
+          roles: Roles;
+          type: 'system' | 'collector' | 'business';
+          updatedAt: string;
+          username: string;
+        }
+      | {
+          createdAt: string;
+          default: boolean;
+          description: string;
+          id: string;
+          name: string;
+          permissions: Array<string>;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor: string;
+          createdAt: string;
+          gwCode: string;
+          id: string;
+          name: string;
+          updatedAt: string;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: CollectionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: TransactionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          createdAt: string;
+          id: string;
+          name: string;
+          ownerId: string;
+          roles: Roles;
+          updatedAt: string;
+          users: Array<User>;
+        };
+    items?: Array<
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          businessId: string | null;
+          businesses: Array<Business>;
+          createdAt: string;
+          id: string;
+          mfaEnabled: boolean;
+          mfaVerified: boolean;
+          name: string;
+          permissions: Array<string>;
+          roles: Roles;
+          type: 'system' | 'collector' | 'business';
+          updatedAt: string;
+          username: string;
+        }
+      | {
+          createdAt: string;
+          default: boolean;
+          description: string;
+          id: string;
+          name: string;
+          permissions: Array<string>;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor: string;
+          createdAt: string;
+          gwCode: string;
+          id: string;
+          name: string;
+          updatedAt: string;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: CollectionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: TransactionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          createdAt: string;
+          id: string;
+          name: string;
+          ownerId: string;
+          roles: Roles;
+          updatedAt: string;
+          users: Array<User>;
+        }
+      | {
+          name: string;
+          permissions: Permissions;
+          subGroups: Array<PermissionGroup>;
+        }
+    >;
+    pagination?: Pagination;
+  };
+};
+
+export type GetApiBusinessesListRolesByBusinessIdResponse =
+  GetApiBusinessesListRolesByBusinessIdResponses[keyof GetApiBusinessesListRolesByBusinessIdResponses];
+
+export type GetApiBusinessesListUsersByBusinessIdData = {
+  body?: never;
+  path: {
+    businessId: string;
+  };
+  query: {
+    page: number;
+    pageSize: number;
+    preload?: Array<string>;
+    searchTerm?: string;
+    searchColumn?: Array<string>;
+  };
+  url: '/api/businesses/list-users/{businessId}';
+};
+
+export type GetApiBusinessesListUsersByBusinessIdErrors = {
+  /**
+   * Bad Request
+   */
+  400: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Unauthorized
+   */
+  401: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Forbidden
+   */
+  403: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Not Found
+   */
+  404: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Internal Server Error
+   */
+  500: {
+    error: string;
+    message: string;
+  };
+  default: unknown;
+};
+
+export type GetApiBusinessesListUsersByBusinessIdError =
+  GetApiBusinessesListUsersByBusinessIdErrors[keyof GetApiBusinessesListUsersByBusinessIdErrors];
+
+export type GetApiBusinessesListUsersByBusinessIdResponses = {
+  /**
+   * User retrieved from Business successfully.
+   */
+  200: {
+    item?:
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          businessId: string | null;
+          businesses: Array<Business>;
+          createdAt: string;
+          id: string;
+          mfaEnabled: boolean;
+          mfaVerified: boolean;
+          name: string;
+          permissions: Array<string>;
+          roles: Roles;
+          type: 'system' | 'collector' | 'business';
+          updatedAt: string;
+          username: string;
+        }
+      | {
+          createdAt: string;
+          default: boolean;
+          description: string;
+          id: string;
+          name: string;
+          permissions: Array<string>;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor: string;
+          createdAt: string;
+          gwCode: string;
+          id: string;
+          name: string;
+          updatedAt: string;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: CollectionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: TransactionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          createdAt: string;
+          id: string;
+          name: string;
+          ownerId: string;
+          roles: Roles;
+          updatedAt: string;
+          users: Array<User>;
+        };
+    items?: Array<
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          businessId: string | null;
+          businesses: Array<Business>;
+          createdAt: string;
+          id: string;
+          mfaEnabled: boolean;
+          mfaVerified: boolean;
+          name: string;
+          permissions: Array<string>;
+          roles: Roles;
+          type: 'system' | 'collector' | 'business';
+          updatedAt: string;
+          username: string;
+        }
+      | {
+          createdAt: string;
+          default: boolean;
+          description: string;
+          id: string;
+          name: string;
+          permissions: Array<string>;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor: string;
+          createdAt: string;
+          gwCode: string;
+          id: string;
+          name: string;
+          updatedAt: string;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: CollectionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: TransactionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          createdAt: string;
+          id: string;
+          name: string;
+          ownerId: string;
+          roles: Roles;
+          updatedAt: string;
+          users: Array<User>;
+        }
+      | {
+          name: string;
+          permissions: Permissions;
+          subGroups: Array<PermissionGroup>;
+        }
+    >;
+    pagination?: Pagination;
+  };
+};
+
+export type GetApiBusinessesListUsersByBusinessIdResponse =
+  GetApiBusinessesListUsersByBusinessIdResponses[keyof GetApiBusinessesListUsersByBusinessIdResponses];
+
+export type PostApiBusinessesUnassignRoleByBusinessIdByRoleIdData = {
+  body?: never;
+  path: {
+    businessId: string;
+    roleId: string;
+  };
+  query?: never;
+  url: '/api/businesses/unassign-role/{businessId}/{roleId}';
+};
+
+export type PostApiBusinessesUnassignRoleByBusinessIdByRoleIdErrors = {
+  /**
+   * Bad Request
+   */
+  400: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Unauthorized
+   */
+  401: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Forbidden
+   */
+  403: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Not Found
+   */
+  404: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Internal Server Error
+   */
+  500: {
+    error: string;
+    message: string;
+  };
+  default: unknown;
+};
+
+export type PostApiBusinessesUnassignRoleByBusinessIdByRoleIdError =
+  PostApiBusinessesUnassignRoleByBusinessIdByRoleIdErrors[keyof PostApiBusinessesUnassignRoleByBusinessIdByRoleIdErrors];
+
+export type PostApiBusinessesUnassignRoleByBusinessIdByRoleIdResponses = {
+  /**
+   * Role unassigned from Business successfully.
+   */
+  200: {
+    item?:
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          businessId: string | null;
+          businesses: Array<Business>;
+          createdAt: string;
+          id: string;
+          mfaEnabled: boolean;
+          mfaVerified: boolean;
+          name: string;
+          permissions: Array<string>;
+          roles: Roles;
+          type: 'system' | 'collector' | 'business';
+          updatedAt: string;
+          username: string;
+        }
+      | {
+          createdAt: string;
+          default: boolean;
+          description: string;
+          id: string;
+          name: string;
+          permissions: Array<string>;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor: string;
+          createdAt: string;
+          gwCode: string;
+          id: string;
+          name: string;
+          updatedAt: string;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: CollectionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: TransactionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          createdAt: string;
+          id: string;
+          name: string;
+          ownerId: string;
+          roles: Roles;
+          updatedAt: string;
+          users: Array<User>;
+        };
+    items?: Array<
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          businessId: string | null;
+          businesses: Array<Business>;
+          createdAt: string;
+          id: string;
+          mfaEnabled: boolean;
+          mfaVerified: boolean;
+          name: string;
+          permissions: Array<string>;
+          roles: Roles;
+          type: 'system' | 'collector' | 'business';
+          updatedAt: string;
+          username: string;
+        }
+      | {
+          createdAt: string;
+          default: boolean;
+          description: string;
+          id: string;
+          name: string;
+          permissions: Array<string>;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor: string;
+          createdAt: string;
+          gwCode: string;
+          id: string;
+          name: string;
+          updatedAt: string;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: CollectionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: TransactionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          createdAt: string;
+          id: string;
+          name: string;
+          ownerId: string;
+          roles: Roles;
+          updatedAt: string;
+          users: Array<User>;
+        }
+      | {
+          name: string;
+          permissions: Permissions;
+          subGroups: Array<PermissionGroup>;
+        }
+    >;
+    pagination?: Pagination;
+  };
+};
+
+export type PostApiBusinessesUnassignRoleByBusinessIdByRoleIdResponse =
+  PostApiBusinessesUnassignRoleByBusinessIdByRoleIdResponses[keyof PostApiBusinessesUnassignRoleByBusinessIdByRoleIdResponses];
+
+export type PostApiBusinessesUnassignUserByBusinessIdByUserIdData = {
+  body?: never;
+  path: {
+    businessId: string;
+    userId: string;
+  };
+  query?: never;
+  url: '/api/businesses/unassign-user/{businessId}/{userId}';
+};
+
+export type PostApiBusinessesUnassignUserByBusinessIdByUserIdErrors = {
+  /**
+   * Bad Request
+   */
+  400: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Unauthorized
+   */
+  401: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Forbidden
+   */
+  403: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Not Found
+   */
+  404: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Internal Server Error
+   */
+  500: {
+    error: string;
+    message: string;
+  };
+  default: unknown;
+};
+
+export type PostApiBusinessesUnassignUserByBusinessIdByUserIdError =
+  PostApiBusinessesUnassignUserByBusinessIdByUserIdErrors[keyof PostApiBusinessesUnassignUserByBusinessIdByUserIdErrors];
+
+export type PostApiBusinessesUnassignUserByBusinessIdByUserIdResponses = {
+  /**
+   * User unassigned from Business successfully.
+   */
+  200: {
+    item?:
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          businessId: string | null;
+          businesses: Array<Business>;
+          createdAt: string;
+          id: string;
+          mfaEnabled: boolean;
+          mfaVerified: boolean;
+          name: string;
+          permissions: Array<string>;
+          roles: Roles;
+          type: 'system' | 'collector' | 'business';
+          updatedAt: string;
+          username: string;
+        }
+      | {
+          createdAt: string;
+          default: boolean;
+          description: string;
+          id: string;
+          name: string;
+          permissions: Array<string>;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor: string;
+          createdAt: string;
+          gwCode: string;
+          id: string;
+          name: string;
+          updatedAt: string;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: CollectionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: TransactionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          createdAt: string;
+          id: string;
+          name: string;
+          ownerId: string;
+          roles: Roles;
+          updatedAt: string;
+          users: Array<User>;
+        };
+    items?: Array<
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          businessId: string | null;
+          businesses: Array<Business>;
+          createdAt: string;
+          id: string;
+          mfaEnabled: boolean;
+          mfaVerified: boolean;
+          name: string;
+          permissions: Array<string>;
+          roles: Roles;
+          type: 'system' | 'collector' | 'business';
+          updatedAt: string;
+          username: string;
+        }
+      | {
+          createdAt: string;
+          default: boolean;
+          description: string;
+          id: string;
+          name: string;
+          permissions: Array<string>;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor: string;
+          createdAt: string;
+          gwCode: string;
+          id: string;
+          name: string;
+          updatedAt: string;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: CollectionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: TransactionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          createdAt: string;
+          id: string;
+          name: string;
+          ownerId: string;
+          roles: Roles;
+          updatedAt: string;
+          users: Array<User>;
+        }
+      | {
+          name: string;
+          permissions: Permissions;
+          subGroups: Array<PermissionGroup>;
+        }
+    >;
+    pagination?: Pagination;
+  };
+};
+
+export type PostApiBusinessesUnassignUserByBusinessIdByUserIdResponse =
+  PostApiBusinessesUnassignUserByBusinessIdByUserIdResponses[keyof PostApiBusinessesUnassignUserByBusinessIdByUserIdResponses];
+
+export type DeleteApiBusinessesByIdData = {
+  body?: never;
+  path: {
+    id: string;
+  };
+  query?: never;
+  url: '/api/businesses/{id}';
+};
+
+export type DeleteApiBusinessesByIdErrors = {
+  /**
+   * Bad Request
+   */
+  400: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Unauthorized
+   */
+  401: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Forbidden
+   */
+  403: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Not Found
+   */
+  404: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Internal Server Error
+   */
+  500: {
+    error: string;
+    message: string;
+  };
+  default: unknown;
+};
+
+export type DeleteApiBusinessesByIdError =
+  DeleteApiBusinessesByIdErrors[keyof DeleteApiBusinessesByIdErrors];
+
+export type DeleteApiBusinessesByIdResponses = {
+  /**
+   * Business deleted successfully.
+   */
+  200: {
+    item?:
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          businessId: string | null;
+          businesses: Array<Business>;
+          createdAt: string;
+          id: string;
+          mfaEnabled: boolean;
+          mfaVerified: boolean;
+          name: string;
+          permissions: Array<string>;
+          roles: Roles;
+          type: 'system' | 'collector' | 'business';
+          updatedAt: string;
+          username: string;
+        }
+      | {
+          createdAt: string;
+          default: boolean;
+          description: string;
+          id: string;
+          name: string;
+          permissions: Array<string>;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor: string;
+          createdAt: string;
+          gwCode: string;
+          id: string;
+          name: string;
+          updatedAt: string;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: CollectionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: TransactionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          createdAt: string;
+          id: string;
+          name: string;
+          ownerId: string;
+          roles: Roles;
+          updatedAt: string;
+          users: Array<User>;
+        };
+    items?: Array<
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          businessId: string | null;
+          businesses: Array<Business>;
+          createdAt: string;
+          id: string;
+          mfaEnabled: boolean;
+          mfaVerified: boolean;
+          name: string;
+          permissions: Array<string>;
+          roles: Roles;
+          type: 'system' | 'collector' | 'business';
+          updatedAt: string;
+          username: string;
+        }
+      | {
+          createdAt: string;
+          default: boolean;
+          description: string;
+          id: string;
+          name: string;
+          permissions: Array<string>;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor: string;
+          createdAt: string;
+          gwCode: string;
+          id: string;
+          name: string;
+          updatedAt: string;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: CollectionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: TransactionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          createdAt: string;
+          id: string;
+          name: string;
+          ownerId: string;
+          roles: Roles;
+          updatedAt: string;
+          users: Array<User>;
+        }
+      | {
+          name: string;
+          permissions: Permissions;
+          subGroups: Array<PermissionGroup>;
+        }
+    >;
+    pagination?: Pagination;
+  };
+};
+
+export type DeleteApiBusinessesByIdResponse =
+  DeleteApiBusinessesByIdResponses[keyof DeleteApiBusinessesByIdResponses];
+
+export type GetApiBusinessesByIdData = {
+  body?: never;
+  path: {
+    id: string;
+  };
+  query?: {
+    preload?: Array<string>;
+  };
+  url: '/api/businesses/{id}';
+};
+
+export type GetApiBusinessesByIdErrors = {
+  /**
+   * Bad Request
+   */
+  400: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Unauthorized
+   */
+  401: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Forbidden
+   */
+  403: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Not Found
+   */
+  404: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Internal Server Error
+   */
+  500: {
+    error: string;
+    message: string;
+  };
+  default: unknown;
+};
+
+export type GetApiBusinessesByIdError =
+  GetApiBusinessesByIdErrors[keyof GetApiBusinessesByIdErrors];
+
+export type GetApiBusinessesByIdResponses = {
+  /**
+   * Business retrieved successfully.
+   */
+  200: {
+    item?:
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          businessId: string | null;
+          businesses: Array<Business>;
+          createdAt: string;
+          id: string;
+          mfaEnabled: boolean;
+          mfaVerified: boolean;
+          name: string;
+          permissions: Array<string>;
+          roles: Roles;
+          type: 'system' | 'collector' | 'business';
+          updatedAt: string;
+          username: string;
+        }
+      | {
+          createdAt: string;
+          default: boolean;
+          description: string;
+          id: string;
+          name: string;
+          permissions: Array<string>;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor: string;
+          createdAt: string;
+          gwCode: string;
+          id: string;
+          name: string;
+          updatedAt: string;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: CollectionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: TransactionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          createdAt: string;
+          id: string;
+          name: string;
+          ownerId: string;
+          roles: Roles;
+          updatedAt: string;
+          users: Array<User>;
+        };
+    items?: Array<
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          businessId: string | null;
+          businesses: Array<Business>;
+          createdAt: string;
+          id: string;
+          mfaEnabled: boolean;
+          mfaVerified: boolean;
+          name: string;
+          permissions: Array<string>;
+          roles: Roles;
+          type: 'system' | 'collector' | 'business';
+          updatedAt: string;
+          username: string;
+        }
+      | {
+          createdAt: string;
+          default: boolean;
+          description: string;
+          id: string;
+          name: string;
+          permissions: Array<string>;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor: string;
+          createdAt: string;
+          gwCode: string;
+          id: string;
+          name: string;
+          updatedAt: string;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: CollectionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: TransactionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          createdAt: string;
+          id: string;
+          name: string;
+          ownerId: string;
+          roles: Roles;
+          updatedAt: string;
+          users: Array<User>;
+        }
+      | {
+          name: string;
+          permissions: Permissions;
+          subGroups: Array<PermissionGroup>;
+        }
+    >;
+    pagination?: Pagination;
+  };
+};
+
+export type GetApiBusinessesByIdResponse =
+  GetApiBusinessesByIdResponses[keyof GetApiBusinessesByIdResponses];
+
+export type PutApiBusinessesByIdData = {
+  /**
+   * Payload to update an existing business.
+   */
+  body: UpdateBusiness;
+  path: {
+    id: string;
+  };
+  query?: never;
+  url: '/api/businesses/{id}';
+};
+
+export type PutApiBusinessesByIdErrors = {
+  /**
+   * Bad Request
+   */
+  400: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Unauthorized
+   */
+  401: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Forbidden
+   */
+  403: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Not Found
+   */
+  404: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Internal Server Error
+   */
+  500: {
+    error: string;
+    message: string;
+  };
+  default: unknown;
+};
+
+export type PutApiBusinessesByIdError =
+  PutApiBusinessesByIdErrors[keyof PutApiBusinessesByIdErrors];
+
+export type PutApiBusinessesByIdResponses = {
+  /**
+   * Business updated successfully
+   */
+  200: {
+    item?:
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          businessId: string | null;
+          businesses: Array<Business>;
+          createdAt: string;
+          id: string;
+          mfaEnabled: boolean;
+          mfaVerified: boolean;
+          name: string;
+          permissions: Array<string>;
+          roles: Roles;
+          type: 'system' | 'collector' | 'business';
+          updatedAt: string;
+          username: string;
+        }
+      | {
+          createdAt: string;
+          default: boolean;
+          description: string;
+          id: string;
+          name: string;
+          permissions: Array<string>;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor: string;
+          createdAt: string;
+          gwCode: string;
+          id: string;
+          name: string;
+          updatedAt: string;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: CollectionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: TransactionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          createdAt: string;
+          id: string;
+          name: string;
+          ownerId: string;
+          roles: Roles;
+          updatedAt: string;
+          users: Array<User>;
+        };
+    items?: Array<
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          businessId: string | null;
+          businesses: Array<Business>;
+          createdAt: string;
+          id: string;
+          mfaEnabled: boolean;
+          mfaVerified: boolean;
+          name: string;
+          permissions: Array<string>;
+          roles: Roles;
+          type: 'system' | 'collector' | 'business';
+          updatedAt: string;
+          username: string;
+        }
+      | {
+          createdAt: string;
+          default: boolean;
+          description: string;
+          id: string;
+          name: string;
+          permissions: Array<string>;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor: string;
+          createdAt: string;
+          gwCode: string;
+          id: string;
+          name: string;
+          updatedAt: string;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: CollectionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: TransactionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          createdAt: string;
+          id: string;
+          name: string;
+          ownerId: string;
+          roles: Roles;
+          updatedAt: string;
+          users: Array<User>;
+        }
+      | {
+          name: string;
+          permissions: Permissions;
+          subGroups: Array<PermissionGroup>;
+        }
+    >;
+    pagination?: Pagination;
+  };
+};
+
+export type PutApiBusinessesByIdResponse =
+  PutApiBusinessesByIdResponses[keyof PutApiBusinessesByIdResponses];
 
 export type GetApiCollectionsData = {
   body?: never;
   path?: never;
-  query?: {
-    page?: number;
-    search?: string;
+  query: {
+    page: number;
+    pageSize: number;
+    preload?: Array<string>;
+    searchTerm?: string;
+    searchColumn?: Array<string>;
   };
   url: '/api/collections';
 };
 
 export type GetApiCollectionsErrors = {
   /**
-   * Bad Request.
+   * Bad Request
    */
   400: {
-    error?: string;
-    message?: string;
+    error: string;
+    message: string;
   };
   /**
-   * Unauthorized.
+   * Unauthorized
    */
   401: {
-    error?: string;
-    message?: string;
+    error: string;
+    message: string;
   };
   /**
-   * Internal Server Error.
+   * Forbidden
+   */
+  403: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Internal Server Error
    */
   500: {
-    error?: string;
-    message?: string;
+    error: string;
+    message: string;
   };
   default: unknown;
 };
@@ -5998,870 +4507,3003 @@ export type GetApiCollectionsError =
 
 export type GetApiCollectionsResponses = {
   /**
-   * The list of collections for the specified page and search query.
+   * Collection's retrieved successfully.
    */
   200: {
     item?:
       | {
-          address?: {
-            city: string;
-            country: string;
-            createdAt: string;
-            id: string;
-            lineOne: string;
-            lineTwo?: string | null;
-            postalCode: number;
-            state: string;
-            updatedAt: string;
-          };
-          bankDetails?: {
-            accountHolder: string;
-            accountNumber: string;
-            bankName: string;
-            branchCode: string;
-            createdAt: string;
-            id: string;
-            updatedAt: string;
-          };
+          address: Address;
+          bankDetails: BankDetails;
+          businessId: string | null;
+          businesses: Array<Business>;
           createdAt: string;
-          email: string;
           id: string;
-          image?: string;
-          jobTitle?: string;
           mfaEnabled: boolean;
           mfaVerified: boolean;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          name?: string;
-          organizations?: Array<{
-            createdAt: string;
-            domain: string;
-            id: string;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            owner: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            ownerId: string;
-            updatedAt: string;
-          }>;
-          phone?: string;
-          primaryOrganizationId?: string;
-          roles?: Array<{
-            createdAt: string;
-            description: string;
-            id: string;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            permissions: Array<string>;
-            updatedAt: string;
-          }>;
-          tags: Array<string>;
-          updatedAt: string;
-        }
-      | {
-          createdAt: string;
-          domain: string;
-          id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
           name: string;
-          owner: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          ownerId: string;
+          permissions: Array<string>;
+          roles: Roles;
+          type: 'system' | 'collector' | 'business';
           updatedAt: string;
+          username: string;
         }
       | {
           createdAt: string;
+          default: boolean;
           description: string;
           id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
           name: string;
           permissions: Array<string>;
           updatedAt: string;
-        }
-      | {
-          createdAt: string;
-          data: {
-            [key: string]: unknown;
-          };
-          id: string;
-          objectId: string;
-          operationType: string;
-          tableName: string;
-          updatedAt: string;
-          user?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          userId: string;
         }
       | {
           carbonFactor: string;
           createdAt: string;
           gwCode: string;
           id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
           name: string;
           updatedAt: string;
         }
       | {
+          buyer: Business;
           createdAt: string;
           id: string;
-          materials: Array<{
-            carbonFactor: string;
-            createdAt: string;
-            gwCode: string;
-            id: string;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            updatedAt: string;
-          }>;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          name: string;
+          materials: CollectionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
           updatedAt: string;
           value: number;
-        }
-      | {
-          amount: number;
-          buyerId: string;
-          buyerType: string;
-          createdAt: string;
-          id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById?: string;
-          products: Array<{
-            createdAt: string;
-            id: string;
-            materials: Array<{
-              carbonFactor: string;
-              createdAt: string;
-              gwCode: string;
-              id: string;
-              modifiedBy?: {
-                createdAt: string;
-                email: string;
-                id: string;
-                image?: string;
-                jobTitle?: string;
-                mfaEnabled: boolean;
-                mfaVerified: boolean;
-                modifiedById: string;
-                name?: string;
-                phone?: string;
-                primaryOrganizationId?: string;
-                tags: Array<string>;
-                updatedAt: string;
-              };
-              modifiedById: string;
-              name: string;
-              updatedAt: string;
-            }>;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            updatedAt: string;
-            value: number;
-          }>;
-          sellerAccepted: boolean;
-          sellerDeclined: boolean;
-          sellerId: string;
-          sellerType: string;
-          type: string;
-          updatedAt: string;
           weight: number;
         }
       | {
-          action?: {
-            link?: string;
-            linkText?: string;
-          };
-          closed: boolean;
+          buyer: Business;
           createdAt: string;
           id: string;
-          message: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          title: string;
+          materials: TransactionMaterials;
+          seller: User;
           updatedAt: string;
-          userId: string;
         }
       | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          createdAt: string;
+          id: string;
           name: string;
-          permissions: Array<{
-            description: string;
-            value: string;
-          }>;
-        }
-      | {
-          city: string;
-          country: string;
-          createdAt: string;
-          id: string;
-          lineOne: string;
-          lineTwo?: string | null;
-          postalCode: number;
-          state: string;
+          ownerId: string;
+          roles: Roles;
           updatedAt: string;
-        }
-      | {
-          accountHolder: string;
-          accountNumber: string;
-          bankName: string;
-          branchCode: string;
-          createdAt: string;
-          id: string;
-          updatedAt: string;
+          users: Array<User>;
         };
-    items?:
-      | Array<{
-          address?: {
-            city: string;
-            country: string;
-            createdAt: string;
-            id: string;
-            lineOne: string;
-            lineTwo?: string | null;
-            postalCode: number;
-            state: string;
-            updatedAt: string;
-          };
-          bankDetails?: {
-            accountHolder: string;
-            accountNumber: string;
-            bankName: string;
-            branchCode: string;
-            createdAt: string;
-            id: string;
-            updatedAt: string;
-          };
+    items?: Array<
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          businessId: string | null;
+          businesses: Array<Business>;
           createdAt: string;
-          email: string;
           id: string;
-          image?: string;
-          jobTitle?: string;
           mfaEnabled: boolean;
           mfaVerified: boolean;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          name?: string;
-          organizations?: Array<{
-            createdAt: string;
-            domain: string;
-            id: string;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            owner: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            ownerId: string;
-            updatedAt: string;
-          }>;
-          phone?: string;
-          primaryOrganizationId?: string;
-          roles?: Array<{
-            createdAt: string;
-            description: string;
-            id: string;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            permissions: Array<string>;
-            updatedAt: string;
-          }>;
-          tags: Array<string>;
-          updatedAt: string;
-        }>
-      | Array<{
-          createdAt: string;
-          domain: string;
-          id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
           name: string;
-          owner: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          ownerId: string;
+          permissions: Array<string>;
+          roles: Roles;
+          type: 'system' | 'collector' | 'business';
           updatedAt: string;
-        }>
-      | Array<{
+          username: string;
+        }
+      | {
           createdAt: string;
+          default: boolean;
           description: string;
           id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
           name: string;
           permissions: Array<string>;
           updatedAt: string;
-        }>
-      | Array<{
-          createdAt: string;
-          data: {
-            [key: string]: unknown;
-          };
-          id: string;
-          objectId: string;
-          operationType: string;
-          tableName: string;
-          updatedAt: string;
-          user?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          userId: string;
-        }>
-      | Array<{
+        }
+      | {
           carbonFactor: string;
           createdAt: string;
           gwCode: string;
           id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
           name: string;
           updatedAt: string;
-        }>
-      | Array<{
+        }
+      | {
+          buyer: Business;
           createdAt: string;
           id: string;
-          materials: Array<{
-            carbonFactor: string;
-            createdAt: string;
-            gwCode: string;
-            id: string;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            updatedAt: string;
-          }>;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          name: string;
+          materials: CollectionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
           updatedAt: string;
           value: number;
-        }>
-      | Array<{
-          amount: number;
-          buyerId: string;
-          buyerType: string;
-          createdAt: string;
-          id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById?: string;
-          products: Array<{
-            createdAt: string;
-            id: string;
-            materials: Array<{
-              carbonFactor: string;
-              createdAt: string;
-              gwCode: string;
-              id: string;
-              modifiedBy?: {
-                createdAt: string;
-                email: string;
-                id: string;
-                image?: string;
-                jobTitle?: string;
-                mfaEnabled: boolean;
-                mfaVerified: boolean;
-                modifiedById: string;
-                name?: string;
-                phone?: string;
-                primaryOrganizationId?: string;
-                tags: Array<string>;
-                updatedAt: string;
-              };
-              modifiedById: string;
-              name: string;
-              updatedAt: string;
-            }>;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            updatedAt: string;
-            value: number;
-          }>;
-          sellerAccepted: boolean;
-          sellerDeclined: boolean;
-          sellerId: string;
-          sellerType: string;
-          type: string;
-          updatedAt: string;
           weight: number;
-        }>
-      | Array<{
-          action?: {
-            link?: string;
-            linkText?: string;
-          };
-          closed: boolean;
+        }
+      | {
+          buyer: Business;
           createdAt: string;
           id: string;
-          message: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          title: string;
+          materials: TransactionMaterials;
+          seller: User;
           updatedAt: string;
-          userId: string;
-        }>
-      | Array<{
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          createdAt: string;
+          id: string;
           name: string;
-          permissions: Array<{
-            description: string;
-            value: string;
-          }>;
-        }>
-      | Array<{
-          city: string;
-          country: string;
-          createdAt: string;
-          id: string;
-          lineOne: string;
-          lineTwo?: string | null;
-          postalCode: number;
-          state: string;
+          ownerId: string;
+          roles: Roles;
           updatedAt: string;
-        }>
-      | Array<{
-          accountHolder: string;
-          accountNumber: string;
-          bankName: string;
-          branchCode: string;
-          createdAt: string;
-          id: string;
-          updatedAt: string;
-        }>
-      | Array<string>;
-    pageDetails?: {
-      count?: number;
-      currentPage?: number;
-      nextPage?: number;
-      pages?: number;
-      previousPage?: number;
-    } | null;
+          users: Array<User>;
+        }
+      | {
+          name: string;
+          permissions: Permissions;
+          subGroups: Array<PermissionGroup>;
+        }
+    >;
+    pagination?: Pagination;
   };
 };
 
 export type GetApiCollectionsResponse =
   GetApiCollectionsResponses[keyof GetApiCollectionsResponses];
 
+export type PostApiCollectionsData = {
+  /**
+   * Payload to create a new collection.
+   */
+  body: CreateCollection;
+  path?: never;
+  query?: never;
+  url: '/api/collections';
+};
+
+export type PostApiCollectionsErrors = {
+  /**
+   * Bad Request
+   */
+  400: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Unauthorized
+   */
+  401: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Forbidden
+   */
+  403: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Internal Server Error
+   */
+  500: {
+    error: string;
+    message: string;
+  };
+  default: unknown;
+};
+
+export type PostApiCollectionsError =
+  PostApiCollectionsErrors[keyof PostApiCollectionsErrors];
+
+export type PostApiCollectionsResponses = {
+  /**
+   * Collection created successfully.
+   */
+  200: {
+    item?:
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          businessId: string | null;
+          businesses: Array<Business>;
+          createdAt: string;
+          id: string;
+          mfaEnabled: boolean;
+          mfaVerified: boolean;
+          name: string;
+          permissions: Array<string>;
+          roles: Roles;
+          type: 'system' | 'collector' | 'business';
+          updatedAt: string;
+          username: string;
+        }
+      | {
+          createdAt: string;
+          default: boolean;
+          description: string;
+          id: string;
+          name: string;
+          permissions: Array<string>;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor: string;
+          createdAt: string;
+          gwCode: string;
+          id: string;
+          name: string;
+          updatedAt: string;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: CollectionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: TransactionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          createdAt: string;
+          id: string;
+          name: string;
+          ownerId: string;
+          roles: Roles;
+          updatedAt: string;
+          users: Array<User>;
+        };
+    items?: Array<
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          businessId: string | null;
+          businesses: Array<Business>;
+          createdAt: string;
+          id: string;
+          mfaEnabled: boolean;
+          mfaVerified: boolean;
+          name: string;
+          permissions: Array<string>;
+          roles: Roles;
+          type: 'system' | 'collector' | 'business';
+          updatedAt: string;
+          username: string;
+        }
+      | {
+          createdAt: string;
+          default: boolean;
+          description: string;
+          id: string;
+          name: string;
+          permissions: Array<string>;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor: string;
+          createdAt: string;
+          gwCode: string;
+          id: string;
+          name: string;
+          updatedAt: string;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: CollectionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: TransactionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          createdAt: string;
+          id: string;
+          name: string;
+          ownerId: string;
+          roles: Roles;
+          updatedAt: string;
+          users: Array<User>;
+        }
+      | {
+          name: string;
+          permissions: Permissions;
+          subGroups: Array<PermissionGroup>;
+        }
+    >;
+    pagination?: Pagination;
+  };
+};
+
+export type PostApiCollectionsResponse =
+  PostApiCollectionsResponses[keyof PostApiCollectionsResponses];
+
+export type PostApiCollectionsAssignMaterialByCollectionIdByMaterialIdData = {
+  body?: never;
+  path: {
+    collectionId: string;
+    materialId: string;
+  };
+  query?: never;
+  url: '/api/collections/assign-material/{collectionId}/{materialId}';
+};
+
+export type PostApiCollectionsAssignMaterialByCollectionIdByMaterialIdErrors = {
+  /**
+   * Bad Request
+   */
+  400: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Unauthorized
+   */
+  401: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Forbidden
+   */
+  403: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Not Found
+   */
+  404: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Internal Server Error
+   */
+  500: {
+    error: string;
+    message: string;
+  };
+  default: unknown;
+};
+
+export type PostApiCollectionsAssignMaterialByCollectionIdByMaterialIdError =
+  PostApiCollectionsAssignMaterialByCollectionIdByMaterialIdErrors[keyof PostApiCollectionsAssignMaterialByCollectionIdByMaterialIdErrors];
+
+export type PostApiCollectionsAssignMaterialByCollectionIdByMaterialIdResponses =
+  {
+    /**
+     * Material assigned to Collection successfully.
+     */
+    200: {
+      item?:
+        | {
+            address: Address;
+            bankDetails: BankDetails;
+            businessId: string | null;
+            businesses: Array<Business>;
+            createdAt: string;
+            id: string;
+            mfaEnabled: boolean;
+            mfaVerified: boolean;
+            name: string;
+            permissions: Array<string>;
+            roles: Roles;
+            type: 'system' | 'collector' | 'business';
+            updatedAt: string;
+            username: string;
+          }
+        | {
+            createdAt: string;
+            default: boolean;
+            description: string;
+            id: string;
+            name: string;
+            permissions: Array<string>;
+            updatedAt: string;
+          }
+        | {
+            carbonFactor: string;
+            createdAt: string;
+            gwCode: string;
+            id: string;
+            name: string;
+            updatedAt: string;
+          }
+        | {
+            buyer: Business;
+            createdAt: string;
+            id: string;
+            materials: CollectionMaterials;
+            seller: User;
+            updatedAt: string;
+          }
+        | {
+            carbonFactor?: string;
+            createdAt: string;
+            gwCode?: string;
+            id: string;
+            name?: string;
+            updatedAt: string;
+            value: number;
+            weight: number;
+          }
+        | {
+            buyer: Business;
+            createdAt: string;
+            id: string;
+            materials: TransactionMaterials;
+            seller: User;
+            updatedAt: string;
+          }
+        | {
+            carbonFactor?: string;
+            createdAt: string;
+            gwCode?: string;
+            id: string;
+            name?: string;
+            updatedAt: string;
+            value: number;
+            weight: number;
+          }
+        | {
+            address: Address;
+            bankDetails: BankDetails;
+            createdAt: string;
+            id: string;
+            name: string;
+            ownerId: string;
+            roles: Roles;
+            updatedAt: string;
+            users: Array<User>;
+          };
+      items?: Array<
+        | {
+            address: Address;
+            bankDetails: BankDetails;
+            businessId: string | null;
+            businesses: Array<Business>;
+            createdAt: string;
+            id: string;
+            mfaEnabled: boolean;
+            mfaVerified: boolean;
+            name: string;
+            permissions: Array<string>;
+            roles: Roles;
+            type: 'system' | 'collector' | 'business';
+            updatedAt: string;
+            username: string;
+          }
+        | {
+            createdAt: string;
+            default: boolean;
+            description: string;
+            id: string;
+            name: string;
+            permissions: Array<string>;
+            updatedAt: string;
+          }
+        | {
+            carbonFactor: string;
+            createdAt: string;
+            gwCode: string;
+            id: string;
+            name: string;
+            updatedAt: string;
+          }
+        | {
+            buyer: Business;
+            createdAt: string;
+            id: string;
+            materials: CollectionMaterials;
+            seller: User;
+            updatedAt: string;
+          }
+        | {
+            carbonFactor?: string;
+            createdAt: string;
+            gwCode?: string;
+            id: string;
+            name?: string;
+            updatedAt: string;
+            value: number;
+            weight: number;
+          }
+        | {
+            buyer: Business;
+            createdAt: string;
+            id: string;
+            materials: TransactionMaterials;
+            seller: User;
+            updatedAt: string;
+          }
+        | {
+            carbonFactor?: string;
+            createdAt: string;
+            gwCode?: string;
+            id: string;
+            name?: string;
+            updatedAt: string;
+            value: number;
+            weight: number;
+          }
+        | {
+            address: Address;
+            bankDetails: BankDetails;
+            createdAt: string;
+            id: string;
+            name: string;
+            ownerId: string;
+            roles: Roles;
+            updatedAt: string;
+            users: Array<User>;
+          }
+        | {
+            name: string;
+            permissions: Permissions;
+            subGroups: Array<PermissionGroup>;
+          }
+      >;
+      pagination?: Pagination;
+    };
+  };
+
+export type PostApiCollectionsAssignMaterialByCollectionIdByMaterialIdResponse =
+  PostApiCollectionsAssignMaterialByCollectionIdByMaterialIdResponses[keyof PostApiCollectionsAssignMaterialByCollectionIdByMaterialIdResponses];
+
+export type GetApiCollectionsListMaterialsByCollectionIdData = {
+  body?: never;
+  path: {
+    collectionId: string;
+  };
+  query: {
+    page: number;
+    pageSize: number;
+    preload?: Array<string>;
+    searchTerm?: string;
+    searchColumn?: Array<string>;
+  };
+  url: '/api/collections/list-materials/{collectionId}';
+};
+
+export type GetApiCollectionsListMaterialsByCollectionIdErrors = {
+  /**
+   * Bad Request
+   */
+  400: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Unauthorized
+   */
+  401: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Forbidden
+   */
+  403: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Not Found
+   */
+  404: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Internal Server Error
+   */
+  500: {
+    error: string;
+    message: string;
+  };
+  default: unknown;
+};
+
+export type GetApiCollectionsListMaterialsByCollectionIdError =
+  GetApiCollectionsListMaterialsByCollectionIdErrors[keyof GetApiCollectionsListMaterialsByCollectionIdErrors];
+
+export type GetApiCollectionsListMaterialsByCollectionIdResponses = {
+  /**
+   * Material retrieved from Collection successfully.
+   */
+  200: {
+    item?:
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          businessId: string | null;
+          businesses: Array<Business>;
+          createdAt: string;
+          id: string;
+          mfaEnabled: boolean;
+          mfaVerified: boolean;
+          name: string;
+          permissions: Array<string>;
+          roles: Roles;
+          type: 'system' | 'collector' | 'business';
+          updatedAt: string;
+          username: string;
+        }
+      | {
+          createdAt: string;
+          default: boolean;
+          description: string;
+          id: string;
+          name: string;
+          permissions: Array<string>;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor: string;
+          createdAt: string;
+          gwCode: string;
+          id: string;
+          name: string;
+          updatedAt: string;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: CollectionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: TransactionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          createdAt: string;
+          id: string;
+          name: string;
+          ownerId: string;
+          roles: Roles;
+          updatedAt: string;
+          users: Array<User>;
+        };
+    items?: Array<
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          businessId: string | null;
+          businesses: Array<Business>;
+          createdAt: string;
+          id: string;
+          mfaEnabled: boolean;
+          mfaVerified: boolean;
+          name: string;
+          permissions: Array<string>;
+          roles: Roles;
+          type: 'system' | 'collector' | 'business';
+          updatedAt: string;
+          username: string;
+        }
+      | {
+          createdAt: string;
+          default: boolean;
+          description: string;
+          id: string;
+          name: string;
+          permissions: Array<string>;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor: string;
+          createdAt: string;
+          gwCode: string;
+          id: string;
+          name: string;
+          updatedAt: string;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: CollectionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: TransactionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          createdAt: string;
+          id: string;
+          name: string;
+          ownerId: string;
+          roles: Roles;
+          updatedAt: string;
+          users: Array<User>;
+        }
+      | {
+          name: string;
+          permissions: Permissions;
+          subGroups: Array<PermissionGroup>;
+        }
+    >;
+    pagination?: Pagination;
+  };
+};
+
+export type GetApiCollectionsListMaterialsByCollectionIdResponse =
+  GetApiCollectionsListMaterialsByCollectionIdResponses[keyof GetApiCollectionsListMaterialsByCollectionIdResponses];
+
+export type GetApiCollectionsMaterialsData = {
+  body?: never;
+  path?: never;
+  query: {
+    page: number;
+    pageSize: number;
+    preload?: Array<string>;
+    searchTerm?: string;
+    searchColumn?: Array<string>;
+  };
+  url: '/api/collections/materials';
+};
+
+export type GetApiCollectionsMaterialsErrors = {
+  /**
+   * Bad Request
+   */
+  400: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Unauthorized
+   */
+  401: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Forbidden
+   */
+  403: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Internal Server Error
+   */
+  500: {
+    error: string;
+    message: string;
+  };
+  default: unknown;
+};
+
+export type GetApiCollectionsMaterialsError =
+  GetApiCollectionsMaterialsErrors[keyof GetApiCollectionsMaterialsErrors];
+
+export type GetApiCollectionsMaterialsResponses = {
+  /**
+   * Collection Material's retrieved successfully.
+   */
+  200: {
+    item?:
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          businessId: string | null;
+          businesses: Array<Business>;
+          createdAt: string;
+          id: string;
+          mfaEnabled: boolean;
+          mfaVerified: boolean;
+          name: string;
+          permissions: Array<string>;
+          roles: Roles;
+          type: 'system' | 'collector' | 'business';
+          updatedAt: string;
+          username: string;
+        }
+      | {
+          createdAt: string;
+          default: boolean;
+          description: string;
+          id: string;
+          name: string;
+          permissions: Array<string>;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor: string;
+          createdAt: string;
+          gwCode: string;
+          id: string;
+          name: string;
+          updatedAt: string;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: CollectionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: TransactionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          createdAt: string;
+          id: string;
+          name: string;
+          ownerId: string;
+          roles: Roles;
+          updatedAt: string;
+          users: Array<User>;
+        };
+    items?: Array<
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          businessId: string | null;
+          businesses: Array<Business>;
+          createdAt: string;
+          id: string;
+          mfaEnabled: boolean;
+          mfaVerified: boolean;
+          name: string;
+          permissions: Array<string>;
+          roles: Roles;
+          type: 'system' | 'collector' | 'business';
+          updatedAt: string;
+          username: string;
+        }
+      | {
+          createdAt: string;
+          default: boolean;
+          description: string;
+          id: string;
+          name: string;
+          permissions: Array<string>;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor: string;
+          createdAt: string;
+          gwCode: string;
+          id: string;
+          name: string;
+          updatedAt: string;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: CollectionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: TransactionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          createdAt: string;
+          id: string;
+          name: string;
+          ownerId: string;
+          roles: Roles;
+          updatedAt: string;
+          users: Array<User>;
+        }
+      | {
+          name: string;
+          permissions: Permissions;
+          subGroups: Array<PermissionGroup>;
+        }
+    >;
+    pagination?: Pagination;
+  };
+};
+
+export type GetApiCollectionsMaterialsResponse =
+  GetApiCollectionsMaterialsResponses[keyof GetApiCollectionsMaterialsResponses];
+
+export type PostApiCollectionsMaterialsData = {
+  /**
+   * Payload to create a new collection material.
+   */
+  body: CreateCollectionMaterial;
+  path?: never;
+  query?: never;
+  url: '/api/collections/materials';
+};
+
+export type PostApiCollectionsMaterialsErrors = {
+  /**
+   * Bad Request
+   */
+  400: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Unauthorized
+   */
+  401: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Forbidden
+   */
+  403: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Internal Server Error
+   */
+  500: {
+    error: string;
+    message: string;
+  };
+  default: unknown;
+};
+
+export type PostApiCollectionsMaterialsError =
+  PostApiCollectionsMaterialsErrors[keyof PostApiCollectionsMaterialsErrors];
+
+export type PostApiCollectionsMaterialsResponses = {
+  /**
+   * Collection Material created successfully.
+   */
+  200: {
+    item?:
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          businessId: string | null;
+          businesses: Array<Business>;
+          createdAt: string;
+          id: string;
+          mfaEnabled: boolean;
+          mfaVerified: boolean;
+          name: string;
+          permissions: Array<string>;
+          roles: Roles;
+          type: 'system' | 'collector' | 'business';
+          updatedAt: string;
+          username: string;
+        }
+      | {
+          createdAt: string;
+          default: boolean;
+          description: string;
+          id: string;
+          name: string;
+          permissions: Array<string>;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor: string;
+          createdAt: string;
+          gwCode: string;
+          id: string;
+          name: string;
+          updatedAt: string;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: CollectionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: TransactionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          createdAt: string;
+          id: string;
+          name: string;
+          ownerId: string;
+          roles: Roles;
+          updatedAt: string;
+          users: Array<User>;
+        };
+    items?: Array<
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          businessId: string | null;
+          businesses: Array<Business>;
+          createdAt: string;
+          id: string;
+          mfaEnabled: boolean;
+          mfaVerified: boolean;
+          name: string;
+          permissions: Array<string>;
+          roles: Roles;
+          type: 'system' | 'collector' | 'business';
+          updatedAt: string;
+          username: string;
+        }
+      | {
+          createdAt: string;
+          default: boolean;
+          description: string;
+          id: string;
+          name: string;
+          permissions: Array<string>;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor: string;
+          createdAt: string;
+          gwCode: string;
+          id: string;
+          name: string;
+          updatedAt: string;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: CollectionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: TransactionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          createdAt: string;
+          id: string;
+          name: string;
+          ownerId: string;
+          roles: Roles;
+          updatedAt: string;
+          users: Array<User>;
+        }
+      | {
+          name: string;
+          permissions: Permissions;
+          subGroups: Array<PermissionGroup>;
+        }
+    >;
+    pagination?: Pagination;
+  };
+};
+
+export type PostApiCollectionsMaterialsResponse =
+  PostApiCollectionsMaterialsResponses[keyof PostApiCollectionsMaterialsResponses];
+
+export type DeleteApiCollectionsMaterialsByIdData = {
+  body?: never;
+  path: {
+    id: string;
+  };
+  query?: never;
+  url: '/api/collections/materials/{id}';
+};
+
+export type DeleteApiCollectionsMaterialsByIdErrors = {
+  /**
+   * Bad Request
+   */
+  400: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Unauthorized
+   */
+  401: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Forbidden
+   */
+  403: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Not Found
+   */
+  404: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Internal Server Error
+   */
+  500: {
+    error: string;
+    message: string;
+  };
+  default: unknown;
+};
+
+export type DeleteApiCollectionsMaterialsByIdError =
+  DeleteApiCollectionsMaterialsByIdErrors[keyof DeleteApiCollectionsMaterialsByIdErrors];
+
+export type DeleteApiCollectionsMaterialsByIdResponses = {
+  /**
+   * Collection Material deleted successfully.
+   */
+  200: {
+    item?:
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          businessId: string | null;
+          businesses: Array<Business>;
+          createdAt: string;
+          id: string;
+          mfaEnabled: boolean;
+          mfaVerified: boolean;
+          name: string;
+          permissions: Array<string>;
+          roles: Roles;
+          type: 'system' | 'collector' | 'business';
+          updatedAt: string;
+          username: string;
+        }
+      | {
+          createdAt: string;
+          default: boolean;
+          description: string;
+          id: string;
+          name: string;
+          permissions: Array<string>;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor: string;
+          createdAt: string;
+          gwCode: string;
+          id: string;
+          name: string;
+          updatedAt: string;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: CollectionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: TransactionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          createdAt: string;
+          id: string;
+          name: string;
+          ownerId: string;
+          roles: Roles;
+          updatedAt: string;
+          users: Array<User>;
+        };
+    items?: Array<
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          businessId: string | null;
+          businesses: Array<Business>;
+          createdAt: string;
+          id: string;
+          mfaEnabled: boolean;
+          mfaVerified: boolean;
+          name: string;
+          permissions: Array<string>;
+          roles: Roles;
+          type: 'system' | 'collector' | 'business';
+          updatedAt: string;
+          username: string;
+        }
+      | {
+          createdAt: string;
+          default: boolean;
+          description: string;
+          id: string;
+          name: string;
+          permissions: Array<string>;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor: string;
+          createdAt: string;
+          gwCode: string;
+          id: string;
+          name: string;
+          updatedAt: string;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: CollectionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: TransactionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          createdAt: string;
+          id: string;
+          name: string;
+          ownerId: string;
+          roles: Roles;
+          updatedAt: string;
+          users: Array<User>;
+        }
+      | {
+          name: string;
+          permissions: Permissions;
+          subGroups: Array<PermissionGroup>;
+        }
+    >;
+    pagination?: Pagination;
+  };
+};
+
+export type DeleteApiCollectionsMaterialsByIdResponse =
+  DeleteApiCollectionsMaterialsByIdResponses[keyof DeleteApiCollectionsMaterialsByIdResponses];
+
+export type GetApiCollectionsMaterialsByIdData = {
+  body?: never;
+  path: {
+    id: string;
+  };
+  query?: {
+    preload?: Array<string>;
+  };
+  url: '/api/collections/materials/{id}';
+};
+
+export type GetApiCollectionsMaterialsByIdErrors = {
+  /**
+   * Bad Request
+   */
+  400: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Unauthorized
+   */
+  401: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Forbidden
+   */
+  403: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Not Found
+   */
+  404: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Internal Server Error
+   */
+  500: {
+    error: string;
+    message: string;
+  };
+  default: unknown;
+};
+
+export type GetApiCollectionsMaterialsByIdError =
+  GetApiCollectionsMaterialsByIdErrors[keyof GetApiCollectionsMaterialsByIdErrors];
+
+export type GetApiCollectionsMaterialsByIdResponses = {
+  /**
+   * Collection Material retrieved successfully.
+   */
+  200: {
+    item?:
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          businessId: string | null;
+          businesses: Array<Business>;
+          createdAt: string;
+          id: string;
+          mfaEnabled: boolean;
+          mfaVerified: boolean;
+          name: string;
+          permissions: Array<string>;
+          roles: Roles;
+          type: 'system' | 'collector' | 'business';
+          updatedAt: string;
+          username: string;
+        }
+      | {
+          createdAt: string;
+          default: boolean;
+          description: string;
+          id: string;
+          name: string;
+          permissions: Array<string>;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor: string;
+          createdAt: string;
+          gwCode: string;
+          id: string;
+          name: string;
+          updatedAt: string;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: CollectionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: TransactionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          createdAt: string;
+          id: string;
+          name: string;
+          ownerId: string;
+          roles: Roles;
+          updatedAt: string;
+          users: Array<User>;
+        };
+    items?: Array<
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          businessId: string | null;
+          businesses: Array<Business>;
+          createdAt: string;
+          id: string;
+          mfaEnabled: boolean;
+          mfaVerified: boolean;
+          name: string;
+          permissions: Array<string>;
+          roles: Roles;
+          type: 'system' | 'collector' | 'business';
+          updatedAt: string;
+          username: string;
+        }
+      | {
+          createdAt: string;
+          default: boolean;
+          description: string;
+          id: string;
+          name: string;
+          permissions: Array<string>;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor: string;
+          createdAt: string;
+          gwCode: string;
+          id: string;
+          name: string;
+          updatedAt: string;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: CollectionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: TransactionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          createdAt: string;
+          id: string;
+          name: string;
+          ownerId: string;
+          roles: Roles;
+          updatedAt: string;
+          users: Array<User>;
+        }
+      | {
+          name: string;
+          permissions: Permissions;
+          subGroups: Array<PermissionGroup>;
+        }
+    >;
+    pagination?: Pagination;
+  };
+};
+
+export type GetApiCollectionsMaterialsByIdResponse =
+  GetApiCollectionsMaterialsByIdResponses[keyof GetApiCollectionsMaterialsByIdResponses];
+
+export type PutApiCollectionsMaterialsByIdData = {
+  /**
+   * Payload to update an existing collection material.
+   */
+  body: UpdateCollectionMaterial;
+  path: {
+    id: string;
+  };
+  query?: never;
+  url: '/api/collections/materials/{id}';
+};
+
+export type PutApiCollectionsMaterialsByIdErrors = {
+  /**
+   * Bad Request
+   */
+  400: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Unauthorized
+   */
+  401: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Forbidden
+   */
+  403: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Not Found
+   */
+  404: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Internal Server Error
+   */
+  500: {
+    error: string;
+    message: string;
+  };
+  default: unknown;
+};
+
+export type PutApiCollectionsMaterialsByIdError =
+  PutApiCollectionsMaterialsByIdErrors[keyof PutApiCollectionsMaterialsByIdErrors];
+
+export type PutApiCollectionsMaterialsByIdResponses = {
+  /**
+   * Collection Material updated successfully
+   */
+  200: {
+    item?:
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          businessId: string | null;
+          businesses: Array<Business>;
+          createdAt: string;
+          id: string;
+          mfaEnabled: boolean;
+          mfaVerified: boolean;
+          name: string;
+          permissions: Array<string>;
+          roles: Roles;
+          type: 'system' | 'collector' | 'business';
+          updatedAt: string;
+          username: string;
+        }
+      | {
+          createdAt: string;
+          default: boolean;
+          description: string;
+          id: string;
+          name: string;
+          permissions: Array<string>;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor: string;
+          createdAt: string;
+          gwCode: string;
+          id: string;
+          name: string;
+          updatedAt: string;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: CollectionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: TransactionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          createdAt: string;
+          id: string;
+          name: string;
+          ownerId: string;
+          roles: Roles;
+          updatedAt: string;
+          users: Array<User>;
+        };
+    items?: Array<
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          businessId: string | null;
+          businesses: Array<Business>;
+          createdAt: string;
+          id: string;
+          mfaEnabled: boolean;
+          mfaVerified: boolean;
+          name: string;
+          permissions: Array<string>;
+          roles: Roles;
+          type: 'system' | 'collector' | 'business';
+          updatedAt: string;
+          username: string;
+        }
+      | {
+          createdAt: string;
+          default: boolean;
+          description: string;
+          id: string;
+          name: string;
+          permissions: Array<string>;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor: string;
+          createdAt: string;
+          gwCode: string;
+          id: string;
+          name: string;
+          updatedAt: string;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: CollectionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: TransactionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          createdAt: string;
+          id: string;
+          name: string;
+          ownerId: string;
+          roles: Roles;
+          updatedAt: string;
+          users: Array<User>;
+        }
+      | {
+          name: string;
+          permissions: Permissions;
+          subGroups: Array<PermissionGroup>;
+        }
+    >;
+    pagination?: Pagination;
+  };
+};
+
+export type PutApiCollectionsMaterialsByIdResponse =
+  PutApiCollectionsMaterialsByIdResponses[keyof PutApiCollectionsMaterialsByIdResponses];
+
+export type PostApiCollectionsUnassignMaterialByCollectionIdByMaterialIdData = {
+  body?: never;
+  path: {
+    collectionId: string;
+    materialId: string;
+  };
+  query?: never;
+  url: '/api/collections/unassign-material/{collectionId}/{materialId}';
+};
+
+export type PostApiCollectionsUnassignMaterialByCollectionIdByMaterialIdErrors =
+  {
+    /**
+     * Bad Request
+     */
+    400: {
+      error: string;
+      message: string;
+    };
+    /**
+     * Unauthorized
+     */
+    401: {
+      error: string;
+      message: string;
+    };
+    /**
+     * Forbidden
+     */
+    403: {
+      error: string;
+      message: string;
+    };
+    /**
+     * Not Found
+     */
+    404: {
+      error: string;
+      message: string;
+    };
+    /**
+     * Internal Server Error
+     */
+    500: {
+      error: string;
+      message: string;
+    };
+    default: unknown;
+  };
+
+export type PostApiCollectionsUnassignMaterialByCollectionIdByMaterialIdError =
+  PostApiCollectionsUnassignMaterialByCollectionIdByMaterialIdErrors[keyof PostApiCollectionsUnassignMaterialByCollectionIdByMaterialIdErrors];
+
+export type PostApiCollectionsUnassignMaterialByCollectionIdByMaterialIdResponses =
+  {
+    /**
+     * Material unassigned from Collection successfully.
+     */
+    200: {
+      item?:
+        | {
+            address: Address;
+            bankDetails: BankDetails;
+            businessId: string | null;
+            businesses: Array<Business>;
+            createdAt: string;
+            id: string;
+            mfaEnabled: boolean;
+            mfaVerified: boolean;
+            name: string;
+            permissions: Array<string>;
+            roles: Roles;
+            type: 'system' | 'collector' | 'business';
+            updatedAt: string;
+            username: string;
+          }
+        | {
+            createdAt: string;
+            default: boolean;
+            description: string;
+            id: string;
+            name: string;
+            permissions: Array<string>;
+            updatedAt: string;
+          }
+        | {
+            carbonFactor: string;
+            createdAt: string;
+            gwCode: string;
+            id: string;
+            name: string;
+            updatedAt: string;
+          }
+        | {
+            buyer: Business;
+            createdAt: string;
+            id: string;
+            materials: CollectionMaterials;
+            seller: User;
+            updatedAt: string;
+          }
+        | {
+            carbonFactor?: string;
+            createdAt: string;
+            gwCode?: string;
+            id: string;
+            name?: string;
+            updatedAt: string;
+            value: number;
+            weight: number;
+          }
+        | {
+            buyer: Business;
+            createdAt: string;
+            id: string;
+            materials: TransactionMaterials;
+            seller: User;
+            updatedAt: string;
+          }
+        | {
+            carbonFactor?: string;
+            createdAt: string;
+            gwCode?: string;
+            id: string;
+            name?: string;
+            updatedAt: string;
+            value: number;
+            weight: number;
+          }
+        | {
+            address: Address;
+            bankDetails: BankDetails;
+            createdAt: string;
+            id: string;
+            name: string;
+            ownerId: string;
+            roles: Roles;
+            updatedAt: string;
+            users: Array<User>;
+          };
+      items?: Array<
+        | {
+            address: Address;
+            bankDetails: BankDetails;
+            businessId: string | null;
+            businesses: Array<Business>;
+            createdAt: string;
+            id: string;
+            mfaEnabled: boolean;
+            mfaVerified: boolean;
+            name: string;
+            permissions: Array<string>;
+            roles: Roles;
+            type: 'system' | 'collector' | 'business';
+            updatedAt: string;
+            username: string;
+          }
+        | {
+            createdAt: string;
+            default: boolean;
+            description: string;
+            id: string;
+            name: string;
+            permissions: Array<string>;
+            updatedAt: string;
+          }
+        | {
+            carbonFactor: string;
+            createdAt: string;
+            gwCode: string;
+            id: string;
+            name: string;
+            updatedAt: string;
+          }
+        | {
+            buyer: Business;
+            createdAt: string;
+            id: string;
+            materials: CollectionMaterials;
+            seller: User;
+            updatedAt: string;
+          }
+        | {
+            carbonFactor?: string;
+            createdAt: string;
+            gwCode?: string;
+            id: string;
+            name?: string;
+            updatedAt: string;
+            value: number;
+            weight: number;
+          }
+        | {
+            buyer: Business;
+            createdAt: string;
+            id: string;
+            materials: TransactionMaterials;
+            seller: User;
+            updatedAt: string;
+          }
+        | {
+            carbonFactor?: string;
+            createdAt: string;
+            gwCode?: string;
+            id: string;
+            name?: string;
+            updatedAt: string;
+            value: number;
+            weight: number;
+          }
+        | {
+            address: Address;
+            bankDetails: BankDetails;
+            createdAt: string;
+            id: string;
+            name: string;
+            ownerId: string;
+            roles: Roles;
+            updatedAt: string;
+            users: Array<User>;
+          }
+        | {
+            name: string;
+            permissions: Permissions;
+            subGroups: Array<PermissionGroup>;
+          }
+      >;
+      pagination?: Pagination;
+    };
+  };
+
+export type PostApiCollectionsUnassignMaterialByCollectionIdByMaterialIdResponse =
+  PostApiCollectionsUnassignMaterialByCollectionIdByMaterialIdResponses[keyof PostApiCollectionsUnassignMaterialByCollectionIdByMaterialIdResponses];
+
+export type DeleteApiCollectionsByIdData = {
+  body?: never;
+  path: {
+    id: string;
+  };
+  query?: never;
+  url: '/api/collections/{id}';
+};
+
+export type DeleteApiCollectionsByIdErrors = {
+  /**
+   * Bad Request
+   */
+  400: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Unauthorized
+   */
+  401: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Forbidden
+   */
+  403: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Not Found
+   */
+  404: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Internal Server Error
+   */
+  500: {
+    error: string;
+    message: string;
+  };
+  default: unknown;
+};
+
+export type DeleteApiCollectionsByIdError =
+  DeleteApiCollectionsByIdErrors[keyof DeleteApiCollectionsByIdErrors];
+
+export type DeleteApiCollectionsByIdResponses = {
+  /**
+   * Collection deleted successfully.
+   */
+  200: {
+    item?:
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          businessId: string | null;
+          businesses: Array<Business>;
+          createdAt: string;
+          id: string;
+          mfaEnabled: boolean;
+          mfaVerified: boolean;
+          name: string;
+          permissions: Array<string>;
+          roles: Roles;
+          type: 'system' | 'collector' | 'business';
+          updatedAt: string;
+          username: string;
+        }
+      | {
+          createdAt: string;
+          default: boolean;
+          description: string;
+          id: string;
+          name: string;
+          permissions: Array<string>;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor: string;
+          createdAt: string;
+          gwCode: string;
+          id: string;
+          name: string;
+          updatedAt: string;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: CollectionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: TransactionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          createdAt: string;
+          id: string;
+          name: string;
+          ownerId: string;
+          roles: Roles;
+          updatedAt: string;
+          users: Array<User>;
+        };
+    items?: Array<
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          businessId: string | null;
+          businesses: Array<Business>;
+          createdAt: string;
+          id: string;
+          mfaEnabled: boolean;
+          mfaVerified: boolean;
+          name: string;
+          permissions: Array<string>;
+          roles: Roles;
+          type: 'system' | 'collector' | 'business';
+          updatedAt: string;
+          username: string;
+        }
+      | {
+          createdAt: string;
+          default: boolean;
+          description: string;
+          id: string;
+          name: string;
+          permissions: Array<string>;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor: string;
+          createdAt: string;
+          gwCode: string;
+          id: string;
+          name: string;
+          updatedAt: string;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: CollectionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: TransactionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          createdAt: string;
+          id: string;
+          name: string;
+          ownerId: string;
+          roles: Roles;
+          updatedAt: string;
+          users: Array<User>;
+        }
+      | {
+          name: string;
+          permissions: Permissions;
+          subGroups: Array<PermissionGroup>;
+        }
+    >;
+    pagination?: Pagination;
+  };
+};
+
+export type DeleteApiCollectionsByIdResponse =
+  DeleteApiCollectionsByIdResponses[keyof DeleteApiCollectionsByIdResponses];
+
+export type GetApiCollectionsByIdData = {
+  body?: never;
+  path: {
+    id: string;
+  };
+  query?: {
+    preload?: Array<string>;
+  };
+  url: '/api/collections/{id}';
+};
+
+export type GetApiCollectionsByIdErrors = {
+  /**
+   * Bad Request
+   */
+  400: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Unauthorized
+   */
+  401: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Forbidden
+   */
+  403: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Not Found
+   */
+  404: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Internal Server Error
+   */
+  500: {
+    error: string;
+    message: string;
+  };
+  default: unknown;
+};
+
+export type GetApiCollectionsByIdError =
+  GetApiCollectionsByIdErrors[keyof GetApiCollectionsByIdErrors];
+
+export type GetApiCollectionsByIdResponses = {
+  /**
+   * Collection retrieved successfully.
+   */
+  200: {
+    item?:
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          businessId: string | null;
+          businesses: Array<Business>;
+          createdAt: string;
+          id: string;
+          mfaEnabled: boolean;
+          mfaVerified: boolean;
+          name: string;
+          permissions: Array<string>;
+          roles: Roles;
+          type: 'system' | 'collector' | 'business';
+          updatedAt: string;
+          username: string;
+        }
+      | {
+          createdAt: string;
+          default: boolean;
+          description: string;
+          id: string;
+          name: string;
+          permissions: Array<string>;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor: string;
+          createdAt: string;
+          gwCode: string;
+          id: string;
+          name: string;
+          updatedAt: string;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: CollectionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: TransactionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          createdAt: string;
+          id: string;
+          name: string;
+          ownerId: string;
+          roles: Roles;
+          updatedAt: string;
+          users: Array<User>;
+        };
+    items?: Array<
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          businessId: string | null;
+          businesses: Array<Business>;
+          createdAt: string;
+          id: string;
+          mfaEnabled: boolean;
+          mfaVerified: boolean;
+          name: string;
+          permissions: Array<string>;
+          roles: Roles;
+          type: 'system' | 'collector' | 'business';
+          updatedAt: string;
+          username: string;
+        }
+      | {
+          createdAt: string;
+          default: boolean;
+          description: string;
+          id: string;
+          name: string;
+          permissions: Array<string>;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor: string;
+          createdAt: string;
+          gwCode: string;
+          id: string;
+          name: string;
+          updatedAt: string;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: CollectionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: TransactionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          createdAt: string;
+          id: string;
+          name: string;
+          ownerId: string;
+          roles: Roles;
+          updatedAt: string;
+          users: Array<User>;
+        }
+      | {
+          name: string;
+          permissions: Permissions;
+          subGroups: Array<PermissionGroup>;
+        }
+    >;
+    pagination?: Pagination;
+  };
+};
+
+export type GetApiCollectionsByIdResponse =
+  GetApiCollectionsByIdResponses[keyof GetApiCollectionsByIdResponses];
+
+export type PutApiCollectionsByIdData = {
+  /**
+   * Payload to update an existing collection.
+   */
+  body: UpdateCollection;
+  path: {
+    id: string;
+  };
+  query?: never;
+  url: '/api/collections/{id}';
+};
+
+export type PutApiCollectionsByIdErrors = {
+  /**
+   * Bad Request
+   */
+  400: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Unauthorized
+   */
+  401: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Forbidden
+   */
+  403: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Not Found
+   */
+  404: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Internal Server Error
+   */
+  500: {
+    error: string;
+    message: string;
+  };
+  default: unknown;
+};
+
+export type PutApiCollectionsByIdError =
+  PutApiCollectionsByIdErrors[keyof PutApiCollectionsByIdErrors];
+
+export type PutApiCollectionsByIdResponses = {
+  /**
+   * Collection updated successfully
+   */
+  200: {
+    item?:
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          businessId: string | null;
+          businesses: Array<Business>;
+          createdAt: string;
+          id: string;
+          mfaEnabled: boolean;
+          mfaVerified: boolean;
+          name: string;
+          permissions: Array<string>;
+          roles: Roles;
+          type: 'system' | 'collector' | 'business';
+          updatedAt: string;
+          username: string;
+        }
+      | {
+          createdAt: string;
+          default: boolean;
+          description: string;
+          id: string;
+          name: string;
+          permissions: Array<string>;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor: string;
+          createdAt: string;
+          gwCode: string;
+          id: string;
+          name: string;
+          updatedAt: string;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: CollectionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: TransactionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          createdAt: string;
+          id: string;
+          name: string;
+          ownerId: string;
+          roles: Roles;
+          updatedAt: string;
+          users: Array<User>;
+        };
+    items?: Array<
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          businessId: string | null;
+          businesses: Array<Business>;
+          createdAt: string;
+          id: string;
+          mfaEnabled: boolean;
+          mfaVerified: boolean;
+          name: string;
+          permissions: Array<string>;
+          roles: Roles;
+          type: 'system' | 'collector' | 'business';
+          updatedAt: string;
+          username: string;
+        }
+      | {
+          createdAt: string;
+          default: boolean;
+          description: string;
+          id: string;
+          name: string;
+          permissions: Array<string>;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor: string;
+          createdAt: string;
+          gwCode: string;
+          id: string;
+          name: string;
+          updatedAt: string;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: CollectionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: TransactionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          createdAt: string;
+          id: string;
+          name: string;
+          ownerId: string;
+          roles: Roles;
+          updatedAt: string;
+          users: Array<User>;
+        }
+      | {
+          name: string;
+          permissions: Permissions;
+          subGroups: Array<PermissionGroup>;
+        }
+    >;
+    pagination?: Pagination;
+  };
+};
+
+export type PutApiCollectionsByIdResponse =
+  PutApiCollectionsByIdResponses[keyof PutApiCollectionsByIdResponses];
+
 export type GetApiMaterialsData = {
   body?: never;
   path?: never;
-  query?: {
-    page?: number;
-    search?: string;
+  query: {
+    page: number;
+    pageSize: number;
+    preload?: Array<string>;
+    searchTerm?: string;
+    searchColumn?: Array<string>;
   };
   url: '/api/materials';
 };
 
 export type GetApiMaterialsErrors = {
   /**
-   * Bad Request.
+   * Bad Request
    */
   400: {
-    error?: string;
-    message?: string;
+    error: string;
+    message: string;
   };
   /**
-   * Unauthorized.
+   * Unauthorized
    */
   401: {
-    error?: string;
-    message?: string;
+    error: string;
+    message: string;
   };
   /**
-   * Internal Server Error.
+   * Forbidden
+   */
+  403: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Internal Server Error
    */
   500: {
-    error?: string;
-    message?: string;
+    error: string;
+    message: string;
   };
   default: unknown;
 };
@@ -6871,833 +7513,178 @@ export type GetApiMaterialsError =
 
 export type GetApiMaterialsResponses = {
   /**
-   * The list of materials for the specified page and search query.
+   * Material's retrieved successfully.
    */
   200: {
     item?:
       | {
-          address?: {
-            city: string;
-            country: string;
-            createdAt: string;
-            id: string;
-            lineOne: string;
-            lineTwo?: string | null;
-            postalCode: number;
-            state: string;
-            updatedAt: string;
-          };
-          bankDetails?: {
-            accountHolder: string;
-            accountNumber: string;
-            bankName: string;
-            branchCode: string;
-            createdAt: string;
-            id: string;
-            updatedAt: string;
-          };
+          address: Address;
+          bankDetails: BankDetails;
+          businessId: string | null;
+          businesses: Array<Business>;
           createdAt: string;
-          email: string;
           id: string;
-          image?: string;
-          jobTitle?: string;
           mfaEnabled: boolean;
           mfaVerified: boolean;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          name?: string;
-          organizations?: Array<{
-            createdAt: string;
-            domain: string;
-            id: string;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            owner: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            ownerId: string;
-            updatedAt: string;
-          }>;
-          phone?: string;
-          primaryOrganizationId?: string;
-          roles?: Array<{
-            createdAt: string;
-            description: string;
-            id: string;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            permissions: Array<string>;
-            updatedAt: string;
-          }>;
-          tags: Array<string>;
-          updatedAt: string;
-        }
-      | {
-          createdAt: string;
-          domain: string;
-          id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
           name: string;
-          owner: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          ownerId: string;
+          permissions: Array<string>;
+          roles: Roles;
+          type: 'system' | 'collector' | 'business';
           updatedAt: string;
+          username: string;
         }
       | {
           createdAt: string;
+          default: boolean;
           description: string;
           id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
           name: string;
           permissions: Array<string>;
           updatedAt: string;
-        }
-      | {
-          createdAt: string;
-          data: {
-            [key: string]: unknown;
-          };
-          id: string;
-          objectId: string;
-          operationType: string;
-          tableName: string;
-          updatedAt: string;
-          user?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          userId: string;
         }
       | {
           carbonFactor: string;
           createdAt: string;
           gwCode: string;
           id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
           name: string;
           updatedAt: string;
         }
       | {
+          buyer: Business;
           createdAt: string;
           id: string;
-          materials: Array<{
-            carbonFactor: string;
-            createdAt: string;
-            gwCode: string;
-            id: string;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            updatedAt: string;
-          }>;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          name: string;
+          materials: CollectionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
           updatedAt: string;
           value: number;
-        }
-      | {
-          amount: number;
-          buyerId: string;
-          buyerType: string;
-          createdAt: string;
-          id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById?: string;
-          products: Array<{
-            createdAt: string;
-            id: string;
-            materials: Array<{
-              carbonFactor: string;
-              createdAt: string;
-              gwCode: string;
-              id: string;
-              modifiedBy?: {
-                createdAt: string;
-                email: string;
-                id: string;
-                image?: string;
-                jobTitle?: string;
-                mfaEnabled: boolean;
-                mfaVerified: boolean;
-                modifiedById: string;
-                name?: string;
-                phone?: string;
-                primaryOrganizationId?: string;
-                tags: Array<string>;
-                updatedAt: string;
-              };
-              modifiedById: string;
-              name: string;
-              updatedAt: string;
-            }>;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            updatedAt: string;
-            value: number;
-          }>;
-          sellerAccepted: boolean;
-          sellerDeclined: boolean;
-          sellerId: string;
-          sellerType: string;
-          type: string;
-          updatedAt: string;
           weight: number;
         }
       | {
-          action?: {
-            link?: string;
-            linkText?: string;
-          };
-          closed: boolean;
+          buyer: Business;
           createdAt: string;
           id: string;
-          message: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          title: string;
+          materials: TransactionMaterials;
+          seller: User;
           updatedAt: string;
-          userId: string;
         }
       | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          createdAt: string;
+          id: string;
           name: string;
-          permissions: Array<{
-            description: string;
-            value: string;
-          }>;
-        }
-      | {
-          city: string;
-          country: string;
-          createdAt: string;
-          id: string;
-          lineOne: string;
-          lineTwo?: string | null;
-          postalCode: number;
-          state: string;
+          ownerId: string;
+          roles: Roles;
           updatedAt: string;
-        }
-      | {
-          accountHolder: string;
-          accountNumber: string;
-          bankName: string;
-          branchCode: string;
-          createdAt: string;
-          id: string;
-          updatedAt: string;
+          users: Array<User>;
         };
-    items?:
-      | Array<{
-          address?: {
-            city: string;
-            country: string;
-            createdAt: string;
-            id: string;
-            lineOne: string;
-            lineTwo?: string | null;
-            postalCode: number;
-            state: string;
-            updatedAt: string;
-          };
-          bankDetails?: {
-            accountHolder: string;
-            accountNumber: string;
-            bankName: string;
-            branchCode: string;
-            createdAt: string;
-            id: string;
-            updatedAt: string;
-          };
+    items?: Array<
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          businessId: string | null;
+          businesses: Array<Business>;
           createdAt: string;
-          email: string;
           id: string;
-          image?: string;
-          jobTitle?: string;
           mfaEnabled: boolean;
           mfaVerified: boolean;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          name?: string;
-          organizations?: Array<{
-            createdAt: string;
-            domain: string;
-            id: string;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            owner: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            ownerId: string;
-            updatedAt: string;
-          }>;
-          phone?: string;
-          primaryOrganizationId?: string;
-          roles?: Array<{
-            createdAt: string;
-            description: string;
-            id: string;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            permissions: Array<string>;
-            updatedAt: string;
-          }>;
-          tags: Array<string>;
-          updatedAt: string;
-        }>
-      | Array<{
-          createdAt: string;
-          domain: string;
-          id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
           name: string;
-          owner: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          ownerId: string;
+          permissions: Array<string>;
+          roles: Roles;
+          type: 'system' | 'collector' | 'business';
           updatedAt: string;
-        }>
-      | Array<{
+          username: string;
+        }
+      | {
           createdAt: string;
+          default: boolean;
           description: string;
           id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
           name: string;
           permissions: Array<string>;
           updatedAt: string;
-        }>
-      | Array<{
-          createdAt: string;
-          data: {
-            [key: string]: unknown;
-          };
-          id: string;
-          objectId: string;
-          operationType: string;
-          tableName: string;
-          updatedAt: string;
-          user?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          userId: string;
-        }>
-      | Array<{
+        }
+      | {
           carbonFactor: string;
           createdAt: string;
           gwCode: string;
           id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
           name: string;
           updatedAt: string;
-        }>
-      | Array<{
+        }
+      | {
+          buyer: Business;
           createdAt: string;
           id: string;
-          materials: Array<{
-            carbonFactor: string;
-            createdAt: string;
-            gwCode: string;
-            id: string;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            updatedAt: string;
-          }>;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          name: string;
+          materials: CollectionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
           updatedAt: string;
           value: number;
-        }>
-      | Array<{
-          amount: number;
-          buyerId: string;
-          buyerType: string;
-          createdAt: string;
-          id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById?: string;
-          products: Array<{
-            createdAt: string;
-            id: string;
-            materials: Array<{
-              carbonFactor: string;
-              createdAt: string;
-              gwCode: string;
-              id: string;
-              modifiedBy?: {
-                createdAt: string;
-                email: string;
-                id: string;
-                image?: string;
-                jobTitle?: string;
-                mfaEnabled: boolean;
-                mfaVerified: boolean;
-                modifiedById: string;
-                name?: string;
-                phone?: string;
-                primaryOrganizationId?: string;
-                tags: Array<string>;
-                updatedAt: string;
-              };
-              modifiedById: string;
-              name: string;
-              updatedAt: string;
-            }>;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            updatedAt: string;
-            value: number;
-          }>;
-          sellerAccepted: boolean;
-          sellerDeclined: boolean;
-          sellerId: string;
-          sellerType: string;
-          type: string;
-          updatedAt: string;
           weight: number;
-        }>
-      | Array<{
-          action?: {
-            link?: string;
-            linkText?: string;
-          };
-          closed: boolean;
+        }
+      | {
+          buyer: Business;
           createdAt: string;
           id: string;
-          message: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          title: string;
+          materials: TransactionMaterials;
+          seller: User;
           updatedAt: string;
-          userId: string;
-        }>
-      | Array<{
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          createdAt: string;
+          id: string;
           name: string;
-          permissions: Array<{
-            description: string;
-            value: string;
-          }>;
-        }>
-      | Array<{
-          city: string;
-          country: string;
-          createdAt: string;
-          id: string;
-          lineOne: string;
-          lineTwo?: string | null;
-          postalCode: number;
-          state: string;
+          ownerId: string;
+          roles: Roles;
           updatedAt: string;
-        }>
-      | Array<{
-          accountHolder: string;
-          accountNumber: string;
-          bankName: string;
-          branchCode: string;
-          createdAt: string;
-          id: string;
-          updatedAt: string;
-        }>
-      | Array<string>;
-    pageDetails?: {
-      count?: number;
-      currentPage?: number;
-      nextPage?: number;
-      pages?: number;
-      previousPage?: number;
-    } | null;
+          users: Array<User>;
+        }
+      | {
+          name: string;
+          permissions: Permissions;
+          subGroups: Array<PermissionGroup>;
+        }
+    >;
+    pagination?: Pagination;
   };
 };
 
@@ -7705,11 +7692,10 @@ export type GetApiMaterialsResponse =
   GetApiMaterialsResponses[keyof GetApiMaterialsResponses];
 
 export type PostApiMaterialsData = {
-  body: {
-    carbonFactor: string;
-    gwCode: string;
-    name: string;
-  };
+  /**
+   * Payload to create a new material.
+   */
+  body: CreateMaterial;
   path?: never;
   query?: never;
   url: '/api/materials';
@@ -7717,25 +7703,32 @@ export type PostApiMaterialsData = {
 
 export type PostApiMaterialsErrors = {
   /**
-   * Invalid request.
+   * Bad Request
    */
   400: {
-    error?: string;
-    message?: string;
+    error: string;
+    message: string;
   };
   /**
-   * Unauthorized.
+   * Unauthorized
    */
   401: {
-    error?: string;
-    message?: string;
+    error: string;
+    message: string;
   };
   /**
-   * Internal Server Error.
+   * Forbidden
+   */
+  403: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Internal Server Error
    */
   500: {
-    error?: string;
-    message?: string;
+    error: string;
+    message: string;
   };
   default: unknown;
 };
@@ -7745,15 +7738,188 @@ export type PostApiMaterialsError =
 
 export type PostApiMaterialsResponses = {
   /**
-   * The material has been successfully created.
+   * Material created successfully.
    */
-  200: unknown;
+  200: {
+    item?:
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          businessId: string | null;
+          businesses: Array<Business>;
+          createdAt: string;
+          id: string;
+          mfaEnabled: boolean;
+          mfaVerified: boolean;
+          name: string;
+          permissions: Array<string>;
+          roles: Roles;
+          type: 'system' | 'collector' | 'business';
+          updatedAt: string;
+          username: string;
+        }
+      | {
+          createdAt: string;
+          default: boolean;
+          description: string;
+          id: string;
+          name: string;
+          permissions: Array<string>;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor: string;
+          createdAt: string;
+          gwCode: string;
+          id: string;
+          name: string;
+          updatedAt: string;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: CollectionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: TransactionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          createdAt: string;
+          id: string;
+          name: string;
+          ownerId: string;
+          roles: Roles;
+          updatedAt: string;
+          users: Array<User>;
+        };
+    items?: Array<
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          businessId: string | null;
+          businesses: Array<Business>;
+          createdAt: string;
+          id: string;
+          mfaEnabled: boolean;
+          mfaVerified: boolean;
+          name: string;
+          permissions: Array<string>;
+          roles: Roles;
+          type: 'system' | 'collector' | 'business';
+          updatedAt: string;
+          username: string;
+        }
+      | {
+          createdAt: string;
+          default: boolean;
+          description: string;
+          id: string;
+          name: string;
+          permissions: Array<string>;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor: string;
+          createdAt: string;
+          gwCode: string;
+          id: string;
+          name: string;
+          updatedAt: string;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: CollectionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: TransactionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          createdAt: string;
+          id: string;
+          name: string;
+          ownerId: string;
+          roles: Roles;
+          updatedAt: string;
+          users: Array<User>;
+        }
+      | {
+          name: string;
+          permissions: Permissions;
+          subGroups: Array<PermissionGroup>;
+        }
+    >;
+    pagination?: Pagination;
+  };
 };
+
+export type PostApiMaterialsResponse =
+  PostApiMaterialsResponses[keyof PostApiMaterialsResponses];
 
 export type DeleteApiMaterialsByIdData = {
   body?: never;
   path: {
-    id: unknown;
+    id: string;
   };
   query?: never;
   url: '/api/materials/{id}';
@@ -7761,32 +7927,39 @@ export type DeleteApiMaterialsByIdData = {
 
 export type DeleteApiMaterialsByIdErrors = {
   /**
-   * Invalid request.
+   * Bad Request
    */
   400: {
-    error?: string;
-    message?: string;
+    error: string;
+    message: string;
   };
   /**
-   * Unauthorized.
+   * Unauthorized
    */
   401: {
-    error?: string;
-    message?: string;
+    error: string;
+    message: string;
   };
   /**
-   * Material not found.
+   * Forbidden
+   */
+  403: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Not Found
    */
   404: {
-    error?: string;
-    message?: string;
+    error: string;
+    message: string;
   };
   /**
-   * Internal server error.
+   * Internal Server Error
    */
   500: {
-    error?: string;
-    message?: string;
+    error: string;
+    message: string;
   };
   default: unknown;
 };
@@ -7796,48 +7969,230 @@ export type DeleteApiMaterialsByIdError =
 
 export type DeleteApiMaterialsByIdResponses = {
   /**
-   * The material has been successfully deleted.
+   * Material deleted successfully.
    */
-  200: unknown;
+  200: {
+    item?:
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          businessId: string | null;
+          businesses: Array<Business>;
+          createdAt: string;
+          id: string;
+          mfaEnabled: boolean;
+          mfaVerified: boolean;
+          name: string;
+          permissions: Array<string>;
+          roles: Roles;
+          type: 'system' | 'collector' | 'business';
+          updatedAt: string;
+          username: string;
+        }
+      | {
+          createdAt: string;
+          default: boolean;
+          description: string;
+          id: string;
+          name: string;
+          permissions: Array<string>;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor: string;
+          createdAt: string;
+          gwCode: string;
+          id: string;
+          name: string;
+          updatedAt: string;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: CollectionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: TransactionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          createdAt: string;
+          id: string;
+          name: string;
+          ownerId: string;
+          roles: Roles;
+          updatedAt: string;
+          users: Array<User>;
+        };
+    items?: Array<
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          businessId: string | null;
+          businesses: Array<Business>;
+          createdAt: string;
+          id: string;
+          mfaEnabled: boolean;
+          mfaVerified: boolean;
+          name: string;
+          permissions: Array<string>;
+          roles: Roles;
+          type: 'system' | 'collector' | 'business';
+          updatedAt: string;
+          username: string;
+        }
+      | {
+          createdAt: string;
+          default: boolean;
+          description: string;
+          id: string;
+          name: string;
+          permissions: Array<string>;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor: string;
+          createdAt: string;
+          gwCode: string;
+          id: string;
+          name: string;
+          updatedAt: string;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: CollectionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: TransactionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          createdAt: string;
+          id: string;
+          name: string;
+          ownerId: string;
+          roles: Roles;
+          updatedAt: string;
+          users: Array<User>;
+        }
+      | {
+          name: string;
+          permissions: Permissions;
+          subGroups: Array<PermissionGroup>;
+        }
+    >;
+    pagination?: Pagination;
+  };
 };
+
+export type DeleteApiMaterialsByIdResponse =
+  DeleteApiMaterialsByIdResponses[keyof DeleteApiMaterialsByIdResponses];
 
 export type GetApiMaterialsByIdData = {
   body?: never;
   path: {
     id: string;
   };
-  query?: never;
+  query?: {
+    preload?: Array<string>;
+  };
   url: '/api/materials/{id}';
 };
 
 export type GetApiMaterialsByIdErrors = {
   /**
-   * Bad Request.
+   * Bad Request
    */
   400: {
-    error?: string;
-    message?: string;
+    error: string;
+    message: string;
   };
   /**
-   * Unauthorized.
+   * Unauthorized
    */
   401: {
-    error?: string;
-    message?: string;
+    error: string;
+    message: string;
   };
   /**
-   * Material not found.
+   * Forbidden
+   */
+  403: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Not Found
    */
   404: {
-    error?: string;
-    message?: string;
+    error: string;
+    message: string;
   };
   /**
-   * Internal Server Error.
+   * Internal Server Error
    */
   500: {
-    error?: string;
-    message?: string;
+    error: string;
+    message: string;
   };
   default: unknown;
 };
@@ -7847,833 +8202,178 @@ export type GetApiMaterialsByIdError =
 
 export type GetApiMaterialsByIdResponses = {
   /**
-   * The material was retrieved successfully.
+   * Material retrieved successfully.
    */
   200: {
     item?:
       | {
-          address?: {
-            city: string;
-            country: string;
-            createdAt: string;
-            id: string;
-            lineOne: string;
-            lineTwo?: string | null;
-            postalCode: number;
-            state: string;
-            updatedAt: string;
-          };
-          bankDetails?: {
-            accountHolder: string;
-            accountNumber: string;
-            bankName: string;
-            branchCode: string;
-            createdAt: string;
-            id: string;
-            updatedAt: string;
-          };
+          address: Address;
+          bankDetails: BankDetails;
+          businessId: string | null;
+          businesses: Array<Business>;
           createdAt: string;
-          email: string;
           id: string;
-          image?: string;
-          jobTitle?: string;
           mfaEnabled: boolean;
           mfaVerified: boolean;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          name?: string;
-          organizations?: Array<{
-            createdAt: string;
-            domain: string;
-            id: string;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            owner: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            ownerId: string;
-            updatedAt: string;
-          }>;
-          phone?: string;
-          primaryOrganizationId?: string;
-          roles?: Array<{
-            createdAt: string;
-            description: string;
-            id: string;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            permissions: Array<string>;
-            updatedAt: string;
-          }>;
-          tags: Array<string>;
-          updatedAt: string;
-        }
-      | {
-          createdAt: string;
-          domain: string;
-          id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
           name: string;
-          owner: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          ownerId: string;
+          permissions: Array<string>;
+          roles: Roles;
+          type: 'system' | 'collector' | 'business';
           updatedAt: string;
+          username: string;
         }
       | {
           createdAt: string;
+          default: boolean;
           description: string;
           id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
           name: string;
           permissions: Array<string>;
           updatedAt: string;
-        }
-      | {
-          createdAt: string;
-          data: {
-            [key: string]: unknown;
-          };
-          id: string;
-          objectId: string;
-          operationType: string;
-          tableName: string;
-          updatedAt: string;
-          user?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          userId: string;
         }
       | {
           carbonFactor: string;
           createdAt: string;
           gwCode: string;
           id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
           name: string;
           updatedAt: string;
         }
       | {
+          buyer: Business;
           createdAt: string;
           id: string;
-          materials: Array<{
-            carbonFactor: string;
-            createdAt: string;
-            gwCode: string;
-            id: string;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            updatedAt: string;
-          }>;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          name: string;
+          materials: CollectionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
           updatedAt: string;
           value: number;
-        }
-      | {
-          amount: number;
-          buyerId: string;
-          buyerType: string;
-          createdAt: string;
-          id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById?: string;
-          products: Array<{
-            createdAt: string;
-            id: string;
-            materials: Array<{
-              carbonFactor: string;
-              createdAt: string;
-              gwCode: string;
-              id: string;
-              modifiedBy?: {
-                createdAt: string;
-                email: string;
-                id: string;
-                image?: string;
-                jobTitle?: string;
-                mfaEnabled: boolean;
-                mfaVerified: boolean;
-                modifiedById: string;
-                name?: string;
-                phone?: string;
-                primaryOrganizationId?: string;
-                tags: Array<string>;
-                updatedAt: string;
-              };
-              modifiedById: string;
-              name: string;
-              updatedAt: string;
-            }>;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            updatedAt: string;
-            value: number;
-          }>;
-          sellerAccepted: boolean;
-          sellerDeclined: boolean;
-          sellerId: string;
-          sellerType: string;
-          type: string;
-          updatedAt: string;
           weight: number;
         }
       | {
-          action?: {
-            link?: string;
-            linkText?: string;
-          };
-          closed: boolean;
+          buyer: Business;
           createdAt: string;
           id: string;
-          message: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          title: string;
+          materials: TransactionMaterials;
+          seller: User;
           updatedAt: string;
-          userId: string;
         }
       | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          createdAt: string;
+          id: string;
           name: string;
-          permissions: Array<{
-            description: string;
-            value: string;
-          }>;
-        }
-      | {
-          city: string;
-          country: string;
-          createdAt: string;
-          id: string;
-          lineOne: string;
-          lineTwo?: string | null;
-          postalCode: number;
-          state: string;
+          ownerId: string;
+          roles: Roles;
           updatedAt: string;
-        }
-      | {
-          accountHolder: string;
-          accountNumber: string;
-          bankName: string;
-          branchCode: string;
-          createdAt: string;
-          id: string;
-          updatedAt: string;
+          users: Array<User>;
         };
-    items?:
-      | Array<{
-          address?: {
-            city: string;
-            country: string;
-            createdAt: string;
-            id: string;
-            lineOne: string;
-            lineTwo?: string | null;
-            postalCode: number;
-            state: string;
-            updatedAt: string;
-          };
-          bankDetails?: {
-            accountHolder: string;
-            accountNumber: string;
-            bankName: string;
-            branchCode: string;
-            createdAt: string;
-            id: string;
-            updatedAt: string;
-          };
+    items?: Array<
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          businessId: string | null;
+          businesses: Array<Business>;
           createdAt: string;
-          email: string;
           id: string;
-          image?: string;
-          jobTitle?: string;
           mfaEnabled: boolean;
           mfaVerified: boolean;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          name?: string;
-          organizations?: Array<{
-            createdAt: string;
-            domain: string;
-            id: string;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            owner: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            ownerId: string;
-            updatedAt: string;
-          }>;
-          phone?: string;
-          primaryOrganizationId?: string;
-          roles?: Array<{
-            createdAt: string;
-            description: string;
-            id: string;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            permissions: Array<string>;
-            updatedAt: string;
-          }>;
-          tags: Array<string>;
-          updatedAt: string;
-        }>
-      | Array<{
-          createdAt: string;
-          domain: string;
-          id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
           name: string;
-          owner: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          ownerId: string;
+          permissions: Array<string>;
+          roles: Roles;
+          type: 'system' | 'collector' | 'business';
           updatedAt: string;
-        }>
-      | Array<{
+          username: string;
+        }
+      | {
           createdAt: string;
+          default: boolean;
           description: string;
           id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
           name: string;
           permissions: Array<string>;
           updatedAt: string;
-        }>
-      | Array<{
-          createdAt: string;
-          data: {
-            [key: string]: unknown;
-          };
-          id: string;
-          objectId: string;
-          operationType: string;
-          tableName: string;
-          updatedAt: string;
-          user?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          userId: string;
-        }>
-      | Array<{
+        }
+      | {
           carbonFactor: string;
           createdAt: string;
           gwCode: string;
           id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
           name: string;
           updatedAt: string;
-        }>
-      | Array<{
+        }
+      | {
+          buyer: Business;
           createdAt: string;
           id: string;
-          materials: Array<{
-            carbonFactor: string;
-            createdAt: string;
-            gwCode: string;
-            id: string;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            updatedAt: string;
-          }>;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          name: string;
+          materials: CollectionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
           updatedAt: string;
           value: number;
-        }>
-      | Array<{
-          amount: number;
-          buyerId: string;
-          buyerType: string;
-          createdAt: string;
-          id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById?: string;
-          products: Array<{
-            createdAt: string;
-            id: string;
-            materials: Array<{
-              carbonFactor: string;
-              createdAt: string;
-              gwCode: string;
-              id: string;
-              modifiedBy?: {
-                createdAt: string;
-                email: string;
-                id: string;
-                image?: string;
-                jobTitle?: string;
-                mfaEnabled: boolean;
-                mfaVerified: boolean;
-                modifiedById: string;
-                name?: string;
-                phone?: string;
-                primaryOrganizationId?: string;
-                tags: Array<string>;
-                updatedAt: string;
-              };
-              modifiedById: string;
-              name: string;
-              updatedAt: string;
-            }>;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            updatedAt: string;
-            value: number;
-          }>;
-          sellerAccepted: boolean;
-          sellerDeclined: boolean;
-          sellerId: string;
-          sellerType: string;
-          type: string;
-          updatedAt: string;
           weight: number;
-        }>
-      | Array<{
-          action?: {
-            link?: string;
-            linkText?: string;
-          };
-          closed: boolean;
+        }
+      | {
+          buyer: Business;
           createdAt: string;
           id: string;
-          message: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          title: string;
+          materials: TransactionMaterials;
+          seller: User;
           updatedAt: string;
-          userId: string;
-        }>
-      | Array<{
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          createdAt: string;
+          id: string;
           name: string;
-          permissions: Array<{
-            description: string;
-            value: string;
-          }>;
-        }>
-      | Array<{
-          city: string;
-          country: string;
-          createdAt: string;
-          id: string;
-          lineOne: string;
-          lineTwo?: string | null;
-          postalCode: number;
-          state: string;
+          ownerId: string;
+          roles: Roles;
           updatedAt: string;
-        }>
-      | Array<{
-          accountHolder: string;
-          accountNumber: string;
-          bankName: string;
-          branchCode: string;
-          createdAt: string;
-          id: string;
-          updatedAt: string;
-        }>
-      | Array<string>;
-    pageDetails?: {
-      count?: number;
-      currentPage?: number;
-      nextPage?: number;
-      pages?: number;
-      previousPage?: number;
-    } | null;
+          users: Array<User>;
+        }
+      | {
+          name: string;
+          permissions: Permissions;
+          subGroups: Array<PermissionGroup>;
+        }
+    >;
+    pagination?: Pagination;
   };
 };
 
@@ -8681,13 +8381,12 @@ export type GetApiMaterialsByIdResponse =
   GetApiMaterialsByIdResponses[keyof GetApiMaterialsByIdResponses];
 
 export type PutApiMaterialsByIdData = {
-  body: {
-    carbonFactor?: string | null;
-    gwCode?: string | null;
-    name?: string | null;
-  };
+  /**
+   * Payload to update an existing material.
+   */
+  body: UpdateMaterial;
   path: {
-    id: unknown;
+    id: string;
   };
   query?: never;
   url: '/api/materials/{id}';
@@ -8695,32 +8394,39 @@ export type PutApiMaterialsByIdData = {
 
 export type PutApiMaterialsByIdErrors = {
   /**
-   * Bad Request.
+   * Bad Request
    */
   400: {
-    error?: string;
-    message?: string;
+    error: string;
+    message: string;
   };
   /**
-   * Unauthorized.
+   * Unauthorized
    */
   401: {
-    error?: string;
-    message?: string;
+    error: string;
+    message: string;
   };
   /**
-   * Material not found.
+   * Forbidden
+   */
+  403: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Not Found
    */
   404: {
-    error?: string;
-    message?: string;
+    error: string;
+    message: string;
   };
   /**
-   * Internal Server Error.
+   * Internal Server Error
    */
   500: {
-    error?: string;
-    message?: string;
+    error: string;
+    message: string;
   };
   default: unknown;
 };
@@ -8730,5901 +8436,225 @@ export type PutApiMaterialsByIdError =
 
 export type PutApiMaterialsByIdResponses = {
   /**
-   * The material has been successfully updated.
-   */
-  200: unknown;
-};
-
-export type GetApiNotificationsData = {
-  body?: never;
-  path?: never;
-  query?: {
-    page?: number;
-    search?: string;
-  };
-  url: '/api/notifications';
-};
-
-export type GetApiNotificationsErrors = {
-  /**
-   * Bad Request.
-   */
-  400: {
-    error?: string;
-    message?: string;
-  };
-  /**
-   * Unauthorized.
-   */
-  401: {
-    error?: string;
-    message?: string;
-  };
-  /**
-   * Internal Server Error.
-   */
-  500: {
-    error?: string;
-    message?: string;
-  };
-  default: unknown;
-};
-
-export type GetApiNotificationsError =
-  GetApiNotificationsErrors[keyof GetApiNotificationsErrors];
-
-export type GetApiNotificationsResponses = {
-  /**
-   * The list of notifications for the specified page and search query.
+   * Material updated successfully
    */
   200: {
     item?:
       | {
-          address?: {
-            city: string;
-            country: string;
-            createdAt: string;
-            id: string;
-            lineOne: string;
-            lineTwo?: string | null;
-            postalCode: number;
-            state: string;
-            updatedAt: string;
-          };
-          bankDetails?: {
-            accountHolder: string;
-            accountNumber: string;
-            bankName: string;
-            branchCode: string;
-            createdAt: string;
-            id: string;
-            updatedAt: string;
-          };
+          address: Address;
+          bankDetails: BankDetails;
+          businessId: string | null;
+          businesses: Array<Business>;
           createdAt: string;
-          email: string;
           id: string;
-          image?: string;
-          jobTitle?: string;
           mfaEnabled: boolean;
           mfaVerified: boolean;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          name?: string;
-          organizations?: Array<{
-            createdAt: string;
-            domain: string;
-            id: string;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            owner: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            ownerId: string;
-            updatedAt: string;
-          }>;
-          phone?: string;
-          primaryOrganizationId?: string;
-          roles?: Array<{
-            createdAt: string;
-            description: string;
-            id: string;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            permissions: Array<string>;
-            updatedAt: string;
-          }>;
-          tags: Array<string>;
-          updatedAt: string;
-        }
-      | {
-          createdAt: string;
-          domain: string;
-          id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
           name: string;
-          owner: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          ownerId: string;
+          permissions: Array<string>;
+          roles: Roles;
+          type: 'system' | 'collector' | 'business';
           updatedAt: string;
+          username: string;
         }
       | {
           createdAt: string;
+          default: boolean;
           description: string;
           id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
           name: string;
           permissions: Array<string>;
           updatedAt: string;
-        }
-      | {
-          createdAt: string;
-          data: {
-            [key: string]: unknown;
-          };
-          id: string;
-          objectId: string;
-          operationType: string;
-          tableName: string;
-          updatedAt: string;
-          user?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          userId: string;
         }
       | {
           carbonFactor: string;
           createdAt: string;
           gwCode: string;
           id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
           name: string;
           updatedAt: string;
         }
       | {
+          buyer: Business;
           createdAt: string;
           id: string;
-          materials: Array<{
-            carbonFactor: string;
-            createdAt: string;
-            gwCode: string;
-            id: string;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            updatedAt: string;
-          }>;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          name: string;
+          materials: CollectionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
           updatedAt: string;
           value: number;
-        }
-      | {
-          amount: number;
-          buyerId: string;
-          buyerType: string;
-          createdAt: string;
-          id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById?: string;
-          products: Array<{
-            createdAt: string;
-            id: string;
-            materials: Array<{
-              carbonFactor: string;
-              createdAt: string;
-              gwCode: string;
-              id: string;
-              modifiedBy?: {
-                createdAt: string;
-                email: string;
-                id: string;
-                image?: string;
-                jobTitle?: string;
-                mfaEnabled: boolean;
-                mfaVerified: boolean;
-                modifiedById: string;
-                name?: string;
-                phone?: string;
-                primaryOrganizationId?: string;
-                tags: Array<string>;
-                updatedAt: string;
-              };
-              modifiedById: string;
-              name: string;
-              updatedAt: string;
-            }>;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            updatedAt: string;
-            value: number;
-          }>;
-          sellerAccepted: boolean;
-          sellerDeclined: boolean;
-          sellerId: string;
-          sellerType: string;
-          type: string;
-          updatedAt: string;
           weight: number;
         }
       | {
-          action?: {
-            link?: string;
-            linkText?: string;
-          };
-          closed: boolean;
+          buyer: Business;
           createdAt: string;
           id: string;
-          message: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          title: string;
+          materials: TransactionMaterials;
+          seller: User;
           updatedAt: string;
-          userId: string;
         }
       | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          createdAt: string;
+          id: string;
           name: string;
-          permissions: Array<{
-            description: string;
-            value: string;
-          }>;
-        }
-      | {
-          city: string;
-          country: string;
-          createdAt: string;
-          id: string;
-          lineOne: string;
-          lineTwo?: string | null;
-          postalCode: number;
-          state: string;
+          ownerId: string;
+          roles: Roles;
           updatedAt: string;
-        }
-      | {
-          accountHolder: string;
-          accountNumber: string;
-          bankName: string;
-          branchCode: string;
-          createdAt: string;
-          id: string;
-          updatedAt: string;
+          users: Array<User>;
         };
-    items?:
-      | Array<{
-          address?: {
-            city: string;
-            country: string;
-            createdAt: string;
-            id: string;
-            lineOne: string;
-            lineTwo?: string | null;
-            postalCode: number;
-            state: string;
-            updatedAt: string;
-          };
-          bankDetails?: {
-            accountHolder: string;
-            accountNumber: string;
-            bankName: string;
-            branchCode: string;
-            createdAt: string;
-            id: string;
-            updatedAt: string;
-          };
+    items?: Array<
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          businessId: string | null;
+          businesses: Array<Business>;
           createdAt: string;
-          email: string;
           id: string;
-          image?: string;
-          jobTitle?: string;
           mfaEnabled: boolean;
           mfaVerified: boolean;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          name?: string;
-          organizations?: Array<{
-            createdAt: string;
-            domain: string;
-            id: string;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            owner: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            ownerId: string;
-            updatedAt: string;
-          }>;
-          phone?: string;
-          primaryOrganizationId?: string;
-          roles?: Array<{
-            createdAt: string;
-            description: string;
-            id: string;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            permissions: Array<string>;
-            updatedAt: string;
-          }>;
-          tags: Array<string>;
-          updatedAt: string;
-        }>
-      | Array<{
-          createdAt: string;
-          domain: string;
-          id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
           name: string;
-          owner: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          ownerId: string;
+          permissions: Array<string>;
+          roles: Roles;
+          type: 'system' | 'collector' | 'business';
           updatedAt: string;
-        }>
-      | Array<{
+          username: string;
+        }
+      | {
           createdAt: string;
+          default: boolean;
           description: string;
           id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
           name: string;
           permissions: Array<string>;
           updatedAt: string;
-        }>
-      | Array<{
-          createdAt: string;
-          data: {
-            [key: string]: unknown;
-          };
-          id: string;
-          objectId: string;
-          operationType: string;
-          tableName: string;
-          updatedAt: string;
-          user?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          userId: string;
-        }>
-      | Array<{
-          carbonFactor: string;
-          createdAt: string;
-          gwCode: string;
-          id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          name: string;
-          updatedAt: string;
-        }>
-      | Array<{
-          createdAt: string;
-          id: string;
-          materials: Array<{
-            carbonFactor: string;
-            createdAt: string;
-            gwCode: string;
-            id: string;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            updatedAt: string;
-          }>;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          name: string;
-          updatedAt: string;
-          value: number;
-        }>
-      | Array<{
-          amount: number;
-          buyerId: string;
-          buyerType: string;
-          createdAt: string;
-          id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById?: string;
-          products: Array<{
-            createdAt: string;
-            id: string;
-            materials: Array<{
-              carbonFactor: string;
-              createdAt: string;
-              gwCode: string;
-              id: string;
-              modifiedBy?: {
-                createdAt: string;
-                email: string;
-                id: string;
-                image?: string;
-                jobTitle?: string;
-                mfaEnabled: boolean;
-                mfaVerified: boolean;
-                modifiedById: string;
-                name?: string;
-                phone?: string;
-                primaryOrganizationId?: string;
-                tags: Array<string>;
-                updatedAt: string;
-              };
-              modifiedById: string;
-              name: string;
-              updatedAt: string;
-            }>;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            updatedAt: string;
-            value: number;
-          }>;
-          sellerAccepted: boolean;
-          sellerDeclined: boolean;
-          sellerId: string;
-          sellerType: string;
-          type: string;
-          updatedAt: string;
-          weight: number;
-        }>
-      | Array<{
-          action?: {
-            link?: string;
-            linkText?: string;
-          };
-          closed: boolean;
-          createdAt: string;
-          id: string;
-          message: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          title: string;
-          updatedAt: string;
-          userId: string;
-        }>
-      | Array<{
-          name: string;
-          permissions: Array<{
-            description: string;
-            value: string;
-          }>;
-        }>
-      | Array<{
-          city: string;
-          country: string;
-          createdAt: string;
-          id: string;
-          lineOne: string;
-          lineTwo?: string | null;
-          postalCode: number;
-          state: string;
-          updatedAt: string;
-        }>
-      | Array<{
-          accountHolder: string;
-          accountNumber: string;
-          bankName: string;
-          branchCode: string;
-          createdAt: string;
-          id: string;
-          updatedAt: string;
-        }>
-      | Array<string>;
-    pageDetails?: {
-      count?: number;
-      currentPage?: number;
-      nextPage?: number;
-      pages?: number;
-      previousPage?: number;
-    } | null;
-  };
-};
-
-export type GetApiNotificationsResponse =
-  GetApiNotificationsResponses[keyof GetApiNotificationsResponses];
-
-export type PostApiNotificationsData = {
-  body: {
-    action?: {
-      link?: string;
-      linkText?: string;
-    };
-    closed?: boolean;
-    message?: string;
-    title?: string;
-    userId?: string;
-  };
-  path?: never;
-  query?: never;
-  url: '/api/notifications';
-};
-
-export type PostApiNotificationsErrors = {
-  /**
-   * Invalid request.
-   */
-  400: {
-    error?: string;
-    message?: string;
-  };
-  /**
-   * Unauthorized.
-   */
-  401: {
-    error?: string;
-    message?: string;
-  };
-  /**
-   * Internal Server Error.
-   */
-  500: {
-    error?: string;
-    message?: string;
-  };
-  default: unknown;
-};
-
-export type PostApiNotificationsError =
-  PostApiNotificationsErrors[keyof PostApiNotificationsErrors];
-
-export type PostApiNotificationsResponses = {
-  /**
-   * The notification has been successfully created.
-   */
-  200: unknown;
-};
-
-export type DeleteApiNotificationsByIdData = {
-  body?: never;
-  path: {
-    id: unknown;
-  };
-  query?: never;
-  url: '/api/notifications/{id}';
-};
-
-export type DeleteApiNotificationsByIdErrors = {
-  /**
-   * Invalid request.
-   */
-  400: {
-    error?: string;
-    message?: string;
-  };
-  /**
-   * Unauthorized.
-   */
-  401: {
-    error?: string;
-    message?: string;
-  };
-  /**
-   * Notification not found.
-   */
-  404: {
-    error?: string;
-    message?: string;
-  };
-  /**
-   * Internal server error.
-   */
-  500: {
-    error?: string;
-    message?: string;
-  };
-  default: unknown;
-};
-
-export type DeleteApiNotificationsByIdError =
-  DeleteApiNotificationsByIdErrors[keyof DeleteApiNotificationsByIdErrors];
-
-export type DeleteApiNotificationsByIdResponses = {
-  /**
-   * The notification has been successfully deleted.
-   */
-  200: unknown;
-};
-
-export type GetApiNotificationsByIdData = {
-  body?: never;
-  path: {
-    id: string;
-  };
-  query?: never;
-  url: '/api/notifications/{id}';
-};
-
-export type GetApiNotificationsByIdErrors = {
-  /**
-   * Bad Request.
-   */
-  400: {
-    error?: string;
-    message?: string;
-  };
-  /**
-   * Unauthorized.
-   */
-  401: {
-    error?: string;
-    message?: string;
-  };
-  /**
-   * Notification not found.
-   */
-  404: {
-    error?: string;
-    message?: string;
-  };
-  /**
-   * Internal Server Error.
-   */
-  500: {
-    error?: string;
-    message?: string;
-  };
-  default: unknown;
-};
-
-export type GetApiNotificationsByIdError =
-  GetApiNotificationsByIdErrors[keyof GetApiNotificationsByIdErrors];
-
-export type GetApiNotificationsByIdResponses = {
-  /**
-   * The notification was retrieved successfully.
-   */
-  200: {
-    item?:
-      | {
-          address?: {
-            city: string;
-            country: string;
-            createdAt: string;
-            id: string;
-            lineOne: string;
-            lineTwo?: string | null;
-            postalCode: number;
-            state: string;
-            updatedAt: string;
-          };
-          bankDetails?: {
-            accountHolder: string;
-            accountNumber: string;
-            bankName: string;
-            branchCode: string;
-            createdAt: string;
-            id: string;
-            updatedAt: string;
-          };
-          createdAt: string;
-          email: string;
-          id: string;
-          image?: string;
-          jobTitle?: string;
-          mfaEnabled: boolean;
-          mfaVerified: boolean;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          name?: string;
-          organizations?: Array<{
-            createdAt: string;
-            domain: string;
-            id: string;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            owner: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            ownerId: string;
-            updatedAt: string;
-          }>;
-          phone?: string;
-          primaryOrganizationId?: string;
-          roles?: Array<{
-            createdAt: string;
-            description: string;
-            id: string;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            permissions: Array<string>;
-            updatedAt: string;
-          }>;
-          tags: Array<string>;
-          updatedAt: string;
-        }
-      | {
-          createdAt: string;
-          domain: string;
-          id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          name: string;
-          owner: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          ownerId: string;
-          updatedAt: string;
-        }
-      | {
-          createdAt: string;
-          description: string;
-          id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          name: string;
-          permissions: Array<string>;
-          updatedAt: string;
-        }
-      | {
-          createdAt: string;
-          data: {
-            [key: string]: unknown;
-          };
-          id: string;
-          objectId: string;
-          operationType: string;
-          tableName: string;
-          updatedAt: string;
-          user?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          userId: string;
         }
       | {
           carbonFactor: string;
           createdAt: string;
           gwCode: string;
           id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
           name: string;
           updatedAt: string;
         }
       | {
+          buyer: Business;
           createdAt: string;
           id: string;
-          materials: Array<{
-            carbonFactor: string;
-            createdAt: string;
-            gwCode: string;
-            id: string;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            updatedAt: string;
-          }>;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          name: string;
-          updatedAt: string;
-          value: number;
-        }
-      | {
-          amount: number;
-          buyerId: string;
-          buyerType: string;
-          createdAt: string;
-          id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById?: string;
-          products: Array<{
-            createdAt: string;
-            id: string;
-            materials: Array<{
-              carbonFactor: string;
-              createdAt: string;
-              gwCode: string;
-              id: string;
-              modifiedBy?: {
-                createdAt: string;
-                email: string;
-                id: string;
-                image?: string;
-                jobTitle?: string;
-                mfaEnabled: boolean;
-                mfaVerified: boolean;
-                modifiedById: string;
-                name?: string;
-                phone?: string;
-                primaryOrganizationId?: string;
-                tags: Array<string>;
-                updatedAt: string;
-              };
-              modifiedById: string;
-              name: string;
-              updatedAt: string;
-            }>;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            updatedAt: string;
-            value: number;
-          }>;
-          sellerAccepted: boolean;
-          sellerDeclined: boolean;
-          sellerId: string;
-          sellerType: string;
-          type: string;
-          updatedAt: string;
-          weight: number;
-        }
-      | {
-          action?: {
-            link?: string;
-            linkText?: string;
-          };
-          closed: boolean;
-          createdAt: string;
-          id: string;
-          message: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          title: string;
-          updatedAt: string;
-          userId: string;
-        }
-      | {
-          name: string;
-          permissions: Array<{
-            description: string;
-            value: string;
-          }>;
-        }
-      | {
-          city: string;
-          country: string;
-          createdAt: string;
-          id: string;
-          lineOne: string;
-          lineTwo?: string | null;
-          postalCode: number;
-          state: string;
+          materials: CollectionMaterials;
+          seller: User;
           updatedAt: string;
         }
       | {
-          accountHolder: string;
-          accountNumber: string;
-          bankName: string;
-          branchCode: string;
+          carbonFactor?: string;
           createdAt: string;
+          gwCode?: string;
           id: string;
-          updatedAt: string;
-        };
-    items?:
-      | Array<{
-          address?: {
-            city: string;
-            country: string;
-            createdAt: string;
-            id: string;
-            lineOne: string;
-            lineTwo?: string | null;
-            postalCode: number;
-            state: string;
-            updatedAt: string;
-          };
-          bankDetails?: {
-            accountHolder: string;
-            accountNumber: string;
-            bankName: string;
-            branchCode: string;
-            createdAt: string;
-            id: string;
-            updatedAt: string;
-          };
-          createdAt: string;
-          email: string;
-          id: string;
-          image?: string;
-          jobTitle?: string;
-          mfaEnabled: boolean;
-          mfaVerified: boolean;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
           name?: string;
-          organizations?: Array<{
-            createdAt: string;
-            domain: string;
-            id: string;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            owner: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            ownerId: string;
-            updatedAt: string;
-          }>;
-          phone?: string;
-          primaryOrganizationId?: string;
-          roles?: Array<{
-            createdAt: string;
-            description: string;
-            id: string;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            permissions: Array<string>;
-            updatedAt: string;
-          }>;
-          tags: Array<string>;
-          updatedAt: string;
-        }>
-      | Array<{
-          createdAt: string;
-          domain: string;
-          id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          name: string;
-          owner: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          ownerId: string;
-          updatedAt: string;
-        }>
-      | Array<{
-          createdAt: string;
-          description: string;
-          id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          name: string;
-          permissions: Array<string>;
-          updatedAt: string;
-        }>
-      | Array<{
-          createdAt: string;
-          data: {
-            [key: string]: unknown;
-          };
-          id: string;
-          objectId: string;
-          operationType: string;
-          tableName: string;
-          updatedAt: string;
-          user?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          userId: string;
-        }>
-      | Array<{
-          carbonFactor: string;
-          createdAt: string;
-          gwCode: string;
-          id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          name: string;
-          updatedAt: string;
-        }>
-      | Array<{
-          createdAt: string;
-          id: string;
-          materials: Array<{
-            carbonFactor: string;
-            createdAt: string;
-            gwCode: string;
-            id: string;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            updatedAt: string;
-          }>;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          name: string;
           updatedAt: string;
           value: number;
-        }>
-      | Array<{
-          amount: number;
-          buyerId: string;
-          buyerType: string;
-          createdAt: string;
-          id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById?: string;
-          products: Array<{
-            createdAt: string;
-            id: string;
-            materials: Array<{
-              carbonFactor: string;
-              createdAt: string;
-              gwCode: string;
-              id: string;
-              modifiedBy?: {
-                createdAt: string;
-                email: string;
-                id: string;
-                image?: string;
-                jobTitle?: string;
-                mfaEnabled: boolean;
-                mfaVerified: boolean;
-                modifiedById: string;
-                name?: string;
-                phone?: string;
-                primaryOrganizationId?: string;
-                tags: Array<string>;
-                updatedAt: string;
-              };
-              modifiedById: string;
-              name: string;
-              updatedAt: string;
-            }>;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            updatedAt: string;
-            value: number;
-          }>;
-          sellerAccepted: boolean;
-          sellerDeclined: boolean;
-          sellerId: string;
-          sellerType: string;
-          type: string;
-          updatedAt: string;
           weight: number;
-        }>
-      | Array<{
-          action?: {
-            link?: string;
-            linkText?: string;
-          };
-          closed: boolean;
-          createdAt: string;
-          id: string;
-          message: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          title: string;
-          updatedAt: string;
-          userId: string;
-        }>
-      | Array<{
-          name: string;
-          permissions: Array<{
-            description: string;
-            value: string;
-          }>;
-        }>
-      | Array<{
-          city: string;
-          country: string;
-          createdAt: string;
-          id: string;
-          lineOne: string;
-          lineTwo?: string | null;
-          postalCode: number;
-          state: string;
-          updatedAt: string;
-        }>
-      | Array<{
-          accountHolder: string;
-          accountNumber: string;
-          bankName: string;
-          branchCode: string;
-          createdAt: string;
-          id: string;
-          updatedAt: string;
-        }>
-      | Array<string>;
-    pageDetails?: {
-      count?: number;
-      currentPage?: number;
-      nextPage?: number;
-      pages?: number;
-      previousPage?: number;
-    } | null;
-  };
-};
-
-export type GetApiNotificationsByIdResponse =
-  GetApiNotificationsByIdResponses[keyof GetApiNotificationsByIdResponses];
-
-export type PutApiNotificationsByIdData = {
-  body: {
-    action?: {
-      link?: string;
-      linkText?: string;
-    } | null;
-    closed?: boolean | null;
-    message?: string | null;
-    title?: string | null;
-    userId?: string | null;
-  };
-  path: {
-    id: unknown;
-  };
-  query?: never;
-  url: '/api/notifications/{id}';
-};
-
-export type PutApiNotificationsByIdErrors = {
-  /**
-   * Bad Request.
-   */
-  400: {
-    error?: string;
-    message?: string;
-  };
-  /**
-   * Unauthorized.
-   */
-  401: {
-    error?: string;
-    message?: string;
-  };
-  /**
-   * Notification not found.
-   */
-  404: {
-    error?: string;
-    message?: string;
-  };
-  /**
-   * Internal Server Error.
-   */
-  500: {
-    error?: string;
-    message?: string;
-  };
-  default: unknown;
-};
-
-export type PutApiNotificationsByIdError =
-  PutApiNotificationsByIdErrors[keyof PutApiNotificationsByIdErrors];
-
-export type PutApiNotificationsByIdResponses = {
-  /**
-   * The notification has been successfully updated.
-   */
-  200: unknown;
-};
-
-export type GetApiOrganizationsData = {
-  body?: never;
-  path?: never;
-  query?: {
-    page?: number;
-    search?: string;
-  };
-  url: '/api/organizations';
-};
-
-export type GetApiOrganizationsErrors = {
-  /**
-   * Bad Request.
-   */
-  400: {
-    error?: string;
-    message?: string;
-  };
-  /**
-   * Unauthorized.
-   */
-  401: {
-    error?: string;
-    message?: string;
-  };
-  /**
-   * Internal Server Error.
-   */
-  500: {
-    error?: string;
-    message?: string;
-  };
-  default: unknown;
-};
-
-export type GetApiOrganizationsError =
-  GetApiOrganizationsErrors[keyof GetApiOrganizationsErrors];
-
-export type GetApiOrganizationsResponses = {
-  /**
-   * The list of organizations for the specified page and search query.
-   */
-  200: {
-    item?:
+        }
       | {
-          address?: {
-            city: string;
-            country: string;
-            createdAt: string;
-            id: string;
-            lineOne: string;
-            lineTwo?: string | null;
-            postalCode: number;
-            state: string;
-            updatedAt: string;
-          };
-          bankDetails?: {
-            accountHolder: string;
-            accountNumber: string;
-            bankName: string;
-            branchCode: string;
-            createdAt: string;
-            id: string;
-            updatedAt: string;
-          };
+          buyer: Business;
           createdAt: string;
-          email: string;
           id: string;
-          image?: string;
-          jobTitle?: string;
-          mfaEnabled: boolean;
-          mfaVerified: boolean;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
+          materials: TransactionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
           name?: string;
-          organizations?: Array<{
-            createdAt: string;
-            domain: string;
-            id: string;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            owner: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            ownerId: string;
-            updatedAt: string;
-          }>;
-          phone?: string;
-          primaryOrganizationId?: string;
-          roles?: Array<{
-            createdAt: string;
-            description: string;
-            id: string;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            permissions: Array<string>;
-            updatedAt: string;
-          }>;
-          tags: Array<string>;
-          updatedAt: string;
-        }
-      | {
-          createdAt: string;
-          domain: string;
-          id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          name: string;
-          owner: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          ownerId: string;
-          updatedAt: string;
-        }
-      | {
-          createdAt: string;
-          description: string;
-          id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          name: string;
-          permissions: Array<string>;
-          updatedAt: string;
-        }
-      | {
-          createdAt: string;
-          data: {
-            [key: string]: unknown;
-          };
-          id: string;
-          objectId: string;
-          operationType: string;
-          tableName: string;
-          updatedAt: string;
-          user?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          userId: string;
-        }
-      | {
-          carbonFactor: string;
-          createdAt: string;
-          gwCode: string;
-          id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          name: string;
-          updatedAt: string;
-        }
-      | {
-          createdAt: string;
-          id: string;
-          materials: Array<{
-            carbonFactor: string;
-            createdAt: string;
-            gwCode: string;
-            id: string;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            updatedAt: string;
-          }>;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          name: string;
           updatedAt: string;
           value: number;
-        }
-      | {
-          amount: number;
-          buyerId: string;
-          buyerType: string;
-          createdAt: string;
-          id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById?: string;
-          products: Array<{
-            createdAt: string;
-            id: string;
-            materials: Array<{
-              carbonFactor: string;
-              createdAt: string;
-              gwCode: string;
-              id: string;
-              modifiedBy?: {
-                createdAt: string;
-                email: string;
-                id: string;
-                image?: string;
-                jobTitle?: string;
-                mfaEnabled: boolean;
-                mfaVerified: boolean;
-                modifiedById: string;
-                name?: string;
-                phone?: string;
-                primaryOrganizationId?: string;
-                tags: Array<string>;
-                updatedAt: string;
-              };
-              modifiedById: string;
-              name: string;
-              updatedAt: string;
-            }>;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            updatedAt: string;
-            value: number;
-          }>;
-          sellerAccepted: boolean;
-          sellerDeclined: boolean;
-          sellerId: string;
-          sellerType: string;
-          type: string;
-          updatedAt: string;
           weight: number;
         }
       | {
-          action?: {
-            link?: string;
-            linkText?: string;
-          };
-          closed: boolean;
+          address: Address;
+          bankDetails: BankDetails;
           createdAt: string;
           id: string;
-          message: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          title: string;
-          updatedAt: string;
-          userId: string;
-        }
-      | {
           name: string;
-          permissions: Array<{
-            description: string;
-            value: string;
-          }>;
-        }
-      | {
-          city: string;
-          country: string;
-          createdAt: string;
-          id: string;
-          lineOne: string;
-          lineTwo?: string | null;
-          postalCode: number;
-          state: string;
-          updatedAt: string;
-        }
-      | {
-          accountHolder: string;
-          accountNumber: string;
-          bankName: string;
-          branchCode: string;
-          createdAt: string;
-          id: string;
-          updatedAt: string;
-        };
-    items?:
-      | Array<{
-          address?: {
-            city: string;
-            country: string;
-            createdAt: string;
-            id: string;
-            lineOne: string;
-            lineTwo?: string | null;
-            postalCode: number;
-            state: string;
-            updatedAt: string;
-          };
-          bankDetails?: {
-            accountHolder: string;
-            accountNumber: string;
-            bankName: string;
-            branchCode: string;
-            createdAt: string;
-            id: string;
-            updatedAt: string;
-          };
-          createdAt: string;
-          email: string;
-          id: string;
-          image?: string;
-          jobTitle?: string;
-          mfaEnabled: boolean;
-          mfaVerified: boolean;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          name?: string;
-          organizations?: Array<{
-            createdAt: string;
-            domain: string;
-            id: string;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            owner: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            ownerId: string;
-            updatedAt: string;
-          }>;
-          phone?: string;
-          primaryOrganizationId?: string;
-          roles?: Array<{
-            createdAt: string;
-            description: string;
-            id: string;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            permissions: Array<string>;
-            updatedAt: string;
-          }>;
-          tags: Array<string>;
-          updatedAt: string;
-        }>
-      | Array<{
-          createdAt: string;
-          domain: string;
-          id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          name: string;
-          owner: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
           ownerId: string;
+          roles: Roles;
           updatedAt: string;
-        }>
-      | Array<{
-          createdAt: string;
-          description: string;
-          id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          name: string;
-          permissions: Array<string>;
-          updatedAt: string;
-        }>
-      | Array<{
-          createdAt: string;
-          data: {
-            [key: string]: unknown;
-          };
-          id: string;
-          objectId: string;
-          operationType: string;
-          tableName: string;
-          updatedAt: string;
-          user?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          userId: string;
-        }>
-      | Array<{
-          carbonFactor: string;
-          createdAt: string;
-          gwCode: string;
-          id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          name: string;
-          updatedAt: string;
-        }>
-      | Array<{
-          createdAt: string;
-          id: string;
-          materials: Array<{
-            carbonFactor: string;
-            createdAt: string;
-            gwCode: string;
-            id: string;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            updatedAt: string;
-          }>;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          name: string;
-          updatedAt: string;
-          value: number;
-        }>
-      | Array<{
-          amount: number;
-          buyerId: string;
-          buyerType: string;
-          createdAt: string;
-          id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById?: string;
-          products: Array<{
-            createdAt: string;
-            id: string;
-            materials: Array<{
-              carbonFactor: string;
-              createdAt: string;
-              gwCode: string;
-              id: string;
-              modifiedBy?: {
-                createdAt: string;
-                email: string;
-                id: string;
-                image?: string;
-                jobTitle?: string;
-                mfaEnabled: boolean;
-                mfaVerified: boolean;
-                modifiedById: string;
-                name?: string;
-                phone?: string;
-                primaryOrganizationId?: string;
-                tags: Array<string>;
-                updatedAt: string;
-              };
-              modifiedById: string;
-              name: string;
-              updatedAt: string;
-            }>;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            updatedAt: string;
-            value: number;
-          }>;
-          sellerAccepted: boolean;
-          sellerDeclined: boolean;
-          sellerId: string;
-          sellerType: string;
-          type: string;
-          updatedAt: string;
-          weight: number;
-        }>
-      | Array<{
-          action?: {
-            link?: string;
-            linkText?: string;
-          };
-          closed: boolean;
-          createdAt: string;
-          id: string;
-          message: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          title: string;
-          updatedAt: string;
-          userId: string;
-        }>
-      | Array<{
-          name: string;
-          permissions: Array<{
-            description: string;
-            value: string;
-          }>;
-        }>
-      | Array<{
-          city: string;
-          country: string;
-          createdAt: string;
-          id: string;
-          lineOne: string;
-          lineTwo?: string | null;
-          postalCode: number;
-          state: string;
-          updatedAt: string;
-        }>
-      | Array<{
-          accountHolder: string;
-          accountNumber: string;
-          bankName: string;
-          branchCode: string;
-          createdAt: string;
-          id: string;
-          updatedAt: string;
-        }>
-      | Array<string>;
-    pageDetails?: {
-      count?: number;
-      currentPage?: number;
-      nextPage?: number;
-      pages?: number;
-      previousPage?: number;
-    } | null;
-  };
-};
-
-export type GetApiOrganizationsResponse =
-  GetApiOrganizationsResponses[keyof GetApiOrganizationsResponses];
-
-export type PostApiOrganizationsData = {
-  body: {
-    domain?: string;
-    name?: string;
-    ownerId?: string;
-  };
-  path?: never;
-  query?: never;
-  url: '/api/organizations';
-};
-
-export type PostApiOrganizationsErrors = {
-  /**
-   * Invalid request.
-   */
-  400: {
-    error?: string;
-    message?: string;
-  };
-  /**
-   * Unauthorized.
-   */
-  401: {
-    error?: string;
-    message?: string;
-  };
-  /**
-   * Internal Server Error.
-   */
-  500: {
-    error?: string;
-    message?: string;
-  };
-  default: unknown;
-};
-
-export type PostApiOrganizationsError =
-  PostApiOrganizationsErrors[keyof PostApiOrganizationsErrors];
-
-export type PostApiOrganizationsResponses = {
-  /**
-   * The organization has been successfully created.
-   */
-  200: unknown;
-};
-
-export type PostApiOrganizationsInvitesSendByEmailData = {
-  body?: never;
-  path: {
-    email: string;
-  };
-  query?: never;
-  url: '/api/organizations/invites/send/{email}';
-};
-
-export type PostApiOrganizationsInvitesSendByEmailErrors = {
-  /**
-   * Invalid request.
-   */
-  400: {
-    error?: string;
-    message?: string;
-  };
-  /**
-   * Unauthorized.
-   */
-  401: {
-    error?: string;
-    message?: string;
-  };
-  /**
-   * Internal Server Error.
-   */
-  500: {
-    error?: string;
-    message?: string;
-  };
-  default: unknown;
-};
-
-export type PostApiOrganizationsInvitesSendByEmailError =
-  PostApiOrganizationsInvitesSendByEmailErrors[keyof PostApiOrganizationsInvitesSendByEmailErrors];
-
-export type PostApiOrganizationsInvitesSendByEmailResponses = {
-  /**
-   * The invitation has been successfully sent.
-   */
-  200: unknown;
-};
-
-export type DeleteApiOrganizationsUsersByIdData = {
-  body?: never;
-  path: {
-    id: unknown;
-  };
-  query?: never;
-  url: '/api/organizations/users/{id}';
-};
-
-export type DeleteApiOrganizationsUsersByIdErrors = {
-  /**
-   * Invalid request.
-   */
-  400: {
-    error?: string;
-    message?: string;
-  };
-  /**
-   * Unauthorized.
-   */
-  401: {
-    error?: string;
-    message?: string;
-  };
-  /**
-   * Organization not found.
-   */
-  404: {
-    error?: string;
-    message?: string;
-  };
-  /**
-   * Internal server error.
-   */
-  500: {
-    error?: string;
-    message?: string;
-  };
-  default: unknown;
-};
-
-export type DeleteApiOrganizationsUsersByIdError =
-  DeleteApiOrganizationsUsersByIdErrors[keyof DeleteApiOrganizationsUsersByIdErrors];
-
-export type DeleteApiOrganizationsUsersByIdResponses = {
-  /**
-   * The user has been successfully removed.
-   */
-  200: unknown;
-};
-
-export type DeleteApiOrganizationsByIdData = {
-  body?: never;
-  path: {
-    id: unknown;
-  };
-  query?: never;
-  url: '/api/organizations/{id}';
-};
-
-export type DeleteApiOrganizationsByIdErrors = {
-  /**
-   * Invalid request.
-   */
-  400: {
-    error?: string;
-    message?: string;
-  };
-  /**
-   * Unauthorized.
-   */
-  401: {
-    error?: string;
-    message?: string;
-  };
-  /**
-   * Organization not found.
-   */
-  404: {
-    error?: string;
-    message?: string;
-  };
-  /**
-   * Internal server error.
-   */
-  500: {
-    error?: string;
-    message?: string;
-  };
-  default: unknown;
-};
-
-export type DeleteApiOrganizationsByIdError =
-  DeleteApiOrganizationsByIdErrors[keyof DeleteApiOrganizationsByIdErrors];
-
-export type DeleteApiOrganizationsByIdResponses = {
-  /**
-   * The organization has been successfully deleted.
-   */
-  200: unknown;
-};
-
-export type GetApiOrganizationsByIdData = {
-  body?: never;
-  path: {
-    id: string;
-  };
-  query?: never;
-  url: '/api/organizations/{id}';
-};
-
-export type GetApiOrganizationsByIdErrors = {
-  /**
-   * Bad Request.
-   */
-  400: {
-    error?: string;
-    message?: string;
-  };
-  /**
-   * Unauthorized.
-   */
-  401: {
-    error?: string;
-    message?: string;
-  };
-  /**
-   * Organization not found.
-   */
-  404: {
-    error?: string;
-    message?: string;
-  };
-  /**
-   * Internal Server Error.
-   */
-  500: {
-    error?: string;
-    message?: string;
-  };
-  default: unknown;
-};
-
-export type GetApiOrganizationsByIdError =
-  GetApiOrganizationsByIdErrors[keyof GetApiOrganizationsByIdErrors];
-
-export type GetApiOrganizationsByIdResponses = {
-  /**
-   * The organization was retrieved successfully.
-   */
-  200: {
-    item?:
-      | {
-          address?: {
-            city: string;
-            country: string;
-            createdAt: string;
-            id: string;
-            lineOne: string;
-            lineTwo?: string | null;
-            postalCode: number;
-            state: string;
-            updatedAt: string;
-          };
-          bankDetails?: {
-            accountHolder: string;
-            accountNumber: string;
-            bankName: string;
-            branchCode: string;
-            createdAt: string;
-            id: string;
-            updatedAt: string;
-          };
-          createdAt: string;
-          email: string;
-          id: string;
-          image?: string;
-          jobTitle?: string;
-          mfaEnabled: boolean;
-          mfaVerified: boolean;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          name?: string;
-          organizations?: Array<{
-            createdAt: string;
-            domain: string;
-            id: string;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            owner: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            ownerId: string;
-            updatedAt: string;
-          }>;
-          phone?: string;
-          primaryOrganizationId?: string;
-          roles?: Array<{
-            createdAt: string;
-            description: string;
-            id: string;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            permissions: Array<string>;
-            updatedAt: string;
-          }>;
-          tags: Array<string>;
-          updatedAt: string;
-        }
-      | {
-          createdAt: string;
-          domain: string;
-          id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          name: string;
-          owner: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          ownerId: string;
-          updatedAt: string;
-        }
-      | {
-          createdAt: string;
-          description: string;
-          id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          name: string;
-          permissions: Array<string>;
-          updatedAt: string;
-        }
-      | {
-          createdAt: string;
-          data: {
-            [key: string]: unknown;
-          };
-          id: string;
-          objectId: string;
-          operationType: string;
-          tableName: string;
-          updatedAt: string;
-          user?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          userId: string;
-        }
-      | {
-          carbonFactor: string;
-          createdAt: string;
-          gwCode: string;
-          id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          name: string;
-          updatedAt: string;
-        }
-      | {
-          createdAt: string;
-          id: string;
-          materials: Array<{
-            carbonFactor: string;
-            createdAt: string;
-            gwCode: string;
-            id: string;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            updatedAt: string;
-          }>;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          name: string;
-          updatedAt: string;
-          value: number;
-        }
-      | {
-          amount: number;
-          buyerId: string;
-          buyerType: string;
-          createdAt: string;
-          id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById?: string;
-          products: Array<{
-            createdAt: string;
-            id: string;
-            materials: Array<{
-              carbonFactor: string;
-              createdAt: string;
-              gwCode: string;
-              id: string;
-              modifiedBy?: {
-                createdAt: string;
-                email: string;
-                id: string;
-                image?: string;
-                jobTitle?: string;
-                mfaEnabled: boolean;
-                mfaVerified: boolean;
-                modifiedById: string;
-                name?: string;
-                phone?: string;
-                primaryOrganizationId?: string;
-                tags: Array<string>;
-                updatedAt: string;
-              };
-              modifiedById: string;
-              name: string;
-              updatedAt: string;
-            }>;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            updatedAt: string;
-            value: number;
-          }>;
-          sellerAccepted: boolean;
-          sellerDeclined: boolean;
-          sellerId: string;
-          sellerType: string;
-          type: string;
-          updatedAt: string;
-          weight: number;
-        }
-      | {
-          action?: {
-            link?: string;
-            linkText?: string;
-          };
-          closed: boolean;
-          createdAt: string;
-          id: string;
-          message: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          title: string;
-          updatedAt: string;
-          userId: string;
+          users: Array<User>;
         }
       | {
           name: string;
-          permissions: Array<{
-            description: string;
-            value: string;
-          }>;
+          permissions: Permissions;
+          subGroups: Array<PermissionGroup>;
         }
-      | {
-          city: string;
-          country: string;
-          createdAt: string;
-          id: string;
-          lineOne: string;
-          lineTwo?: string | null;
-          postalCode: number;
-          state: string;
-          updatedAt: string;
-        }
-      | {
-          accountHolder: string;
-          accountNumber: string;
-          bankName: string;
-          branchCode: string;
-          createdAt: string;
-          id: string;
-          updatedAt: string;
-        };
-    items?:
-      | Array<{
-          address?: {
-            city: string;
-            country: string;
-            createdAt: string;
-            id: string;
-            lineOne: string;
-            lineTwo?: string | null;
-            postalCode: number;
-            state: string;
-            updatedAt: string;
-          };
-          bankDetails?: {
-            accountHolder: string;
-            accountNumber: string;
-            bankName: string;
-            branchCode: string;
-            createdAt: string;
-            id: string;
-            updatedAt: string;
-          };
-          createdAt: string;
-          email: string;
-          id: string;
-          image?: string;
-          jobTitle?: string;
-          mfaEnabled: boolean;
-          mfaVerified: boolean;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          name?: string;
-          organizations?: Array<{
-            createdAt: string;
-            domain: string;
-            id: string;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            owner: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            ownerId: string;
-            updatedAt: string;
-          }>;
-          phone?: string;
-          primaryOrganizationId?: string;
-          roles?: Array<{
-            createdAt: string;
-            description: string;
-            id: string;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            permissions: Array<string>;
-            updatedAt: string;
-          }>;
-          tags: Array<string>;
-          updatedAt: string;
-        }>
-      | Array<{
-          createdAt: string;
-          domain: string;
-          id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          name: string;
-          owner: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          ownerId: string;
-          updatedAt: string;
-        }>
-      | Array<{
-          createdAt: string;
-          description: string;
-          id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          name: string;
-          permissions: Array<string>;
-          updatedAt: string;
-        }>
-      | Array<{
-          createdAt: string;
-          data: {
-            [key: string]: unknown;
-          };
-          id: string;
-          objectId: string;
-          operationType: string;
-          tableName: string;
-          updatedAt: string;
-          user?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          userId: string;
-        }>
-      | Array<{
-          carbonFactor: string;
-          createdAt: string;
-          gwCode: string;
-          id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          name: string;
-          updatedAt: string;
-        }>
-      | Array<{
-          createdAt: string;
-          id: string;
-          materials: Array<{
-            carbonFactor: string;
-            createdAt: string;
-            gwCode: string;
-            id: string;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            updatedAt: string;
-          }>;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          name: string;
-          updatedAt: string;
-          value: number;
-        }>
-      | Array<{
-          amount: number;
-          buyerId: string;
-          buyerType: string;
-          createdAt: string;
-          id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById?: string;
-          products: Array<{
-            createdAt: string;
-            id: string;
-            materials: Array<{
-              carbonFactor: string;
-              createdAt: string;
-              gwCode: string;
-              id: string;
-              modifiedBy?: {
-                createdAt: string;
-                email: string;
-                id: string;
-                image?: string;
-                jobTitle?: string;
-                mfaEnabled: boolean;
-                mfaVerified: boolean;
-                modifiedById: string;
-                name?: string;
-                phone?: string;
-                primaryOrganizationId?: string;
-                tags: Array<string>;
-                updatedAt: string;
-              };
-              modifiedById: string;
-              name: string;
-              updatedAt: string;
-            }>;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            updatedAt: string;
-            value: number;
-          }>;
-          sellerAccepted: boolean;
-          sellerDeclined: boolean;
-          sellerId: string;
-          sellerType: string;
-          type: string;
-          updatedAt: string;
-          weight: number;
-        }>
-      | Array<{
-          action?: {
-            link?: string;
-            linkText?: string;
-          };
-          closed: boolean;
-          createdAt: string;
-          id: string;
-          message: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          title: string;
-          updatedAt: string;
-          userId: string;
-        }>
-      | Array<{
-          name: string;
-          permissions: Array<{
-            description: string;
-            value: string;
-          }>;
-        }>
-      | Array<{
-          city: string;
-          country: string;
-          createdAt: string;
-          id: string;
-          lineOne: string;
-          lineTwo?: string | null;
-          postalCode: number;
-          state: string;
-          updatedAt: string;
-        }>
-      | Array<{
-          accountHolder: string;
-          accountNumber: string;
-          bankName: string;
-          branchCode: string;
-          createdAt: string;
-          id: string;
-          updatedAt: string;
-        }>
-      | Array<string>;
-    pageDetails?: {
-      count?: number;
-      currentPage?: number;
-      nextPage?: number;
-      pages?: number;
-      previousPage?: number;
-    } | null;
+    >;
+    pagination?: Pagination;
   };
 };
 
-export type GetApiOrganizationsByIdResponse =
-  GetApiOrganizationsByIdResponses[keyof GetApiOrganizationsByIdResponses];
-
-export type PutApiOrganizationsByIdData = {
-  body: {
-    domain?: string | null;
-    name?: string | null;
-    ownerId?: string | null;
-  };
-  path: {
-    id: unknown;
-  };
-  query?: never;
-  url: '/api/organizations/{id}';
-};
-
-export type PutApiOrganizationsByIdErrors = {
-  /**
-   * Bad Request.
-   */
-  400: {
-    error?: string;
-    message?: string;
-  };
-  /**
-   * Unauthorized.
-   */
-  401: {
-    error?: string;
-    message?: string;
-  };
-  /**
-   * Organization not found.
-   */
-  404: {
-    error?: string;
-    message?: string;
-  };
-  /**
-   * Internal Server Error.
-   */
-  500: {
-    error?: string;
-    message?: string;
-  };
-  default: unknown;
-};
-
-export type PutApiOrganizationsByIdError =
-  PutApiOrganizationsByIdErrors[keyof PutApiOrganizationsByIdErrors];
-
-export type PutApiOrganizationsByIdResponses = {
-  /**
-   * The organization has been successfully updated.
-   */
-  200: unknown;
-};
-
-export type PostApiOrganizationsByIdInvitesAcceptData = {
-  body?: never;
-  path?: never;
-  query?: never;
-  url: '/api/organizations/{id}/invites/accept';
-};
-
-export type PostApiOrganizationsByIdInvitesAcceptErrors = {
-  /**
-   * Invalid request.
-   */
-  400: {
-    error?: string;
-    message?: string;
-  };
-  /**
-   * Unauthorized.
-   */
-  401: {
-    error?: string;
-    message?: string;
-  };
-  /**
-   * Internal Server Error.
-   */
-  500: {
-    error?: string;
-    message?: string;
-  };
-  default: unknown;
-};
-
-export type PostApiOrganizationsByIdInvitesAcceptError =
-  PostApiOrganizationsByIdInvitesAcceptErrors[keyof PostApiOrganizationsByIdInvitesAcceptErrors];
-
-export type PostApiOrganizationsByIdInvitesAcceptResponses = {
-  /**
-   * The invitation has been successfully accepted.
-   */
-  200: unknown;
-};
-
-export type GetApiProductsData = {
-  body?: never;
-  path?: never;
-  query?: {
-    page?: number;
-    search?: string;
-  };
-  url: '/api/products';
-};
-
-export type GetApiProductsErrors = {
-  /**
-   * Bad Request.
-   */
-  400: {
-    error?: string;
-    message?: string;
-  };
-  /**
-   * Unauthorized.
-   */
-  401: {
-    error?: string;
-    message?: string;
-  };
-  /**
-   * Internal Server Error.
-   */
-  500: {
-    error?: string;
-    message?: string;
-  };
-  default: unknown;
-};
-
-export type GetApiProductsError =
-  GetApiProductsErrors[keyof GetApiProductsErrors];
-
-export type GetApiProductsResponses = {
-  /**
-   * The list of products for the specified page and search query.
-   */
-  200: {
-    item?:
-      | {
-          address?: {
-            city: string;
-            country: string;
-            createdAt: string;
-            id: string;
-            lineOne: string;
-            lineTwo?: string | null;
-            postalCode: number;
-            state: string;
-            updatedAt: string;
-          };
-          bankDetails?: {
-            accountHolder: string;
-            accountNumber: string;
-            bankName: string;
-            branchCode: string;
-            createdAt: string;
-            id: string;
-            updatedAt: string;
-          };
-          createdAt: string;
-          email: string;
-          id: string;
-          image?: string;
-          jobTitle?: string;
-          mfaEnabled: boolean;
-          mfaVerified: boolean;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          name?: string;
-          organizations?: Array<{
-            createdAt: string;
-            domain: string;
-            id: string;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            owner: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            ownerId: string;
-            updatedAt: string;
-          }>;
-          phone?: string;
-          primaryOrganizationId?: string;
-          roles?: Array<{
-            createdAt: string;
-            description: string;
-            id: string;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            permissions: Array<string>;
-            updatedAt: string;
-          }>;
-          tags: Array<string>;
-          updatedAt: string;
-        }
-      | {
-          createdAt: string;
-          domain: string;
-          id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          name: string;
-          owner: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          ownerId: string;
-          updatedAt: string;
-        }
-      | {
-          createdAt: string;
-          description: string;
-          id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          name: string;
-          permissions: Array<string>;
-          updatedAt: string;
-        }
-      | {
-          createdAt: string;
-          data: {
-            [key: string]: unknown;
-          };
-          id: string;
-          objectId: string;
-          operationType: string;
-          tableName: string;
-          updatedAt: string;
-          user?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          userId: string;
-        }
-      | {
-          carbonFactor: string;
-          createdAt: string;
-          gwCode: string;
-          id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          name: string;
-          updatedAt: string;
-        }
-      | {
-          createdAt: string;
-          id: string;
-          materials: Array<{
-            carbonFactor: string;
-            createdAt: string;
-            gwCode: string;
-            id: string;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            updatedAt: string;
-          }>;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          name: string;
-          updatedAt: string;
-          value: number;
-        }
-      | {
-          amount: number;
-          buyerId: string;
-          buyerType: string;
-          createdAt: string;
-          id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById?: string;
-          products: Array<{
-            createdAt: string;
-            id: string;
-            materials: Array<{
-              carbonFactor: string;
-              createdAt: string;
-              gwCode: string;
-              id: string;
-              modifiedBy?: {
-                createdAt: string;
-                email: string;
-                id: string;
-                image?: string;
-                jobTitle?: string;
-                mfaEnabled: boolean;
-                mfaVerified: boolean;
-                modifiedById: string;
-                name?: string;
-                phone?: string;
-                primaryOrganizationId?: string;
-                tags: Array<string>;
-                updatedAt: string;
-              };
-              modifiedById: string;
-              name: string;
-              updatedAt: string;
-            }>;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            updatedAt: string;
-            value: number;
-          }>;
-          sellerAccepted: boolean;
-          sellerDeclined: boolean;
-          sellerId: string;
-          sellerType: string;
-          type: string;
-          updatedAt: string;
-          weight: number;
-        }
-      | {
-          action?: {
-            link?: string;
-            linkText?: string;
-          };
-          closed: boolean;
-          createdAt: string;
-          id: string;
-          message: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          title: string;
-          updatedAt: string;
-          userId: string;
-        }
-      | {
-          name: string;
-          permissions: Array<{
-            description: string;
-            value: string;
-          }>;
-        }
-      | {
-          city: string;
-          country: string;
-          createdAt: string;
-          id: string;
-          lineOne: string;
-          lineTwo?: string | null;
-          postalCode: number;
-          state: string;
-          updatedAt: string;
-        }
-      | {
-          accountHolder: string;
-          accountNumber: string;
-          bankName: string;
-          branchCode: string;
-          createdAt: string;
-          id: string;
-          updatedAt: string;
-        };
-    items?:
-      | Array<{
-          address?: {
-            city: string;
-            country: string;
-            createdAt: string;
-            id: string;
-            lineOne: string;
-            lineTwo?: string | null;
-            postalCode: number;
-            state: string;
-            updatedAt: string;
-          };
-          bankDetails?: {
-            accountHolder: string;
-            accountNumber: string;
-            bankName: string;
-            branchCode: string;
-            createdAt: string;
-            id: string;
-            updatedAt: string;
-          };
-          createdAt: string;
-          email: string;
-          id: string;
-          image?: string;
-          jobTitle?: string;
-          mfaEnabled: boolean;
-          mfaVerified: boolean;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          name?: string;
-          organizations?: Array<{
-            createdAt: string;
-            domain: string;
-            id: string;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            owner: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            ownerId: string;
-            updatedAt: string;
-          }>;
-          phone?: string;
-          primaryOrganizationId?: string;
-          roles?: Array<{
-            createdAt: string;
-            description: string;
-            id: string;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            permissions: Array<string>;
-            updatedAt: string;
-          }>;
-          tags: Array<string>;
-          updatedAt: string;
-        }>
-      | Array<{
-          createdAt: string;
-          domain: string;
-          id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          name: string;
-          owner: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          ownerId: string;
-          updatedAt: string;
-        }>
-      | Array<{
-          createdAt: string;
-          description: string;
-          id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          name: string;
-          permissions: Array<string>;
-          updatedAt: string;
-        }>
-      | Array<{
-          createdAt: string;
-          data: {
-            [key: string]: unknown;
-          };
-          id: string;
-          objectId: string;
-          operationType: string;
-          tableName: string;
-          updatedAt: string;
-          user?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          userId: string;
-        }>
-      | Array<{
-          carbonFactor: string;
-          createdAt: string;
-          gwCode: string;
-          id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          name: string;
-          updatedAt: string;
-        }>
-      | Array<{
-          createdAt: string;
-          id: string;
-          materials: Array<{
-            carbonFactor: string;
-            createdAt: string;
-            gwCode: string;
-            id: string;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            updatedAt: string;
-          }>;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          name: string;
-          updatedAt: string;
-          value: number;
-        }>
-      | Array<{
-          amount: number;
-          buyerId: string;
-          buyerType: string;
-          createdAt: string;
-          id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById?: string;
-          products: Array<{
-            createdAt: string;
-            id: string;
-            materials: Array<{
-              carbonFactor: string;
-              createdAt: string;
-              gwCode: string;
-              id: string;
-              modifiedBy?: {
-                createdAt: string;
-                email: string;
-                id: string;
-                image?: string;
-                jobTitle?: string;
-                mfaEnabled: boolean;
-                mfaVerified: boolean;
-                modifiedById: string;
-                name?: string;
-                phone?: string;
-                primaryOrganizationId?: string;
-                tags: Array<string>;
-                updatedAt: string;
-              };
-              modifiedById: string;
-              name: string;
-              updatedAt: string;
-            }>;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            updatedAt: string;
-            value: number;
-          }>;
-          sellerAccepted: boolean;
-          sellerDeclined: boolean;
-          sellerId: string;
-          sellerType: string;
-          type: string;
-          updatedAt: string;
-          weight: number;
-        }>
-      | Array<{
-          action?: {
-            link?: string;
-            linkText?: string;
-          };
-          closed: boolean;
-          createdAt: string;
-          id: string;
-          message: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          title: string;
-          updatedAt: string;
-          userId: string;
-        }>
-      | Array<{
-          name: string;
-          permissions: Array<{
-            description: string;
-            value: string;
-          }>;
-        }>
-      | Array<{
-          city: string;
-          country: string;
-          createdAt: string;
-          id: string;
-          lineOne: string;
-          lineTwo?: string | null;
-          postalCode: number;
-          state: string;
-          updatedAt: string;
-        }>
-      | Array<{
-          accountHolder: string;
-          accountNumber: string;
-          bankName: string;
-          branchCode: string;
-          createdAt: string;
-          id: string;
-          updatedAt: string;
-        }>
-      | Array<string>;
-    pageDetails?: {
-      count?: number;
-      currentPage?: number;
-      nextPage?: number;
-      pages?: number;
-      previousPage?: number;
-    } | null;
-  };
-};
-
-export type GetApiProductsResponse =
-  GetApiProductsResponses[keyof GetApiProductsResponses];
-
-export type PostApiProductsData = {
-  body: {
-    materials?: Array<string>;
-    name: string;
-    value: number;
-  };
-  path?: never;
-  query?: never;
-  url: '/api/products';
-};
-
-export type PostApiProductsErrors = {
-  /**
-   * Invalid request.
-   */
-  400: {
-    error?: string;
-    message?: string;
-  };
-  /**
-   * Unauthorized.
-   */
-  401: {
-    error?: string;
-    message?: string;
-  };
-  /**
-   * Internal Server Error.
-   */
-  500: {
-    error?: string;
-    message?: string;
-  };
-  default: unknown;
-};
-
-export type PostApiProductsError =
-  PostApiProductsErrors[keyof PostApiProductsErrors];
-
-export type PostApiProductsResponses = {
-  /**
-   * The product has been successfully created.
-   */
-  200: unknown;
-};
-
-export type DeleteApiProductsByIdData = {
-  body?: never;
-  path: {
-    id: unknown;
-  };
-  query?: never;
-  url: '/api/products/{id}';
-};
-
-export type DeleteApiProductsByIdErrors = {
-  /**
-   * Invalid request.
-   */
-  400: {
-    error?: string;
-    message?: string;
-  };
-  /**
-   * Unauthorized.
-   */
-  401: {
-    error?: string;
-    message?: string;
-  };
-  /**
-   * Product not found.
-   */
-  404: {
-    error?: string;
-    message?: string;
-  };
-  /**
-   * Internal server error.
-   */
-  500: {
-    error?: string;
-    message?: string;
-  };
-  default: unknown;
-};
-
-export type DeleteApiProductsByIdError =
-  DeleteApiProductsByIdErrors[keyof DeleteApiProductsByIdErrors];
-
-export type DeleteApiProductsByIdResponses = {
-  /**
-   * The product has been successfully deleted.
-   */
-  200: unknown;
-};
-
-export type GetApiProductsByIdData = {
-  body?: never;
-  path: {
-    id: string;
-  };
-  query?: never;
-  url: '/api/products/{id}';
-};
-
-export type GetApiProductsByIdErrors = {
-  /**
-   * Bad Request.
-   */
-  400: {
-    error?: string;
-    message?: string;
-  };
-  /**
-   * Unauthorized.
-   */
-  401: {
-    error?: string;
-    message?: string;
-  };
-  /**
-   * Product not found.
-   */
-  404: {
-    error?: string;
-    message?: string;
-  };
-  /**
-   * Internal Server Error.
-   */
-  500: {
-    error?: string;
-    message?: string;
-  };
-  default: unknown;
-};
-
-export type GetApiProductsByIdError =
-  GetApiProductsByIdErrors[keyof GetApiProductsByIdErrors];
-
-export type GetApiProductsByIdResponses = {
-  /**
-   * The product was retrieved successfully.
-   */
-  200: {
-    item?:
-      | {
-          address?: {
-            city: string;
-            country: string;
-            createdAt: string;
-            id: string;
-            lineOne: string;
-            lineTwo?: string | null;
-            postalCode: number;
-            state: string;
-            updatedAt: string;
-          };
-          bankDetails?: {
-            accountHolder: string;
-            accountNumber: string;
-            bankName: string;
-            branchCode: string;
-            createdAt: string;
-            id: string;
-            updatedAt: string;
-          };
-          createdAt: string;
-          email: string;
-          id: string;
-          image?: string;
-          jobTitle?: string;
-          mfaEnabled: boolean;
-          mfaVerified: boolean;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          name?: string;
-          organizations?: Array<{
-            createdAt: string;
-            domain: string;
-            id: string;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            owner: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            ownerId: string;
-            updatedAt: string;
-          }>;
-          phone?: string;
-          primaryOrganizationId?: string;
-          roles?: Array<{
-            createdAt: string;
-            description: string;
-            id: string;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            permissions: Array<string>;
-            updatedAt: string;
-          }>;
-          tags: Array<string>;
-          updatedAt: string;
-        }
-      | {
-          createdAt: string;
-          domain: string;
-          id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          name: string;
-          owner: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          ownerId: string;
-          updatedAt: string;
-        }
-      | {
-          createdAt: string;
-          description: string;
-          id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          name: string;
-          permissions: Array<string>;
-          updatedAt: string;
-        }
-      | {
-          createdAt: string;
-          data: {
-            [key: string]: unknown;
-          };
-          id: string;
-          objectId: string;
-          operationType: string;
-          tableName: string;
-          updatedAt: string;
-          user?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          userId: string;
-        }
-      | {
-          carbonFactor: string;
-          createdAt: string;
-          gwCode: string;
-          id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          name: string;
-          updatedAt: string;
-        }
-      | {
-          createdAt: string;
-          id: string;
-          materials: Array<{
-            carbonFactor: string;
-            createdAt: string;
-            gwCode: string;
-            id: string;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            updatedAt: string;
-          }>;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          name: string;
-          updatedAt: string;
-          value: number;
-        }
-      | {
-          amount: number;
-          buyerId: string;
-          buyerType: string;
-          createdAt: string;
-          id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById?: string;
-          products: Array<{
-            createdAt: string;
-            id: string;
-            materials: Array<{
-              carbonFactor: string;
-              createdAt: string;
-              gwCode: string;
-              id: string;
-              modifiedBy?: {
-                createdAt: string;
-                email: string;
-                id: string;
-                image?: string;
-                jobTitle?: string;
-                mfaEnabled: boolean;
-                mfaVerified: boolean;
-                modifiedById: string;
-                name?: string;
-                phone?: string;
-                primaryOrganizationId?: string;
-                tags: Array<string>;
-                updatedAt: string;
-              };
-              modifiedById: string;
-              name: string;
-              updatedAt: string;
-            }>;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            updatedAt: string;
-            value: number;
-          }>;
-          sellerAccepted: boolean;
-          sellerDeclined: boolean;
-          sellerId: string;
-          sellerType: string;
-          type: string;
-          updatedAt: string;
-          weight: number;
-        }
-      | {
-          action?: {
-            link?: string;
-            linkText?: string;
-          };
-          closed: boolean;
-          createdAt: string;
-          id: string;
-          message: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          title: string;
-          updatedAt: string;
-          userId: string;
-        }
-      | {
-          name: string;
-          permissions: Array<{
-            description: string;
-            value: string;
-          }>;
-        }
-      | {
-          city: string;
-          country: string;
-          createdAt: string;
-          id: string;
-          lineOne: string;
-          lineTwo?: string | null;
-          postalCode: number;
-          state: string;
-          updatedAt: string;
-        }
-      | {
-          accountHolder: string;
-          accountNumber: string;
-          bankName: string;
-          branchCode: string;
-          createdAt: string;
-          id: string;
-          updatedAt: string;
-        };
-    items?:
-      | Array<{
-          address?: {
-            city: string;
-            country: string;
-            createdAt: string;
-            id: string;
-            lineOne: string;
-            lineTwo?: string | null;
-            postalCode: number;
-            state: string;
-            updatedAt: string;
-          };
-          bankDetails?: {
-            accountHolder: string;
-            accountNumber: string;
-            bankName: string;
-            branchCode: string;
-            createdAt: string;
-            id: string;
-            updatedAt: string;
-          };
-          createdAt: string;
-          email: string;
-          id: string;
-          image?: string;
-          jobTitle?: string;
-          mfaEnabled: boolean;
-          mfaVerified: boolean;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          name?: string;
-          organizations?: Array<{
-            createdAt: string;
-            domain: string;
-            id: string;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            owner: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            ownerId: string;
-            updatedAt: string;
-          }>;
-          phone?: string;
-          primaryOrganizationId?: string;
-          roles?: Array<{
-            createdAt: string;
-            description: string;
-            id: string;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            permissions: Array<string>;
-            updatedAt: string;
-          }>;
-          tags: Array<string>;
-          updatedAt: string;
-        }>
-      | Array<{
-          createdAt: string;
-          domain: string;
-          id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          name: string;
-          owner: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          ownerId: string;
-          updatedAt: string;
-        }>
-      | Array<{
-          createdAt: string;
-          description: string;
-          id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          name: string;
-          permissions: Array<string>;
-          updatedAt: string;
-        }>
-      | Array<{
-          createdAt: string;
-          data: {
-            [key: string]: unknown;
-          };
-          id: string;
-          objectId: string;
-          operationType: string;
-          tableName: string;
-          updatedAt: string;
-          user?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          userId: string;
-        }>
-      | Array<{
-          carbonFactor: string;
-          createdAt: string;
-          gwCode: string;
-          id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          name: string;
-          updatedAt: string;
-        }>
-      | Array<{
-          createdAt: string;
-          id: string;
-          materials: Array<{
-            carbonFactor: string;
-            createdAt: string;
-            gwCode: string;
-            id: string;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            updatedAt: string;
-          }>;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          name: string;
-          updatedAt: string;
-          value: number;
-        }>
-      | Array<{
-          amount: number;
-          buyerId: string;
-          buyerType: string;
-          createdAt: string;
-          id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById?: string;
-          products: Array<{
-            createdAt: string;
-            id: string;
-            materials: Array<{
-              carbonFactor: string;
-              createdAt: string;
-              gwCode: string;
-              id: string;
-              modifiedBy?: {
-                createdAt: string;
-                email: string;
-                id: string;
-                image?: string;
-                jobTitle?: string;
-                mfaEnabled: boolean;
-                mfaVerified: boolean;
-                modifiedById: string;
-                name?: string;
-                phone?: string;
-                primaryOrganizationId?: string;
-                tags: Array<string>;
-                updatedAt: string;
-              };
-              modifiedById: string;
-              name: string;
-              updatedAt: string;
-            }>;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            updatedAt: string;
-            value: number;
-          }>;
-          sellerAccepted: boolean;
-          sellerDeclined: boolean;
-          sellerId: string;
-          sellerType: string;
-          type: string;
-          updatedAt: string;
-          weight: number;
-        }>
-      | Array<{
-          action?: {
-            link?: string;
-            linkText?: string;
-          };
-          closed: boolean;
-          createdAt: string;
-          id: string;
-          message: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          title: string;
-          updatedAt: string;
-          userId: string;
-        }>
-      | Array<{
-          name: string;
-          permissions: Array<{
-            description: string;
-            value: string;
-          }>;
-        }>
-      | Array<{
-          city: string;
-          country: string;
-          createdAt: string;
-          id: string;
-          lineOne: string;
-          lineTwo?: string | null;
-          postalCode: number;
-          state: string;
-          updatedAt: string;
-        }>
-      | Array<{
-          accountHolder: string;
-          accountNumber: string;
-          bankName: string;
-          branchCode: string;
-          createdAt: string;
-          id: string;
-          updatedAt: string;
-        }>
-      | Array<string>;
-    pageDetails?: {
-      count?: number;
-      currentPage?: number;
-      nextPage?: number;
-      pages?: number;
-      previousPage?: number;
-    } | null;
-  };
-};
-
-export type GetApiProductsByIdResponse =
-  GetApiProductsByIdResponses[keyof GetApiProductsByIdResponses];
-
-export type PutApiProductsByIdData = {
-  body: {
-    materials?: Array<string>;
-    name?: string | null;
-    value?: number | null;
-  };
-  path: {
-    id: unknown;
-  };
-  query?: never;
-  url: '/api/products/{id}';
-};
-
-export type PutApiProductsByIdErrors = {
-  /**
-   * Bad Request.
-   */
-  400: {
-    error?: string;
-    message?: string;
-  };
-  /**
-   * Unauthorized.
-   */
-  401: {
-    error?: string;
-    message?: string;
-  };
-  /**
-   * Product not found.
-   */
-  404: {
-    error?: string;
-    message?: string;
-  };
-  /**
-   * Internal Server Error.
-   */
-  500: {
-    error?: string;
-    message?: string;
-  };
-  default: unknown;
-};
-
-export type PutApiProductsByIdError =
-  PutApiProductsByIdErrors[keyof PutApiProductsByIdErrors];
-
-export type PutApiProductsByIdResponses = {
-  /**
-   * The product has been successfully updated.
-   */
-  200: unknown;
-};
+export type PutApiMaterialsByIdResponse =
+  PutApiMaterialsByIdResponses[keyof PutApiMaterialsByIdResponses];
 
 export type GetApiRolesData = {
   body?: never;
   path?: never;
-  query?: {
-    page?: number;
-    search?: string;
+  query: {
+    page: number;
+    pageSize: number;
+    preload?: Array<string>;
+    searchTerm?: string;
+    searchColumn?: Array<string>;
   };
   url: '/api/roles';
 };
 
 export type GetApiRolesErrors = {
   /**
-   * Bad Request.
+   * Bad Request
    */
   400: {
-    error?: string;
-    message?: string;
+    error: string;
+    message: string;
   };
   /**
-   * Unauthorized.
+   * Unauthorized
    */
   401: {
-    error?: string;
-    message?: string;
+    error: string;
+    message: string;
   };
   /**
-   * Internal Server Error.
+   * Forbidden
+   */
+  403: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Internal Server Error
    */
   500: {
-    error?: string;
-    message?: string;
+    error: string;
+    message: string;
   };
   default: unknown;
 };
@@ -14633,833 +8663,178 @@ export type GetApiRolesError = GetApiRolesErrors[keyof GetApiRolesErrors];
 
 export type GetApiRolesResponses = {
   /**
-   * The list of roles for the specified page and search query.
+   * Role's retrieved successfully.
    */
   200: {
     item?:
       | {
-          address?: {
-            city: string;
-            country: string;
-            createdAt: string;
-            id: string;
-            lineOne: string;
-            lineTwo?: string | null;
-            postalCode: number;
-            state: string;
-            updatedAt: string;
-          };
-          bankDetails?: {
-            accountHolder: string;
-            accountNumber: string;
-            bankName: string;
-            branchCode: string;
-            createdAt: string;
-            id: string;
-            updatedAt: string;
-          };
+          address: Address;
+          bankDetails: BankDetails;
+          businessId: string | null;
+          businesses: Array<Business>;
           createdAt: string;
-          email: string;
           id: string;
-          image?: string;
-          jobTitle?: string;
           mfaEnabled: boolean;
           mfaVerified: boolean;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          name?: string;
-          organizations?: Array<{
-            createdAt: string;
-            domain: string;
-            id: string;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            owner: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            ownerId: string;
-            updatedAt: string;
-          }>;
-          phone?: string;
-          primaryOrganizationId?: string;
-          roles?: Array<{
-            createdAt: string;
-            description: string;
-            id: string;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            permissions: Array<string>;
-            updatedAt: string;
-          }>;
-          tags: Array<string>;
-          updatedAt: string;
-        }
-      | {
-          createdAt: string;
-          domain: string;
-          id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
           name: string;
-          owner: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          ownerId: string;
+          permissions: Array<string>;
+          roles: Roles;
+          type: 'system' | 'collector' | 'business';
           updatedAt: string;
+          username: string;
         }
       | {
           createdAt: string;
+          default: boolean;
           description: string;
           id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
           name: string;
           permissions: Array<string>;
           updatedAt: string;
-        }
-      | {
-          createdAt: string;
-          data: {
-            [key: string]: unknown;
-          };
-          id: string;
-          objectId: string;
-          operationType: string;
-          tableName: string;
-          updatedAt: string;
-          user?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          userId: string;
         }
       | {
           carbonFactor: string;
           createdAt: string;
           gwCode: string;
           id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
           name: string;
           updatedAt: string;
         }
       | {
+          buyer: Business;
           createdAt: string;
           id: string;
-          materials: Array<{
-            carbonFactor: string;
-            createdAt: string;
-            gwCode: string;
-            id: string;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            updatedAt: string;
-          }>;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          name: string;
+          materials: CollectionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
           updatedAt: string;
           value: number;
-        }
-      | {
-          amount: number;
-          buyerId: string;
-          buyerType: string;
-          createdAt: string;
-          id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById?: string;
-          products: Array<{
-            createdAt: string;
-            id: string;
-            materials: Array<{
-              carbonFactor: string;
-              createdAt: string;
-              gwCode: string;
-              id: string;
-              modifiedBy?: {
-                createdAt: string;
-                email: string;
-                id: string;
-                image?: string;
-                jobTitle?: string;
-                mfaEnabled: boolean;
-                mfaVerified: boolean;
-                modifiedById: string;
-                name?: string;
-                phone?: string;
-                primaryOrganizationId?: string;
-                tags: Array<string>;
-                updatedAt: string;
-              };
-              modifiedById: string;
-              name: string;
-              updatedAt: string;
-            }>;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            updatedAt: string;
-            value: number;
-          }>;
-          sellerAccepted: boolean;
-          sellerDeclined: boolean;
-          sellerId: string;
-          sellerType: string;
-          type: string;
-          updatedAt: string;
           weight: number;
         }
       | {
-          action?: {
-            link?: string;
-            linkText?: string;
-          };
-          closed: boolean;
+          buyer: Business;
           createdAt: string;
           id: string;
-          message: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          title: string;
+          materials: TransactionMaterials;
+          seller: User;
           updatedAt: string;
-          userId: string;
         }
       | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          createdAt: string;
+          id: string;
           name: string;
-          permissions: Array<{
-            description: string;
-            value: string;
-          }>;
-        }
-      | {
-          city: string;
-          country: string;
-          createdAt: string;
-          id: string;
-          lineOne: string;
-          lineTwo?: string | null;
-          postalCode: number;
-          state: string;
+          ownerId: string;
+          roles: Roles;
           updatedAt: string;
-        }
-      | {
-          accountHolder: string;
-          accountNumber: string;
-          bankName: string;
-          branchCode: string;
-          createdAt: string;
-          id: string;
-          updatedAt: string;
+          users: Array<User>;
         };
-    items?:
-      | Array<{
-          address?: {
-            city: string;
-            country: string;
-            createdAt: string;
-            id: string;
-            lineOne: string;
-            lineTwo?: string | null;
-            postalCode: number;
-            state: string;
-            updatedAt: string;
-          };
-          bankDetails?: {
-            accountHolder: string;
-            accountNumber: string;
-            bankName: string;
-            branchCode: string;
-            createdAt: string;
-            id: string;
-            updatedAt: string;
-          };
+    items?: Array<
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          businessId: string | null;
+          businesses: Array<Business>;
           createdAt: string;
-          email: string;
           id: string;
-          image?: string;
-          jobTitle?: string;
           mfaEnabled: boolean;
           mfaVerified: boolean;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          name?: string;
-          organizations?: Array<{
-            createdAt: string;
-            domain: string;
-            id: string;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            owner: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            ownerId: string;
-            updatedAt: string;
-          }>;
-          phone?: string;
-          primaryOrganizationId?: string;
-          roles?: Array<{
-            createdAt: string;
-            description: string;
-            id: string;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            permissions: Array<string>;
-            updatedAt: string;
-          }>;
-          tags: Array<string>;
-          updatedAt: string;
-        }>
-      | Array<{
-          createdAt: string;
-          domain: string;
-          id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
           name: string;
-          owner: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          ownerId: string;
+          permissions: Array<string>;
+          roles: Roles;
+          type: 'system' | 'collector' | 'business';
           updatedAt: string;
-        }>
-      | Array<{
+          username: string;
+        }
+      | {
           createdAt: string;
+          default: boolean;
           description: string;
           id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
           name: string;
           permissions: Array<string>;
           updatedAt: string;
-        }>
-      | Array<{
-          createdAt: string;
-          data: {
-            [key: string]: unknown;
-          };
-          id: string;
-          objectId: string;
-          operationType: string;
-          tableName: string;
-          updatedAt: string;
-          user?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          userId: string;
-        }>
-      | Array<{
+        }
+      | {
           carbonFactor: string;
           createdAt: string;
           gwCode: string;
           id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
           name: string;
           updatedAt: string;
-        }>
-      | Array<{
+        }
+      | {
+          buyer: Business;
           createdAt: string;
           id: string;
-          materials: Array<{
-            carbonFactor: string;
-            createdAt: string;
-            gwCode: string;
-            id: string;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            updatedAt: string;
-          }>;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          name: string;
+          materials: CollectionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
           updatedAt: string;
           value: number;
-        }>
-      | Array<{
-          amount: number;
-          buyerId: string;
-          buyerType: string;
-          createdAt: string;
-          id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById?: string;
-          products: Array<{
-            createdAt: string;
-            id: string;
-            materials: Array<{
-              carbonFactor: string;
-              createdAt: string;
-              gwCode: string;
-              id: string;
-              modifiedBy?: {
-                createdAt: string;
-                email: string;
-                id: string;
-                image?: string;
-                jobTitle?: string;
-                mfaEnabled: boolean;
-                mfaVerified: boolean;
-                modifiedById: string;
-                name?: string;
-                phone?: string;
-                primaryOrganizationId?: string;
-                tags: Array<string>;
-                updatedAt: string;
-              };
-              modifiedById: string;
-              name: string;
-              updatedAt: string;
-            }>;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            updatedAt: string;
-            value: number;
-          }>;
-          sellerAccepted: boolean;
-          sellerDeclined: boolean;
-          sellerId: string;
-          sellerType: string;
-          type: string;
-          updatedAt: string;
           weight: number;
-        }>
-      | Array<{
-          action?: {
-            link?: string;
-            linkText?: string;
-          };
-          closed: boolean;
+        }
+      | {
+          buyer: Business;
           createdAt: string;
           id: string;
-          message: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          title: string;
+          materials: TransactionMaterials;
+          seller: User;
           updatedAt: string;
-          userId: string;
-        }>
-      | Array<{
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          createdAt: string;
+          id: string;
           name: string;
-          permissions: Array<{
-            description: string;
-            value: string;
-          }>;
-        }>
-      | Array<{
-          city: string;
-          country: string;
-          createdAt: string;
-          id: string;
-          lineOne: string;
-          lineTwo?: string | null;
-          postalCode: number;
-          state: string;
+          ownerId: string;
+          roles: Roles;
           updatedAt: string;
-        }>
-      | Array<{
-          accountHolder: string;
-          accountNumber: string;
-          bankName: string;
-          branchCode: string;
-          createdAt: string;
-          id: string;
-          updatedAt: string;
-        }>
-      | Array<string>;
-    pageDetails?: {
-      count?: number;
-      currentPage?: number;
-      nextPage?: number;
-      pages?: number;
-      previousPage?: number;
-    } | null;
+          users: Array<User>;
+        }
+      | {
+          name: string;
+          permissions: Permissions;
+          subGroups: Array<PermissionGroup>;
+        }
+    >;
+    pagination?: Pagination;
   };
 };
 
@@ -15467,11 +8842,10 @@ export type GetApiRolesResponse =
   GetApiRolesResponses[keyof GetApiRolesResponses];
 
 export type PostApiRolesData = {
-  body: {
-    description?: string | null;
-    name?: string;
-    permissions?: Array<string>;
-  };
+  /**
+   * Payload to create a new role.
+   */
+  body: CreateRole;
   path?: never;
   query?: never;
   url: '/api/roles';
@@ -15479,25 +8853,32 @@ export type PostApiRolesData = {
 
 export type PostApiRolesErrors = {
   /**
-   * Invalid request.
+   * Bad Request
    */
   400: {
-    error?: string;
-    message?: string;
+    error: string;
+    message: string;
   };
   /**
-   * Unauthorized.
+   * Unauthorized
    */
   401: {
-    error?: string;
-    message?: string;
+    error: string;
+    message: string;
   };
   /**
-   * Internal Server Error.
+   * Forbidden
+   */
+  403: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Internal Server Error
    */
   500: {
-    error?: string;
-    message?: string;
+    error: string;
+    message: string;
   };
   default: unknown;
 };
@@ -15506,878 +8887,188 @@ export type PostApiRolesError = PostApiRolesErrors[keyof PostApiRolesErrors];
 
 export type PostApiRolesResponses = {
   /**
-   * The role has been successfully created.
-   */
-  200: unknown;
-};
-
-export type GetApiRolesAvailablePermissionsData = {
-  body?: never;
-  path?: never;
-  query?: never;
-  url: '/api/roles/available-permissions';
-};
-
-export type GetApiRolesAvailablePermissionsErrors = {
-  /**
-   * Unauthorized
-   */
-  401: {
-    error?: string;
-    message?: string;
-  };
-  /**
-   * Internal server error.
-   */
-  500: {
-    error?: string;
-    message?: string;
-  };
-  default: unknown;
-};
-
-export type GetApiRolesAvailablePermissionsError =
-  GetApiRolesAvailablePermissionsErrors[keyof GetApiRolesAvailablePermissionsErrors];
-
-export type GetApiRolesAvailablePermissionsResponses = {
-  /**
-   * Successful retrieval of available permissions.
+   * Role created successfully.
    */
   200: {
     item?:
       | {
-          address?: {
-            city: string;
-            country: string;
-            createdAt: string;
-            id: string;
-            lineOne: string;
-            lineTwo?: string | null;
-            postalCode: number;
-            state: string;
-            updatedAt: string;
-          };
-          bankDetails?: {
-            accountHolder: string;
-            accountNumber: string;
-            bankName: string;
-            branchCode: string;
-            createdAt: string;
-            id: string;
-            updatedAt: string;
-          };
+          address: Address;
+          bankDetails: BankDetails;
+          businessId: string | null;
+          businesses: Array<Business>;
           createdAt: string;
-          email: string;
           id: string;
-          image?: string;
-          jobTitle?: string;
           mfaEnabled: boolean;
           mfaVerified: boolean;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          name?: string;
-          organizations?: Array<{
-            createdAt: string;
-            domain: string;
-            id: string;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            owner: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            ownerId: string;
-            updatedAt: string;
-          }>;
-          phone?: string;
-          primaryOrganizationId?: string;
-          roles?: Array<{
-            createdAt: string;
-            description: string;
-            id: string;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            permissions: Array<string>;
-            updatedAt: string;
-          }>;
-          tags: Array<string>;
-          updatedAt: string;
-        }
-      | {
-          createdAt: string;
-          domain: string;
-          id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
           name: string;
-          owner: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          ownerId: string;
+          permissions: Array<string>;
+          roles: Roles;
+          type: 'system' | 'collector' | 'business';
           updatedAt: string;
+          username: string;
         }
       | {
           createdAt: string;
+          default: boolean;
           description: string;
           id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
           name: string;
           permissions: Array<string>;
           updatedAt: string;
-        }
-      | {
-          createdAt: string;
-          data: {
-            [key: string]: unknown;
-          };
-          id: string;
-          objectId: string;
-          operationType: string;
-          tableName: string;
-          updatedAt: string;
-          user?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          userId: string;
         }
       | {
           carbonFactor: string;
           createdAt: string;
           gwCode: string;
           id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
           name: string;
           updatedAt: string;
         }
       | {
+          buyer: Business;
           createdAt: string;
           id: string;
-          materials: Array<{
-            carbonFactor: string;
-            createdAt: string;
-            gwCode: string;
-            id: string;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            updatedAt: string;
-          }>;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          name: string;
+          materials: CollectionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
           updatedAt: string;
           value: number;
-        }
-      | {
-          amount: number;
-          buyerId: string;
-          buyerType: string;
-          createdAt: string;
-          id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById?: string;
-          products: Array<{
-            createdAt: string;
-            id: string;
-            materials: Array<{
-              carbonFactor: string;
-              createdAt: string;
-              gwCode: string;
-              id: string;
-              modifiedBy?: {
-                createdAt: string;
-                email: string;
-                id: string;
-                image?: string;
-                jobTitle?: string;
-                mfaEnabled: boolean;
-                mfaVerified: boolean;
-                modifiedById: string;
-                name?: string;
-                phone?: string;
-                primaryOrganizationId?: string;
-                tags: Array<string>;
-                updatedAt: string;
-              };
-              modifiedById: string;
-              name: string;
-              updatedAt: string;
-            }>;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            updatedAt: string;
-            value: number;
-          }>;
-          sellerAccepted: boolean;
-          sellerDeclined: boolean;
-          sellerId: string;
-          sellerType: string;
-          type: string;
-          updatedAt: string;
           weight: number;
         }
       | {
-          action?: {
-            link?: string;
-            linkText?: string;
-          };
-          closed: boolean;
+          buyer: Business;
           createdAt: string;
           id: string;
-          message: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          title: string;
+          materials: TransactionMaterials;
+          seller: User;
           updatedAt: string;
-          userId: string;
         }
       | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          createdAt: string;
+          id: string;
           name: string;
-          permissions: Array<{
-            description: string;
-            value: string;
-          }>;
-        }
-      | {
-          city: string;
-          country: string;
-          createdAt: string;
-          id: string;
-          lineOne: string;
-          lineTwo?: string | null;
-          postalCode: number;
-          state: string;
+          ownerId: string;
+          roles: Roles;
           updatedAt: string;
-        }
-      | {
-          accountHolder: string;
-          accountNumber: string;
-          bankName: string;
-          branchCode: string;
-          createdAt: string;
-          id: string;
-          updatedAt: string;
+          users: Array<User>;
         };
-    items?:
-      | Array<{
-          address?: {
-            city: string;
-            country: string;
-            createdAt: string;
-            id: string;
-            lineOne: string;
-            lineTwo?: string | null;
-            postalCode: number;
-            state: string;
-            updatedAt: string;
-          };
-          bankDetails?: {
-            accountHolder: string;
-            accountNumber: string;
-            bankName: string;
-            branchCode: string;
-            createdAt: string;
-            id: string;
-            updatedAt: string;
-          };
+    items?: Array<
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          businessId: string | null;
+          businesses: Array<Business>;
           createdAt: string;
-          email: string;
           id: string;
-          image?: string;
-          jobTitle?: string;
           mfaEnabled: boolean;
           mfaVerified: boolean;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          name?: string;
-          organizations?: Array<{
-            createdAt: string;
-            domain: string;
-            id: string;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            owner: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            ownerId: string;
-            updatedAt: string;
-          }>;
-          phone?: string;
-          primaryOrganizationId?: string;
-          roles?: Array<{
-            createdAt: string;
-            description: string;
-            id: string;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            permissions: Array<string>;
-            updatedAt: string;
-          }>;
-          tags: Array<string>;
-          updatedAt: string;
-        }>
-      | Array<{
-          createdAt: string;
-          domain: string;
-          id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
           name: string;
-          owner: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          ownerId: string;
+          permissions: Array<string>;
+          roles: Roles;
+          type: 'system' | 'collector' | 'business';
           updatedAt: string;
-        }>
-      | Array<{
+          username: string;
+        }
+      | {
           createdAt: string;
+          default: boolean;
           description: string;
           id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
           name: string;
           permissions: Array<string>;
           updatedAt: string;
-        }>
-      | Array<{
-          createdAt: string;
-          data: {
-            [key: string]: unknown;
-          };
-          id: string;
-          objectId: string;
-          operationType: string;
-          tableName: string;
-          updatedAt: string;
-          user?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          userId: string;
-        }>
-      | Array<{
+        }
+      | {
           carbonFactor: string;
           createdAt: string;
           gwCode: string;
           id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
           name: string;
           updatedAt: string;
-        }>
-      | Array<{
+        }
+      | {
+          buyer: Business;
           createdAt: string;
           id: string;
-          materials: Array<{
-            carbonFactor: string;
-            createdAt: string;
-            gwCode: string;
-            id: string;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            updatedAt: string;
-          }>;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          name: string;
+          materials: CollectionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
           updatedAt: string;
           value: number;
-        }>
-      | Array<{
-          amount: number;
-          buyerId: string;
-          buyerType: string;
-          createdAt: string;
-          id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById?: string;
-          products: Array<{
-            createdAt: string;
-            id: string;
-            materials: Array<{
-              carbonFactor: string;
-              createdAt: string;
-              gwCode: string;
-              id: string;
-              modifiedBy?: {
-                createdAt: string;
-                email: string;
-                id: string;
-                image?: string;
-                jobTitle?: string;
-                mfaEnabled: boolean;
-                mfaVerified: boolean;
-                modifiedById: string;
-                name?: string;
-                phone?: string;
-                primaryOrganizationId?: string;
-                tags: Array<string>;
-                updatedAt: string;
-              };
-              modifiedById: string;
-              name: string;
-              updatedAt: string;
-            }>;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            updatedAt: string;
-            value: number;
-          }>;
-          sellerAccepted: boolean;
-          sellerDeclined: boolean;
-          sellerId: string;
-          sellerType: string;
-          type: string;
-          updatedAt: string;
           weight: number;
-        }>
-      | Array<{
-          action?: {
-            link?: string;
-            linkText?: string;
-          };
-          closed: boolean;
+        }
+      | {
+          buyer: Business;
           createdAt: string;
           id: string;
-          message: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          title: string;
+          materials: TransactionMaterials;
+          seller: User;
           updatedAt: string;
-          userId: string;
-        }>
-      | Array<{
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          createdAt: string;
+          id: string;
           name: string;
-          permissions: Array<{
-            description: string;
-            value: string;
-          }>;
-        }>
-      | Array<{
-          city: string;
-          country: string;
-          createdAt: string;
-          id: string;
-          lineOne: string;
-          lineTwo?: string | null;
-          postalCode: number;
-          state: string;
+          ownerId: string;
+          roles: Roles;
           updatedAt: string;
-        }>
-      | Array<{
-          accountHolder: string;
-          accountNumber: string;
-          bankName: string;
-          branchCode: string;
-          createdAt: string;
-          id: string;
-          updatedAt: string;
-        }>
-      | Array<string>;
-    pageDetails?: {
-      count?: number;
-      currentPage?: number;
-      nextPage?: number;
-      pages?: number;
-      previousPage?: number;
-    } | null;
+          users: Array<User>;
+        }
+      | {
+          name: string;
+          permissions: Permissions;
+          subGroups: Array<PermissionGroup>;
+        }
+    >;
+    pagination?: Pagination;
   };
 };
 
-export type GetApiRolesAvailablePermissionsResponse =
-  GetApiRolesAvailablePermissionsResponses[keyof GetApiRolesAvailablePermissionsResponses];
+export type PostApiRolesResponse =
+  PostApiRolesResponses[keyof PostApiRolesResponses];
 
 export type DeleteApiRolesByIdData = {
   body?: never;
   path: {
-    id: unknown;
+    id: string;
   };
   query?: never;
   url: '/api/roles/{id}';
@@ -16385,32 +9076,39 @@ export type DeleteApiRolesByIdData = {
 
 export type DeleteApiRolesByIdErrors = {
   /**
-   * Invalid request.
+   * Bad Request
    */
   400: {
-    error?: string;
-    message?: string;
+    error: string;
+    message: string;
   };
   /**
-   * Unauthorized.
+   * Unauthorized
    */
   401: {
-    error?: string;
-    message?: string;
+    error: string;
+    message: string;
   };
   /**
-   * Role not found.
+   * Forbidden
+   */
+  403: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Not Found
    */
   404: {
-    error?: string;
-    message?: string;
+    error: string;
+    message: string;
   };
   /**
-   * Internal server error.
+   * Internal Server Error
    */
   500: {
-    error?: string;
-    message?: string;
+    error: string;
+    message: string;
   };
   default: unknown;
 };
@@ -16420,48 +9118,230 @@ export type DeleteApiRolesByIdError =
 
 export type DeleteApiRolesByIdResponses = {
   /**
-   * The role has been successfully deleted.
+   * Role deleted successfully.
    */
-  200: unknown;
+  200: {
+    item?:
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          businessId: string | null;
+          businesses: Array<Business>;
+          createdAt: string;
+          id: string;
+          mfaEnabled: boolean;
+          mfaVerified: boolean;
+          name: string;
+          permissions: Array<string>;
+          roles: Roles;
+          type: 'system' | 'collector' | 'business';
+          updatedAt: string;
+          username: string;
+        }
+      | {
+          createdAt: string;
+          default: boolean;
+          description: string;
+          id: string;
+          name: string;
+          permissions: Array<string>;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor: string;
+          createdAt: string;
+          gwCode: string;
+          id: string;
+          name: string;
+          updatedAt: string;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: CollectionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: TransactionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          createdAt: string;
+          id: string;
+          name: string;
+          ownerId: string;
+          roles: Roles;
+          updatedAt: string;
+          users: Array<User>;
+        };
+    items?: Array<
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          businessId: string | null;
+          businesses: Array<Business>;
+          createdAt: string;
+          id: string;
+          mfaEnabled: boolean;
+          mfaVerified: boolean;
+          name: string;
+          permissions: Array<string>;
+          roles: Roles;
+          type: 'system' | 'collector' | 'business';
+          updatedAt: string;
+          username: string;
+        }
+      | {
+          createdAt: string;
+          default: boolean;
+          description: string;
+          id: string;
+          name: string;
+          permissions: Array<string>;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor: string;
+          createdAt: string;
+          gwCode: string;
+          id: string;
+          name: string;
+          updatedAt: string;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: CollectionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: TransactionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          createdAt: string;
+          id: string;
+          name: string;
+          ownerId: string;
+          roles: Roles;
+          updatedAt: string;
+          users: Array<User>;
+        }
+      | {
+          name: string;
+          permissions: Permissions;
+          subGroups: Array<PermissionGroup>;
+        }
+    >;
+    pagination?: Pagination;
+  };
 };
+
+export type DeleteApiRolesByIdResponse =
+  DeleteApiRolesByIdResponses[keyof DeleteApiRolesByIdResponses];
 
 export type GetApiRolesByIdData = {
   body?: never;
   path: {
     id: string;
   };
-  query?: never;
+  query?: {
+    preload?: Array<string>;
+  };
   url: '/api/roles/{id}';
 };
 
 export type GetApiRolesByIdErrors = {
   /**
-   * Bad Request.
+   * Bad Request
    */
   400: {
-    error?: string;
-    message?: string;
+    error: string;
+    message: string;
   };
   /**
-   * Unauthorized.
+   * Unauthorized
    */
   401: {
-    error?: string;
-    message?: string;
+    error: string;
+    message: string;
   };
   /**
-   * Role not found.
+   * Forbidden
+   */
+  403: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Not Found
    */
   404: {
-    error?: string;
-    message?: string;
+    error: string;
+    message: string;
   };
   /**
-   * Internal Server Error.
+   * Internal Server Error
    */
   500: {
-    error?: string;
-    message?: string;
+    error: string;
+    message: string;
   };
   default: unknown;
 };
@@ -16471,833 +9351,178 @@ export type GetApiRolesByIdError =
 
 export type GetApiRolesByIdResponses = {
   /**
-   * The role was retrieved successfully.
+   * Role retrieved successfully.
    */
   200: {
     item?:
       | {
-          address?: {
-            city: string;
-            country: string;
-            createdAt: string;
-            id: string;
-            lineOne: string;
-            lineTwo?: string | null;
-            postalCode: number;
-            state: string;
-            updatedAt: string;
-          };
-          bankDetails?: {
-            accountHolder: string;
-            accountNumber: string;
-            bankName: string;
-            branchCode: string;
-            createdAt: string;
-            id: string;
-            updatedAt: string;
-          };
+          address: Address;
+          bankDetails: BankDetails;
+          businessId: string | null;
+          businesses: Array<Business>;
           createdAt: string;
-          email: string;
           id: string;
-          image?: string;
-          jobTitle?: string;
           mfaEnabled: boolean;
           mfaVerified: boolean;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          name?: string;
-          organizations?: Array<{
-            createdAt: string;
-            domain: string;
-            id: string;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            owner: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            ownerId: string;
-            updatedAt: string;
-          }>;
-          phone?: string;
-          primaryOrganizationId?: string;
-          roles?: Array<{
-            createdAt: string;
-            description: string;
-            id: string;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            permissions: Array<string>;
-            updatedAt: string;
-          }>;
-          tags: Array<string>;
-          updatedAt: string;
-        }
-      | {
-          createdAt: string;
-          domain: string;
-          id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
           name: string;
-          owner: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          ownerId: string;
+          permissions: Array<string>;
+          roles: Roles;
+          type: 'system' | 'collector' | 'business';
           updatedAt: string;
+          username: string;
         }
       | {
           createdAt: string;
+          default: boolean;
           description: string;
           id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
           name: string;
           permissions: Array<string>;
           updatedAt: string;
-        }
-      | {
-          createdAt: string;
-          data: {
-            [key: string]: unknown;
-          };
-          id: string;
-          objectId: string;
-          operationType: string;
-          tableName: string;
-          updatedAt: string;
-          user?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          userId: string;
         }
       | {
           carbonFactor: string;
           createdAt: string;
           gwCode: string;
           id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
           name: string;
           updatedAt: string;
         }
       | {
+          buyer: Business;
           createdAt: string;
           id: string;
-          materials: Array<{
-            carbonFactor: string;
-            createdAt: string;
-            gwCode: string;
-            id: string;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            updatedAt: string;
-          }>;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          name: string;
+          materials: CollectionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
           updatedAt: string;
           value: number;
-        }
-      | {
-          amount: number;
-          buyerId: string;
-          buyerType: string;
-          createdAt: string;
-          id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById?: string;
-          products: Array<{
-            createdAt: string;
-            id: string;
-            materials: Array<{
-              carbonFactor: string;
-              createdAt: string;
-              gwCode: string;
-              id: string;
-              modifiedBy?: {
-                createdAt: string;
-                email: string;
-                id: string;
-                image?: string;
-                jobTitle?: string;
-                mfaEnabled: boolean;
-                mfaVerified: boolean;
-                modifiedById: string;
-                name?: string;
-                phone?: string;
-                primaryOrganizationId?: string;
-                tags: Array<string>;
-                updatedAt: string;
-              };
-              modifiedById: string;
-              name: string;
-              updatedAt: string;
-            }>;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            updatedAt: string;
-            value: number;
-          }>;
-          sellerAccepted: boolean;
-          sellerDeclined: boolean;
-          sellerId: string;
-          sellerType: string;
-          type: string;
-          updatedAt: string;
           weight: number;
         }
       | {
-          action?: {
-            link?: string;
-            linkText?: string;
-          };
-          closed: boolean;
+          buyer: Business;
           createdAt: string;
           id: string;
-          message: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          title: string;
+          materials: TransactionMaterials;
+          seller: User;
           updatedAt: string;
-          userId: string;
         }
       | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          createdAt: string;
+          id: string;
           name: string;
-          permissions: Array<{
-            description: string;
-            value: string;
-          }>;
-        }
-      | {
-          city: string;
-          country: string;
-          createdAt: string;
-          id: string;
-          lineOne: string;
-          lineTwo?: string | null;
-          postalCode: number;
-          state: string;
+          ownerId: string;
+          roles: Roles;
           updatedAt: string;
-        }
-      | {
-          accountHolder: string;
-          accountNumber: string;
-          bankName: string;
-          branchCode: string;
-          createdAt: string;
-          id: string;
-          updatedAt: string;
+          users: Array<User>;
         };
-    items?:
-      | Array<{
-          address?: {
-            city: string;
-            country: string;
-            createdAt: string;
-            id: string;
-            lineOne: string;
-            lineTwo?: string | null;
-            postalCode: number;
-            state: string;
-            updatedAt: string;
-          };
-          bankDetails?: {
-            accountHolder: string;
-            accountNumber: string;
-            bankName: string;
-            branchCode: string;
-            createdAt: string;
-            id: string;
-            updatedAt: string;
-          };
+    items?: Array<
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          businessId: string | null;
+          businesses: Array<Business>;
           createdAt: string;
-          email: string;
           id: string;
-          image?: string;
-          jobTitle?: string;
           mfaEnabled: boolean;
           mfaVerified: boolean;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          name?: string;
-          organizations?: Array<{
-            createdAt: string;
-            domain: string;
-            id: string;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            owner: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            ownerId: string;
-            updatedAt: string;
-          }>;
-          phone?: string;
-          primaryOrganizationId?: string;
-          roles?: Array<{
-            createdAt: string;
-            description: string;
-            id: string;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            permissions: Array<string>;
-            updatedAt: string;
-          }>;
-          tags: Array<string>;
-          updatedAt: string;
-        }>
-      | Array<{
-          createdAt: string;
-          domain: string;
-          id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
           name: string;
-          owner: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          ownerId: string;
+          permissions: Array<string>;
+          roles: Roles;
+          type: 'system' | 'collector' | 'business';
           updatedAt: string;
-        }>
-      | Array<{
+          username: string;
+        }
+      | {
           createdAt: string;
+          default: boolean;
           description: string;
           id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
           name: string;
           permissions: Array<string>;
           updatedAt: string;
-        }>
-      | Array<{
-          createdAt: string;
-          data: {
-            [key: string]: unknown;
-          };
-          id: string;
-          objectId: string;
-          operationType: string;
-          tableName: string;
-          updatedAt: string;
-          user?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          userId: string;
-        }>
-      | Array<{
+        }
+      | {
           carbonFactor: string;
           createdAt: string;
           gwCode: string;
           id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
           name: string;
           updatedAt: string;
-        }>
-      | Array<{
+        }
+      | {
+          buyer: Business;
           createdAt: string;
           id: string;
-          materials: Array<{
-            carbonFactor: string;
-            createdAt: string;
-            gwCode: string;
-            id: string;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            updatedAt: string;
-          }>;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          name: string;
+          materials: CollectionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
           updatedAt: string;
           value: number;
-        }>
-      | Array<{
-          amount: number;
-          buyerId: string;
-          buyerType: string;
-          createdAt: string;
-          id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById?: string;
-          products: Array<{
-            createdAt: string;
-            id: string;
-            materials: Array<{
-              carbonFactor: string;
-              createdAt: string;
-              gwCode: string;
-              id: string;
-              modifiedBy?: {
-                createdAt: string;
-                email: string;
-                id: string;
-                image?: string;
-                jobTitle?: string;
-                mfaEnabled: boolean;
-                mfaVerified: boolean;
-                modifiedById: string;
-                name?: string;
-                phone?: string;
-                primaryOrganizationId?: string;
-                tags: Array<string>;
-                updatedAt: string;
-              };
-              modifiedById: string;
-              name: string;
-              updatedAt: string;
-            }>;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            updatedAt: string;
-            value: number;
-          }>;
-          sellerAccepted: boolean;
-          sellerDeclined: boolean;
-          sellerId: string;
-          sellerType: string;
-          type: string;
-          updatedAt: string;
           weight: number;
-        }>
-      | Array<{
-          action?: {
-            link?: string;
-            linkText?: string;
-          };
-          closed: boolean;
+        }
+      | {
+          buyer: Business;
           createdAt: string;
           id: string;
-          message: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          title: string;
+          materials: TransactionMaterials;
+          seller: User;
           updatedAt: string;
-          userId: string;
-        }>
-      | Array<{
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          createdAt: string;
+          id: string;
           name: string;
-          permissions: Array<{
-            description: string;
-            value: string;
-          }>;
-        }>
-      | Array<{
-          city: string;
-          country: string;
-          createdAt: string;
-          id: string;
-          lineOne: string;
-          lineTwo?: string | null;
-          postalCode: number;
-          state: string;
+          ownerId: string;
+          roles: Roles;
           updatedAt: string;
-        }>
-      | Array<{
-          accountHolder: string;
-          accountNumber: string;
-          bankName: string;
-          branchCode: string;
-          createdAt: string;
-          id: string;
-          updatedAt: string;
-        }>
-      | Array<string>;
-    pageDetails?: {
-      count?: number;
-      currentPage?: number;
-      nextPage?: number;
-      pages?: number;
-      previousPage?: number;
-    } | null;
+          users: Array<User>;
+        }
+      | {
+          name: string;
+          permissions: Permissions;
+          subGroups: Array<PermissionGroup>;
+        }
+    >;
+    pagination?: Pagination;
   };
 };
 
@@ -17305,13 +9530,12 @@ export type GetApiRolesByIdResponse =
   GetApiRolesByIdResponses[keyof GetApiRolesByIdResponses];
 
 export type PutApiRolesByIdData = {
-  body: {
-    description?: string | null;
-    name?: string | null;
-    permissions?: Array<string>;
-  };
+  /**
+   * Payload to update an existing role.
+   */
+  body: UpdateRole;
   path: {
-    id: unknown;
+    id: string;
   };
   query?: never;
   url: '/api/roles/{id}';
@@ -17319,32 +9543,39 @@ export type PutApiRolesByIdData = {
 
 export type PutApiRolesByIdErrors = {
   /**
-   * Bad Request.
+   * Bad Request
    */
   400: {
-    error?: string;
-    message?: string;
+    error: string;
+    message: string;
   };
   /**
-   * Unauthorized.
+   * Unauthorized
    */
   401: {
-    error?: string;
-    message?: string;
+    error: string;
+    message: string;
   };
   /**
-   * Role not found.
+   * Forbidden
+   */
+  403: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Not Found
    */
   404: {
-    error?: string;
-    message?: string;
+    error: string;
+    message: string;
   };
   /**
-   * Internal Server Error.
+   * Internal Server Error
    */
   500: {
-    error?: string;
-    message?: string;
+    error: string;
+    message: string;
   };
   default: unknown;
 };
@@ -17354,42 +9585,225 @@ export type PutApiRolesByIdError =
 
 export type PutApiRolesByIdResponses = {
   /**
-   * The role has been successfully updated.
+   * Role updated successfully
    */
-  200: unknown;
+  200: {
+    item?:
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          businessId: string | null;
+          businesses: Array<Business>;
+          createdAt: string;
+          id: string;
+          mfaEnabled: boolean;
+          mfaVerified: boolean;
+          name: string;
+          permissions: Array<string>;
+          roles: Roles;
+          type: 'system' | 'collector' | 'business';
+          updatedAt: string;
+          username: string;
+        }
+      | {
+          createdAt: string;
+          default: boolean;
+          description: string;
+          id: string;
+          name: string;
+          permissions: Array<string>;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor: string;
+          createdAt: string;
+          gwCode: string;
+          id: string;
+          name: string;
+          updatedAt: string;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: CollectionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: TransactionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          createdAt: string;
+          id: string;
+          name: string;
+          ownerId: string;
+          roles: Roles;
+          updatedAt: string;
+          users: Array<User>;
+        };
+    items?: Array<
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          businessId: string | null;
+          businesses: Array<Business>;
+          createdAt: string;
+          id: string;
+          mfaEnabled: boolean;
+          mfaVerified: boolean;
+          name: string;
+          permissions: Array<string>;
+          roles: Roles;
+          type: 'system' | 'collector' | 'business';
+          updatedAt: string;
+          username: string;
+        }
+      | {
+          createdAt: string;
+          default: boolean;
+          description: string;
+          id: string;
+          name: string;
+          permissions: Array<string>;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor: string;
+          createdAt: string;
+          gwCode: string;
+          id: string;
+          name: string;
+          updatedAt: string;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: CollectionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: TransactionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          createdAt: string;
+          id: string;
+          name: string;
+          ownerId: string;
+          roles: Roles;
+          updatedAt: string;
+          users: Array<User>;
+        }
+      | {
+          name: string;
+          permissions: Permissions;
+          subGroups: Array<PermissionGroup>;
+        }
+    >;
+    pagination?: Pagination;
+  };
 };
+
+export type PutApiRolesByIdResponse =
+  PutApiRolesByIdResponses[keyof PutApiRolesByIdResponses];
 
 export type GetApiTransactionsData = {
   body?: never;
   path?: never;
-  query?: {
-    page?: number;
-    search?: string;
+  query: {
+    page: number;
+    pageSize: number;
+    preload?: Array<string>;
+    searchTerm?: string;
+    searchColumn?: Array<string>;
   };
   url: '/api/transactions';
 };
 
 export type GetApiTransactionsErrors = {
   /**
-   * Bad Request.
+   * Bad Request
    */
   400: {
-    error?: string;
-    message?: string;
+    error: string;
+    message: string;
   };
   /**
-   * Unauthorized.
+   * Unauthorized
    */
   401: {
-    error?: string;
-    message?: string;
+    error: string;
+    message: string;
   };
   /**
-   * Internal Server Error.
+   * Forbidden
+   */
+  403: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Internal Server Error
    */
   500: {
-    error?: string;
-    message?: string;
+    error: string;
+    message: string;
   };
   default: unknown;
 };
@@ -17399,833 +9813,178 @@ export type GetApiTransactionsError =
 
 export type GetApiTransactionsResponses = {
   /**
-   * The list of transactions for the specified page and search query.
+   * Transaction's retrieved successfully.
    */
   200: {
     item?:
       | {
-          address?: {
-            city: string;
-            country: string;
-            createdAt: string;
-            id: string;
-            lineOne: string;
-            lineTwo?: string | null;
-            postalCode: number;
-            state: string;
-            updatedAt: string;
-          };
-          bankDetails?: {
-            accountHolder: string;
-            accountNumber: string;
-            bankName: string;
-            branchCode: string;
-            createdAt: string;
-            id: string;
-            updatedAt: string;
-          };
+          address: Address;
+          bankDetails: BankDetails;
+          businessId: string | null;
+          businesses: Array<Business>;
           createdAt: string;
-          email: string;
           id: string;
-          image?: string;
-          jobTitle?: string;
           mfaEnabled: boolean;
           mfaVerified: boolean;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          name?: string;
-          organizations?: Array<{
-            createdAt: string;
-            domain: string;
-            id: string;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            owner: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            ownerId: string;
-            updatedAt: string;
-          }>;
-          phone?: string;
-          primaryOrganizationId?: string;
-          roles?: Array<{
-            createdAt: string;
-            description: string;
-            id: string;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            permissions: Array<string>;
-            updatedAt: string;
-          }>;
-          tags: Array<string>;
-          updatedAt: string;
-        }
-      | {
-          createdAt: string;
-          domain: string;
-          id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
           name: string;
-          owner: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          ownerId: string;
+          permissions: Array<string>;
+          roles: Roles;
+          type: 'system' | 'collector' | 'business';
           updatedAt: string;
+          username: string;
         }
       | {
           createdAt: string;
+          default: boolean;
           description: string;
           id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
           name: string;
           permissions: Array<string>;
           updatedAt: string;
-        }
-      | {
-          createdAt: string;
-          data: {
-            [key: string]: unknown;
-          };
-          id: string;
-          objectId: string;
-          operationType: string;
-          tableName: string;
-          updatedAt: string;
-          user?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          userId: string;
         }
       | {
           carbonFactor: string;
           createdAt: string;
           gwCode: string;
           id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
           name: string;
           updatedAt: string;
         }
       | {
+          buyer: Business;
           createdAt: string;
           id: string;
-          materials: Array<{
-            carbonFactor: string;
-            createdAt: string;
-            gwCode: string;
-            id: string;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            updatedAt: string;
-          }>;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          name: string;
+          materials: CollectionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
           updatedAt: string;
           value: number;
-        }
-      | {
-          amount: number;
-          buyerId: string;
-          buyerType: string;
-          createdAt: string;
-          id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById?: string;
-          products: Array<{
-            createdAt: string;
-            id: string;
-            materials: Array<{
-              carbonFactor: string;
-              createdAt: string;
-              gwCode: string;
-              id: string;
-              modifiedBy?: {
-                createdAt: string;
-                email: string;
-                id: string;
-                image?: string;
-                jobTitle?: string;
-                mfaEnabled: boolean;
-                mfaVerified: boolean;
-                modifiedById: string;
-                name?: string;
-                phone?: string;
-                primaryOrganizationId?: string;
-                tags: Array<string>;
-                updatedAt: string;
-              };
-              modifiedById: string;
-              name: string;
-              updatedAt: string;
-            }>;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            updatedAt: string;
-            value: number;
-          }>;
-          sellerAccepted: boolean;
-          sellerDeclined: boolean;
-          sellerId: string;
-          sellerType: string;
-          type: string;
-          updatedAt: string;
           weight: number;
         }
       | {
-          action?: {
-            link?: string;
-            linkText?: string;
-          };
-          closed: boolean;
+          buyer: Business;
           createdAt: string;
           id: string;
-          message: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          title: string;
+          materials: TransactionMaterials;
+          seller: User;
           updatedAt: string;
-          userId: string;
         }
       | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          createdAt: string;
+          id: string;
           name: string;
-          permissions: Array<{
-            description: string;
-            value: string;
-          }>;
-        }
-      | {
-          city: string;
-          country: string;
-          createdAt: string;
-          id: string;
-          lineOne: string;
-          lineTwo?: string | null;
-          postalCode: number;
-          state: string;
+          ownerId: string;
+          roles: Roles;
           updatedAt: string;
-        }
-      | {
-          accountHolder: string;
-          accountNumber: string;
-          bankName: string;
-          branchCode: string;
-          createdAt: string;
-          id: string;
-          updatedAt: string;
+          users: Array<User>;
         };
-    items?:
-      | Array<{
-          address?: {
-            city: string;
-            country: string;
-            createdAt: string;
-            id: string;
-            lineOne: string;
-            lineTwo?: string | null;
-            postalCode: number;
-            state: string;
-            updatedAt: string;
-          };
-          bankDetails?: {
-            accountHolder: string;
-            accountNumber: string;
-            bankName: string;
-            branchCode: string;
-            createdAt: string;
-            id: string;
-            updatedAt: string;
-          };
+    items?: Array<
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          businessId: string | null;
+          businesses: Array<Business>;
           createdAt: string;
-          email: string;
           id: string;
-          image?: string;
-          jobTitle?: string;
           mfaEnabled: boolean;
           mfaVerified: boolean;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          name?: string;
-          organizations?: Array<{
-            createdAt: string;
-            domain: string;
-            id: string;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            owner: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            ownerId: string;
-            updatedAt: string;
-          }>;
-          phone?: string;
-          primaryOrganizationId?: string;
-          roles?: Array<{
-            createdAt: string;
-            description: string;
-            id: string;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            permissions: Array<string>;
-            updatedAt: string;
-          }>;
-          tags: Array<string>;
-          updatedAt: string;
-        }>
-      | Array<{
-          createdAt: string;
-          domain: string;
-          id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
           name: string;
-          owner: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          ownerId: string;
+          permissions: Array<string>;
+          roles: Roles;
+          type: 'system' | 'collector' | 'business';
           updatedAt: string;
-        }>
-      | Array<{
+          username: string;
+        }
+      | {
           createdAt: string;
+          default: boolean;
           description: string;
           id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
           name: string;
           permissions: Array<string>;
           updatedAt: string;
-        }>
-      | Array<{
-          createdAt: string;
-          data: {
-            [key: string]: unknown;
-          };
-          id: string;
-          objectId: string;
-          operationType: string;
-          tableName: string;
-          updatedAt: string;
-          user?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          userId: string;
-        }>
-      | Array<{
+        }
+      | {
           carbonFactor: string;
           createdAt: string;
           gwCode: string;
           id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
           name: string;
           updatedAt: string;
-        }>
-      | Array<{
+        }
+      | {
+          buyer: Business;
           createdAt: string;
           id: string;
-          materials: Array<{
-            carbonFactor: string;
-            createdAt: string;
-            gwCode: string;
-            id: string;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            updatedAt: string;
-          }>;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          name: string;
+          materials: CollectionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
           updatedAt: string;
           value: number;
-        }>
-      | Array<{
-          amount: number;
-          buyerId: string;
-          buyerType: string;
-          createdAt: string;
-          id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById?: string;
-          products: Array<{
-            createdAt: string;
-            id: string;
-            materials: Array<{
-              carbonFactor: string;
-              createdAt: string;
-              gwCode: string;
-              id: string;
-              modifiedBy?: {
-                createdAt: string;
-                email: string;
-                id: string;
-                image?: string;
-                jobTitle?: string;
-                mfaEnabled: boolean;
-                mfaVerified: boolean;
-                modifiedById: string;
-                name?: string;
-                phone?: string;
-                primaryOrganizationId?: string;
-                tags: Array<string>;
-                updatedAt: string;
-              };
-              modifiedById: string;
-              name: string;
-              updatedAt: string;
-            }>;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            updatedAt: string;
-            value: number;
-          }>;
-          sellerAccepted: boolean;
-          sellerDeclined: boolean;
-          sellerId: string;
-          sellerType: string;
-          type: string;
-          updatedAt: string;
           weight: number;
-        }>
-      | Array<{
-          action?: {
-            link?: string;
-            linkText?: string;
-          };
-          closed: boolean;
+        }
+      | {
+          buyer: Business;
           createdAt: string;
           id: string;
-          message: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          title: string;
+          materials: TransactionMaterials;
+          seller: User;
           updatedAt: string;
-          userId: string;
-        }>
-      | Array<{
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          createdAt: string;
+          id: string;
           name: string;
-          permissions: Array<{
-            description: string;
-            value: string;
-          }>;
-        }>
-      | Array<{
-          city: string;
-          country: string;
-          createdAt: string;
-          id: string;
-          lineOne: string;
-          lineTwo?: string | null;
-          postalCode: number;
-          state: string;
+          ownerId: string;
+          roles: Roles;
           updatedAt: string;
-        }>
-      | Array<{
-          accountHolder: string;
-          accountNumber: string;
-          bankName: string;
-          branchCode: string;
-          createdAt: string;
-          id: string;
-          updatedAt: string;
-        }>
-      | Array<string>;
-    pageDetails?: {
-      count?: number;
-      currentPage?: number;
-      nextPage?: number;
-      pages?: number;
-      previousPage?: number;
-    } | null;
+          users: Array<User>;
+        }
+      | {
+          name: string;
+          permissions: Permissions;
+          subGroups: Array<PermissionGroup>;
+        }
+    >;
+    pagination?: Pagination;
   };
 };
 
@@ -18233,13 +9992,10 @@ export type GetApiTransactionsResponse =
   GetApiTransactionsResponses[keyof GetApiTransactionsResponses];
 
 export type PostApiTransactionsData = {
-  body: {
-    amount: number;
-    products?: Array<string>;
-    sellerId: string;
-    type: string;
-    weight: number;
-  };
+  /**
+   * Payload to create a new transaction.
+   */
+  body: CreateTransaction;
   path?: never;
   query?: never;
   url: '/api/transactions';
@@ -18247,25 +10003,32 @@ export type PostApiTransactionsData = {
 
 export type PostApiTransactionsErrors = {
   /**
-   * Invalid request.
+   * Bad Request
    */
   400: {
-    error?: string;
-    message?: string;
+    error: string;
+    message: string;
   };
   /**
-   * Unauthorized.
+   * Unauthorized
    */
   401: {
-    error?: string;
-    message?: string;
+    error: string;
+    message: string;
   };
   /**
-   * Internal Server Error.
+   * Forbidden
+   */
+  403: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Internal Server Error
    */
   500: {
-    error?: string;
-    message?: string;
+    error: string;
+    message: string;
   };
   default: unknown;
 };
@@ -18275,15 +10038,2045 @@ export type PostApiTransactionsError =
 
 export type PostApiTransactionsResponses = {
   /**
-   * The transaction has been successfully created.
+   * Transaction created successfully.
    */
-  200: unknown;
+  200: {
+    item?:
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          businessId: string | null;
+          businesses: Array<Business>;
+          createdAt: string;
+          id: string;
+          mfaEnabled: boolean;
+          mfaVerified: boolean;
+          name: string;
+          permissions: Array<string>;
+          roles: Roles;
+          type: 'system' | 'collector' | 'business';
+          updatedAt: string;
+          username: string;
+        }
+      | {
+          createdAt: string;
+          default: boolean;
+          description: string;
+          id: string;
+          name: string;
+          permissions: Array<string>;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor: string;
+          createdAt: string;
+          gwCode: string;
+          id: string;
+          name: string;
+          updatedAt: string;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: CollectionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: TransactionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          createdAt: string;
+          id: string;
+          name: string;
+          ownerId: string;
+          roles: Roles;
+          updatedAt: string;
+          users: Array<User>;
+        };
+    items?: Array<
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          businessId: string | null;
+          businesses: Array<Business>;
+          createdAt: string;
+          id: string;
+          mfaEnabled: boolean;
+          mfaVerified: boolean;
+          name: string;
+          permissions: Array<string>;
+          roles: Roles;
+          type: 'system' | 'collector' | 'business';
+          updatedAt: string;
+          username: string;
+        }
+      | {
+          createdAt: string;
+          default: boolean;
+          description: string;
+          id: string;
+          name: string;
+          permissions: Array<string>;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor: string;
+          createdAt: string;
+          gwCode: string;
+          id: string;
+          name: string;
+          updatedAt: string;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: CollectionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: TransactionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          createdAt: string;
+          id: string;
+          name: string;
+          ownerId: string;
+          roles: Roles;
+          updatedAt: string;
+          users: Array<User>;
+        }
+      | {
+          name: string;
+          permissions: Permissions;
+          subGroups: Array<PermissionGroup>;
+        }
+    >;
+    pagination?: Pagination;
+  };
 };
+
+export type PostApiTransactionsResponse =
+  PostApiTransactionsResponses[keyof PostApiTransactionsResponses];
+
+export type PostApiTransactionsAssignMaterialByTransactionIdByMaterialIdData = {
+  body?: never;
+  path: {
+    transactionId: string;
+    materialId: string;
+  };
+  query?: never;
+  url: '/api/transactions/assign-material/{transactionId}/{materialId}';
+};
+
+export type PostApiTransactionsAssignMaterialByTransactionIdByMaterialIdErrors =
+  {
+    /**
+     * Bad Request
+     */
+    400: {
+      error: string;
+      message: string;
+    };
+    /**
+     * Unauthorized
+     */
+    401: {
+      error: string;
+      message: string;
+    };
+    /**
+     * Forbidden
+     */
+    403: {
+      error: string;
+      message: string;
+    };
+    /**
+     * Not Found
+     */
+    404: {
+      error: string;
+      message: string;
+    };
+    /**
+     * Internal Server Error
+     */
+    500: {
+      error: string;
+      message: string;
+    };
+    default: unknown;
+  };
+
+export type PostApiTransactionsAssignMaterialByTransactionIdByMaterialIdError =
+  PostApiTransactionsAssignMaterialByTransactionIdByMaterialIdErrors[keyof PostApiTransactionsAssignMaterialByTransactionIdByMaterialIdErrors];
+
+export type PostApiTransactionsAssignMaterialByTransactionIdByMaterialIdResponses =
+  {
+    /**
+     * Material assigned to Transaction successfully.
+     */
+    200: {
+      item?:
+        | {
+            address: Address;
+            bankDetails: BankDetails;
+            businessId: string | null;
+            businesses: Array<Business>;
+            createdAt: string;
+            id: string;
+            mfaEnabled: boolean;
+            mfaVerified: boolean;
+            name: string;
+            permissions: Array<string>;
+            roles: Roles;
+            type: 'system' | 'collector' | 'business';
+            updatedAt: string;
+            username: string;
+          }
+        | {
+            createdAt: string;
+            default: boolean;
+            description: string;
+            id: string;
+            name: string;
+            permissions: Array<string>;
+            updatedAt: string;
+          }
+        | {
+            carbonFactor: string;
+            createdAt: string;
+            gwCode: string;
+            id: string;
+            name: string;
+            updatedAt: string;
+          }
+        | {
+            buyer: Business;
+            createdAt: string;
+            id: string;
+            materials: CollectionMaterials;
+            seller: User;
+            updatedAt: string;
+          }
+        | {
+            carbonFactor?: string;
+            createdAt: string;
+            gwCode?: string;
+            id: string;
+            name?: string;
+            updatedAt: string;
+            value: number;
+            weight: number;
+          }
+        | {
+            buyer: Business;
+            createdAt: string;
+            id: string;
+            materials: TransactionMaterials;
+            seller: User;
+            updatedAt: string;
+          }
+        | {
+            carbonFactor?: string;
+            createdAt: string;
+            gwCode?: string;
+            id: string;
+            name?: string;
+            updatedAt: string;
+            value: number;
+            weight: number;
+          }
+        | {
+            address: Address;
+            bankDetails: BankDetails;
+            createdAt: string;
+            id: string;
+            name: string;
+            ownerId: string;
+            roles: Roles;
+            updatedAt: string;
+            users: Array<User>;
+          };
+      items?: Array<
+        | {
+            address: Address;
+            bankDetails: BankDetails;
+            businessId: string | null;
+            businesses: Array<Business>;
+            createdAt: string;
+            id: string;
+            mfaEnabled: boolean;
+            mfaVerified: boolean;
+            name: string;
+            permissions: Array<string>;
+            roles: Roles;
+            type: 'system' | 'collector' | 'business';
+            updatedAt: string;
+            username: string;
+          }
+        | {
+            createdAt: string;
+            default: boolean;
+            description: string;
+            id: string;
+            name: string;
+            permissions: Array<string>;
+            updatedAt: string;
+          }
+        | {
+            carbonFactor: string;
+            createdAt: string;
+            gwCode: string;
+            id: string;
+            name: string;
+            updatedAt: string;
+          }
+        | {
+            buyer: Business;
+            createdAt: string;
+            id: string;
+            materials: CollectionMaterials;
+            seller: User;
+            updatedAt: string;
+          }
+        | {
+            carbonFactor?: string;
+            createdAt: string;
+            gwCode?: string;
+            id: string;
+            name?: string;
+            updatedAt: string;
+            value: number;
+            weight: number;
+          }
+        | {
+            buyer: Business;
+            createdAt: string;
+            id: string;
+            materials: TransactionMaterials;
+            seller: User;
+            updatedAt: string;
+          }
+        | {
+            carbonFactor?: string;
+            createdAt: string;
+            gwCode?: string;
+            id: string;
+            name?: string;
+            updatedAt: string;
+            value: number;
+            weight: number;
+          }
+        | {
+            address: Address;
+            bankDetails: BankDetails;
+            createdAt: string;
+            id: string;
+            name: string;
+            ownerId: string;
+            roles: Roles;
+            updatedAt: string;
+            users: Array<User>;
+          }
+        | {
+            name: string;
+            permissions: Permissions;
+            subGroups: Array<PermissionGroup>;
+          }
+      >;
+      pagination?: Pagination;
+    };
+  };
+
+export type PostApiTransactionsAssignMaterialByTransactionIdByMaterialIdResponse =
+  PostApiTransactionsAssignMaterialByTransactionIdByMaterialIdResponses[keyof PostApiTransactionsAssignMaterialByTransactionIdByMaterialIdResponses];
+
+export type GetApiTransactionsListMaterialsByTransactionIdData = {
+  body?: never;
+  path: {
+    transactionId: string;
+  };
+  query: {
+    page: number;
+    pageSize: number;
+    preload?: Array<string>;
+    searchTerm?: string;
+    searchColumn?: Array<string>;
+  };
+  url: '/api/transactions/list-materials/{transactionId}';
+};
+
+export type GetApiTransactionsListMaterialsByTransactionIdErrors = {
+  /**
+   * Bad Request
+   */
+  400: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Unauthorized
+   */
+  401: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Forbidden
+   */
+  403: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Not Found
+   */
+  404: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Internal Server Error
+   */
+  500: {
+    error: string;
+    message: string;
+  };
+  default: unknown;
+};
+
+export type GetApiTransactionsListMaterialsByTransactionIdError =
+  GetApiTransactionsListMaterialsByTransactionIdErrors[keyof GetApiTransactionsListMaterialsByTransactionIdErrors];
+
+export type GetApiTransactionsListMaterialsByTransactionIdResponses = {
+  /**
+   * Material retrieved from Transaction successfully.
+   */
+  200: {
+    item?:
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          businessId: string | null;
+          businesses: Array<Business>;
+          createdAt: string;
+          id: string;
+          mfaEnabled: boolean;
+          mfaVerified: boolean;
+          name: string;
+          permissions: Array<string>;
+          roles: Roles;
+          type: 'system' | 'collector' | 'business';
+          updatedAt: string;
+          username: string;
+        }
+      | {
+          createdAt: string;
+          default: boolean;
+          description: string;
+          id: string;
+          name: string;
+          permissions: Array<string>;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor: string;
+          createdAt: string;
+          gwCode: string;
+          id: string;
+          name: string;
+          updatedAt: string;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: CollectionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: TransactionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          createdAt: string;
+          id: string;
+          name: string;
+          ownerId: string;
+          roles: Roles;
+          updatedAt: string;
+          users: Array<User>;
+        };
+    items?: Array<
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          businessId: string | null;
+          businesses: Array<Business>;
+          createdAt: string;
+          id: string;
+          mfaEnabled: boolean;
+          mfaVerified: boolean;
+          name: string;
+          permissions: Array<string>;
+          roles: Roles;
+          type: 'system' | 'collector' | 'business';
+          updatedAt: string;
+          username: string;
+        }
+      | {
+          createdAt: string;
+          default: boolean;
+          description: string;
+          id: string;
+          name: string;
+          permissions: Array<string>;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor: string;
+          createdAt: string;
+          gwCode: string;
+          id: string;
+          name: string;
+          updatedAt: string;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: CollectionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: TransactionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          createdAt: string;
+          id: string;
+          name: string;
+          ownerId: string;
+          roles: Roles;
+          updatedAt: string;
+          users: Array<User>;
+        }
+      | {
+          name: string;
+          permissions: Permissions;
+          subGroups: Array<PermissionGroup>;
+        }
+    >;
+    pagination?: Pagination;
+  };
+};
+
+export type GetApiTransactionsListMaterialsByTransactionIdResponse =
+  GetApiTransactionsListMaterialsByTransactionIdResponses[keyof GetApiTransactionsListMaterialsByTransactionIdResponses];
+
+export type GetApiTransactionsMaterialsData = {
+  body?: never;
+  path?: never;
+  query: {
+    page: number;
+    pageSize: number;
+    preload?: Array<string>;
+    searchTerm?: string;
+    searchColumn?: Array<string>;
+  };
+  url: '/api/transactions/materials';
+};
+
+export type GetApiTransactionsMaterialsErrors = {
+  /**
+   * Bad Request
+   */
+  400: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Unauthorized
+   */
+  401: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Forbidden
+   */
+  403: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Internal Server Error
+   */
+  500: {
+    error: string;
+    message: string;
+  };
+  default: unknown;
+};
+
+export type GetApiTransactionsMaterialsError =
+  GetApiTransactionsMaterialsErrors[keyof GetApiTransactionsMaterialsErrors];
+
+export type GetApiTransactionsMaterialsResponses = {
+  /**
+   * Transaction Material's retrieved successfully.
+   */
+  200: {
+    item?:
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          businessId: string | null;
+          businesses: Array<Business>;
+          createdAt: string;
+          id: string;
+          mfaEnabled: boolean;
+          mfaVerified: boolean;
+          name: string;
+          permissions: Array<string>;
+          roles: Roles;
+          type: 'system' | 'collector' | 'business';
+          updatedAt: string;
+          username: string;
+        }
+      | {
+          createdAt: string;
+          default: boolean;
+          description: string;
+          id: string;
+          name: string;
+          permissions: Array<string>;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor: string;
+          createdAt: string;
+          gwCode: string;
+          id: string;
+          name: string;
+          updatedAt: string;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: CollectionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: TransactionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          createdAt: string;
+          id: string;
+          name: string;
+          ownerId: string;
+          roles: Roles;
+          updatedAt: string;
+          users: Array<User>;
+        };
+    items?: Array<
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          businessId: string | null;
+          businesses: Array<Business>;
+          createdAt: string;
+          id: string;
+          mfaEnabled: boolean;
+          mfaVerified: boolean;
+          name: string;
+          permissions: Array<string>;
+          roles: Roles;
+          type: 'system' | 'collector' | 'business';
+          updatedAt: string;
+          username: string;
+        }
+      | {
+          createdAt: string;
+          default: boolean;
+          description: string;
+          id: string;
+          name: string;
+          permissions: Array<string>;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor: string;
+          createdAt: string;
+          gwCode: string;
+          id: string;
+          name: string;
+          updatedAt: string;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: CollectionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: TransactionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          createdAt: string;
+          id: string;
+          name: string;
+          ownerId: string;
+          roles: Roles;
+          updatedAt: string;
+          users: Array<User>;
+        }
+      | {
+          name: string;
+          permissions: Permissions;
+          subGroups: Array<PermissionGroup>;
+        }
+    >;
+    pagination?: Pagination;
+  };
+};
+
+export type GetApiTransactionsMaterialsResponse =
+  GetApiTransactionsMaterialsResponses[keyof GetApiTransactionsMaterialsResponses];
+
+export type PostApiTransactionsMaterialsData = {
+  /**
+   * Payload to create a new transaction material.
+   */
+  body: CreateTransactionMaterial;
+  path?: never;
+  query?: never;
+  url: '/api/transactions/materials';
+};
+
+export type PostApiTransactionsMaterialsErrors = {
+  /**
+   * Bad Request
+   */
+  400: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Unauthorized
+   */
+  401: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Forbidden
+   */
+  403: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Internal Server Error
+   */
+  500: {
+    error: string;
+    message: string;
+  };
+  default: unknown;
+};
+
+export type PostApiTransactionsMaterialsError =
+  PostApiTransactionsMaterialsErrors[keyof PostApiTransactionsMaterialsErrors];
+
+export type PostApiTransactionsMaterialsResponses = {
+  /**
+   * Transaction Material created successfully.
+   */
+  200: {
+    item?:
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          businessId: string | null;
+          businesses: Array<Business>;
+          createdAt: string;
+          id: string;
+          mfaEnabled: boolean;
+          mfaVerified: boolean;
+          name: string;
+          permissions: Array<string>;
+          roles: Roles;
+          type: 'system' | 'collector' | 'business';
+          updatedAt: string;
+          username: string;
+        }
+      | {
+          createdAt: string;
+          default: boolean;
+          description: string;
+          id: string;
+          name: string;
+          permissions: Array<string>;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor: string;
+          createdAt: string;
+          gwCode: string;
+          id: string;
+          name: string;
+          updatedAt: string;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: CollectionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: TransactionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          createdAt: string;
+          id: string;
+          name: string;
+          ownerId: string;
+          roles: Roles;
+          updatedAt: string;
+          users: Array<User>;
+        };
+    items?: Array<
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          businessId: string | null;
+          businesses: Array<Business>;
+          createdAt: string;
+          id: string;
+          mfaEnabled: boolean;
+          mfaVerified: boolean;
+          name: string;
+          permissions: Array<string>;
+          roles: Roles;
+          type: 'system' | 'collector' | 'business';
+          updatedAt: string;
+          username: string;
+        }
+      | {
+          createdAt: string;
+          default: boolean;
+          description: string;
+          id: string;
+          name: string;
+          permissions: Array<string>;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor: string;
+          createdAt: string;
+          gwCode: string;
+          id: string;
+          name: string;
+          updatedAt: string;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: CollectionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: TransactionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          createdAt: string;
+          id: string;
+          name: string;
+          ownerId: string;
+          roles: Roles;
+          updatedAt: string;
+          users: Array<User>;
+        }
+      | {
+          name: string;
+          permissions: Permissions;
+          subGroups: Array<PermissionGroup>;
+        }
+    >;
+    pagination?: Pagination;
+  };
+};
+
+export type PostApiTransactionsMaterialsResponse =
+  PostApiTransactionsMaterialsResponses[keyof PostApiTransactionsMaterialsResponses];
+
+export type DeleteApiTransactionsMaterialsByIdData = {
+  body?: never;
+  path: {
+    id: string;
+  };
+  query?: never;
+  url: '/api/transactions/materials/{id}';
+};
+
+export type DeleteApiTransactionsMaterialsByIdErrors = {
+  /**
+   * Bad Request
+   */
+  400: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Unauthorized
+   */
+  401: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Forbidden
+   */
+  403: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Not Found
+   */
+  404: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Internal Server Error
+   */
+  500: {
+    error: string;
+    message: string;
+  };
+  default: unknown;
+};
+
+export type DeleteApiTransactionsMaterialsByIdError =
+  DeleteApiTransactionsMaterialsByIdErrors[keyof DeleteApiTransactionsMaterialsByIdErrors];
+
+export type DeleteApiTransactionsMaterialsByIdResponses = {
+  /**
+   * Transaction Material deleted successfully.
+   */
+  200: {
+    item?:
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          businessId: string | null;
+          businesses: Array<Business>;
+          createdAt: string;
+          id: string;
+          mfaEnabled: boolean;
+          mfaVerified: boolean;
+          name: string;
+          permissions: Array<string>;
+          roles: Roles;
+          type: 'system' | 'collector' | 'business';
+          updatedAt: string;
+          username: string;
+        }
+      | {
+          createdAt: string;
+          default: boolean;
+          description: string;
+          id: string;
+          name: string;
+          permissions: Array<string>;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor: string;
+          createdAt: string;
+          gwCode: string;
+          id: string;
+          name: string;
+          updatedAt: string;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: CollectionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: TransactionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          createdAt: string;
+          id: string;
+          name: string;
+          ownerId: string;
+          roles: Roles;
+          updatedAt: string;
+          users: Array<User>;
+        };
+    items?: Array<
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          businessId: string | null;
+          businesses: Array<Business>;
+          createdAt: string;
+          id: string;
+          mfaEnabled: boolean;
+          mfaVerified: boolean;
+          name: string;
+          permissions: Array<string>;
+          roles: Roles;
+          type: 'system' | 'collector' | 'business';
+          updatedAt: string;
+          username: string;
+        }
+      | {
+          createdAt: string;
+          default: boolean;
+          description: string;
+          id: string;
+          name: string;
+          permissions: Array<string>;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor: string;
+          createdAt: string;
+          gwCode: string;
+          id: string;
+          name: string;
+          updatedAt: string;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: CollectionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: TransactionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          createdAt: string;
+          id: string;
+          name: string;
+          ownerId: string;
+          roles: Roles;
+          updatedAt: string;
+          users: Array<User>;
+        }
+      | {
+          name: string;
+          permissions: Permissions;
+          subGroups: Array<PermissionGroup>;
+        }
+    >;
+    pagination?: Pagination;
+  };
+};
+
+export type DeleteApiTransactionsMaterialsByIdResponse =
+  DeleteApiTransactionsMaterialsByIdResponses[keyof DeleteApiTransactionsMaterialsByIdResponses];
+
+export type GetApiTransactionsMaterialsByIdData = {
+  body?: never;
+  path: {
+    id: string;
+  };
+  query?: {
+    preload?: Array<string>;
+  };
+  url: '/api/transactions/materials/{id}';
+};
+
+export type GetApiTransactionsMaterialsByIdErrors = {
+  /**
+   * Bad Request
+   */
+  400: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Unauthorized
+   */
+  401: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Forbidden
+   */
+  403: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Not Found
+   */
+  404: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Internal Server Error
+   */
+  500: {
+    error: string;
+    message: string;
+  };
+  default: unknown;
+};
+
+export type GetApiTransactionsMaterialsByIdError =
+  GetApiTransactionsMaterialsByIdErrors[keyof GetApiTransactionsMaterialsByIdErrors];
+
+export type GetApiTransactionsMaterialsByIdResponses = {
+  /**
+   * Transaction Material retrieved successfully.
+   */
+  200: {
+    item?:
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          businessId: string | null;
+          businesses: Array<Business>;
+          createdAt: string;
+          id: string;
+          mfaEnabled: boolean;
+          mfaVerified: boolean;
+          name: string;
+          permissions: Array<string>;
+          roles: Roles;
+          type: 'system' | 'collector' | 'business';
+          updatedAt: string;
+          username: string;
+        }
+      | {
+          createdAt: string;
+          default: boolean;
+          description: string;
+          id: string;
+          name: string;
+          permissions: Array<string>;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor: string;
+          createdAt: string;
+          gwCode: string;
+          id: string;
+          name: string;
+          updatedAt: string;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: CollectionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: TransactionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          createdAt: string;
+          id: string;
+          name: string;
+          ownerId: string;
+          roles: Roles;
+          updatedAt: string;
+          users: Array<User>;
+        };
+    items?: Array<
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          businessId: string | null;
+          businesses: Array<Business>;
+          createdAt: string;
+          id: string;
+          mfaEnabled: boolean;
+          mfaVerified: boolean;
+          name: string;
+          permissions: Array<string>;
+          roles: Roles;
+          type: 'system' | 'collector' | 'business';
+          updatedAt: string;
+          username: string;
+        }
+      | {
+          createdAt: string;
+          default: boolean;
+          description: string;
+          id: string;
+          name: string;
+          permissions: Array<string>;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor: string;
+          createdAt: string;
+          gwCode: string;
+          id: string;
+          name: string;
+          updatedAt: string;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: CollectionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: TransactionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          createdAt: string;
+          id: string;
+          name: string;
+          ownerId: string;
+          roles: Roles;
+          updatedAt: string;
+          users: Array<User>;
+        }
+      | {
+          name: string;
+          permissions: Permissions;
+          subGroups: Array<PermissionGroup>;
+        }
+    >;
+    pagination?: Pagination;
+  };
+};
+
+export type GetApiTransactionsMaterialsByIdResponse =
+  GetApiTransactionsMaterialsByIdResponses[keyof GetApiTransactionsMaterialsByIdResponses];
+
+export type PutApiTransactionsMaterialsByIdData = {
+  /**
+   * Payload to update an existing transaction material.
+   */
+  body: UpdateTransactionMaterial;
+  path: {
+    id: string;
+  };
+  query?: never;
+  url: '/api/transactions/materials/{id}';
+};
+
+export type PutApiTransactionsMaterialsByIdErrors = {
+  /**
+   * Bad Request
+   */
+  400: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Unauthorized
+   */
+  401: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Forbidden
+   */
+  403: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Not Found
+   */
+  404: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Internal Server Error
+   */
+  500: {
+    error: string;
+    message: string;
+  };
+  default: unknown;
+};
+
+export type PutApiTransactionsMaterialsByIdError =
+  PutApiTransactionsMaterialsByIdErrors[keyof PutApiTransactionsMaterialsByIdErrors];
+
+export type PutApiTransactionsMaterialsByIdResponses = {
+  /**
+   * Transaction Material updated successfully
+   */
+  200: {
+    item?:
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          businessId: string | null;
+          businesses: Array<Business>;
+          createdAt: string;
+          id: string;
+          mfaEnabled: boolean;
+          mfaVerified: boolean;
+          name: string;
+          permissions: Array<string>;
+          roles: Roles;
+          type: 'system' | 'collector' | 'business';
+          updatedAt: string;
+          username: string;
+        }
+      | {
+          createdAt: string;
+          default: boolean;
+          description: string;
+          id: string;
+          name: string;
+          permissions: Array<string>;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor: string;
+          createdAt: string;
+          gwCode: string;
+          id: string;
+          name: string;
+          updatedAt: string;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: CollectionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: TransactionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          createdAt: string;
+          id: string;
+          name: string;
+          ownerId: string;
+          roles: Roles;
+          updatedAt: string;
+          users: Array<User>;
+        };
+    items?: Array<
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          businessId: string | null;
+          businesses: Array<Business>;
+          createdAt: string;
+          id: string;
+          mfaEnabled: boolean;
+          mfaVerified: boolean;
+          name: string;
+          permissions: Array<string>;
+          roles: Roles;
+          type: 'system' | 'collector' | 'business';
+          updatedAt: string;
+          username: string;
+        }
+      | {
+          createdAt: string;
+          default: boolean;
+          description: string;
+          id: string;
+          name: string;
+          permissions: Array<string>;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor: string;
+          createdAt: string;
+          gwCode: string;
+          id: string;
+          name: string;
+          updatedAt: string;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: CollectionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: TransactionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          createdAt: string;
+          id: string;
+          name: string;
+          ownerId: string;
+          roles: Roles;
+          updatedAt: string;
+          users: Array<User>;
+        }
+      | {
+          name: string;
+          permissions: Permissions;
+          subGroups: Array<PermissionGroup>;
+        }
+    >;
+    pagination?: Pagination;
+  };
+};
+
+export type PutApiTransactionsMaterialsByIdResponse =
+  PutApiTransactionsMaterialsByIdResponses[keyof PutApiTransactionsMaterialsByIdResponses];
+
+export type PostApiTransactionsUnassignMaterialByTransactionIdByMaterialIdData =
+  {
+    body?: never;
+    path: {
+      transactionId: string;
+      materialId: string;
+    };
+    query?: never;
+    url: '/api/transactions/unassign-material/{transactionId}/{materialId}';
+  };
+
+export type PostApiTransactionsUnassignMaterialByTransactionIdByMaterialIdErrors =
+  {
+    /**
+     * Bad Request
+     */
+    400: {
+      error: string;
+      message: string;
+    };
+    /**
+     * Unauthorized
+     */
+    401: {
+      error: string;
+      message: string;
+    };
+    /**
+     * Forbidden
+     */
+    403: {
+      error: string;
+      message: string;
+    };
+    /**
+     * Not Found
+     */
+    404: {
+      error: string;
+      message: string;
+    };
+    /**
+     * Internal Server Error
+     */
+    500: {
+      error: string;
+      message: string;
+    };
+    default: unknown;
+  };
+
+export type PostApiTransactionsUnassignMaterialByTransactionIdByMaterialIdError =
+  PostApiTransactionsUnassignMaterialByTransactionIdByMaterialIdErrors[keyof PostApiTransactionsUnassignMaterialByTransactionIdByMaterialIdErrors];
+
+export type PostApiTransactionsUnassignMaterialByTransactionIdByMaterialIdResponses =
+  {
+    /**
+     * Material unassigned from Transaction successfully.
+     */
+    200: {
+      item?:
+        | {
+            address: Address;
+            bankDetails: BankDetails;
+            businessId: string | null;
+            businesses: Array<Business>;
+            createdAt: string;
+            id: string;
+            mfaEnabled: boolean;
+            mfaVerified: boolean;
+            name: string;
+            permissions: Array<string>;
+            roles: Roles;
+            type: 'system' | 'collector' | 'business';
+            updatedAt: string;
+            username: string;
+          }
+        | {
+            createdAt: string;
+            default: boolean;
+            description: string;
+            id: string;
+            name: string;
+            permissions: Array<string>;
+            updatedAt: string;
+          }
+        | {
+            carbonFactor: string;
+            createdAt: string;
+            gwCode: string;
+            id: string;
+            name: string;
+            updatedAt: string;
+          }
+        | {
+            buyer: Business;
+            createdAt: string;
+            id: string;
+            materials: CollectionMaterials;
+            seller: User;
+            updatedAt: string;
+          }
+        | {
+            carbonFactor?: string;
+            createdAt: string;
+            gwCode?: string;
+            id: string;
+            name?: string;
+            updatedAt: string;
+            value: number;
+            weight: number;
+          }
+        | {
+            buyer: Business;
+            createdAt: string;
+            id: string;
+            materials: TransactionMaterials;
+            seller: User;
+            updatedAt: string;
+          }
+        | {
+            carbonFactor?: string;
+            createdAt: string;
+            gwCode?: string;
+            id: string;
+            name?: string;
+            updatedAt: string;
+            value: number;
+            weight: number;
+          }
+        | {
+            address: Address;
+            bankDetails: BankDetails;
+            createdAt: string;
+            id: string;
+            name: string;
+            ownerId: string;
+            roles: Roles;
+            updatedAt: string;
+            users: Array<User>;
+          };
+      items?: Array<
+        | {
+            address: Address;
+            bankDetails: BankDetails;
+            businessId: string | null;
+            businesses: Array<Business>;
+            createdAt: string;
+            id: string;
+            mfaEnabled: boolean;
+            mfaVerified: boolean;
+            name: string;
+            permissions: Array<string>;
+            roles: Roles;
+            type: 'system' | 'collector' | 'business';
+            updatedAt: string;
+            username: string;
+          }
+        | {
+            createdAt: string;
+            default: boolean;
+            description: string;
+            id: string;
+            name: string;
+            permissions: Array<string>;
+            updatedAt: string;
+          }
+        | {
+            carbonFactor: string;
+            createdAt: string;
+            gwCode: string;
+            id: string;
+            name: string;
+            updatedAt: string;
+          }
+        | {
+            buyer: Business;
+            createdAt: string;
+            id: string;
+            materials: CollectionMaterials;
+            seller: User;
+            updatedAt: string;
+          }
+        | {
+            carbonFactor?: string;
+            createdAt: string;
+            gwCode?: string;
+            id: string;
+            name?: string;
+            updatedAt: string;
+            value: number;
+            weight: number;
+          }
+        | {
+            buyer: Business;
+            createdAt: string;
+            id: string;
+            materials: TransactionMaterials;
+            seller: User;
+            updatedAt: string;
+          }
+        | {
+            carbonFactor?: string;
+            createdAt: string;
+            gwCode?: string;
+            id: string;
+            name?: string;
+            updatedAt: string;
+            value: number;
+            weight: number;
+          }
+        | {
+            address: Address;
+            bankDetails: BankDetails;
+            createdAt: string;
+            id: string;
+            name: string;
+            ownerId: string;
+            roles: Roles;
+            updatedAt: string;
+            users: Array<User>;
+          }
+        | {
+            name: string;
+            permissions: Permissions;
+            subGroups: Array<PermissionGroup>;
+          }
+      >;
+      pagination?: Pagination;
+    };
+  };
+
+export type PostApiTransactionsUnassignMaterialByTransactionIdByMaterialIdResponse =
+  PostApiTransactionsUnassignMaterialByTransactionIdByMaterialIdResponses[keyof PostApiTransactionsUnassignMaterialByTransactionIdByMaterialIdResponses];
 
 export type DeleteApiTransactionsByIdData = {
   body?: never;
   path: {
-    id: unknown;
+    id: string;
   };
   query?: never;
   url: '/api/transactions/{id}';
@@ -18291,32 +12084,39 @@ export type DeleteApiTransactionsByIdData = {
 
 export type DeleteApiTransactionsByIdErrors = {
   /**
-   * Invalid request.
+   * Bad Request
    */
   400: {
-    error?: string;
-    message?: string;
+    error: string;
+    message: string;
   };
   /**
-   * Unauthorized.
+   * Unauthorized
    */
   401: {
-    error?: string;
-    message?: string;
+    error: string;
+    message: string;
   };
   /**
-   * Transaction not found.
+   * Forbidden
+   */
+  403: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Not Found
    */
   404: {
-    error?: string;
-    message?: string;
+    error: string;
+    message: string;
   };
   /**
-   * Internal server error.
+   * Internal Server Error
    */
   500: {
-    error?: string;
-    message?: string;
+    error: string;
+    message: string;
   };
   default: unknown;
 };
@@ -18326,48 +12126,230 @@ export type DeleteApiTransactionsByIdError =
 
 export type DeleteApiTransactionsByIdResponses = {
   /**
-   * The transaction has been successfully deleted.
+   * Transaction deleted successfully.
    */
-  200: unknown;
+  200: {
+    item?:
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          businessId: string | null;
+          businesses: Array<Business>;
+          createdAt: string;
+          id: string;
+          mfaEnabled: boolean;
+          mfaVerified: boolean;
+          name: string;
+          permissions: Array<string>;
+          roles: Roles;
+          type: 'system' | 'collector' | 'business';
+          updatedAt: string;
+          username: string;
+        }
+      | {
+          createdAt: string;
+          default: boolean;
+          description: string;
+          id: string;
+          name: string;
+          permissions: Array<string>;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor: string;
+          createdAt: string;
+          gwCode: string;
+          id: string;
+          name: string;
+          updatedAt: string;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: CollectionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: TransactionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          createdAt: string;
+          id: string;
+          name: string;
+          ownerId: string;
+          roles: Roles;
+          updatedAt: string;
+          users: Array<User>;
+        };
+    items?: Array<
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          businessId: string | null;
+          businesses: Array<Business>;
+          createdAt: string;
+          id: string;
+          mfaEnabled: boolean;
+          mfaVerified: boolean;
+          name: string;
+          permissions: Array<string>;
+          roles: Roles;
+          type: 'system' | 'collector' | 'business';
+          updatedAt: string;
+          username: string;
+        }
+      | {
+          createdAt: string;
+          default: boolean;
+          description: string;
+          id: string;
+          name: string;
+          permissions: Array<string>;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor: string;
+          createdAt: string;
+          gwCode: string;
+          id: string;
+          name: string;
+          updatedAt: string;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: CollectionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: TransactionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          createdAt: string;
+          id: string;
+          name: string;
+          ownerId: string;
+          roles: Roles;
+          updatedAt: string;
+          users: Array<User>;
+        }
+      | {
+          name: string;
+          permissions: Permissions;
+          subGroups: Array<PermissionGroup>;
+        }
+    >;
+    pagination?: Pagination;
+  };
 };
+
+export type DeleteApiTransactionsByIdResponse =
+  DeleteApiTransactionsByIdResponses[keyof DeleteApiTransactionsByIdResponses];
 
 export type GetApiTransactionsByIdData = {
   body?: never;
   path: {
     id: string;
   };
-  query?: never;
+  query?: {
+    preload?: Array<string>;
+  };
   url: '/api/transactions/{id}';
 };
 
 export type GetApiTransactionsByIdErrors = {
   /**
-   * Bad Request.
+   * Bad Request
    */
   400: {
-    error?: string;
-    message?: string;
+    error: string;
+    message: string;
   };
   /**
-   * Unauthorized.
+   * Unauthorized
    */
   401: {
-    error?: string;
-    message?: string;
+    error: string;
+    message: string;
   };
   /**
-   * Transaction not found.
+   * Forbidden
+   */
+  403: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Not Found
    */
   404: {
-    error?: string;
-    message?: string;
+    error: string;
+    message: string;
   };
   /**
-   * Internal Server Error.
+   * Internal Server Error
    */
   500: {
-    error?: string;
-    message?: string;
+    error: string;
+    message: string;
   };
   default: unknown;
 };
@@ -18377,833 +12359,178 @@ export type GetApiTransactionsByIdError =
 
 export type GetApiTransactionsByIdResponses = {
   /**
-   * The transaction was retrieved successfully.
+   * Transaction retrieved successfully.
    */
   200: {
     item?:
       | {
-          address?: {
-            city: string;
-            country: string;
-            createdAt: string;
-            id: string;
-            lineOne: string;
-            lineTwo?: string | null;
-            postalCode: number;
-            state: string;
-            updatedAt: string;
-          };
-          bankDetails?: {
-            accountHolder: string;
-            accountNumber: string;
-            bankName: string;
-            branchCode: string;
-            createdAt: string;
-            id: string;
-            updatedAt: string;
-          };
+          address: Address;
+          bankDetails: BankDetails;
+          businessId: string | null;
+          businesses: Array<Business>;
           createdAt: string;
-          email: string;
           id: string;
-          image?: string;
-          jobTitle?: string;
           mfaEnabled: boolean;
           mfaVerified: boolean;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          name?: string;
-          organizations?: Array<{
-            createdAt: string;
-            domain: string;
-            id: string;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            owner: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            ownerId: string;
-            updatedAt: string;
-          }>;
-          phone?: string;
-          primaryOrganizationId?: string;
-          roles?: Array<{
-            createdAt: string;
-            description: string;
-            id: string;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            permissions: Array<string>;
-            updatedAt: string;
-          }>;
-          tags: Array<string>;
-          updatedAt: string;
-        }
-      | {
-          createdAt: string;
-          domain: string;
-          id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
           name: string;
-          owner: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          ownerId: string;
+          permissions: Array<string>;
+          roles: Roles;
+          type: 'system' | 'collector' | 'business';
           updatedAt: string;
+          username: string;
         }
       | {
           createdAt: string;
+          default: boolean;
           description: string;
           id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
           name: string;
           permissions: Array<string>;
           updatedAt: string;
-        }
-      | {
-          createdAt: string;
-          data: {
-            [key: string]: unknown;
-          };
-          id: string;
-          objectId: string;
-          operationType: string;
-          tableName: string;
-          updatedAt: string;
-          user?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          userId: string;
         }
       | {
           carbonFactor: string;
           createdAt: string;
           gwCode: string;
           id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
           name: string;
           updatedAt: string;
         }
       | {
+          buyer: Business;
           createdAt: string;
           id: string;
-          materials: Array<{
-            carbonFactor: string;
-            createdAt: string;
-            gwCode: string;
-            id: string;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            updatedAt: string;
-          }>;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          name: string;
+          materials: CollectionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
           updatedAt: string;
           value: number;
-        }
-      | {
-          amount: number;
-          buyerId: string;
-          buyerType: string;
-          createdAt: string;
-          id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById?: string;
-          products: Array<{
-            createdAt: string;
-            id: string;
-            materials: Array<{
-              carbonFactor: string;
-              createdAt: string;
-              gwCode: string;
-              id: string;
-              modifiedBy?: {
-                createdAt: string;
-                email: string;
-                id: string;
-                image?: string;
-                jobTitle?: string;
-                mfaEnabled: boolean;
-                mfaVerified: boolean;
-                modifiedById: string;
-                name?: string;
-                phone?: string;
-                primaryOrganizationId?: string;
-                tags: Array<string>;
-                updatedAt: string;
-              };
-              modifiedById: string;
-              name: string;
-              updatedAt: string;
-            }>;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            updatedAt: string;
-            value: number;
-          }>;
-          sellerAccepted: boolean;
-          sellerDeclined: boolean;
-          sellerId: string;
-          sellerType: string;
-          type: string;
-          updatedAt: string;
           weight: number;
         }
       | {
-          action?: {
-            link?: string;
-            linkText?: string;
-          };
-          closed: boolean;
+          buyer: Business;
           createdAt: string;
           id: string;
-          message: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          title: string;
+          materials: TransactionMaterials;
+          seller: User;
           updatedAt: string;
-          userId: string;
         }
       | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          createdAt: string;
+          id: string;
           name: string;
-          permissions: Array<{
-            description: string;
-            value: string;
-          }>;
-        }
-      | {
-          city: string;
-          country: string;
-          createdAt: string;
-          id: string;
-          lineOne: string;
-          lineTwo?: string | null;
-          postalCode: number;
-          state: string;
+          ownerId: string;
+          roles: Roles;
           updatedAt: string;
-        }
-      | {
-          accountHolder: string;
-          accountNumber: string;
-          bankName: string;
-          branchCode: string;
-          createdAt: string;
-          id: string;
-          updatedAt: string;
+          users: Array<User>;
         };
-    items?:
-      | Array<{
-          address?: {
-            city: string;
-            country: string;
-            createdAt: string;
-            id: string;
-            lineOne: string;
-            lineTwo?: string | null;
-            postalCode: number;
-            state: string;
-            updatedAt: string;
-          };
-          bankDetails?: {
-            accountHolder: string;
-            accountNumber: string;
-            bankName: string;
-            branchCode: string;
-            createdAt: string;
-            id: string;
-            updatedAt: string;
-          };
+    items?: Array<
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          businessId: string | null;
+          businesses: Array<Business>;
           createdAt: string;
-          email: string;
           id: string;
-          image?: string;
-          jobTitle?: string;
           mfaEnabled: boolean;
           mfaVerified: boolean;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          name?: string;
-          organizations?: Array<{
-            createdAt: string;
-            domain: string;
-            id: string;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            owner: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            ownerId: string;
-            updatedAt: string;
-          }>;
-          phone?: string;
-          primaryOrganizationId?: string;
-          roles?: Array<{
-            createdAt: string;
-            description: string;
-            id: string;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            permissions: Array<string>;
-            updatedAt: string;
-          }>;
-          tags: Array<string>;
-          updatedAt: string;
-        }>
-      | Array<{
-          createdAt: string;
-          domain: string;
-          id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
           name: string;
-          owner: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          ownerId: string;
+          permissions: Array<string>;
+          roles: Roles;
+          type: 'system' | 'collector' | 'business';
           updatedAt: string;
-        }>
-      | Array<{
+          username: string;
+        }
+      | {
           createdAt: string;
+          default: boolean;
           description: string;
           id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
           name: string;
           permissions: Array<string>;
           updatedAt: string;
-        }>
-      | Array<{
-          createdAt: string;
-          data: {
-            [key: string]: unknown;
-          };
-          id: string;
-          objectId: string;
-          operationType: string;
-          tableName: string;
-          updatedAt: string;
-          user?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          userId: string;
-        }>
-      | Array<{
+        }
+      | {
           carbonFactor: string;
           createdAt: string;
           gwCode: string;
           id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
           name: string;
           updatedAt: string;
-        }>
-      | Array<{
+        }
+      | {
+          buyer: Business;
           createdAt: string;
           id: string;
-          materials: Array<{
-            carbonFactor: string;
-            createdAt: string;
-            gwCode: string;
-            id: string;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            updatedAt: string;
-          }>;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          name: string;
+          materials: CollectionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
           updatedAt: string;
           value: number;
-        }>
-      | Array<{
-          amount: number;
-          buyerId: string;
-          buyerType: string;
-          createdAt: string;
-          id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById?: string;
-          products: Array<{
-            createdAt: string;
-            id: string;
-            materials: Array<{
-              carbonFactor: string;
-              createdAt: string;
-              gwCode: string;
-              id: string;
-              modifiedBy?: {
-                createdAt: string;
-                email: string;
-                id: string;
-                image?: string;
-                jobTitle?: string;
-                mfaEnabled: boolean;
-                mfaVerified: boolean;
-                modifiedById: string;
-                name?: string;
-                phone?: string;
-                primaryOrganizationId?: string;
-                tags: Array<string>;
-                updatedAt: string;
-              };
-              modifiedById: string;
-              name: string;
-              updatedAt: string;
-            }>;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            updatedAt: string;
-            value: number;
-          }>;
-          sellerAccepted: boolean;
-          sellerDeclined: boolean;
-          sellerId: string;
-          sellerType: string;
-          type: string;
-          updatedAt: string;
           weight: number;
-        }>
-      | Array<{
-          action?: {
-            link?: string;
-            linkText?: string;
-          };
-          closed: boolean;
+        }
+      | {
+          buyer: Business;
           createdAt: string;
           id: string;
-          message: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          title: string;
+          materials: TransactionMaterials;
+          seller: User;
           updatedAt: string;
-          userId: string;
-        }>
-      | Array<{
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          createdAt: string;
+          id: string;
           name: string;
-          permissions: Array<{
-            description: string;
-            value: string;
-          }>;
-        }>
-      | Array<{
-          city: string;
-          country: string;
-          createdAt: string;
-          id: string;
-          lineOne: string;
-          lineTwo?: string | null;
-          postalCode: number;
-          state: string;
+          ownerId: string;
+          roles: Roles;
           updatedAt: string;
-        }>
-      | Array<{
-          accountHolder: string;
-          accountNumber: string;
-          bankName: string;
-          branchCode: string;
-          createdAt: string;
-          id: string;
-          updatedAt: string;
-        }>
-      | Array<string>;
-    pageDetails?: {
-      count?: number;
-      currentPage?: number;
-      nextPage?: number;
-      pages?: number;
-      previousPage?: number;
-    } | null;
+          users: Array<User>;
+        }
+      | {
+          name: string;
+          permissions: Permissions;
+          subGroups: Array<PermissionGroup>;
+        }
+    >;
+    pagination?: Pagination;
   };
 };
 
@@ -19211,17 +12538,12 @@ export type GetApiTransactionsByIdResponse =
   GetApiTransactionsByIdResponses[keyof GetApiTransactionsByIdResponses];
 
 export type PutApiTransactionsByIdData = {
-  body: {
-    amount?: number | null;
-    products?: Array<string>;
-    sellerAccepted?: boolean | null;
-    sellerDeclined?: boolean | null;
-    sellerId?: string | null;
-    type?: string | null;
-    weight?: number | null;
-  };
+  /**
+   * Payload to update an existing transaction.
+   */
+  body: UpdateTransaction;
   path: {
-    id: unknown;
+    id: string;
   };
   query?: never;
   url: '/api/transactions/{id}';
@@ -19229,32 +12551,39 @@ export type PutApiTransactionsByIdData = {
 
 export type PutApiTransactionsByIdErrors = {
   /**
-   * Bad Request.
+   * Bad Request
    */
   400: {
-    error?: string;
-    message?: string;
+    error: string;
+    message: string;
   };
   /**
-   * Unauthorized.
+   * Unauthorized
    */
   401: {
-    error?: string;
-    message?: string;
+    error: string;
+    message: string;
   };
   /**
-   * Transaction not found.
+   * Forbidden
+   */
+  403: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Not Found
    */
   404: {
-    error?: string;
-    message?: string;
+    error: string;
+    message: string;
   };
   /**
-   * Internal Server Error.
+   * Internal Server Error
    */
   500: {
-    error?: string;
-    message?: string;
+    error: string;
+    message: string;
   };
   default: unknown;
 };
@@ -19264,42 +12593,225 @@ export type PutApiTransactionsByIdError =
 
 export type PutApiTransactionsByIdResponses = {
   /**
-   * The transaction has been successfully updated.
+   * Transaction updated successfully
    */
-  200: unknown;
+  200: {
+    item?:
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          businessId: string | null;
+          businesses: Array<Business>;
+          createdAt: string;
+          id: string;
+          mfaEnabled: boolean;
+          mfaVerified: boolean;
+          name: string;
+          permissions: Array<string>;
+          roles: Roles;
+          type: 'system' | 'collector' | 'business';
+          updatedAt: string;
+          username: string;
+        }
+      | {
+          createdAt: string;
+          default: boolean;
+          description: string;
+          id: string;
+          name: string;
+          permissions: Array<string>;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor: string;
+          createdAt: string;
+          gwCode: string;
+          id: string;
+          name: string;
+          updatedAt: string;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: CollectionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: TransactionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          createdAt: string;
+          id: string;
+          name: string;
+          ownerId: string;
+          roles: Roles;
+          updatedAt: string;
+          users: Array<User>;
+        };
+    items?: Array<
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          businessId: string | null;
+          businesses: Array<Business>;
+          createdAt: string;
+          id: string;
+          mfaEnabled: boolean;
+          mfaVerified: boolean;
+          name: string;
+          permissions: Array<string>;
+          roles: Roles;
+          type: 'system' | 'collector' | 'business';
+          updatedAt: string;
+          username: string;
+        }
+      | {
+          createdAt: string;
+          default: boolean;
+          description: string;
+          id: string;
+          name: string;
+          permissions: Array<string>;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor: string;
+          createdAt: string;
+          gwCode: string;
+          id: string;
+          name: string;
+          updatedAt: string;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: CollectionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: TransactionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          createdAt: string;
+          id: string;
+          name: string;
+          ownerId: string;
+          roles: Roles;
+          updatedAt: string;
+          users: Array<User>;
+        }
+      | {
+          name: string;
+          permissions: Permissions;
+          subGroups: Array<PermissionGroup>;
+        }
+    >;
+    pagination?: Pagination;
+  };
 };
+
+export type PutApiTransactionsByIdResponse =
+  PutApiTransactionsByIdResponses[keyof PutApiTransactionsByIdResponses];
 
 export type GetApiUsersData = {
   body?: never;
   path?: never;
-  query?: {
-    page?: number;
-    search?: string;
+  query: {
+    page: number;
+    pageSize: number;
+    preload?: Array<string>;
+    searchTerm?: string;
+    searchColumn?: Array<string>;
   };
   url: '/api/users';
 };
 
 export type GetApiUsersErrors = {
   /**
-   * Bad Request.
+   * Bad Request
    */
   400: {
-    error?: string;
-    message?: string;
+    error: string;
+    message: string;
   };
   /**
-   * Unauthorized.
+   * Unauthorized
    */
   401: {
-    error?: string;
-    message?: string;
+    error: string;
+    message: string;
   };
   /**
-   * Internal Server Error.
+   * Forbidden
+   */
+  403: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Internal Server Error
    */
   500: {
-    error?: string;
-    message?: string;
+    error: string;
+    message: string;
   };
   default: unknown;
 };
@@ -19308,833 +12820,178 @@ export type GetApiUsersError = GetApiUsersErrors[keyof GetApiUsersErrors];
 
 export type GetApiUsersResponses = {
   /**
-   * The list of users for the specified page and search query.
+   * User's retrieved successfully.
    */
   200: {
     item?:
       | {
-          address?: {
-            city: string;
-            country: string;
-            createdAt: string;
-            id: string;
-            lineOne: string;
-            lineTwo?: string | null;
-            postalCode: number;
-            state: string;
-            updatedAt: string;
-          };
-          bankDetails?: {
-            accountHolder: string;
-            accountNumber: string;
-            bankName: string;
-            branchCode: string;
-            createdAt: string;
-            id: string;
-            updatedAt: string;
-          };
+          address: Address;
+          bankDetails: BankDetails;
+          businessId: string | null;
+          businesses: Array<Business>;
           createdAt: string;
-          email: string;
           id: string;
-          image?: string;
-          jobTitle?: string;
           mfaEnabled: boolean;
           mfaVerified: boolean;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          name?: string;
-          organizations?: Array<{
-            createdAt: string;
-            domain: string;
-            id: string;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            owner: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            ownerId: string;
-            updatedAt: string;
-          }>;
-          phone?: string;
-          primaryOrganizationId?: string;
-          roles?: Array<{
-            createdAt: string;
-            description: string;
-            id: string;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            permissions: Array<string>;
-            updatedAt: string;
-          }>;
-          tags: Array<string>;
-          updatedAt: string;
-        }
-      | {
-          createdAt: string;
-          domain: string;
-          id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
           name: string;
-          owner: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          ownerId: string;
+          permissions: Array<string>;
+          roles: Roles;
+          type: 'system' | 'collector' | 'business';
           updatedAt: string;
+          username: string;
         }
       | {
           createdAt: string;
+          default: boolean;
           description: string;
           id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
           name: string;
           permissions: Array<string>;
           updatedAt: string;
-        }
-      | {
-          createdAt: string;
-          data: {
-            [key: string]: unknown;
-          };
-          id: string;
-          objectId: string;
-          operationType: string;
-          tableName: string;
-          updatedAt: string;
-          user?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          userId: string;
         }
       | {
           carbonFactor: string;
           createdAt: string;
           gwCode: string;
           id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
           name: string;
           updatedAt: string;
         }
       | {
+          buyer: Business;
           createdAt: string;
           id: string;
-          materials: Array<{
-            carbonFactor: string;
-            createdAt: string;
-            gwCode: string;
-            id: string;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            updatedAt: string;
-          }>;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          name: string;
+          materials: CollectionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
           updatedAt: string;
           value: number;
-        }
-      | {
-          amount: number;
-          buyerId: string;
-          buyerType: string;
-          createdAt: string;
-          id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById?: string;
-          products: Array<{
-            createdAt: string;
-            id: string;
-            materials: Array<{
-              carbonFactor: string;
-              createdAt: string;
-              gwCode: string;
-              id: string;
-              modifiedBy?: {
-                createdAt: string;
-                email: string;
-                id: string;
-                image?: string;
-                jobTitle?: string;
-                mfaEnabled: boolean;
-                mfaVerified: boolean;
-                modifiedById: string;
-                name?: string;
-                phone?: string;
-                primaryOrganizationId?: string;
-                tags: Array<string>;
-                updatedAt: string;
-              };
-              modifiedById: string;
-              name: string;
-              updatedAt: string;
-            }>;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            updatedAt: string;
-            value: number;
-          }>;
-          sellerAccepted: boolean;
-          sellerDeclined: boolean;
-          sellerId: string;
-          sellerType: string;
-          type: string;
-          updatedAt: string;
           weight: number;
         }
       | {
-          action?: {
-            link?: string;
-            linkText?: string;
-          };
-          closed: boolean;
+          buyer: Business;
           createdAt: string;
           id: string;
-          message: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          title: string;
+          materials: TransactionMaterials;
+          seller: User;
           updatedAt: string;
-          userId: string;
         }
       | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          createdAt: string;
+          id: string;
           name: string;
-          permissions: Array<{
-            description: string;
-            value: string;
-          }>;
-        }
-      | {
-          city: string;
-          country: string;
-          createdAt: string;
-          id: string;
-          lineOne: string;
-          lineTwo?: string | null;
-          postalCode: number;
-          state: string;
+          ownerId: string;
+          roles: Roles;
           updatedAt: string;
-        }
-      | {
-          accountHolder: string;
-          accountNumber: string;
-          bankName: string;
-          branchCode: string;
-          createdAt: string;
-          id: string;
-          updatedAt: string;
+          users: Array<User>;
         };
-    items?:
-      | Array<{
-          address?: {
-            city: string;
-            country: string;
-            createdAt: string;
-            id: string;
-            lineOne: string;
-            lineTwo?: string | null;
-            postalCode: number;
-            state: string;
-            updatedAt: string;
-          };
-          bankDetails?: {
-            accountHolder: string;
-            accountNumber: string;
-            bankName: string;
-            branchCode: string;
-            createdAt: string;
-            id: string;
-            updatedAt: string;
-          };
+    items?: Array<
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          businessId: string | null;
+          businesses: Array<Business>;
           createdAt: string;
-          email: string;
           id: string;
-          image?: string;
-          jobTitle?: string;
           mfaEnabled: boolean;
           mfaVerified: boolean;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          name?: string;
-          organizations?: Array<{
-            createdAt: string;
-            domain: string;
-            id: string;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            owner: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            ownerId: string;
-            updatedAt: string;
-          }>;
-          phone?: string;
-          primaryOrganizationId?: string;
-          roles?: Array<{
-            createdAt: string;
-            description: string;
-            id: string;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            permissions: Array<string>;
-            updatedAt: string;
-          }>;
-          tags: Array<string>;
-          updatedAt: string;
-        }>
-      | Array<{
-          createdAt: string;
-          domain: string;
-          id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
           name: string;
-          owner: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          ownerId: string;
+          permissions: Array<string>;
+          roles: Roles;
+          type: 'system' | 'collector' | 'business';
           updatedAt: string;
-        }>
-      | Array<{
+          username: string;
+        }
+      | {
           createdAt: string;
+          default: boolean;
           description: string;
           id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
           name: string;
           permissions: Array<string>;
           updatedAt: string;
-        }>
-      | Array<{
-          createdAt: string;
-          data: {
-            [key: string]: unknown;
-          };
-          id: string;
-          objectId: string;
-          operationType: string;
-          tableName: string;
-          updatedAt: string;
-          user?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          userId: string;
-        }>
-      | Array<{
+        }
+      | {
           carbonFactor: string;
           createdAt: string;
           gwCode: string;
           id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
           name: string;
           updatedAt: string;
-        }>
-      | Array<{
+        }
+      | {
+          buyer: Business;
           createdAt: string;
           id: string;
-          materials: Array<{
-            carbonFactor: string;
-            createdAt: string;
-            gwCode: string;
-            id: string;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            updatedAt: string;
-          }>;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          name: string;
+          materials: CollectionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
           updatedAt: string;
           value: number;
-        }>
-      | Array<{
-          amount: number;
-          buyerId: string;
-          buyerType: string;
-          createdAt: string;
-          id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById?: string;
-          products: Array<{
-            createdAt: string;
-            id: string;
-            materials: Array<{
-              carbonFactor: string;
-              createdAt: string;
-              gwCode: string;
-              id: string;
-              modifiedBy?: {
-                createdAt: string;
-                email: string;
-                id: string;
-                image?: string;
-                jobTitle?: string;
-                mfaEnabled: boolean;
-                mfaVerified: boolean;
-                modifiedById: string;
-                name?: string;
-                phone?: string;
-                primaryOrganizationId?: string;
-                tags: Array<string>;
-                updatedAt: string;
-              };
-              modifiedById: string;
-              name: string;
-              updatedAt: string;
-            }>;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            updatedAt: string;
-            value: number;
-          }>;
-          sellerAccepted: boolean;
-          sellerDeclined: boolean;
-          sellerId: string;
-          sellerType: string;
-          type: string;
-          updatedAt: string;
           weight: number;
-        }>
-      | Array<{
-          action?: {
-            link?: string;
-            linkText?: string;
-          };
-          closed: boolean;
+        }
+      | {
+          buyer: Business;
           createdAt: string;
           id: string;
-          message: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          title: string;
+          materials: TransactionMaterials;
+          seller: User;
           updatedAt: string;
-          userId: string;
-        }>
-      | Array<{
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          createdAt: string;
+          id: string;
           name: string;
-          permissions: Array<{
-            description: string;
-            value: string;
-          }>;
-        }>
-      | Array<{
-          city: string;
-          country: string;
-          createdAt: string;
-          id: string;
-          lineOne: string;
-          lineTwo?: string | null;
-          postalCode: number;
-          state: string;
+          ownerId: string;
+          roles: Roles;
           updatedAt: string;
-        }>
-      | Array<{
-          accountHolder: string;
-          accountNumber: string;
-          bankName: string;
-          branchCode: string;
-          createdAt: string;
-          id: string;
-          updatedAt: string;
-        }>
-      | Array<string>;
-    pageDetails?: {
-      count?: number;
-      currentPage?: number;
-      nextPage?: number;
-      pages?: number;
-      previousPage?: number;
-    } | null;
+          users: Array<User>;
+        }
+      | {
+          name: string;
+          permissions: Permissions;
+          subGroups: Array<PermissionGroup>;
+        }
+    >;
+    pagination?: Pagination;
   };
 };
 
@@ -20142,29 +12999,10 @@ export type GetApiUsersResponse =
   GetApiUsersResponses[keyof GetApiUsersResponses];
 
 export type PostApiUsersData = {
-  body: {
-    address: {
-      city: string;
-      country: string;
-      lineOne: string;
-      lineTwo?: string | null;
-      postalCode: number;
-      state: string;
-    };
-    bankDetails?: {
-      accountHolder?: string;
-      accountNumber?: string;
-      bankName?: string;
-      branchCode?: string;
-    };
-    email: string;
-    jobTitle?: string | null;
-    name: string | null;
-    password: string;
-    phone?: string | null;
-    roles?: Array<string> | null;
-    tags?: Array<string> | null;
-  };
+  /**
+   * Payload to create a new user.
+   */
+  body: CreateUser;
   path?: never;
   query?: never;
   url: '/api/users';
@@ -20172,25 +13010,32 @@ export type PostApiUsersData = {
 
 export type PostApiUsersErrors = {
   /**
-   * Invalid request.
+   * Bad Request
    */
   400: {
-    error?: string;
-    message?: string;
+    error: string;
+    message: string;
   };
   /**
-   * Unauthorized.
+   * Unauthorized
    */
   401: {
-    error?: string;
-    message?: string;
+    error: string;
+    message: string;
   };
   /**
-   * Internal Server Error.
+   * Forbidden
+   */
+  403: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Internal Server Error
    */
   500: {
-    error?: string;
-    message?: string;
+    error: string;
+    message: string;
   };
   default: unknown;
 };
@@ -20199,15 +13044,889 @@ export type PostApiUsersError = PostApiUsersErrors[keyof PostApiUsersErrors];
 
 export type PostApiUsersResponses = {
   /**
-   * The user has been successfully created.
+   * User created successfully.
    */
-  200: unknown;
+  200: {
+    item?:
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          businessId: string | null;
+          businesses: Array<Business>;
+          createdAt: string;
+          id: string;
+          mfaEnabled: boolean;
+          mfaVerified: boolean;
+          name: string;
+          permissions: Array<string>;
+          roles: Roles;
+          type: 'system' | 'collector' | 'business';
+          updatedAt: string;
+          username: string;
+        }
+      | {
+          createdAt: string;
+          default: boolean;
+          description: string;
+          id: string;
+          name: string;
+          permissions: Array<string>;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor: string;
+          createdAt: string;
+          gwCode: string;
+          id: string;
+          name: string;
+          updatedAt: string;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: CollectionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: TransactionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          createdAt: string;
+          id: string;
+          name: string;
+          ownerId: string;
+          roles: Roles;
+          updatedAt: string;
+          users: Array<User>;
+        };
+    items?: Array<
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          businessId: string | null;
+          businesses: Array<Business>;
+          createdAt: string;
+          id: string;
+          mfaEnabled: boolean;
+          mfaVerified: boolean;
+          name: string;
+          permissions: Array<string>;
+          roles: Roles;
+          type: 'system' | 'collector' | 'business';
+          updatedAt: string;
+          username: string;
+        }
+      | {
+          createdAt: string;
+          default: boolean;
+          description: string;
+          id: string;
+          name: string;
+          permissions: Array<string>;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor: string;
+          createdAt: string;
+          gwCode: string;
+          id: string;
+          name: string;
+          updatedAt: string;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: CollectionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: TransactionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          createdAt: string;
+          id: string;
+          name: string;
+          ownerId: string;
+          roles: Roles;
+          updatedAt: string;
+          users: Array<User>;
+        }
+      | {
+          name: string;
+          permissions: Permissions;
+          subGroups: Array<PermissionGroup>;
+        }
+    >;
+    pagination?: Pagination;
+  };
 };
+
+export type PostApiUsersResponse =
+  PostApiUsersResponses[keyof PostApiUsersResponses];
+
+export type PostApiUsersAssignRoleByUserIdByRoleIdData = {
+  body?: never;
+  path: {
+    userId: string;
+    roleId: string;
+  };
+  query?: never;
+  url: '/api/users/assign-role/{userId}/{roleId}';
+};
+
+export type PostApiUsersAssignRoleByUserIdByRoleIdErrors = {
+  /**
+   * Bad Request
+   */
+  400: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Unauthorized
+   */
+  401: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Forbidden
+   */
+  403: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Not Found
+   */
+  404: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Internal Server Error
+   */
+  500: {
+    error: string;
+    message: string;
+  };
+  default: unknown;
+};
+
+export type PostApiUsersAssignRoleByUserIdByRoleIdError =
+  PostApiUsersAssignRoleByUserIdByRoleIdErrors[keyof PostApiUsersAssignRoleByUserIdByRoleIdErrors];
+
+export type PostApiUsersAssignRoleByUserIdByRoleIdResponses = {
+  /**
+   * Role assigned to User successfully.
+   */
+  200: {
+    item?:
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          businessId: string | null;
+          businesses: Array<Business>;
+          createdAt: string;
+          id: string;
+          mfaEnabled: boolean;
+          mfaVerified: boolean;
+          name: string;
+          permissions: Array<string>;
+          roles: Roles;
+          type: 'system' | 'collector' | 'business';
+          updatedAt: string;
+          username: string;
+        }
+      | {
+          createdAt: string;
+          default: boolean;
+          description: string;
+          id: string;
+          name: string;
+          permissions: Array<string>;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor: string;
+          createdAt: string;
+          gwCode: string;
+          id: string;
+          name: string;
+          updatedAt: string;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: CollectionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: TransactionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          createdAt: string;
+          id: string;
+          name: string;
+          ownerId: string;
+          roles: Roles;
+          updatedAt: string;
+          users: Array<User>;
+        };
+    items?: Array<
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          businessId: string | null;
+          businesses: Array<Business>;
+          createdAt: string;
+          id: string;
+          mfaEnabled: boolean;
+          mfaVerified: boolean;
+          name: string;
+          permissions: Array<string>;
+          roles: Roles;
+          type: 'system' | 'collector' | 'business';
+          updatedAt: string;
+          username: string;
+        }
+      | {
+          createdAt: string;
+          default: boolean;
+          description: string;
+          id: string;
+          name: string;
+          permissions: Array<string>;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor: string;
+          createdAt: string;
+          gwCode: string;
+          id: string;
+          name: string;
+          updatedAt: string;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: CollectionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: TransactionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          createdAt: string;
+          id: string;
+          name: string;
+          ownerId: string;
+          roles: Roles;
+          updatedAt: string;
+          users: Array<User>;
+        }
+      | {
+          name: string;
+          permissions: Permissions;
+          subGroups: Array<PermissionGroup>;
+        }
+    >;
+    pagination?: Pagination;
+  };
+};
+
+export type PostApiUsersAssignRoleByUserIdByRoleIdResponse =
+  PostApiUsersAssignRoleByUserIdByRoleIdResponses[keyof PostApiUsersAssignRoleByUserIdByRoleIdResponses];
+
+export type GetApiUsersListRolesByUserIdData = {
+  body?: never;
+  path: {
+    userId: string;
+  };
+  query: {
+    page: number;
+    pageSize: number;
+    preload?: Array<string>;
+    searchTerm?: string;
+    searchColumn?: Array<string>;
+  };
+  url: '/api/users/list-roles/{userId}';
+};
+
+export type GetApiUsersListRolesByUserIdErrors = {
+  /**
+   * Bad Request
+   */
+  400: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Unauthorized
+   */
+  401: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Forbidden
+   */
+  403: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Not Found
+   */
+  404: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Internal Server Error
+   */
+  500: {
+    error: string;
+    message: string;
+  };
+  default: unknown;
+};
+
+export type GetApiUsersListRolesByUserIdError =
+  GetApiUsersListRolesByUserIdErrors[keyof GetApiUsersListRolesByUserIdErrors];
+
+export type GetApiUsersListRolesByUserIdResponses = {
+  /**
+   * Role retrieved from User successfully.
+   */
+  200: {
+    item?:
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          businessId: string | null;
+          businesses: Array<Business>;
+          createdAt: string;
+          id: string;
+          mfaEnabled: boolean;
+          mfaVerified: boolean;
+          name: string;
+          permissions: Array<string>;
+          roles: Roles;
+          type: 'system' | 'collector' | 'business';
+          updatedAt: string;
+          username: string;
+        }
+      | {
+          createdAt: string;
+          default: boolean;
+          description: string;
+          id: string;
+          name: string;
+          permissions: Array<string>;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor: string;
+          createdAt: string;
+          gwCode: string;
+          id: string;
+          name: string;
+          updatedAt: string;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: CollectionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: TransactionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          createdAt: string;
+          id: string;
+          name: string;
+          ownerId: string;
+          roles: Roles;
+          updatedAt: string;
+          users: Array<User>;
+        };
+    items?: Array<
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          businessId: string | null;
+          businesses: Array<Business>;
+          createdAt: string;
+          id: string;
+          mfaEnabled: boolean;
+          mfaVerified: boolean;
+          name: string;
+          permissions: Array<string>;
+          roles: Roles;
+          type: 'system' | 'collector' | 'business';
+          updatedAt: string;
+          username: string;
+        }
+      | {
+          createdAt: string;
+          default: boolean;
+          description: string;
+          id: string;
+          name: string;
+          permissions: Array<string>;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor: string;
+          createdAt: string;
+          gwCode: string;
+          id: string;
+          name: string;
+          updatedAt: string;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: CollectionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: TransactionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          createdAt: string;
+          id: string;
+          name: string;
+          ownerId: string;
+          roles: Roles;
+          updatedAt: string;
+          users: Array<User>;
+        }
+      | {
+          name: string;
+          permissions: Permissions;
+          subGroups: Array<PermissionGroup>;
+        }
+    >;
+    pagination?: Pagination;
+  };
+};
+
+export type GetApiUsersListRolesByUserIdResponse =
+  GetApiUsersListRolesByUserIdResponses[keyof GetApiUsersListRolesByUserIdResponses];
+
+export type PostApiUsersUnassignRoleByUserIdByRoleIdData = {
+  body?: never;
+  path: {
+    userId: string;
+    roleId: string;
+  };
+  query?: never;
+  url: '/api/users/unassign-role/{userId}/{roleId}';
+};
+
+export type PostApiUsersUnassignRoleByUserIdByRoleIdErrors = {
+  /**
+   * Bad Request
+   */
+  400: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Unauthorized
+   */
+  401: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Forbidden
+   */
+  403: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Not Found
+   */
+  404: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Internal Server Error
+   */
+  500: {
+    error: string;
+    message: string;
+  };
+  default: unknown;
+};
+
+export type PostApiUsersUnassignRoleByUserIdByRoleIdError =
+  PostApiUsersUnassignRoleByUserIdByRoleIdErrors[keyof PostApiUsersUnassignRoleByUserIdByRoleIdErrors];
+
+export type PostApiUsersUnassignRoleByUserIdByRoleIdResponses = {
+  /**
+   * Role unassigned from User successfully.
+   */
+  200: {
+    item?:
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          businessId: string | null;
+          businesses: Array<Business>;
+          createdAt: string;
+          id: string;
+          mfaEnabled: boolean;
+          mfaVerified: boolean;
+          name: string;
+          permissions: Array<string>;
+          roles: Roles;
+          type: 'system' | 'collector' | 'business';
+          updatedAt: string;
+          username: string;
+        }
+      | {
+          createdAt: string;
+          default: boolean;
+          description: string;
+          id: string;
+          name: string;
+          permissions: Array<string>;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor: string;
+          createdAt: string;
+          gwCode: string;
+          id: string;
+          name: string;
+          updatedAt: string;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: CollectionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: TransactionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          createdAt: string;
+          id: string;
+          name: string;
+          ownerId: string;
+          roles: Roles;
+          updatedAt: string;
+          users: Array<User>;
+        };
+    items?: Array<
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          businessId: string | null;
+          businesses: Array<Business>;
+          createdAt: string;
+          id: string;
+          mfaEnabled: boolean;
+          mfaVerified: boolean;
+          name: string;
+          permissions: Array<string>;
+          roles: Roles;
+          type: 'system' | 'collector' | 'business';
+          updatedAt: string;
+          username: string;
+        }
+      | {
+          createdAt: string;
+          default: boolean;
+          description: string;
+          id: string;
+          name: string;
+          permissions: Array<string>;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor: string;
+          createdAt: string;
+          gwCode: string;
+          id: string;
+          name: string;
+          updatedAt: string;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: CollectionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: TransactionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          createdAt: string;
+          id: string;
+          name: string;
+          ownerId: string;
+          roles: Roles;
+          updatedAt: string;
+          users: Array<User>;
+        }
+      | {
+          name: string;
+          permissions: Permissions;
+          subGroups: Array<PermissionGroup>;
+        }
+    >;
+    pagination?: Pagination;
+  };
+};
+
+export type PostApiUsersUnassignRoleByUserIdByRoleIdResponse =
+  PostApiUsersUnassignRoleByUserIdByRoleIdResponses[keyof PostApiUsersUnassignRoleByUserIdByRoleIdResponses];
 
 export type DeleteApiUsersByIdData = {
   body?: never;
   path: {
-    id: unknown;
+    id: string;
   };
   query?: never;
   url: '/api/users/{id}';
@@ -20215,32 +13934,39 @@ export type DeleteApiUsersByIdData = {
 
 export type DeleteApiUsersByIdErrors = {
   /**
-   * Invalid request.
+   * Bad Request
    */
   400: {
-    error?: string;
-    message?: string;
+    error: string;
+    message: string;
   };
   /**
-   * Unauthorized.
+   * Unauthorized
    */
   401: {
-    error?: string;
-    message?: string;
+    error: string;
+    message: string;
   };
   /**
-   * User not found.
+   * Forbidden
+   */
+  403: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Not Found
    */
   404: {
-    error?: string;
-    message?: string;
+    error: string;
+    message: string;
   };
   /**
-   * Internal server error.
+   * Internal Server Error
    */
   500: {
-    error?: string;
-    message?: string;
+    error: string;
+    message: string;
   };
   default: unknown;
 };
@@ -20250,48 +13976,230 @@ export type DeleteApiUsersByIdError =
 
 export type DeleteApiUsersByIdResponses = {
   /**
-   * The user has been successfully deleted.
+   * User deleted successfully.
    */
-  200: unknown;
+  200: {
+    item?:
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          businessId: string | null;
+          businesses: Array<Business>;
+          createdAt: string;
+          id: string;
+          mfaEnabled: boolean;
+          mfaVerified: boolean;
+          name: string;
+          permissions: Array<string>;
+          roles: Roles;
+          type: 'system' | 'collector' | 'business';
+          updatedAt: string;
+          username: string;
+        }
+      | {
+          createdAt: string;
+          default: boolean;
+          description: string;
+          id: string;
+          name: string;
+          permissions: Array<string>;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor: string;
+          createdAt: string;
+          gwCode: string;
+          id: string;
+          name: string;
+          updatedAt: string;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: CollectionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: TransactionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          createdAt: string;
+          id: string;
+          name: string;
+          ownerId: string;
+          roles: Roles;
+          updatedAt: string;
+          users: Array<User>;
+        };
+    items?: Array<
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          businessId: string | null;
+          businesses: Array<Business>;
+          createdAt: string;
+          id: string;
+          mfaEnabled: boolean;
+          mfaVerified: boolean;
+          name: string;
+          permissions: Array<string>;
+          roles: Roles;
+          type: 'system' | 'collector' | 'business';
+          updatedAt: string;
+          username: string;
+        }
+      | {
+          createdAt: string;
+          default: boolean;
+          description: string;
+          id: string;
+          name: string;
+          permissions: Array<string>;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor: string;
+          createdAt: string;
+          gwCode: string;
+          id: string;
+          name: string;
+          updatedAt: string;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: CollectionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: TransactionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          createdAt: string;
+          id: string;
+          name: string;
+          ownerId: string;
+          roles: Roles;
+          updatedAt: string;
+          users: Array<User>;
+        }
+      | {
+          name: string;
+          permissions: Permissions;
+          subGroups: Array<PermissionGroup>;
+        }
+    >;
+    pagination?: Pagination;
+  };
 };
+
+export type DeleteApiUsersByIdResponse =
+  DeleteApiUsersByIdResponses[keyof DeleteApiUsersByIdResponses];
 
 export type GetApiUsersByIdData = {
   body?: never;
   path: {
     id: string;
   };
-  query?: never;
+  query?: {
+    preload?: Array<string>;
+  };
   url: '/api/users/{id}';
 };
 
 export type GetApiUsersByIdErrors = {
   /**
-   * Bad Request.
+   * Bad Request
    */
   400: {
-    error?: string;
-    message?: string;
+    error: string;
+    message: string;
   };
   /**
-   * Unauthorized.
+   * Unauthorized
    */
   401: {
-    error?: string;
-    message?: string;
+    error: string;
+    message: string;
   };
   /**
-   * User not found.
+   * Forbidden
+   */
+  403: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Not Found
    */
   404: {
-    error?: string;
-    message?: string;
+    error: string;
+    message: string;
   };
   /**
-   * Internal Server Error.
+   * Internal Server Error
    */
   500: {
-    error?: string;
-    message?: string;
+    error: string;
+    message: string;
   };
   default: unknown;
 };
@@ -20301,833 +14209,178 @@ export type GetApiUsersByIdError =
 
 export type GetApiUsersByIdResponses = {
   /**
-   * The user was retrieved successfully.
+   * User retrieved successfully.
    */
   200: {
     item?:
       | {
-          address?: {
-            city: string;
-            country: string;
-            createdAt: string;
-            id: string;
-            lineOne: string;
-            lineTwo?: string | null;
-            postalCode: number;
-            state: string;
-            updatedAt: string;
-          };
-          bankDetails?: {
-            accountHolder: string;
-            accountNumber: string;
-            bankName: string;
-            branchCode: string;
-            createdAt: string;
-            id: string;
-            updatedAt: string;
-          };
+          address: Address;
+          bankDetails: BankDetails;
+          businessId: string | null;
+          businesses: Array<Business>;
           createdAt: string;
-          email: string;
           id: string;
-          image?: string;
-          jobTitle?: string;
           mfaEnabled: boolean;
           mfaVerified: boolean;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          name?: string;
-          organizations?: Array<{
-            createdAt: string;
-            domain: string;
-            id: string;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            owner: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            ownerId: string;
-            updatedAt: string;
-          }>;
-          phone?: string;
-          primaryOrganizationId?: string;
-          roles?: Array<{
-            createdAt: string;
-            description: string;
-            id: string;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            permissions: Array<string>;
-            updatedAt: string;
-          }>;
-          tags: Array<string>;
-          updatedAt: string;
-        }
-      | {
-          createdAt: string;
-          domain: string;
-          id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
           name: string;
-          owner: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          ownerId: string;
+          permissions: Array<string>;
+          roles: Roles;
+          type: 'system' | 'collector' | 'business';
           updatedAt: string;
+          username: string;
         }
       | {
           createdAt: string;
+          default: boolean;
           description: string;
           id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
           name: string;
           permissions: Array<string>;
           updatedAt: string;
-        }
-      | {
-          createdAt: string;
-          data: {
-            [key: string]: unknown;
-          };
-          id: string;
-          objectId: string;
-          operationType: string;
-          tableName: string;
-          updatedAt: string;
-          user?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          userId: string;
         }
       | {
           carbonFactor: string;
           createdAt: string;
           gwCode: string;
           id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
           name: string;
           updatedAt: string;
         }
       | {
+          buyer: Business;
           createdAt: string;
           id: string;
-          materials: Array<{
-            carbonFactor: string;
-            createdAt: string;
-            gwCode: string;
-            id: string;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            updatedAt: string;
-          }>;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          name: string;
+          materials: CollectionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
           updatedAt: string;
           value: number;
-        }
-      | {
-          amount: number;
-          buyerId: string;
-          buyerType: string;
-          createdAt: string;
-          id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById?: string;
-          products: Array<{
-            createdAt: string;
-            id: string;
-            materials: Array<{
-              carbonFactor: string;
-              createdAt: string;
-              gwCode: string;
-              id: string;
-              modifiedBy?: {
-                createdAt: string;
-                email: string;
-                id: string;
-                image?: string;
-                jobTitle?: string;
-                mfaEnabled: boolean;
-                mfaVerified: boolean;
-                modifiedById: string;
-                name?: string;
-                phone?: string;
-                primaryOrganizationId?: string;
-                tags: Array<string>;
-                updatedAt: string;
-              };
-              modifiedById: string;
-              name: string;
-              updatedAt: string;
-            }>;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            updatedAt: string;
-            value: number;
-          }>;
-          sellerAccepted: boolean;
-          sellerDeclined: boolean;
-          sellerId: string;
-          sellerType: string;
-          type: string;
-          updatedAt: string;
           weight: number;
         }
       | {
-          action?: {
-            link?: string;
-            linkText?: string;
-          };
-          closed: boolean;
+          buyer: Business;
           createdAt: string;
           id: string;
-          message: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          title: string;
+          materials: TransactionMaterials;
+          seller: User;
           updatedAt: string;
-          userId: string;
         }
       | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          createdAt: string;
+          id: string;
           name: string;
-          permissions: Array<{
-            description: string;
-            value: string;
-          }>;
-        }
-      | {
-          city: string;
-          country: string;
-          createdAt: string;
-          id: string;
-          lineOne: string;
-          lineTwo?: string | null;
-          postalCode: number;
-          state: string;
+          ownerId: string;
+          roles: Roles;
           updatedAt: string;
-        }
-      | {
-          accountHolder: string;
-          accountNumber: string;
-          bankName: string;
-          branchCode: string;
-          createdAt: string;
-          id: string;
-          updatedAt: string;
+          users: Array<User>;
         };
-    items?:
-      | Array<{
-          address?: {
-            city: string;
-            country: string;
-            createdAt: string;
-            id: string;
-            lineOne: string;
-            lineTwo?: string | null;
-            postalCode: number;
-            state: string;
-            updatedAt: string;
-          };
-          bankDetails?: {
-            accountHolder: string;
-            accountNumber: string;
-            bankName: string;
-            branchCode: string;
-            createdAt: string;
-            id: string;
-            updatedAt: string;
-          };
+    items?: Array<
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          businessId: string | null;
+          businesses: Array<Business>;
           createdAt: string;
-          email: string;
           id: string;
-          image?: string;
-          jobTitle?: string;
           mfaEnabled: boolean;
           mfaVerified: boolean;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          name?: string;
-          organizations?: Array<{
-            createdAt: string;
-            domain: string;
-            id: string;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            owner: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            ownerId: string;
-            updatedAt: string;
-          }>;
-          phone?: string;
-          primaryOrganizationId?: string;
-          roles?: Array<{
-            createdAt: string;
-            description: string;
-            id: string;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            permissions: Array<string>;
-            updatedAt: string;
-          }>;
-          tags: Array<string>;
-          updatedAt: string;
-        }>
-      | Array<{
-          createdAt: string;
-          domain: string;
-          id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
           name: string;
-          owner: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          ownerId: string;
+          permissions: Array<string>;
+          roles: Roles;
+          type: 'system' | 'collector' | 'business';
           updatedAt: string;
-        }>
-      | Array<{
+          username: string;
+        }
+      | {
           createdAt: string;
+          default: boolean;
           description: string;
           id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
           name: string;
           permissions: Array<string>;
           updatedAt: string;
-        }>
-      | Array<{
-          createdAt: string;
-          data: {
-            [key: string]: unknown;
-          };
-          id: string;
-          objectId: string;
-          operationType: string;
-          tableName: string;
-          updatedAt: string;
-          user?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          userId: string;
-        }>
-      | Array<{
+        }
+      | {
           carbonFactor: string;
           createdAt: string;
           gwCode: string;
           id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
           name: string;
           updatedAt: string;
-        }>
-      | Array<{
+        }
+      | {
+          buyer: Business;
           createdAt: string;
           id: string;
-          materials: Array<{
-            carbonFactor: string;
-            createdAt: string;
-            gwCode: string;
-            id: string;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            updatedAt: string;
-          }>;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          name: string;
+          materials: CollectionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
           updatedAt: string;
           value: number;
-        }>
-      | Array<{
-          amount: number;
-          buyerId: string;
-          buyerType: string;
-          createdAt: string;
-          id: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById?: string;
-          products: Array<{
-            createdAt: string;
-            id: string;
-            materials: Array<{
-              carbonFactor: string;
-              createdAt: string;
-              gwCode: string;
-              id: string;
-              modifiedBy?: {
-                createdAt: string;
-                email: string;
-                id: string;
-                image?: string;
-                jobTitle?: string;
-                mfaEnabled: boolean;
-                mfaVerified: boolean;
-                modifiedById: string;
-                name?: string;
-                phone?: string;
-                primaryOrganizationId?: string;
-                tags: Array<string>;
-                updatedAt: string;
-              };
-              modifiedById: string;
-              name: string;
-              updatedAt: string;
-            }>;
-            modifiedBy?: {
-              createdAt: string;
-              email: string;
-              id: string;
-              image?: string;
-              jobTitle?: string;
-              mfaEnabled: boolean;
-              mfaVerified: boolean;
-              modifiedById: string;
-              name?: string;
-              phone?: string;
-              primaryOrganizationId?: string;
-              tags: Array<string>;
-              updatedAt: string;
-            };
-            modifiedById: string;
-            name: string;
-            updatedAt: string;
-            value: number;
-          }>;
-          sellerAccepted: boolean;
-          sellerDeclined: boolean;
-          sellerId: string;
-          sellerType: string;
-          type: string;
-          updatedAt: string;
           weight: number;
-        }>
-      | Array<{
-          action?: {
-            link?: string;
-            linkText?: string;
-          };
-          closed: boolean;
+        }
+      | {
+          buyer: Business;
           createdAt: string;
           id: string;
-          message: string;
-          modifiedBy?: {
-            createdAt: string;
-            email: string;
-            id: string;
-            image?: string;
-            jobTitle?: string;
-            mfaEnabled: boolean;
-            mfaVerified: boolean;
-            modifiedById: string;
-            name?: string;
-            phone?: string;
-            primaryOrganizationId?: string;
-            tags: Array<string>;
-            updatedAt: string;
-          };
-          modifiedById: string;
-          title: string;
+          materials: TransactionMaterials;
+          seller: User;
           updatedAt: string;
-          userId: string;
-        }>
-      | Array<{
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          createdAt: string;
+          id: string;
           name: string;
-          permissions: Array<{
-            description: string;
-            value: string;
-          }>;
-        }>
-      | Array<{
-          city: string;
-          country: string;
-          createdAt: string;
-          id: string;
-          lineOne: string;
-          lineTwo?: string | null;
-          postalCode: number;
-          state: string;
+          ownerId: string;
+          roles: Roles;
           updatedAt: string;
-        }>
-      | Array<{
-          accountHolder: string;
-          accountNumber: string;
-          bankName: string;
-          branchCode: string;
-          createdAt: string;
-          id: string;
-          updatedAt: string;
-        }>
-      | Array<string>;
-    pageDetails?: {
-      count?: number;
-      currentPage?: number;
-      nextPage?: number;
-      pages?: number;
-      previousPage?: number;
-    } | null;
+          users: Array<User>;
+        }
+      | {
+          name: string;
+          permissions: Permissions;
+          subGroups: Array<PermissionGroup>;
+        }
+    >;
+    pagination?: Pagination;
   };
 };
 
@@ -21135,32 +14388,12 @@ export type GetApiUsersByIdResponse =
   GetApiUsersByIdResponses[keyof GetApiUsersByIdResponses];
 
 export type PutApiUsersByIdData = {
-  body: {
-    address?: {
-      city?: string | null;
-      country?: string | null;
-      lineOne?: string | null;
-      lineTwo?: string | null;
-      postalCode?: number | null;
-      state?: string | null;
-    };
-    bankDetails?: {
-      accountHolder?: string | null;
-      accountNumber?: string | null;
-      bankName?: string | null;
-      branchCode?: string | null;
-    };
-    email?: string | null;
-    jobTitle?: string | null;
-    name?: string | null;
-    organizations?: Array<string> | null;
-    phone?: string | null;
-    primaryOrganizationId?: string | null;
-    roles?: Array<string> | null;
-    tags?: Array<string> | null;
-  };
+  /**
+   * Payload to update an existing user.
+   */
+  body: UpdateUser;
   path: {
-    id: unknown;
+    id: string;
   };
   query?: never;
   url: '/api/users/{id}';
@@ -21168,32 +14401,39 @@ export type PutApiUsersByIdData = {
 
 export type PutApiUsersByIdErrors = {
   /**
-   * Bad Request.
+   * Bad Request
    */
   400: {
-    error?: string;
-    message?: string;
+    error: string;
+    message: string;
   };
   /**
-   * Unauthorized.
+   * Unauthorized
    */
   401: {
-    error?: string;
-    message?: string;
+    error: string;
+    message: string;
   };
   /**
-   * User not found.
+   * Forbidden
+   */
+  403: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Not Found
    */
   404: {
-    error?: string;
-    message?: string;
+    error: string;
+    message: string;
   };
   /**
-   * Internal Server Error.
+   * Internal Server Error
    */
   500: {
-    error?: string;
-    message?: string;
+    error: string;
+    message: string;
   };
   default: unknown;
 };
@@ -21203,11 +14443,184 @@ export type PutApiUsersByIdError =
 
 export type PutApiUsersByIdResponses = {
   /**
-   * The user has been successfully updated.
+   * User updated successfully
    */
-  200: unknown;
+  200: {
+    item?:
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          businessId: string | null;
+          businesses: Array<Business>;
+          createdAt: string;
+          id: string;
+          mfaEnabled: boolean;
+          mfaVerified: boolean;
+          name: string;
+          permissions: Array<string>;
+          roles: Roles;
+          type: 'system' | 'collector' | 'business';
+          updatedAt: string;
+          username: string;
+        }
+      | {
+          createdAt: string;
+          default: boolean;
+          description: string;
+          id: string;
+          name: string;
+          permissions: Array<string>;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor: string;
+          createdAt: string;
+          gwCode: string;
+          id: string;
+          name: string;
+          updatedAt: string;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: CollectionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: TransactionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          createdAt: string;
+          id: string;
+          name: string;
+          ownerId: string;
+          roles: Roles;
+          updatedAt: string;
+          users: Array<User>;
+        };
+    items?: Array<
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          businessId: string | null;
+          businesses: Array<Business>;
+          createdAt: string;
+          id: string;
+          mfaEnabled: boolean;
+          mfaVerified: boolean;
+          name: string;
+          permissions: Array<string>;
+          roles: Roles;
+          type: 'system' | 'collector' | 'business';
+          updatedAt: string;
+          username: string;
+        }
+      | {
+          createdAt: string;
+          default: boolean;
+          description: string;
+          id: string;
+          name: string;
+          permissions: Array<string>;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor: string;
+          createdAt: string;
+          gwCode: string;
+          id: string;
+          name: string;
+          updatedAt: string;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: CollectionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: TransactionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          createdAt: string;
+          id: string;
+          name: string;
+          ownerId: string;
+          roles: Roles;
+          updatedAt: string;
+          users: Array<User>;
+        }
+      | {
+          name: string;
+          permissions: Permissions;
+          subGroups: Array<PermissionGroup>;
+        }
+    >;
+    pagination?: Pagination;
+  };
 };
 
+export type PutApiUsersByIdResponse =
+  PutApiUsersByIdResponses[keyof PutApiUsersByIdResponses];
+
 export type ClientOptions = {
-  baseUrl: 'http://localhost:6173' | 'https://one.thusa.co.za' | (string & {});
+  baseUrl: 'http://localhost:6173' | 'https://3reco.co.za' | (string & {});
 };

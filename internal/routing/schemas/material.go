@@ -1,34 +1,113 @@
 package schemas
 
-import (
-	"github.com/connor-davis/threereco-nextgen/internal/routing/properties"
-	"github.com/getkin/kin-openapi/openapi3"
-)
+import "github.com/getkin/kin-openapi/openapi3"
 
-var MaterialSchema = openapi3.NewSchema().
-	WithProperties(properties.MaterialProperties).
-	WithProperty(
-		"modifiedBy",
-		ModifiedByUserSchema.Value,
-	).
-	WithRequired([]string{
-		"id",
-		"name",
-		"gwCode",
-		"carbonFactor",
-		"products",
-		"modifiedById",
-		"createdAt",
-		"updatedAt",
-	}).NewRef()
+var MaterialSchema = &openapi3.SchemaRef{
+	Value: &openapi3.Schema{
+		Type: openapi3.NewObjectSchema().Type,
+		Properties: map[string]*openapi3.SchemaRef{
+			"id": {
+				Value: openapi3.NewUUIDSchema(),
+			},
+			"name": {
+				Value: openapi3.NewStringSchema(),
+			},
+			"gwCode": {
+				Value: openapi3.NewStringSchema(),
+			},
+			"carbonFactor": {
+				Value: openapi3.NewStringSchema(),
+			},
+			"createdAt": {
+				Value: openapi3.NewDateTimeSchema(),
+			},
+			"updatedAt": {
+				Value: openapi3.NewDateTimeSchema(),
+			},
+		},
+		Required: []string{
+			"id",
+			"name",
+			"gwCode",
+			"carbonFactor",
+			"createdAt",
+			"updatedAt",
+		},
+	},
+}
 
-var MaterialArraySchema = openapi3.NewArraySchema().
-	WithItems(MaterialSchema.Value).NewRef()
+var MaterialsSchema = &openapi3.SchemaRef{
+	Value: &openapi3.Schema{
+		Type: openapi3.NewArraySchema().Type,
+		Items: &openapi3.SchemaRef{
+			Ref: "#/components/schemas/Material",
+		},
+	},
+}
 
-var CreateMaterialPayloadSchema = openapi3.NewSchema().WithProperties(properties.CreateMaterialPayloadProperties).WithRequired([]string{
-	"name",
-	"gwCode",
-	"carbonFactor",
-}).NewRef()
+var AssignMaterialSchema = &openapi3.SchemaRef{
+	Value: &openapi3.Schema{
+		Type: openapi3.NewObjectSchema().Type,
+		Properties: map[string]*openapi3.SchemaRef{
+			"id": {
+				Value: openapi3.NewUUIDSchema(),
+			},
+		},
+		Required: []string{
+			"id",
+		},
+	},
+}
 
-var UpdateMaterialPayloadSchema = openapi3.NewSchema().WithProperties(properties.UpdateMaterialPayloadProperties).NewRef()
+var AssignMaterialsSchema = &openapi3.SchemaRef{
+	Value: &openapi3.Schema{
+		Type: openapi3.NewArraySchema().Type,
+		Items: &openapi3.SchemaRef{
+			Ref: "#/components/schemas/AssignMaterial",
+		},
+	},
+}
+
+var CreateMaterialSchema = &openapi3.SchemaRef{
+	Value: &openapi3.Schema{
+		Type: openapi3.NewObjectSchema().Type,
+		Properties: map[string]*openapi3.SchemaRef{
+			"name": {
+				Value: openapi3.NewStringSchema(),
+			},
+			"gwCode": {
+				Value: openapi3.NewStringSchema(),
+			},
+			"carbonFactor": {
+				Value: openapi3.NewStringSchema(),
+			},
+		},
+		Required: []string{
+			"name",
+			"gwCode",
+			"carbonFactor",
+		},
+	},
+}
+
+var UpdateMaterialSchema = &openapi3.SchemaRef{
+	Value: &openapi3.Schema{
+		Type: openapi3.NewObjectSchema().Type,
+		Properties: map[string]*openapi3.SchemaRef{
+			"name": {
+				Value: openapi3.NewStringSchema().WithNullable(),
+			},
+			"gwCode": {
+				Value: openapi3.NewStringSchema().WithNullable(),
+			},
+			"carbonFactor": {
+				Value: openapi3.NewStringSchema().WithNullable(),
+			},
+		},
+		Required: []string{
+			"name",
+			"gwCode",
+			"carbonFactor",
+		},
+	},
+}

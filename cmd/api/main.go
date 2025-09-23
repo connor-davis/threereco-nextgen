@@ -3,47 +3,58 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"log"
 
 	"github.com/MarceloPetrucio/go-scalar-api-reference"
 	"github.com/connor-davis/threereco-nextgen/cmd/api/http"
 	"github.com/connor-davis/threereco-nextgen/cmd/api/http/middleware"
-	"github.com/connor-davis/threereco-nextgen/env"
-	"github.com/connor-davis/threereco-nextgen/internal/services"
+	"github.com/connor-davis/threereco-nextgen/common"
 	"github.com/connor-davis/threereco-nextgen/internal/sessions"
 	"github.com/connor-davis/threereco-nextgen/internal/storage"
 	"github.com/gofiber/fiber/v2"
-	"github.com/gofiber/fiber/v2/log"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/logger"
 )
 
-// main initializes and starts the Zingfibre Reporting API server.
-// It sets up storage, database connections, migrations, and seeds initial data.
-// The function configures session management, service dependencies, and the Fiber web application,
-// including CORS and logging middleware. It defines API routes for health checks, OpenAPI specification,
-// and API documentation, and registers additional routes via the HTTP router.
-// Finally, it starts the server on the configured port and logs startup or error messages.
 func main() {
 	storage := storage.New()
 
-	storage.ConnectPostgres()
-	storage.MigratePostgres()
-	storage.SeedPostgres()
+	err := storage.Migrate()
 
-	sessions := sessions.NewSessions()
-	services := services.NewServices(storage)
+	if err != nil {
+		log.Fatalf("🔥 Failed to migrate database: %v", err)
+	}
 
-	middleware := middleware.NewMiddleware(storage, sessions, services)
+	err = storage.SeedAdmin()
+
+	if err != nil {
+		log.Fatalf("🔥 Failed to seed admin user: %v", err)
+	}
+
+	err = storage.SeedDefaultBusiness()
+
+	if err != nil {
+		log.Fatalf("🔥 Failed to seed default business: %v", err)
+	}
+
+	session := sessions.New()
+	middleware := middleware.New(storage, session)
 
 	app := fiber.New(fiber.Config{
-		AppName:      "3rEco API",
-		ServerHeader: "3rEco-NextGen-API",
-		JSONEncoder:  json.Marshal,
-		JSONDecoder:  json.Unmarshal,
+		AppName:       common.EnvString("APP_NAME", "Dynamic CRUD API"),
+		ServerHeader:  common.EnvString("APP_HEADER", "Dynamic-CRUD"),
+		JSONEncoder:   json.Marshal,
+		JSONDecoder:   json.Unmarshal,
+		StrictRouting: true,
+		CaseSensitive: true,
 	})
 
 	app.Use(cors.New(cors.Config{
-		AllowOrigins:     "http://localhost:3000,https://3reco.co.za",
+		AllowOrigins: fmt.Sprintf(
+			"%s,%s",
+			common.EnvString("APP_BASE_URL", "http://localhost:3000"),
+			"http://localhost:3000",
+		),
 		AllowMethods:     "GET,POST,PUT,PATCH,DELETE,OPTIONS",
 		AllowCredentials: true,
 	}))
@@ -54,11 +65,12 @@ func main() {
 		TimeZone:   "Africa/Johannesburg",
 	}))
 
-	httpRouter := http.NewHttpRouter(storage, sessions, services, middleware)
-
-	openapiSpecification := httpRouter.InitializeOpenAPI()
-
 	api := app.Group("/api")
+
+	httpRouter := http.NewHttpRouter(storage, middleware, session)
+	httpRouter.InitializeRoutes(api)
+
+	openapi := httpRouter.InitializeOpenAPI()
 
 	api.Get(
 		"/health",
@@ -71,30 +83,26 @@ func main() {
 	)
 
 	api.Get("/api-spec", func(c *fiber.Ctx) error {
-		if string(env.MODE) == "production" {
-			return c.Status(fiber.StatusOK).JSON(openapiSpecification)
-		}
-
-		return c.Status(fiber.StatusOK).JSON(openapiSpecification)
+		return c.Status(fiber.StatusOK).JSON(openapi)
 	})
 
-	api.Get("/api-doc", middleware.Authorized(), func(c *fiber.Ctx) error {
+	api.Get("/api-doc", func(c *fiber.Ctx) error {
 		html, err := scalar.ApiReferenceHTML(&scalar.Options{
 			SpecURL: func() string {
-				if string(env.MODE) == "production" {
-					return "https://3reco.co.za/api/api-spec"
+				if common.EnvString("APP_ENV", "development") == "production" {
+					return fmt.Sprintf("%s/api/api-spec", common.EnvString("APP_BASE_URL", "https://example.com"))
 				}
 
-				return fmt.Sprintf("http://localhost:%s/api/api-spec", env.PORT)
+				return fmt.Sprintf("http://localhost:%s/api/api-spec", common.EnvString("APP_PORT", "6173"))
 			}(),
 			Theme:  scalar.ThemeDefault,
 			Layout: scalar.LayoutModern,
 			BaseServerURL: func() string {
-				if string(env.MODE) == "production" {
-					return "https://3reco.co.za"
+				if common.EnvString("APP_ENV", "development") == "production" {
+					return common.EnvString("APP_BASE_URL", "https://example.com")
 				}
 
-				return fmt.Sprintf("http://localhost:%s", env.PORT)
+				return fmt.Sprintf("http://localhost:%s", common.EnvString("APP_PORT", "6173"))
 			}(),
 			DarkMode: true,
 		})
@@ -106,11 +114,9 @@ func main() {
 		return c.Type("html").SendString(html)
 	})
 
-	httpRouter.InitializeRoutes(api)
+	log.Printf("✅ Starting API on port %s...", common.EnvString("APP_PORT", "6173"))
 
-	log.Infof("✅ Starting 3rEco API on port %s...", string(env.PORT))
-
-	if err := app.Listen(fmt.Sprintf(":%s", env.PORT)); err != nil {
-		log.Errorf("🔥 Failed to start server: %v", err)
+	if err := app.Listen(fmt.Sprintf(":%s", common.EnvString("APP_PORT", "6173"))); err != nil {
+		log.Printf("🔥 Failed to start server: %v", err)
 	}
 }

@@ -9,40 +9,44 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as SignUpRouteImport } from './routes/sign-up'
+import { Route as NoauthRouteImport } from './routes/_noauth'
 import { Route as AuthRouteImport } from './routes/_auth'
 import { Route as AuthIndexRouteImport } from './routes/_auth/index'
-import { Route as AuthUsersIndexRouteImport } from './routes/_auth/users/index'
-import { Route as AuthTransactionsIndexRouteImport } from './routes/_auth/transactions/index'
-import { Route as AuthRolesIndexRouteImport } from './routes/_auth/roles/index'
-import { Route as AuthProductsIndexRouteImport } from './routes/_auth/products/index'
-import { Route as AuthMaterialsIndexRouteImport } from './routes/_auth/materials/index'
-import { Route as AuthCollectionsIndexRouteImport } from './routes/_auth/collections/index'
-import { Route as AuthAuditLogsIndexRouteImport } from './routes/_auth/audit-logs/index'
-import { Route as AuthUsersCreateRouteImport } from './routes/_auth/users/create'
-import { Route as AuthTransactionsCreateRouteImport } from './routes/_auth/transactions/create'
-import { Route as AuthRolesCreateRouteImport } from './routes/_auth/roles/create'
-import { Route as AuthProductsCreateRouteImport } from './routes/_auth/products/create'
-import { Route as AuthMaterialsCreateRouteImport } from './routes/_auth/materials/create'
-import { Route as AuthCollectionsCreateRouteImport } from './routes/_auth/collections/create'
-import { Route as AuthAuditLogsIdRouteImport } from './routes/_auth/audit-logs/$id'
-import { Route as AuthUsersIdIndexRouteImport } from './routes/_auth/users/$id/index'
-import { Route as AuthTransactionsIdIndexRouteImport } from './routes/_auth/transactions/$id/index'
-import { Route as AuthRolesIdIndexRouteImport } from './routes/_auth/roles/$id/index'
-import { Route as AuthProductsIdIndexRouteImport } from './routes/_auth/products/$id/index'
-import { Route as AuthMaterialsIdIndexRouteImport } from './routes/_auth/materials/$id/index'
-import { Route as AuthCollectionsIdIndexRouteImport } from './routes/_auth/collections/$id/index'
-import { Route as AuthUsersIdEditRouteImport } from './routes/_auth/users/$id/edit'
-import { Route as AuthTransactionsIdEditRouteImport } from './routes/_auth/transactions/$id/edit'
-import { Route as AuthRolesIdPermissionsRouteImport } from './routes/_auth/roles/$id/permissions'
-import { Route as AuthRolesIdEditRouteImport } from './routes/_auth/roles/$id/edit'
-import { Route as AuthProductsIdEditRouteImport } from './routes/_auth/products/$id/edit'
-import { Route as AuthMaterialsIdEditRouteImport } from './routes/_auth/materials/$id/edit'
-import { Route as AuthCollectionsIdEditRouteImport } from './routes/_auth/collections/$id/edit'
+import { Route as NoauthSignUpRouteImport } from './routes/_noauth/sign-up'
+import { Route as NoauthSignInRouteImport } from './routes/_noauth/sign-in'
+import { Route as AuthCollectorRouteImport } from './routes/_auth/collector'
+import { Route as AuthBusinessRouteImport } from './routes/_auth/business'
+import { Route as AuthAdminRouteImport } from './routes/_auth/admin'
+import { Route as AuthMfaRouteImport } from './routes/_auth/_mfa'
+import { Route as AuthCollectorIndexRouteImport } from './routes/_auth/collector/index'
+import { Route as AuthBusinessIndexRouteImport } from './routes/_auth/business/index'
+import { Route as AuthAdminIndexRouteImport } from './routes/_auth/admin/index'
+import { Route as AuthBusinessUsersIndexRouteImport } from './routes/_auth/business/users/index'
+import { Route as AuthBusinessTransactionsIndexRouteImport } from './routes/_auth/business/transactions/index'
+import { Route as AuthBusinessCollectionsIndexRouteImport } from './routes/_auth/business/collections/index'
+import { Route as AuthAdminUsersIndexRouteImport } from './routes/_auth/admin/users/index'
+import { Route as AuthAdminTransactionsIndexRouteImport } from './routes/_auth/admin/transactions/index'
+import { Route as AuthAdminRolesIndexRouteImport } from './routes/_auth/admin/roles/index'
+import { Route as AuthAdminMaterialsIndexRouteImport } from './routes/_auth/admin/materials/index'
+import { Route as AuthAdminCollectionsIndexRouteImport } from './routes/_auth/admin/collections/index'
+import { Route as AuthAdminBusinessesIndexRouteImport } from './routes/_auth/admin/businesses/index'
+import { Route as AuthAdminUsersCreateRouteImport } from './routes/_auth/admin/users/create'
+import { Route as AuthAdminTransactionsCreateRouteImport } from './routes/_auth/admin/transactions/create'
+import { Route as AuthAdminRolesCreateRouteImport } from './routes/_auth/admin/roles/create'
+import { Route as AuthAdminMaterialsCreateRouteImport } from './routes/_auth/admin/materials/create'
+import { Route as AuthAdminCollectionsCreateRouteImport } from './routes/_auth/admin/collections/create'
+import { Route as AuthAdminBusinessesCreateRouteImport } from './routes/_auth/admin/businesses/create'
+import { Route as AuthMfaMfaVerifyRouteImport } from './routes/_auth/_mfa/mfa/verify'
+import { Route as AuthMfaMfaEnableRouteImport } from './routes/_auth/_mfa/mfa/enable'
+import { Route as AuthAdminUsersIdEditRouteImport } from './routes/_auth/admin/users/$id/edit'
+import { Route as AuthAdminTransactionsIdEditRouteImport } from './routes/_auth/admin/transactions/$id/edit'
+import { Route as AuthAdminRolesIdEditRouteImport } from './routes/_auth/admin/roles/$id/edit'
+import { Route as AuthAdminMaterialsIdEditRouteImport } from './routes/_auth/admin/materials/$id/edit'
+import { Route as AuthAdminCollectionsIdEditRouteImport } from './routes/_auth/admin/collections/$id/edit'
+import { Route as AuthAdminBusinessesIdEditRouteImport } from './routes/_auth/admin/businesses/$id/edit'
 
-const SignUpRoute = SignUpRouteImport.update({
-  id: '/sign-up',
-  path: '/sign-up',
+const NoauthRoute = NoauthRouteImport.update({
+  id: '/_noauth',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthRoute = AuthRouteImport.update({
@@ -54,346 +58,399 @@ const AuthIndexRoute = AuthIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AuthRoute,
 } as any)
-const AuthUsersIndexRoute = AuthUsersIndexRouteImport.update({
+const NoauthSignUpRoute = NoauthSignUpRouteImport.update({
+  id: '/sign-up',
+  path: '/sign-up',
+  getParentRoute: () => NoauthRoute,
+} as any)
+const NoauthSignInRoute = NoauthSignInRouteImport.update({
+  id: '/sign-in',
+  path: '/sign-in',
+  getParentRoute: () => NoauthRoute,
+} as any)
+const AuthCollectorRoute = AuthCollectorRouteImport.update({
+  id: '/collector',
+  path: '/collector',
+  getParentRoute: () => AuthRoute,
+} as any)
+const AuthBusinessRoute = AuthBusinessRouteImport.update({
+  id: '/business',
+  path: '/business',
+  getParentRoute: () => AuthRoute,
+} as any)
+const AuthAdminRoute = AuthAdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => AuthRoute,
+} as any)
+const AuthMfaRoute = AuthMfaRouteImport.update({
+  id: '/_mfa',
+  getParentRoute: () => AuthRoute,
+} as any)
+const AuthCollectorIndexRoute = AuthCollectorIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AuthCollectorRoute,
+} as any)
+const AuthBusinessIndexRoute = AuthBusinessIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AuthBusinessRoute,
+} as any)
+const AuthAdminIndexRoute = AuthAdminIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AuthAdminRoute,
+} as any)
+const AuthBusinessUsersIndexRoute = AuthBusinessUsersIndexRouteImport.update({
   id: '/users/',
   path: '/users/',
-  getParentRoute: () => AuthRoute,
+  getParentRoute: () => AuthBusinessRoute,
 } as any)
-const AuthTransactionsIndexRoute = AuthTransactionsIndexRouteImport.update({
-  id: '/transactions/',
-  path: '/transactions/',
-  getParentRoute: () => AuthRoute,
+const AuthBusinessTransactionsIndexRoute =
+  AuthBusinessTransactionsIndexRouteImport.update({
+    id: '/transactions/',
+    path: '/transactions/',
+    getParentRoute: () => AuthBusinessRoute,
+  } as any)
+const AuthBusinessCollectionsIndexRoute =
+  AuthBusinessCollectionsIndexRouteImport.update({
+    id: '/collections/',
+    path: '/collections/',
+    getParentRoute: () => AuthBusinessRoute,
+  } as any)
+const AuthAdminUsersIndexRoute = AuthAdminUsersIndexRouteImport.update({
+  id: '/users/',
+  path: '/users/',
+  getParentRoute: () => AuthAdminRoute,
 } as any)
-const AuthRolesIndexRoute = AuthRolesIndexRouteImport.update({
+const AuthAdminTransactionsIndexRoute =
+  AuthAdminTransactionsIndexRouteImport.update({
+    id: '/transactions/',
+    path: '/transactions/',
+    getParentRoute: () => AuthAdminRoute,
+  } as any)
+const AuthAdminRolesIndexRoute = AuthAdminRolesIndexRouteImport.update({
   id: '/roles/',
   path: '/roles/',
-  getParentRoute: () => AuthRoute,
+  getParentRoute: () => AuthAdminRoute,
 } as any)
-const AuthProductsIndexRoute = AuthProductsIndexRouteImport.update({
-  id: '/products/',
-  path: '/products/',
-  getParentRoute: () => AuthRoute,
-} as any)
-const AuthMaterialsIndexRoute = AuthMaterialsIndexRouteImport.update({
+const AuthAdminMaterialsIndexRoute = AuthAdminMaterialsIndexRouteImport.update({
   id: '/materials/',
   path: '/materials/',
-  getParentRoute: () => AuthRoute,
+  getParentRoute: () => AuthAdminRoute,
 } as any)
-const AuthCollectionsIndexRoute = AuthCollectionsIndexRouteImport.update({
-  id: '/collections/',
-  path: '/collections/',
-  getParentRoute: () => AuthRoute,
-} as any)
-const AuthAuditLogsIndexRoute = AuthAuditLogsIndexRouteImport.update({
-  id: '/audit-logs/',
-  path: '/audit-logs/',
-  getParentRoute: () => AuthRoute,
-} as any)
-const AuthUsersCreateRoute = AuthUsersCreateRouteImport.update({
+const AuthAdminCollectionsIndexRoute =
+  AuthAdminCollectionsIndexRouteImport.update({
+    id: '/collections/',
+    path: '/collections/',
+    getParentRoute: () => AuthAdminRoute,
+  } as any)
+const AuthAdminBusinessesIndexRoute =
+  AuthAdminBusinessesIndexRouteImport.update({
+    id: '/businesses/',
+    path: '/businesses/',
+    getParentRoute: () => AuthAdminRoute,
+  } as any)
+const AuthAdminUsersCreateRoute = AuthAdminUsersCreateRouteImport.update({
   id: '/users/create',
   path: '/users/create',
-  getParentRoute: () => AuthRoute,
+  getParentRoute: () => AuthAdminRoute,
 } as any)
-const AuthTransactionsCreateRoute = AuthTransactionsCreateRouteImport.update({
-  id: '/transactions/create',
-  path: '/transactions/create',
-  getParentRoute: () => AuthRoute,
-} as any)
-const AuthRolesCreateRoute = AuthRolesCreateRouteImport.update({
+const AuthAdminTransactionsCreateRoute =
+  AuthAdminTransactionsCreateRouteImport.update({
+    id: '/transactions/create',
+    path: '/transactions/create',
+    getParentRoute: () => AuthAdminRoute,
+  } as any)
+const AuthAdminRolesCreateRoute = AuthAdminRolesCreateRouteImport.update({
   id: '/roles/create',
   path: '/roles/create',
-  getParentRoute: () => AuthRoute,
+  getParentRoute: () => AuthAdminRoute,
 } as any)
-const AuthProductsCreateRoute = AuthProductsCreateRouteImport.update({
-  id: '/products/create',
-  path: '/products/create',
-  getParentRoute: () => AuthRoute,
+const AuthAdminMaterialsCreateRoute =
+  AuthAdminMaterialsCreateRouteImport.update({
+    id: '/materials/create',
+    path: '/materials/create',
+    getParentRoute: () => AuthAdminRoute,
+  } as any)
+const AuthAdminCollectionsCreateRoute =
+  AuthAdminCollectionsCreateRouteImport.update({
+    id: '/collections/create',
+    path: '/collections/create',
+    getParentRoute: () => AuthAdminRoute,
+  } as any)
+const AuthAdminBusinessesCreateRoute =
+  AuthAdminBusinessesCreateRouteImport.update({
+    id: '/businesses/create',
+    path: '/businesses/create',
+    getParentRoute: () => AuthAdminRoute,
+  } as any)
+const AuthMfaMfaVerifyRoute = AuthMfaMfaVerifyRouteImport.update({
+  id: '/mfa/verify',
+  path: '/mfa/verify',
+  getParentRoute: () => AuthMfaRoute,
 } as any)
-const AuthMaterialsCreateRoute = AuthMaterialsCreateRouteImport.update({
-  id: '/materials/create',
-  path: '/materials/create',
-  getParentRoute: () => AuthRoute,
+const AuthMfaMfaEnableRoute = AuthMfaMfaEnableRouteImport.update({
+  id: '/mfa/enable',
+  path: '/mfa/enable',
+  getParentRoute: () => AuthMfaRoute,
 } as any)
-const AuthCollectionsCreateRoute = AuthCollectionsCreateRouteImport.update({
-  id: '/collections/create',
-  path: '/collections/create',
-  getParentRoute: () => AuthRoute,
-} as any)
-const AuthAuditLogsIdRoute = AuthAuditLogsIdRouteImport.update({
-  id: '/audit-logs/$id',
-  path: '/audit-logs/$id',
-  getParentRoute: () => AuthRoute,
-} as any)
-const AuthUsersIdIndexRoute = AuthUsersIdIndexRouteImport.update({
-  id: '/users/$id/',
-  path: '/users/$id/',
-  getParentRoute: () => AuthRoute,
-} as any)
-const AuthTransactionsIdIndexRoute = AuthTransactionsIdIndexRouteImport.update({
-  id: '/transactions/$id/',
-  path: '/transactions/$id/',
-  getParentRoute: () => AuthRoute,
-} as any)
-const AuthRolesIdIndexRoute = AuthRolesIdIndexRouteImport.update({
-  id: '/roles/$id/',
-  path: '/roles/$id/',
-  getParentRoute: () => AuthRoute,
-} as any)
-const AuthProductsIdIndexRoute = AuthProductsIdIndexRouteImport.update({
-  id: '/products/$id/',
-  path: '/products/$id/',
-  getParentRoute: () => AuthRoute,
-} as any)
-const AuthMaterialsIdIndexRoute = AuthMaterialsIdIndexRouteImport.update({
-  id: '/materials/$id/',
-  path: '/materials/$id/',
-  getParentRoute: () => AuthRoute,
-} as any)
-const AuthCollectionsIdIndexRoute = AuthCollectionsIdIndexRouteImport.update({
-  id: '/collections/$id/',
-  path: '/collections/$id/',
-  getParentRoute: () => AuthRoute,
-} as any)
-const AuthUsersIdEditRoute = AuthUsersIdEditRouteImport.update({
+const AuthAdminUsersIdEditRoute = AuthAdminUsersIdEditRouteImport.update({
   id: '/users/$id/edit',
   path: '/users/$id/edit',
-  getParentRoute: () => AuthRoute,
+  getParentRoute: () => AuthAdminRoute,
 } as any)
-const AuthTransactionsIdEditRoute = AuthTransactionsIdEditRouteImport.update({
-  id: '/transactions/$id/edit',
-  path: '/transactions/$id/edit',
-  getParentRoute: () => AuthRoute,
-} as any)
-const AuthRolesIdPermissionsRoute = AuthRolesIdPermissionsRouteImport.update({
-  id: '/roles/$id/permissions',
-  path: '/roles/$id/permissions',
-  getParentRoute: () => AuthRoute,
-} as any)
-const AuthRolesIdEditRoute = AuthRolesIdEditRouteImport.update({
+const AuthAdminTransactionsIdEditRoute =
+  AuthAdminTransactionsIdEditRouteImport.update({
+    id: '/transactions/$id/edit',
+    path: '/transactions/$id/edit',
+    getParentRoute: () => AuthAdminRoute,
+  } as any)
+const AuthAdminRolesIdEditRoute = AuthAdminRolesIdEditRouteImport.update({
   id: '/roles/$id/edit',
   path: '/roles/$id/edit',
-  getParentRoute: () => AuthRoute,
+  getParentRoute: () => AuthAdminRoute,
 } as any)
-const AuthProductsIdEditRoute = AuthProductsIdEditRouteImport.update({
-  id: '/products/$id/edit',
-  path: '/products/$id/edit',
-  getParentRoute: () => AuthRoute,
-} as any)
-const AuthMaterialsIdEditRoute = AuthMaterialsIdEditRouteImport.update({
-  id: '/materials/$id/edit',
-  path: '/materials/$id/edit',
-  getParentRoute: () => AuthRoute,
-} as any)
-const AuthCollectionsIdEditRoute = AuthCollectionsIdEditRouteImport.update({
-  id: '/collections/$id/edit',
-  path: '/collections/$id/edit',
-  getParentRoute: () => AuthRoute,
-} as any)
+const AuthAdminMaterialsIdEditRoute =
+  AuthAdminMaterialsIdEditRouteImport.update({
+    id: '/materials/$id/edit',
+    path: '/materials/$id/edit',
+    getParentRoute: () => AuthAdminRoute,
+  } as any)
+const AuthAdminCollectionsIdEditRoute =
+  AuthAdminCollectionsIdEditRouteImport.update({
+    id: '/collections/$id/edit',
+    path: '/collections/$id/edit',
+    getParentRoute: () => AuthAdminRoute,
+  } as any)
+const AuthAdminBusinessesIdEditRoute =
+  AuthAdminBusinessesIdEditRouteImport.update({
+    id: '/businesses/$id/edit',
+    path: '/businesses/$id/edit',
+    getParentRoute: () => AuthAdminRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
-  '/sign-up': typeof SignUpRoute
+  '/admin': typeof AuthAdminRouteWithChildren
+  '/business': typeof AuthBusinessRouteWithChildren
+  '/collector': typeof AuthCollectorRouteWithChildren
+  '/sign-in': typeof NoauthSignInRoute
+  '/sign-up': typeof NoauthSignUpRoute
   '/': typeof AuthIndexRoute
-  '/audit-logs/$id': typeof AuthAuditLogsIdRoute
-  '/collections/create': typeof AuthCollectionsCreateRoute
-  '/materials/create': typeof AuthMaterialsCreateRoute
-  '/products/create': typeof AuthProductsCreateRoute
-  '/roles/create': typeof AuthRolesCreateRoute
-  '/transactions/create': typeof AuthTransactionsCreateRoute
-  '/users/create': typeof AuthUsersCreateRoute
-  '/audit-logs': typeof AuthAuditLogsIndexRoute
-  '/collections': typeof AuthCollectionsIndexRoute
-  '/materials': typeof AuthMaterialsIndexRoute
-  '/products': typeof AuthProductsIndexRoute
-  '/roles': typeof AuthRolesIndexRoute
-  '/transactions': typeof AuthTransactionsIndexRoute
-  '/users': typeof AuthUsersIndexRoute
-  '/collections/$id/edit': typeof AuthCollectionsIdEditRoute
-  '/materials/$id/edit': typeof AuthMaterialsIdEditRoute
-  '/products/$id/edit': typeof AuthProductsIdEditRoute
-  '/roles/$id/edit': typeof AuthRolesIdEditRoute
-  '/roles/$id/permissions': typeof AuthRolesIdPermissionsRoute
-  '/transactions/$id/edit': typeof AuthTransactionsIdEditRoute
-  '/users/$id/edit': typeof AuthUsersIdEditRoute
-  '/collections/$id': typeof AuthCollectionsIdIndexRoute
-  '/materials/$id': typeof AuthMaterialsIdIndexRoute
-  '/products/$id': typeof AuthProductsIdIndexRoute
-  '/roles/$id': typeof AuthRolesIdIndexRoute
-  '/transactions/$id': typeof AuthTransactionsIdIndexRoute
-  '/users/$id': typeof AuthUsersIdIndexRoute
+  '/admin/': typeof AuthAdminIndexRoute
+  '/business/': typeof AuthBusinessIndexRoute
+  '/collector/': typeof AuthCollectorIndexRoute
+  '/mfa/enable': typeof AuthMfaMfaEnableRoute
+  '/mfa/verify': typeof AuthMfaMfaVerifyRoute
+  '/admin/businesses/create': typeof AuthAdminBusinessesCreateRoute
+  '/admin/collections/create': typeof AuthAdminCollectionsCreateRoute
+  '/admin/materials/create': typeof AuthAdminMaterialsCreateRoute
+  '/admin/roles/create': typeof AuthAdminRolesCreateRoute
+  '/admin/transactions/create': typeof AuthAdminTransactionsCreateRoute
+  '/admin/users/create': typeof AuthAdminUsersCreateRoute
+  '/admin/businesses': typeof AuthAdminBusinessesIndexRoute
+  '/admin/collections': typeof AuthAdminCollectionsIndexRoute
+  '/admin/materials': typeof AuthAdminMaterialsIndexRoute
+  '/admin/roles': typeof AuthAdminRolesIndexRoute
+  '/admin/transactions': typeof AuthAdminTransactionsIndexRoute
+  '/admin/users': typeof AuthAdminUsersIndexRoute
+  '/business/collections': typeof AuthBusinessCollectionsIndexRoute
+  '/business/transactions': typeof AuthBusinessTransactionsIndexRoute
+  '/business/users': typeof AuthBusinessUsersIndexRoute
+  '/admin/businesses/$id/edit': typeof AuthAdminBusinessesIdEditRoute
+  '/admin/collections/$id/edit': typeof AuthAdminCollectionsIdEditRoute
+  '/admin/materials/$id/edit': typeof AuthAdminMaterialsIdEditRoute
+  '/admin/roles/$id/edit': typeof AuthAdminRolesIdEditRoute
+  '/admin/transactions/$id/edit': typeof AuthAdminTransactionsIdEditRoute
+  '/admin/users/$id/edit': typeof AuthAdminUsersIdEditRoute
 }
 export interface FileRoutesByTo {
-  '/sign-up': typeof SignUpRoute
+  '/sign-in': typeof NoauthSignInRoute
+  '/sign-up': typeof NoauthSignUpRoute
   '/': typeof AuthIndexRoute
-  '/audit-logs/$id': typeof AuthAuditLogsIdRoute
-  '/collections/create': typeof AuthCollectionsCreateRoute
-  '/materials/create': typeof AuthMaterialsCreateRoute
-  '/products/create': typeof AuthProductsCreateRoute
-  '/roles/create': typeof AuthRolesCreateRoute
-  '/transactions/create': typeof AuthTransactionsCreateRoute
-  '/users/create': typeof AuthUsersCreateRoute
-  '/audit-logs': typeof AuthAuditLogsIndexRoute
-  '/collections': typeof AuthCollectionsIndexRoute
-  '/materials': typeof AuthMaterialsIndexRoute
-  '/products': typeof AuthProductsIndexRoute
-  '/roles': typeof AuthRolesIndexRoute
-  '/transactions': typeof AuthTransactionsIndexRoute
-  '/users': typeof AuthUsersIndexRoute
-  '/collections/$id/edit': typeof AuthCollectionsIdEditRoute
-  '/materials/$id/edit': typeof AuthMaterialsIdEditRoute
-  '/products/$id/edit': typeof AuthProductsIdEditRoute
-  '/roles/$id/edit': typeof AuthRolesIdEditRoute
-  '/roles/$id/permissions': typeof AuthRolesIdPermissionsRoute
-  '/transactions/$id/edit': typeof AuthTransactionsIdEditRoute
-  '/users/$id/edit': typeof AuthUsersIdEditRoute
-  '/collections/$id': typeof AuthCollectionsIdIndexRoute
-  '/materials/$id': typeof AuthMaterialsIdIndexRoute
-  '/products/$id': typeof AuthProductsIdIndexRoute
-  '/roles/$id': typeof AuthRolesIdIndexRoute
-  '/transactions/$id': typeof AuthTransactionsIdIndexRoute
-  '/users/$id': typeof AuthUsersIdIndexRoute
+  '/admin': typeof AuthAdminIndexRoute
+  '/business': typeof AuthBusinessIndexRoute
+  '/collector': typeof AuthCollectorIndexRoute
+  '/mfa/enable': typeof AuthMfaMfaEnableRoute
+  '/mfa/verify': typeof AuthMfaMfaVerifyRoute
+  '/admin/businesses/create': typeof AuthAdminBusinessesCreateRoute
+  '/admin/collections/create': typeof AuthAdminCollectionsCreateRoute
+  '/admin/materials/create': typeof AuthAdminMaterialsCreateRoute
+  '/admin/roles/create': typeof AuthAdminRolesCreateRoute
+  '/admin/transactions/create': typeof AuthAdminTransactionsCreateRoute
+  '/admin/users/create': typeof AuthAdminUsersCreateRoute
+  '/admin/businesses': typeof AuthAdminBusinessesIndexRoute
+  '/admin/collections': typeof AuthAdminCollectionsIndexRoute
+  '/admin/materials': typeof AuthAdminMaterialsIndexRoute
+  '/admin/roles': typeof AuthAdminRolesIndexRoute
+  '/admin/transactions': typeof AuthAdminTransactionsIndexRoute
+  '/admin/users': typeof AuthAdminUsersIndexRoute
+  '/business/collections': typeof AuthBusinessCollectionsIndexRoute
+  '/business/transactions': typeof AuthBusinessTransactionsIndexRoute
+  '/business/users': typeof AuthBusinessUsersIndexRoute
+  '/admin/businesses/$id/edit': typeof AuthAdminBusinessesIdEditRoute
+  '/admin/collections/$id/edit': typeof AuthAdminCollectionsIdEditRoute
+  '/admin/materials/$id/edit': typeof AuthAdminMaterialsIdEditRoute
+  '/admin/roles/$id/edit': typeof AuthAdminRolesIdEditRoute
+  '/admin/transactions/$id/edit': typeof AuthAdminTransactionsIdEditRoute
+  '/admin/users/$id/edit': typeof AuthAdminUsersIdEditRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_auth': typeof AuthRouteWithChildren
-  '/sign-up': typeof SignUpRoute
+  '/_noauth': typeof NoauthRouteWithChildren
+  '/_auth/_mfa': typeof AuthMfaRouteWithChildren
+  '/_auth/admin': typeof AuthAdminRouteWithChildren
+  '/_auth/business': typeof AuthBusinessRouteWithChildren
+  '/_auth/collector': typeof AuthCollectorRouteWithChildren
+  '/_noauth/sign-in': typeof NoauthSignInRoute
+  '/_noauth/sign-up': typeof NoauthSignUpRoute
   '/_auth/': typeof AuthIndexRoute
-  '/_auth/audit-logs/$id': typeof AuthAuditLogsIdRoute
-  '/_auth/collections/create': typeof AuthCollectionsCreateRoute
-  '/_auth/materials/create': typeof AuthMaterialsCreateRoute
-  '/_auth/products/create': typeof AuthProductsCreateRoute
-  '/_auth/roles/create': typeof AuthRolesCreateRoute
-  '/_auth/transactions/create': typeof AuthTransactionsCreateRoute
-  '/_auth/users/create': typeof AuthUsersCreateRoute
-  '/_auth/audit-logs/': typeof AuthAuditLogsIndexRoute
-  '/_auth/collections/': typeof AuthCollectionsIndexRoute
-  '/_auth/materials/': typeof AuthMaterialsIndexRoute
-  '/_auth/products/': typeof AuthProductsIndexRoute
-  '/_auth/roles/': typeof AuthRolesIndexRoute
-  '/_auth/transactions/': typeof AuthTransactionsIndexRoute
-  '/_auth/users/': typeof AuthUsersIndexRoute
-  '/_auth/collections/$id/edit': typeof AuthCollectionsIdEditRoute
-  '/_auth/materials/$id/edit': typeof AuthMaterialsIdEditRoute
-  '/_auth/products/$id/edit': typeof AuthProductsIdEditRoute
-  '/_auth/roles/$id/edit': typeof AuthRolesIdEditRoute
-  '/_auth/roles/$id/permissions': typeof AuthRolesIdPermissionsRoute
-  '/_auth/transactions/$id/edit': typeof AuthTransactionsIdEditRoute
-  '/_auth/users/$id/edit': typeof AuthUsersIdEditRoute
-  '/_auth/collections/$id/': typeof AuthCollectionsIdIndexRoute
-  '/_auth/materials/$id/': typeof AuthMaterialsIdIndexRoute
-  '/_auth/products/$id/': typeof AuthProductsIdIndexRoute
-  '/_auth/roles/$id/': typeof AuthRolesIdIndexRoute
-  '/_auth/transactions/$id/': typeof AuthTransactionsIdIndexRoute
-  '/_auth/users/$id/': typeof AuthUsersIdIndexRoute
+  '/_auth/admin/': typeof AuthAdminIndexRoute
+  '/_auth/business/': typeof AuthBusinessIndexRoute
+  '/_auth/collector/': typeof AuthCollectorIndexRoute
+  '/_auth/_mfa/mfa/enable': typeof AuthMfaMfaEnableRoute
+  '/_auth/_mfa/mfa/verify': typeof AuthMfaMfaVerifyRoute
+  '/_auth/admin/businesses/create': typeof AuthAdminBusinessesCreateRoute
+  '/_auth/admin/collections/create': typeof AuthAdminCollectionsCreateRoute
+  '/_auth/admin/materials/create': typeof AuthAdminMaterialsCreateRoute
+  '/_auth/admin/roles/create': typeof AuthAdminRolesCreateRoute
+  '/_auth/admin/transactions/create': typeof AuthAdminTransactionsCreateRoute
+  '/_auth/admin/users/create': typeof AuthAdminUsersCreateRoute
+  '/_auth/admin/businesses/': typeof AuthAdminBusinessesIndexRoute
+  '/_auth/admin/collections/': typeof AuthAdminCollectionsIndexRoute
+  '/_auth/admin/materials/': typeof AuthAdminMaterialsIndexRoute
+  '/_auth/admin/roles/': typeof AuthAdminRolesIndexRoute
+  '/_auth/admin/transactions/': typeof AuthAdminTransactionsIndexRoute
+  '/_auth/admin/users/': typeof AuthAdminUsersIndexRoute
+  '/_auth/business/collections/': typeof AuthBusinessCollectionsIndexRoute
+  '/_auth/business/transactions/': typeof AuthBusinessTransactionsIndexRoute
+  '/_auth/business/users/': typeof AuthBusinessUsersIndexRoute
+  '/_auth/admin/businesses/$id/edit': typeof AuthAdminBusinessesIdEditRoute
+  '/_auth/admin/collections/$id/edit': typeof AuthAdminCollectionsIdEditRoute
+  '/_auth/admin/materials/$id/edit': typeof AuthAdminMaterialsIdEditRoute
+  '/_auth/admin/roles/$id/edit': typeof AuthAdminRolesIdEditRoute
+  '/_auth/admin/transactions/$id/edit': typeof AuthAdminTransactionsIdEditRoute
+  '/_auth/admin/users/$id/edit': typeof AuthAdminUsersIdEditRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
+    | '/admin'
+    | '/business'
+    | '/collector'
+    | '/sign-in'
     | '/sign-up'
     | '/'
-    | '/audit-logs/$id'
-    | '/collections/create'
-    | '/materials/create'
-    | '/products/create'
-    | '/roles/create'
-    | '/transactions/create'
-    | '/users/create'
-    | '/audit-logs'
-    | '/collections'
-    | '/materials'
-    | '/products'
-    | '/roles'
-    | '/transactions'
-    | '/users'
-    | '/collections/$id/edit'
-    | '/materials/$id/edit'
-    | '/products/$id/edit'
-    | '/roles/$id/edit'
-    | '/roles/$id/permissions'
-    | '/transactions/$id/edit'
-    | '/users/$id/edit'
-    | '/collections/$id'
-    | '/materials/$id'
-    | '/products/$id'
-    | '/roles/$id'
-    | '/transactions/$id'
-    | '/users/$id'
+    | '/admin/'
+    | '/business/'
+    | '/collector/'
+    | '/mfa/enable'
+    | '/mfa/verify'
+    | '/admin/businesses/create'
+    | '/admin/collections/create'
+    | '/admin/materials/create'
+    | '/admin/roles/create'
+    | '/admin/transactions/create'
+    | '/admin/users/create'
+    | '/admin/businesses'
+    | '/admin/collections'
+    | '/admin/materials'
+    | '/admin/roles'
+    | '/admin/transactions'
+    | '/admin/users'
+    | '/business/collections'
+    | '/business/transactions'
+    | '/business/users'
+    | '/admin/businesses/$id/edit'
+    | '/admin/collections/$id/edit'
+    | '/admin/materials/$id/edit'
+    | '/admin/roles/$id/edit'
+    | '/admin/transactions/$id/edit'
+    | '/admin/users/$id/edit'
   fileRoutesByTo: FileRoutesByTo
   to:
+    | '/sign-in'
     | '/sign-up'
     | '/'
-    | '/audit-logs/$id'
-    | '/collections/create'
-    | '/materials/create'
-    | '/products/create'
-    | '/roles/create'
-    | '/transactions/create'
-    | '/users/create'
-    | '/audit-logs'
-    | '/collections'
-    | '/materials'
-    | '/products'
-    | '/roles'
-    | '/transactions'
-    | '/users'
-    | '/collections/$id/edit'
-    | '/materials/$id/edit'
-    | '/products/$id/edit'
-    | '/roles/$id/edit'
-    | '/roles/$id/permissions'
-    | '/transactions/$id/edit'
-    | '/users/$id/edit'
-    | '/collections/$id'
-    | '/materials/$id'
-    | '/products/$id'
-    | '/roles/$id'
-    | '/transactions/$id'
-    | '/users/$id'
+    | '/admin'
+    | '/business'
+    | '/collector'
+    | '/mfa/enable'
+    | '/mfa/verify'
+    | '/admin/businesses/create'
+    | '/admin/collections/create'
+    | '/admin/materials/create'
+    | '/admin/roles/create'
+    | '/admin/transactions/create'
+    | '/admin/users/create'
+    | '/admin/businesses'
+    | '/admin/collections'
+    | '/admin/materials'
+    | '/admin/roles'
+    | '/admin/transactions'
+    | '/admin/users'
+    | '/business/collections'
+    | '/business/transactions'
+    | '/business/users'
+    | '/admin/businesses/$id/edit'
+    | '/admin/collections/$id/edit'
+    | '/admin/materials/$id/edit'
+    | '/admin/roles/$id/edit'
+    | '/admin/transactions/$id/edit'
+    | '/admin/users/$id/edit'
   id:
     | '__root__'
     | '/_auth'
-    | '/sign-up'
+    | '/_noauth'
+    | '/_auth/_mfa'
+    | '/_auth/admin'
+    | '/_auth/business'
+    | '/_auth/collector'
+    | '/_noauth/sign-in'
+    | '/_noauth/sign-up'
     | '/_auth/'
-    | '/_auth/audit-logs/$id'
-    | '/_auth/collections/create'
-    | '/_auth/materials/create'
-    | '/_auth/products/create'
-    | '/_auth/roles/create'
-    | '/_auth/transactions/create'
-    | '/_auth/users/create'
-    | '/_auth/audit-logs/'
-    | '/_auth/collections/'
-    | '/_auth/materials/'
-    | '/_auth/products/'
-    | '/_auth/roles/'
-    | '/_auth/transactions/'
-    | '/_auth/users/'
-    | '/_auth/collections/$id/edit'
-    | '/_auth/materials/$id/edit'
-    | '/_auth/products/$id/edit'
-    | '/_auth/roles/$id/edit'
-    | '/_auth/roles/$id/permissions'
-    | '/_auth/transactions/$id/edit'
-    | '/_auth/users/$id/edit'
-    | '/_auth/collections/$id/'
-    | '/_auth/materials/$id/'
-    | '/_auth/products/$id/'
-    | '/_auth/roles/$id/'
-    | '/_auth/transactions/$id/'
-    | '/_auth/users/$id/'
+    | '/_auth/admin/'
+    | '/_auth/business/'
+    | '/_auth/collector/'
+    | '/_auth/_mfa/mfa/enable'
+    | '/_auth/_mfa/mfa/verify'
+    | '/_auth/admin/businesses/create'
+    | '/_auth/admin/collections/create'
+    | '/_auth/admin/materials/create'
+    | '/_auth/admin/roles/create'
+    | '/_auth/admin/transactions/create'
+    | '/_auth/admin/users/create'
+    | '/_auth/admin/businesses/'
+    | '/_auth/admin/collections/'
+    | '/_auth/admin/materials/'
+    | '/_auth/admin/roles/'
+    | '/_auth/admin/transactions/'
+    | '/_auth/admin/users/'
+    | '/_auth/business/collections/'
+    | '/_auth/business/transactions/'
+    | '/_auth/business/users/'
+    | '/_auth/admin/businesses/$id/edit'
+    | '/_auth/admin/collections/$id/edit'
+    | '/_auth/admin/materials/$id/edit'
+    | '/_auth/admin/roles/$id/edit'
+    | '/_auth/admin/transactions/$id/edit'
+    | '/_auth/admin/users/$id/edit'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   AuthRoute: typeof AuthRouteWithChildren
-  SignUpRoute: typeof SignUpRoute
+  NoauthRoute: typeof NoauthRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/sign-up': {
-      id: '/sign-up'
-      path: '/sign-up'
-      fullPath: '/sign-up'
-      preLoaderRoute: typeof SignUpRouteImport
+    '/_noauth': {
+      id: '/_noauth'
+      path: ''
+      fullPath: ''
+      preLoaderRoute: typeof NoauthRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_auth': {
@@ -410,265 +467,358 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthIndexRouteImport
       parentRoute: typeof AuthRoute
     }
-    '/_auth/users/': {
-      id: '/_auth/users/'
+    '/_noauth/sign-up': {
+      id: '/_noauth/sign-up'
+      path: '/sign-up'
+      fullPath: '/sign-up'
+      preLoaderRoute: typeof NoauthSignUpRouteImport
+      parentRoute: typeof NoauthRoute
+    }
+    '/_noauth/sign-in': {
+      id: '/_noauth/sign-in'
+      path: '/sign-in'
+      fullPath: '/sign-in'
+      preLoaderRoute: typeof NoauthSignInRouteImport
+      parentRoute: typeof NoauthRoute
+    }
+    '/_auth/collector': {
+      id: '/_auth/collector'
+      path: '/collector'
+      fullPath: '/collector'
+      preLoaderRoute: typeof AuthCollectorRouteImport
+      parentRoute: typeof AuthRoute
+    }
+    '/_auth/business': {
+      id: '/_auth/business'
+      path: '/business'
+      fullPath: '/business'
+      preLoaderRoute: typeof AuthBusinessRouteImport
+      parentRoute: typeof AuthRoute
+    }
+    '/_auth/admin': {
+      id: '/_auth/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AuthAdminRouteImport
+      parentRoute: typeof AuthRoute
+    }
+    '/_auth/_mfa': {
+      id: '/_auth/_mfa'
+      path: ''
+      fullPath: ''
+      preLoaderRoute: typeof AuthMfaRouteImport
+      parentRoute: typeof AuthRoute
+    }
+    '/_auth/collector/': {
+      id: '/_auth/collector/'
+      path: '/'
+      fullPath: '/collector/'
+      preLoaderRoute: typeof AuthCollectorIndexRouteImport
+      parentRoute: typeof AuthCollectorRoute
+    }
+    '/_auth/business/': {
+      id: '/_auth/business/'
+      path: '/'
+      fullPath: '/business/'
+      preLoaderRoute: typeof AuthBusinessIndexRouteImport
+      parentRoute: typeof AuthBusinessRoute
+    }
+    '/_auth/admin/': {
+      id: '/_auth/admin/'
+      path: '/'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AuthAdminIndexRouteImport
+      parentRoute: typeof AuthAdminRoute
+    }
+    '/_auth/business/users/': {
+      id: '/_auth/business/users/'
       path: '/users'
-      fullPath: '/users'
-      preLoaderRoute: typeof AuthUsersIndexRouteImport
-      parentRoute: typeof AuthRoute
+      fullPath: '/business/users'
+      preLoaderRoute: typeof AuthBusinessUsersIndexRouteImport
+      parentRoute: typeof AuthBusinessRoute
     }
-    '/_auth/transactions/': {
-      id: '/_auth/transactions/'
+    '/_auth/business/transactions/': {
+      id: '/_auth/business/transactions/'
       path: '/transactions'
-      fullPath: '/transactions'
-      preLoaderRoute: typeof AuthTransactionsIndexRouteImport
-      parentRoute: typeof AuthRoute
+      fullPath: '/business/transactions'
+      preLoaderRoute: typeof AuthBusinessTransactionsIndexRouteImport
+      parentRoute: typeof AuthBusinessRoute
     }
-    '/_auth/roles/': {
-      id: '/_auth/roles/'
-      path: '/roles'
-      fullPath: '/roles'
-      preLoaderRoute: typeof AuthRolesIndexRouteImport
-      parentRoute: typeof AuthRoute
-    }
-    '/_auth/products/': {
-      id: '/_auth/products/'
-      path: '/products'
-      fullPath: '/products'
-      preLoaderRoute: typeof AuthProductsIndexRouteImport
-      parentRoute: typeof AuthRoute
-    }
-    '/_auth/materials/': {
-      id: '/_auth/materials/'
-      path: '/materials'
-      fullPath: '/materials'
-      preLoaderRoute: typeof AuthMaterialsIndexRouteImport
-      parentRoute: typeof AuthRoute
-    }
-    '/_auth/collections/': {
-      id: '/_auth/collections/'
+    '/_auth/business/collections/': {
+      id: '/_auth/business/collections/'
       path: '/collections'
-      fullPath: '/collections'
-      preLoaderRoute: typeof AuthCollectionsIndexRouteImport
-      parentRoute: typeof AuthRoute
+      fullPath: '/business/collections'
+      preLoaderRoute: typeof AuthBusinessCollectionsIndexRouteImport
+      parentRoute: typeof AuthBusinessRoute
     }
-    '/_auth/audit-logs/': {
-      id: '/_auth/audit-logs/'
-      path: '/audit-logs'
-      fullPath: '/audit-logs'
-      preLoaderRoute: typeof AuthAuditLogsIndexRouteImport
-      parentRoute: typeof AuthRoute
+    '/_auth/admin/users/': {
+      id: '/_auth/admin/users/'
+      path: '/users'
+      fullPath: '/admin/users'
+      preLoaderRoute: typeof AuthAdminUsersIndexRouteImport
+      parentRoute: typeof AuthAdminRoute
     }
-    '/_auth/users/create': {
-      id: '/_auth/users/create'
+    '/_auth/admin/transactions/': {
+      id: '/_auth/admin/transactions/'
+      path: '/transactions'
+      fullPath: '/admin/transactions'
+      preLoaderRoute: typeof AuthAdminTransactionsIndexRouteImport
+      parentRoute: typeof AuthAdminRoute
+    }
+    '/_auth/admin/roles/': {
+      id: '/_auth/admin/roles/'
+      path: '/roles'
+      fullPath: '/admin/roles'
+      preLoaderRoute: typeof AuthAdminRolesIndexRouteImport
+      parentRoute: typeof AuthAdminRoute
+    }
+    '/_auth/admin/materials/': {
+      id: '/_auth/admin/materials/'
+      path: '/materials'
+      fullPath: '/admin/materials'
+      preLoaderRoute: typeof AuthAdminMaterialsIndexRouteImport
+      parentRoute: typeof AuthAdminRoute
+    }
+    '/_auth/admin/collections/': {
+      id: '/_auth/admin/collections/'
+      path: '/collections'
+      fullPath: '/admin/collections'
+      preLoaderRoute: typeof AuthAdminCollectionsIndexRouteImport
+      parentRoute: typeof AuthAdminRoute
+    }
+    '/_auth/admin/businesses/': {
+      id: '/_auth/admin/businesses/'
+      path: '/businesses'
+      fullPath: '/admin/businesses'
+      preLoaderRoute: typeof AuthAdminBusinessesIndexRouteImport
+      parentRoute: typeof AuthAdminRoute
+    }
+    '/_auth/admin/users/create': {
+      id: '/_auth/admin/users/create'
       path: '/users/create'
-      fullPath: '/users/create'
-      preLoaderRoute: typeof AuthUsersCreateRouteImport
-      parentRoute: typeof AuthRoute
+      fullPath: '/admin/users/create'
+      preLoaderRoute: typeof AuthAdminUsersCreateRouteImport
+      parentRoute: typeof AuthAdminRoute
     }
-    '/_auth/transactions/create': {
-      id: '/_auth/transactions/create'
+    '/_auth/admin/transactions/create': {
+      id: '/_auth/admin/transactions/create'
       path: '/transactions/create'
-      fullPath: '/transactions/create'
-      preLoaderRoute: typeof AuthTransactionsCreateRouteImport
-      parentRoute: typeof AuthRoute
+      fullPath: '/admin/transactions/create'
+      preLoaderRoute: typeof AuthAdminTransactionsCreateRouteImport
+      parentRoute: typeof AuthAdminRoute
     }
-    '/_auth/roles/create': {
-      id: '/_auth/roles/create'
+    '/_auth/admin/roles/create': {
+      id: '/_auth/admin/roles/create'
       path: '/roles/create'
-      fullPath: '/roles/create'
-      preLoaderRoute: typeof AuthRolesCreateRouteImport
-      parentRoute: typeof AuthRoute
+      fullPath: '/admin/roles/create'
+      preLoaderRoute: typeof AuthAdminRolesCreateRouteImport
+      parentRoute: typeof AuthAdminRoute
     }
-    '/_auth/products/create': {
-      id: '/_auth/products/create'
-      path: '/products/create'
-      fullPath: '/products/create'
-      preLoaderRoute: typeof AuthProductsCreateRouteImport
-      parentRoute: typeof AuthRoute
-    }
-    '/_auth/materials/create': {
-      id: '/_auth/materials/create'
+    '/_auth/admin/materials/create': {
+      id: '/_auth/admin/materials/create'
       path: '/materials/create'
-      fullPath: '/materials/create'
-      preLoaderRoute: typeof AuthMaterialsCreateRouteImport
-      parentRoute: typeof AuthRoute
+      fullPath: '/admin/materials/create'
+      preLoaderRoute: typeof AuthAdminMaterialsCreateRouteImport
+      parentRoute: typeof AuthAdminRoute
     }
-    '/_auth/collections/create': {
-      id: '/_auth/collections/create'
+    '/_auth/admin/collections/create': {
+      id: '/_auth/admin/collections/create'
       path: '/collections/create'
-      fullPath: '/collections/create'
-      preLoaderRoute: typeof AuthCollectionsCreateRouteImport
-      parentRoute: typeof AuthRoute
+      fullPath: '/admin/collections/create'
+      preLoaderRoute: typeof AuthAdminCollectionsCreateRouteImport
+      parentRoute: typeof AuthAdminRoute
     }
-    '/_auth/audit-logs/$id': {
-      id: '/_auth/audit-logs/$id'
-      path: '/audit-logs/$id'
-      fullPath: '/audit-logs/$id'
-      preLoaderRoute: typeof AuthAuditLogsIdRouteImport
-      parentRoute: typeof AuthRoute
+    '/_auth/admin/businesses/create': {
+      id: '/_auth/admin/businesses/create'
+      path: '/businesses/create'
+      fullPath: '/admin/businesses/create'
+      preLoaderRoute: typeof AuthAdminBusinessesCreateRouteImport
+      parentRoute: typeof AuthAdminRoute
     }
-    '/_auth/users/$id/': {
-      id: '/_auth/users/$id/'
-      path: '/users/$id'
-      fullPath: '/users/$id'
-      preLoaderRoute: typeof AuthUsersIdIndexRouteImport
-      parentRoute: typeof AuthRoute
+    '/_auth/_mfa/mfa/verify': {
+      id: '/_auth/_mfa/mfa/verify'
+      path: '/mfa/verify'
+      fullPath: '/mfa/verify'
+      preLoaderRoute: typeof AuthMfaMfaVerifyRouteImport
+      parentRoute: typeof AuthMfaRoute
     }
-    '/_auth/transactions/$id/': {
-      id: '/_auth/transactions/$id/'
-      path: '/transactions/$id'
-      fullPath: '/transactions/$id'
-      preLoaderRoute: typeof AuthTransactionsIdIndexRouteImport
-      parentRoute: typeof AuthRoute
+    '/_auth/_mfa/mfa/enable': {
+      id: '/_auth/_mfa/mfa/enable'
+      path: '/mfa/enable'
+      fullPath: '/mfa/enable'
+      preLoaderRoute: typeof AuthMfaMfaEnableRouteImport
+      parentRoute: typeof AuthMfaRoute
     }
-    '/_auth/roles/$id/': {
-      id: '/_auth/roles/$id/'
-      path: '/roles/$id'
-      fullPath: '/roles/$id'
-      preLoaderRoute: typeof AuthRolesIdIndexRouteImport
-      parentRoute: typeof AuthRoute
-    }
-    '/_auth/products/$id/': {
-      id: '/_auth/products/$id/'
-      path: '/products/$id'
-      fullPath: '/products/$id'
-      preLoaderRoute: typeof AuthProductsIdIndexRouteImport
-      parentRoute: typeof AuthRoute
-    }
-    '/_auth/materials/$id/': {
-      id: '/_auth/materials/$id/'
-      path: '/materials/$id'
-      fullPath: '/materials/$id'
-      preLoaderRoute: typeof AuthMaterialsIdIndexRouteImport
-      parentRoute: typeof AuthRoute
-    }
-    '/_auth/collections/$id/': {
-      id: '/_auth/collections/$id/'
-      path: '/collections/$id'
-      fullPath: '/collections/$id'
-      preLoaderRoute: typeof AuthCollectionsIdIndexRouteImport
-      parentRoute: typeof AuthRoute
-    }
-    '/_auth/users/$id/edit': {
-      id: '/_auth/users/$id/edit'
+    '/_auth/admin/users/$id/edit': {
+      id: '/_auth/admin/users/$id/edit'
       path: '/users/$id/edit'
-      fullPath: '/users/$id/edit'
-      preLoaderRoute: typeof AuthUsersIdEditRouteImport
-      parentRoute: typeof AuthRoute
+      fullPath: '/admin/users/$id/edit'
+      preLoaderRoute: typeof AuthAdminUsersIdEditRouteImport
+      parentRoute: typeof AuthAdminRoute
     }
-    '/_auth/transactions/$id/edit': {
-      id: '/_auth/transactions/$id/edit'
+    '/_auth/admin/transactions/$id/edit': {
+      id: '/_auth/admin/transactions/$id/edit'
       path: '/transactions/$id/edit'
-      fullPath: '/transactions/$id/edit'
-      preLoaderRoute: typeof AuthTransactionsIdEditRouteImport
-      parentRoute: typeof AuthRoute
+      fullPath: '/admin/transactions/$id/edit'
+      preLoaderRoute: typeof AuthAdminTransactionsIdEditRouteImport
+      parentRoute: typeof AuthAdminRoute
     }
-    '/_auth/roles/$id/permissions': {
-      id: '/_auth/roles/$id/permissions'
-      path: '/roles/$id/permissions'
-      fullPath: '/roles/$id/permissions'
-      preLoaderRoute: typeof AuthRolesIdPermissionsRouteImport
-      parentRoute: typeof AuthRoute
-    }
-    '/_auth/roles/$id/edit': {
-      id: '/_auth/roles/$id/edit'
+    '/_auth/admin/roles/$id/edit': {
+      id: '/_auth/admin/roles/$id/edit'
       path: '/roles/$id/edit'
-      fullPath: '/roles/$id/edit'
-      preLoaderRoute: typeof AuthRolesIdEditRouteImport
-      parentRoute: typeof AuthRoute
+      fullPath: '/admin/roles/$id/edit'
+      preLoaderRoute: typeof AuthAdminRolesIdEditRouteImport
+      parentRoute: typeof AuthAdminRoute
     }
-    '/_auth/products/$id/edit': {
-      id: '/_auth/products/$id/edit'
-      path: '/products/$id/edit'
-      fullPath: '/products/$id/edit'
-      preLoaderRoute: typeof AuthProductsIdEditRouteImport
-      parentRoute: typeof AuthRoute
-    }
-    '/_auth/materials/$id/edit': {
-      id: '/_auth/materials/$id/edit'
+    '/_auth/admin/materials/$id/edit': {
+      id: '/_auth/admin/materials/$id/edit'
       path: '/materials/$id/edit'
-      fullPath: '/materials/$id/edit'
-      preLoaderRoute: typeof AuthMaterialsIdEditRouteImport
-      parentRoute: typeof AuthRoute
+      fullPath: '/admin/materials/$id/edit'
+      preLoaderRoute: typeof AuthAdminMaterialsIdEditRouteImport
+      parentRoute: typeof AuthAdminRoute
     }
-    '/_auth/collections/$id/edit': {
-      id: '/_auth/collections/$id/edit'
+    '/_auth/admin/collections/$id/edit': {
+      id: '/_auth/admin/collections/$id/edit'
       path: '/collections/$id/edit'
-      fullPath: '/collections/$id/edit'
-      preLoaderRoute: typeof AuthCollectionsIdEditRouteImport
-      parentRoute: typeof AuthRoute
+      fullPath: '/admin/collections/$id/edit'
+      preLoaderRoute: typeof AuthAdminCollectionsIdEditRouteImport
+      parentRoute: typeof AuthAdminRoute
+    }
+    '/_auth/admin/businesses/$id/edit': {
+      id: '/_auth/admin/businesses/$id/edit'
+      path: '/businesses/$id/edit'
+      fullPath: '/admin/businesses/$id/edit'
+      preLoaderRoute: typeof AuthAdminBusinessesIdEditRouteImport
+      parentRoute: typeof AuthAdminRoute
     }
   }
 }
 
+interface AuthMfaRouteChildren {
+  AuthMfaMfaEnableRoute: typeof AuthMfaMfaEnableRoute
+  AuthMfaMfaVerifyRoute: typeof AuthMfaMfaVerifyRoute
+}
+
+const AuthMfaRouteChildren: AuthMfaRouteChildren = {
+  AuthMfaMfaEnableRoute: AuthMfaMfaEnableRoute,
+  AuthMfaMfaVerifyRoute: AuthMfaMfaVerifyRoute,
+}
+
+const AuthMfaRouteWithChildren =
+  AuthMfaRoute._addFileChildren(AuthMfaRouteChildren)
+
+interface AuthAdminRouteChildren {
+  AuthAdminIndexRoute: typeof AuthAdminIndexRoute
+  AuthAdminBusinessesCreateRoute: typeof AuthAdminBusinessesCreateRoute
+  AuthAdminCollectionsCreateRoute: typeof AuthAdminCollectionsCreateRoute
+  AuthAdminMaterialsCreateRoute: typeof AuthAdminMaterialsCreateRoute
+  AuthAdminRolesCreateRoute: typeof AuthAdminRolesCreateRoute
+  AuthAdminTransactionsCreateRoute: typeof AuthAdminTransactionsCreateRoute
+  AuthAdminUsersCreateRoute: typeof AuthAdminUsersCreateRoute
+  AuthAdminBusinessesIndexRoute: typeof AuthAdminBusinessesIndexRoute
+  AuthAdminCollectionsIndexRoute: typeof AuthAdminCollectionsIndexRoute
+  AuthAdminMaterialsIndexRoute: typeof AuthAdminMaterialsIndexRoute
+  AuthAdminRolesIndexRoute: typeof AuthAdminRolesIndexRoute
+  AuthAdminTransactionsIndexRoute: typeof AuthAdminTransactionsIndexRoute
+  AuthAdminUsersIndexRoute: typeof AuthAdminUsersIndexRoute
+  AuthAdminBusinessesIdEditRoute: typeof AuthAdminBusinessesIdEditRoute
+  AuthAdminCollectionsIdEditRoute: typeof AuthAdminCollectionsIdEditRoute
+  AuthAdminMaterialsIdEditRoute: typeof AuthAdminMaterialsIdEditRoute
+  AuthAdminRolesIdEditRoute: typeof AuthAdminRolesIdEditRoute
+  AuthAdminTransactionsIdEditRoute: typeof AuthAdminTransactionsIdEditRoute
+  AuthAdminUsersIdEditRoute: typeof AuthAdminUsersIdEditRoute
+}
+
+const AuthAdminRouteChildren: AuthAdminRouteChildren = {
+  AuthAdminIndexRoute: AuthAdminIndexRoute,
+  AuthAdminBusinessesCreateRoute: AuthAdminBusinessesCreateRoute,
+  AuthAdminCollectionsCreateRoute: AuthAdminCollectionsCreateRoute,
+  AuthAdminMaterialsCreateRoute: AuthAdminMaterialsCreateRoute,
+  AuthAdminRolesCreateRoute: AuthAdminRolesCreateRoute,
+  AuthAdminTransactionsCreateRoute: AuthAdminTransactionsCreateRoute,
+  AuthAdminUsersCreateRoute: AuthAdminUsersCreateRoute,
+  AuthAdminBusinessesIndexRoute: AuthAdminBusinessesIndexRoute,
+  AuthAdminCollectionsIndexRoute: AuthAdminCollectionsIndexRoute,
+  AuthAdminMaterialsIndexRoute: AuthAdminMaterialsIndexRoute,
+  AuthAdminRolesIndexRoute: AuthAdminRolesIndexRoute,
+  AuthAdminTransactionsIndexRoute: AuthAdminTransactionsIndexRoute,
+  AuthAdminUsersIndexRoute: AuthAdminUsersIndexRoute,
+  AuthAdminBusinessesIdEditRoute: AuthAdminBusinessesIdEditRoute,
+  AuthAdminCollectionsIdEditRoute: AuthAdminCollectionsIdEditRoute,
+  AuthAdminMaterialsIdEditRoute: AuthAdminMaterialsIdEditRoute,
+  AuthAdminRolesIdEditRoute: AuthAdminRolesIdEditRoute,
+  AuthAdminTransactionsIdEditRoute: AuthAdminTransactionsIdEditRoute,
+  AuthAdminUsersIdEditRoute: AuthAdminUsersIdEditRoute,
+}
+
+const AuthAdminRouteWithChildren = AuthAdminRoute._addFileChildren(
+  AuthAdminRouteChildren,
+)
+
+interface AuthBusinessRouteChildren {
+  AuthBusinessIndexRoute: typeof AuthBusinessIndexRoute
+  AuthBusinessCollectionsIndexRoute: typeof AuthBusinessCollectionsIndexRoute
+  AuthBusinessTransactionsIndexRoute: typeof AuthBusinessTransactionsIndexRoute
+  AuthBusinessUsersIndexRoute: typeof AuthBusinessUsersIndexRoute
+}
+
+const AuthBusinessRouteChildren: AuthBusinessRouteChildren = {
+  AuthBusinessIndexRoute: AuthBusinessIndexRoute,
+  AuthBusinessCollectionsIndexRoute: AuthBusinessCollectionsIndexRoute,
+  AuthBusinessTransactionsIndexRoute: AuthBusinessTransactionsIndexRoute,
+  AuthBusinessUsersIndexRoute: AuthBusinessUsersIndexRoute,
+}
+
+const AuthBusinessRouteWithChildren = AuthBusinessRoute._addFileChildren(
+  AuthBusinessRouteChildren,
+)
+
+interface AuthCollectorRouteChildren {
+  AuthCollectorIndexRoute: typeof AuthCollectorIndexRoute
+}
+
+const AuthCollectorRouteChildren: AuthCollectorRouteChildren = {
+  AuthCollectorIndexRoute: AuthCollectorIndexRoute,
+}
+
+const AuthCollectorRouteWithChildren = AuthCollectorRoute._addFileChildren(
+  AuthCollectorRouteChildren,
+)
+
 interface AuthRouteChildren {
+  AuthMfaRoute: typeof AuthMfaRouteWithChildren
+  AuthAdminRoute: typeof AuthAdminRouteWithChildren
+  AuthBusinessRoute: typeof AuthBusinessRouteWithChildren
+  AuthCollectorRoute: typeof AuthCollectorRouteWithChildren
   AuthIndexRoute: typeof AuthIndexRoute
-  AuthAuditLogsIdRoute: typeof AuthAuditLogsIdRoute
-  AuthCollectionsCreateRoute: typeof AuthCollectionsCreateRoute
-  AuthMaterialsCreateRoute: typeof AuthMaterialsCreateRoute
-  AuthProductsCreateRoute: typeof AuthProductsCreateRoute
-  AuthRolesCreateRoute: typeof AuthRolesCreateRoute
-  AuthTransactionsCreateRoute: typeof AuthTransactionsCreateRoute
-  AuthUsersCreateRoute: typeof AuthUsersCreateRoute
-  AuthAuditLogsIndexRoute: typeof AuthAuditLogsIndexRoute
-  AuthCollectionsIndexRoute: typeof AuthCollectionsIndexRoute
-  AuthMaterialsIndexRoute: typeof AuthMaterialsIndexRoute
-  AuthProductsIndexRoute: typeof AuthProductsIndexRoute
-  AuthRolesIndexRoute: typeof AuthRolesIndexRoute
-  AuthTransactionsIndexRoute: typeof AuthTransactionsIndexRoute
-  AuthUsersIndexRoute: typeof AuthUsersIndexRoute
-  AuthCollectionsIdEditRoute: typeof AuthCollectionsIdEditRoute
-  AuthMaterialsIdEditRoute: typeof AuthMaterialsIdEditRoute
-  AuthProductsIdEditRoute: typeof AuthProductsIdEditRoute
-  AuthRolesIdEditRoute: typeof AuthRolesIdEditRoute
-  AuthRolesIdPermissionsRoute: typeof AuthRolesIdPermissionsRoute
-  AuthTransactionsIdEditRoute: typeof AuthTransactionsIdEditRoute
-  AuthUsersIdEditRoute: typeof AuthUsersIdEditRoute
-  AuthCollectionsIdIndexRoute: typeof AuthCollectionsIdIndexRoute
-  AuthMaterialsIdIndexRoute: typeof AuthMaterialsIdIndexRoute
-  AuthProductsIdIndexRoute: typeof AuthProductsIdIndexRoute
-  AuthRolesIdIndexRoute: typeof AuthRolesIdIndexRoute
-  AuthTransactionsIdIndexRoute: typeof AuthTransactionsIdIndexRoute
-  AuthUsersIdIndexRoute: typeof AuthUsersIdIndexRoute
 }
 
 const AuthRouteChildren: AuthRouteChildren = {
+  AuthMfaRoute: AuthMfaRouteWithChildren,
+  AuthAdminRoute: AuthAdminRouteWithChildren,
+  AuthBusinessRoute: AuthBusinessRouteWithChildren,
+  AuthCollectorRoute: AuthCollectorRouteWithChildren,
   AuthIndexRoute: AuthIndexRoute,
-  AuthAuditLogsIdRoute: AuthAuditLogsIdRoute,
-  AuthCollectionsCreateRoute: AuthCollectionsCreateRoute,
-  AuthMaterialsCreateRoute: AuthMaterialsCreateRoute,
-  AuthProductsCreateRoute: AuthProductsCreateRoute,
-  AuthRolesCreateRoute: AuthRolesCreateRoute,
-  AuthTransactionsCreateRoute: AuthTransactionsCreateRoute,
-  AuthUsersCreateRoute: AuthUsersCreateRoute,
-  AuthAuditLogsIndexRoute: AuthAuditLogsIndexRoute,
-  AuthCollectionsIndexRoute: AuthCollectionsIndexRoute,
-  AuthMaterialsIndexRoute: AuthMaterialsIndexRoute,
-  AuthProductsIndexRoute: AuthProductsIndexRoute,
-  AuthRolesIndexRoute: AuthRolesIndexRoute,
-  AuthTransactionsIndexRoute: AuthTransactionsIndexRoute,
-  AuthUsersIndexRoute: AuthUsersIndexRoute,
-  AuthCollectionsIdEditRoute: AuthCollectionsIdEditRoute,
-  AuthMaterialsIdEditRoute: AuthMaterialsIdEditRoute,
-  AuthProductsIdEditRoute: AuthProductsIdEditRoute,
-  AuthRolesIdEditRoute: AuthRolesIdEditRoute,
-  AuthRolesIdPermissionsRoute: AuthRolesIdPermissionsRoute,
-  AuthTransactionsIdEditRoute: AuthTransactionsIdEditRoute,
-  AuthUsersIdEditRoute: AuthUsersIdEditRoute,
-  AuthCollectionsIdIndexRoute: AuthCollectionsIdIndexRoute,
-  AuthMaterialsIdIndexRoute: AuthMaterialsIdIndexRoute,
-  AuthProductsIdIndexRoute: AuthProductsIdIndexRoute,
-  AuthRolesIdIndexRoute: AuthRolesIdIndexRoute,
-  AuthTransactionsIdIndexRoute: AuthTransactionsIdIndexRoute,
-  AuthUsersIdIndexRoute: AuthUsersIdIndexRoute,
 }
 
 const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
 
+interface NoauthRouteChildren {
+  NoauthSignInRoute: typeof NoauthSignInRoute
+  NoauthSignUpRoute: typeof NoauthSignUpRoute
+}
+
+const NoauthRouteChildren: NoauthRouteChildren = {
+  NoauthSignInRoute: NoauthSignInRoute,
+  NoauthSignUpRoute: NoauthSignUpRoute,
+}
+
+const NoauthRouteWithChildren =
+  NoauthRoute._addFileChildren(NoauthRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   AuthRoute: AuthRouteWithChildren,
-  SignUpRoute: SignUpRoute,
+  NoauthRoute: NoauthRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

@@ -2,50 +2,65 @@
 import type { Client, Options as ClientOptions, TDataShape } from './client';
 import { client as _heyApiClient } from './client.gen';
 import type {
+  DeleteApiBusinessesByIdData,
+  DeleteApiBusinessesByIdErrors,
+  DeleteApiBusinessesByIdResponses,
+  DeleteApiCollectionsByIdData,
+  DeleteApiCollectionsByIdErrors,
+  DeleteApiCollectionsByIdResponses,
+  DeleteApiCollectionsMaterialsByIdData,
+  DeleteApiCollectionsMaterialsByIdErrors,
+  DeleteApiCollectionsMaterialsByIdResponses,
   DeleteApiMaterialsByIdData,
   DeleteApiMaterialsByIdErrors,
   DeleteApiMaterialsByIdResponses,
-  DeleteApiNotificationsByIdData,
-  DeleteApiNotificationsByIdErrors,
-  DeleteApiNotificationsByIdResponses,
-  DeleteApiOrganizationsByIdData,
-  DeleteApiOrganizationsByIdErrors,
-  DeleteApiOrganizationsByIdResponses,
-  DeleteApiOrganizationsUsersByIdData,
-  DeleteApiOrganizationsUsersByIdErrors,
-  DeleteApiOrganizationsUsersByIdResponses,
-  DeleteApiProductsByIdData,
-  DeleteApiProductsByIdErrors,
-  DeleteApiProductsByIdResponses,
   DeleteApiRolesByIdData,
   DeleteApiRolesByIdErrors,
   DeleteApiRolesByIdResponses,
   DeleteApiTransactionsByIdData,
   DeleteApiTransactionsByIdErrors,
   DeleteApiTransactionsByIdResponses,
+  DeleteApiTransactionsMaterialsByIdData,
+  DeleteApiTransactionsMaterialsByIdErrors,
+  DeleteApiTransactionsMaterialsByIdResponses,
   DeleteApiUsersByIdData,
   DeleteApiUsersByIdErrors,
   DeleteApiUsersByIdResponses,
-  GetApiAuditlogsByIdData,
-  GetApiAuditlogsByIdErrors,
-  GetApiAuditlogsByIdResponses,
-  GetApiAuditlogsData,
-  GetApiAuditlogsErrors,
-  GetApiAuditlogsResponses,
   GetApiAuthenticationCheckData,
   GetApiAuthenticationCheckErrors,
   GetApiAuthenticationCheckResponses,
   GetApiAuthenticationMfaEnableData,
   GetApiAuthenticationMfaEnableErrors,
   GetApiAuthenticationMfaEnableResponses,
-  GetApiAuthenticationOrganizationsData,
-  GetApiAuthenticationOrganizationsErrors,
-  GetApiAuthenticationOrganizationsResponses,
   GetApiAuthenticationPermissionsData,
   GetApiAuthenticationPermissionsErrors,
   GetApiAuthenticationPermissionsResponses,
+  GetApiBusinessesByIdData,
+  GetApiBusinessesByIdErrors,
+  GetApiBusinessesByIdResponses,
+  GetApiBusinessesData,
+  GetApiBusinessesErrors,
+  GetApiBusinessesListRolesByBusinessIdData,
+  GetApiBusinessesListRolesByBusinessIdErrors,
+  GetApiBusinessesListRolesByBusinessIdResponses,
+  GetApiBusinessesListUsersByBusinessIdData,
+  GetApiBusinessesListUsersByBusinessIdErrors,
+  GetApiBusinessesListUsersByBusinessIdResponses,
+  GetApiBusinessesResponses,
+  GetApiCollectionsByIdData,
+  GetApiCollectionsByIdErrors,
+  GetApiCollectionsByIdResponses,
   GetApiCollectionsData,
   GetApiCollectionsErrors,
+  GetApiCollectionsListMaterialsByCollectionIdData,
+  GetApiCollectionsListMaterialsByCollectionIdErrors,
+  GetApiCollectionsListMaterialsByCollectionIdResponses,
+  GetApiCollectionsMaterialsByIdData,
+  GetApiCollectionsMaterialsByIdErrors,
+  GetApiCollectionsMaterialsByIdResponses,
+  GetApiCollectionsMaterialsData,
+  GetApiCollectionsMaterialsErrors,
+  GetApiCollectionsMaterialsResponses,
   GetApiCollectionsResponses,
   GetApiMaterialsByIdData,
   GetApiMaterialsByIdErrors,
@@ -53,27 +68,6 @@ import type {
   GetApiMaterialsData,
   GetApiMaterialsErrors,
   GetApiMaterialsResponses,
-  GetApiNotificationsByIdData,
-  GetApiNotificationsByIdErrors,
-  GetApiNotificationsByIdResponses,
-  GetApiNotificationsData,
-  GetApiNotificationsErrors,
-  GetApiNotificationsResponses,
-  GetApiOrganizationsByIdData,
-  GetApiOrganizationsByIdErrors,
-  GetApiOrganizationsByIdResponses,
-  GetApiOrganizationsData,
-  GetApiOrganizationsErrors,
-  GetApiOrganizationsResponses,
-  GetApiProductsByIdData,
-  GetApiProductsByIdErrors,
-  GetApiProductsByIdResponses,
-  GetApiProductsData,
-  GetApiProductsErrors,
-  GetApiProductsResponses,
-  GetApiRolesAvailablePermissionsData,
-  GetApiRolesAvailablePermissionsErrors,
-  GetApiRolesAvailablePermissionsResponses,
   GetApiRolesByIdData,
   GetApiRolesByIdErrors,
   GetApiRolesByIdResponses,
@@ -85,12 +79,24 @@ import type {
   GetApiTransactionsByIdResponses,
   GetApiTransactionsData,
   GetApiTransactionsErrors,
+  GetApiTransactionsListMaterialsByTransactionIdData,
+  GetApiTransactionsListMaterialsByTransactionIdErrors,
+  GetApiTransactionsListMaterialsByTransactionIdResponses,
+  GetApiTransactionsMaterialsByIdData,
+  GetApiTransactionsMaterialsByIdErrors,
+  GetApiTransactionsMaterialsByIdResponses,
+  GetApiTransactionsMaterialsData,
+  GetApiTransactionsMaterialsErrors,
+  GetApiTransactionsMaterialsResponses,
   GetApiTransactionsResponses,
   GetApiUsersByIdData,
   GetApiUsersByIdErrors,
   GetApiUsersByIdResponses,
   GetApiUsersData,
   GetApiUsersErrors,
+  GetApiUsersListRolesByUserIdData,
+  GetApiUsersListRolesByUserIdErrors,
+  GetApiUsersListRolesByUserIdResponses,
   GetApiUsersResponses,
   PostApiAuthenticationLoginData,
   PostApiAuthenticationLoginErrors,
@@ -101,54 +107,84 @@ import type {
   PostApiAuthenticationMfaVerifyData,
   PostApiAuthenticationMfaVerifyErrors,
   PostApiAuthenticationMfaVerifyResponses,
-  PostApiAuthenticationSignUpData,
-  PostApiAuthenticationSignUpErrors,
-  PostApiAuthenticationSignUpResponses,
+  PostApiAuthenticationRegisterData,
+  PostApiAuthenticationRegisterErrors,
+  PostApiAuthenticationRegisterResponses,
+  PostApiBusinessesAssignRoleByBusinessIdByRoleIdData,
+  PostApiBusinessesAssignRoleByBusinessIdByRoleIdErrors,
+  PostApiBusinessesAssignRoleByBusinessIdByRoleIdResponses,
+  PostApiBusinessesAssignUserByBusinessIdByUserIdData,
+  PostApiBusinessesAssignUserByBusinessIdByUserIdErrors,
+  PostApiBusinessesAssignUserByBusinessIdByUserIdResponses,
+  PostApiBusinessesData,
+  PostApiBusinessesErrors,
+  PostApiBusinessesResponses,
+  PostApiBusinessesUnassignRoleByBusinessIdByRoleIdData,
+  PostApiBusinessesUnassignRoleByBusinessIdByRoleIdErrors,
+  PostApiBusinessesUnassignRoleByBusinessIdByRoleIdResponses,
+  PostApiBusinessesUnassignUserByBusinessIdByUserIdData,
+  PostApiBusinessesUnassignUserByBusinessIdByUserIdErrors,
+  PostApiBusinessesUnassignUserByBusinessIdByUserIdResponses,
+  PostApiCollectionsAssignMaterialByCollectionIdByMaterialIdData,
+  PostApiCollectionsAssignMaterialByCollectionIdByMaterialIdErrors,
+  PostApiCollectionsAssignMaterialByCollectionIdByMaterialIdResponses,
+  PostApiCollectionsData,
+  PostApiCollectionsErrors,
+  PostApiCollectionsMaterialsData,
+  PostApiCollectionsMaterialsErrors,
+  PostApiCollectionsMaterialsResponses,
+  PostApiCollectionsResponses,
+  PostApiCollectionsUnassignMaterialByCollectionIdByMaterialIdData,
+  PostApiCollectionsUnassignMaterialByCollectionIdByMaterialIdErrors,
+  PostApiCollectionsUnassignMaterialByCollectionIdByMaterialIdResponses,
   PostApiMaterialsData,
   PostApiMaterialsErrors,
   PostApiMaterialsResponses,
-  PostApiNotificationsData,
-  PostApiNotificationsErrors,
-  PostApiNotificationsResponses,
-  PostApiOrganizationsByIdInvitesAcceptData,
-  PostApiOrganizationsByIdInvitesAcceptErrors,
-  PostApiOrganizationsByIdInvitesAcceptResponses,
-  PostApiOrganizationsData,
-  PostApiOrganizationsErrors,
-  PostApiOrganizationsInvitesSendByEmailData,
-  PostApiOrganizationsInvitesSendByEmailErrors,
-  PostApiOrganizationsInvitesSendByEmailResponses,
-  PostApiOrganizationsResponses,
-  PostApiProductsData,
-  PostApiProductsErrors,
-  PostApiProductsResponses,
   PostApiRolesData,
   PostApiRolesErrors,
   PostApiRolesResponses,
+  PostApiTransactionsAssignMaterialByTransactionIdByMaterialIdData,
+  PostApiTransactionsAssignMaterialByTransactionIdByMaterialIdErrors,
+  PostApiTransactionsAssignMaterialByTransactionIdByMaterialIdResponses,
   PostApiTransactionsData,
   PostApiTransactionsErrors,
+  PostApiTransactionsMaterialsData,
+  PostApiTransactionsMaterialsErrors,
+  PostApiTransactionsMaterialsResponses,
   PostApiTransactionsResponses,
+  PostApiTransactionsUnassignMaterialByTransactionIdByMaterialIdData,
+  PostApiTransactionsUnassignMaterialByTransactionIdByMaterialIdErrors,
+  PostApiTransactionsUnassignMaterialByTransactionIdByMaterialIdResponses,
+  PostApiUsersAssignRoleByUserIdByRoleIdData,
+  PostApiUsersAssignRoleByUserIdByRoleIdErrors,
+  PostApiUsersAssignRoleByUserIdByRoleIdResponses,
   PostApiUsersData,
   PostApiUsersErrors,
   PostApiUsersResponses,
+  PostApiUsersUnassignRoleByUserIdByRoleIdData,
+  PostApiUsersUnassignRoleByUserIdByRoleIdErrors,
+  PostApiUsersUnassignRoleByUserIdByRoleIdResponses,
+  PutApiBusinessesByIdData,
+  PutApiBusinessesByIdErrors,
+  PutApiBusinessesByIdResponses,
+  PutApiCollectionsByIdData,
+  PutApiCollectionsByIdErrors,
+  PutApiCollectionsByIdResponses,
+  PutApiCollectionsMaterialsByIdData,
+  PutApiCollectionsMaterialsByIdErrors,
+  PutApiCollectionsMaterialsByIdResponses,
   PutApiMaterialsByIdData,
   PutApiMaterialsByIdErrors,
   PutApiMaterialsByIdResponses,
-  PutApiNotificationsByIdData,
-  PutApiNotificationsByIdErrors,
-  PutApiNotificationsByIdResponses,
-  PutApiOrganizationsByIdData,
-  PutApiOrganizationsByIdErrors,
-  PutApiOrganizationsByIdResponses,
-  PutApiProductsByIdData,
-  PutApiProductsByIdErrors,
-  PutApiProductsByIdResponses,
   PutApiRolesByIdData,
   PutApiRolesByIdErrors,
   PutApiRolesByIdResponses,
   PutApiTransactionsByIdData,
   PutApiTransactionsByIdErrors,
   PutApiTransactionsByIdResponses,
+  PutApiTransactionsMaterialsByIdData,
+  PutApiTransactionsMaterialsByIdErrors,
+  PutApiTransactionsMaterialsByIdResponses,
   PutApiUsersByIdData,
   PutApiUsersByIdErrors,
   PutApiUsersByIdResponses,
@@ -172,42 +208,8 @@ export type Options<
 };
 
 /**
- * View AuditLogs
- * Endpoint to retrieve a list of auditlogs with pagination and optional search query
- */
-export const getApiAuditlogs = <ThrowOnError extends boolean = false>(
-  options?: Options<GetApiAuditlogsData, ThrowOnError>
-) => {
-  return (options?.client ?? _heyApiClient).get<
-    GetApiAuditlogsResponses,
-    GetApiAuditlogsErrors,
-    ThrowOnError
-  >({
-    url: '/api/auditlogs',
-    ...options,
-  });
-};
-
-/**
- * View AuditLog
- * Endpoint to retrieve a auditlog by their ID
- */
-export const getApiAuditlogsById = <ThrowOnError extends boolean = false>(
-  options: Options<GetApiAuditlogsByIdData, ThrowOnError>
-) => {
-  return (options.client ?? _heyApiClient).get<
-    GetApiAuditlogsByIdResponses,
-    GetApiAuditlogsByIdErrors,
-    ThrowOnError
-  >({
-    url: '/api/auditlogs/{id}',
-    ...options,
-  });
-};
-
-/**
  * Check Authentication
- * Checks if the user is authenticated and returns their user information.
+ * Checks if the user is authenticated.
  */
 export const getApiAuthenticationCheck = <ThrowOnError extends boolean = false>(
   options?: Options<GetApiAuthenticationCheckData, ThrowOnError>
@@ -247,7 +249,7 @@ export const postApiAuthenticationLogin = <
 
 /**
  * Logout
- * Logs out the user and invalidates their session.
+ * Logs out the user.
  */
 export const postApiAuthenticationLogout = <
   ThrowOnError extends boolean = false,
@@ -265,8 +267,8 @@ export const postApiAuthenticationLogout = <
 };
 
 /**
- * Enable Multi-Factor Authentication (MFA)
- * Generates a QR code for enabling Multi-Factor Authentication (MFA) for the user.
+ * Enable MFA
+ * Enables Multi-Factor Authentication for the user.
  */
 export const getApiAuthenticationMfaEnable = <
   ThrowOnError extends boolean = false,
@@ -284,8 +286,8 @@ export const getApiAuthenticationMfaEnable = <
 };
 
 /**
- * Verify Multi-Factor Authentication (MFA)
- * Verifies the user's MFA status.
+ * Verify MFA
+ * Verifies the Multi-Factor Authentication code for the user.
  */
 export const postApiAuthenticationMfaVerify = <
   ThrowOnError extends boolean = false,
@@ -307,27 +309,8 @@ export const postApiAuthenticationMfaVerify = <
 };
 
 /**
- * Organizations
- * Return the user's organizations.
- */
-export const getApiAuthenticationOrganizations = <
-  ThrowOnError extends boolean = false,
->(
-  options?: Options<GetApiAuthenticationOrganizationsData, ThrowOnError>
-) => {
-  return (options?.client ?? _heyApiClient).get<
-    GetApiAuthenticationOrganizationsResponses,
-    GetApiAuthenticationOrganizationsErrors,
-    ThrowOnError
-  >({
-    url: '/api/authentication/organizations',
-    ...options,
-  });
-};
-
-/**
  * Permissions
- * Return the user's permissions.
+ * Retrieves the permissions available in the system.
  */
 export const getApiAuthenticationPermissions = <
   ThrowOnError extends boolean = false,
@@ -345,20 +328,20 @@ export const getApiAuthenticationPermissions = <
 };
 
 /**
- * Sign Up
- * Signs up a new user with email and password.
+ * Register
+ * Registers a new user with email and password.
  */
-export const postApiAuthenticationSignUp = <
+export const postApiAuthenticationRegister = <
   ThrowOnError extends boolean = false,
 >(
-  options: Options<PostApiAuthenticationSignUpData, ThrowOnError>
+  options: Options<PostApiAuthenticationRegisterData, ThrowOnError>
 ) => {
   return (options.client ?? _heyApiClient).post<
-    PostApiAuthenticationSignUpResponses,
-    PostApiAuthenticationSignUpErrors,
+    PostApiAuthenticationRegisterResponses,
+    PostApiAuthenticationRegisterErrors,
     ThrowOnError
   >({
-    url: '/api/authentication/sign-up',
+    url: '/api/authentication/register',
     ...options,
     headers: {
       'Content-Type': 'application/json',
@@ -368,13 +351,232 @@ export const postApiAuthenticationSignUp = <
 };
 
 /**
- * View Collections
- * Endpoint to retrieve a list of collections with pagination and optional search query
+ * Get Businesses
+ * This endpoint retrieves a list of business.
+ */
+export const getApiBusinesses = <ThrowOnError extends boolean = false>(
+  options: Options<GetApiBusinessesData, ThrowOnError>
+) => {
+  return (options.client ?? _heyApiClient).get<
+    GetApiBusinessesResponses,
+    GetApiBusinessesErrors,
+    ThrowOnError
+  >({
+    url: '/api/businesses',
+    ...options,
+  });
+};
+
+/**
+ * Create Business
+ * This endpoint creates a new business.
+ */
+export const postApiBusinesses = <ThrowOnError extends boolean = false>(
+  options: Options<PostApiBusinessesData, ThrowOnError>
+) => {
+  return (options.client ?? _heyApiClient).post<
+    PostApiBusinessesResponses,
+    PostApiBusinessesErrors,
+    ThrowOnError
+  >({
+    url: '/api/businesses',
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...options.headers,
+    },
+  });
+};
+
+/**
+ * Assign Role
+ * This endpoint assigns a role to a business
+ */
+export const postApiBusinessesAssignRoleByBusinessIdByRoleId = <
+  ThrowOnError extends boolean = false,
+>(
+  options: Options<
+    PostApiBusinessesAssignRoleByBusinessIdByRoleIdData,
+    ThrowOnError
+  >
+) => {
+  return (options.client ?? _heyApiClient).post<
+    PostApiBusinessesAssignRoleByBusinessIdByRoleIdResponses,
+    PostApiBusinessesAssignRoleByBusinessIdByRoleIdErrors,
+    ThrowOnError
+  >({
+    url: '/api/businesses/assign-role/{businessId}/{roleId}',
+    ...options,
+  });
+};
+
+/**
+ * Assign User
+ * This endpoint assigns a user to a business
+ */
+export const postApiBusinessesAssignUserByBusinessIdByUserId = <
+  ThrowOnError extends boolean = false,
+>(
+  options: Options<
+    PostApiBusinessesAssignUserByBusinessIdByUserIdData,
+    ThrowOnError
+  >
+) => {
+  return (options.client ?? _heyApiClient).post<
+    PostApiBusinessesAssignUserByBusinessIdByUserIdResponses,
+    PostApiBusinessesAssignUserByBusinessIdByUserIdErrors,
+    ThrowOnError
+  >({
+    url: '/api/businesses/assign-user/{businessId}/{userId}',
+    ...options,
+  });
+};
+
+/**
+ * List Role
+ * This endpoint retrieves a list of role assigned to a business
+ */
+export const getApiBusinessesListRolesByBusinessId = <
+  ThrowOnError extends boolean = false,
+>(
+  options: Options<GetApiBusinessesListRolesByBusinessIdData, ThrowOnError>
+) => {
+  return (options.client ?? _heyApiClient).get<
+    GetApiBusinessesListRolesByBusinessIdResponses,
+    GetApiBusinessesListRolesByBusinessIdErrors,
+    ThrowOnError
+  >({
+    url: '/api/businesses/list-roles/{businessId}',
+    ...options,
+  });
+};
+
+/**
+ * List User
+ * This endpoint retrieves a list of user assigned to a business
+ */
+export const getApiBusinessesListUsersByBusinessId = <
+  ThrowOnError extends boolean = false,
+>(
+  options: Options<GetApiBusinessesListUsersByBusinessIdData, ThrowOnError>
+) => {
+  return (options.client ?? _heyApiClient).get<
+    GetApiBusinessesListUsersByBusinessIdResponses,
+    GetApiBusinessesListUsersByBusinessIdErrors,
+    ThrowOnError
+  >({
+    url: '/api/businesses/list-users/{businessId}',
+    ...options,
+  });
+};
+
+/**
+ * Unassign Role
+ * This endpoint unassigns a role from a business
+ */
+export const postApiBusinessesUnassignRoleByBusinessIdByRoleId = <
+  ThrowOnError extends boolean = false,
+>(
+  options: Options<
+    PostApiBusinessesUnassignRoleByBusinessIdByRoleIdData,
+    ThrowOnError
+  >
+) => {
+  return (options.client ?? _heyApiClient).post<
+    PostApiBusinessesUnassignRoleByBusinessIdByRoleIdResponses,
+    PostApiBusinessesUnassignRoleByBusinessIdByRoleIdErrors,
+    ThrowOnError
+  >({
+    url: '/api/businesses/unassign-role/{businessId}/{roleId}',
+    ...options,
+  });
+};
+
+/**
+ * Unassign User
+ * This endpoint unassigns a user from a business
+ */
+export const postApiBusinessesUnassignUserByBusinessIdByUserId = <
+  ThrowOnError extends boolean = false,
+>(
+  options: Options<
+    PostApiBusinessesUnassignUserByBusinessIdByUserIdData,
+    ThrowOnError
+  >
+) => {
+  return (options.client ?? _heyApiClient).post<
+    PostApiBusinessesUnassignUserByBusinessIdByUserIdResponses,
+    PostApiBusinessesUnassignUserByBusinessIdByUserIdErrors,
+    ThrowOnError
+  >({
+    url: '/api/businesses/unassign-user/{businessId}/{userId}',
+    ...options,
+  });
+};
+
+/**
+ * Delete Business
+ * This endpoint deletes an existing business.
+ */
+export const deleteApiBusinessesById = <ThrowOnError extends boolean = false>(
+  options: Options<DeleteApiBusinessesByIdData, ThrowOnError>
+) => {
+  return (options.client ?? _heyApiClient).delete<
+    DeleteApiBusinessesByIdResponses,
+    DeleteApiBusinessesByIdErrors,
+    ThrowOnError
+  >({
+    url: '/api/businesses/{id}',
+    ...options,
+  });
+};
+
+/**
+ * Get Business
+ * This endpoint retrieves an existing business.
+ */
+export const getApiBusinessesById = <ThrowOnError extends boolean = false>(
+  options: Options<GetApiBusinessesByIdData, ThrowOnError>
+) => {
+  return (options.client ?? _heyApiClient).get<
+    GetApiBusinessesByIdResponses,
+    GetApiBusinessesByIdErrors,
+    ThrowOnError
+  >({
+    url: '/api/businesses/{id}',
+    ...options,
+  });
+};
+
+/**
+ * Update Business
+ * This endpoint updates an existing business.
+ */
+export const putApiBusinessesById = <ThrowOnError extends boolean = false>(
+  options: Options<PutApiBusinessesByIdData, ThrowOnError>
+) => {
+  return (options.client ?? _heyApiClient).put<
+    PutApiBusinessesByIdResponses,
+    PutApiBusinessesByIdErrors,
+    ThrowOnError
+  >({
+    url: '/api/businesses/{id}',
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...options.headers,
+    },
+  });
+};
+
+/**
+ * Get Collections
+ * This endpoint retrieves a list of collection.
  */
 export const getApiCollections = <ThrowOnError extends boolean = false>(
-  options?: Options<GetApiCollectionsData, ThrowOnError>
+  options: Options<GetApiCollectionsData, ThrowOnError>
 ) => {
-  return (options?.client ?? _heyApiClient).get<
+  return (options.client ?? _heyApiClient).get<
     GetApiCollectionsResponses,
     GetApiCollectionsErrors,
     ThrowOnError
@@ -385,13 +587,258 @@ export const getApiCollections = <ThrowOnError extends boolean = false>(
 };
 
 /**
- * View Materials
- * Endpoint to retrieve a list of materials with pagination and optional search query
+ * Create Collection
+ * This endpoint creates a new collection.
+ */
+export const postApiCollections = <ThrowOnError extends boolean = false>(
+  options: Options<PostApiCollectionsData, ThrowOnError>
+) => {
+  return (options.client ?? _heyApiClient).post<
+    PostApiCollectionsResponses,
+    PostApiCollectionsErrors,
+    ThrowOnError
+  >({
+    url: '/api/collections',
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...options.headers,
+    },
+  });
+};
+
+/**
+ * Assign Material
+ * This endpoint assigns a material to a collection
+ */
+export const postApiCollectionsAssignMaterialByCollectionIdByMaterialId = <
+  ThrowOnError extends boolean = false,
+>(
+  options: Options<
+    PostApiCollectionsAssignMaterialByCollectionIdByMaterialIdData,
+    ThrowOnError
+  >
+) => {
+  return (options.client ?? _heyApiClient).post<
+    PostApiCollectionsAssignMaterialByCollectionIdByMaterialIdResponses,
+    PostApiCollectionsAssignMaterialByCollectionIdByMaterialIdErrors,
+    ThrowOnError
+  >({
+    url: '/api/collections/assign-material/{collectionId}/{materialId}',
+    ...options,
+  });
+};
+
+/**
+ * List Material
+ * This endpoint retrieves a list of material assigned to a collection
+ */
+export const getApiCollectionsListMaterialsByCollectionId = <
+  ThrowOnError extends boolean = false,
+>(
+  options: Options<
+    GetApiCollectionsListMaterialsByCollectionIdData,
+    ThrowOnError
+  >
+) => {
+  return (options.client ?? _heyApiClient).get<
+    GetApiCollectionsListMaterialsByCollectionIdResponses,
+    GetApiCollectionsListMaterialsByCollectionIdErrors,
+    ThrowOnError
+  >({
+    url: '/api/collections/list-materials/{collectionId}',
+    ...options,
+  });
+};
+
+/**
+ * Get Collection Materials
+ * This endpoint retrieves a list of collection material.
+ */
+export const getApiCollectionsMaterials = <
+  ThrowOnError extends boolean = false,
+>(
+  options: Options<GetApiCollectionsMaterialsData, ThrowOnError>
+) => {
+  return (options.client ?? _heyApiClient).get<
+    GetApiCollectionsMaterialsResponses,
+    GetApiCollectionsMaterialsErrors,
+    ThrowOnError
+  >({
+    url: '/api/collections/materials',
+    ...options,
+  });
+};
+
+/**
+ * Create Collection Material
+ * This endpoint creates a new collection material.
+ */
+export const postApiCollectionsMaterials = <
+  ThrowOnError extends boolean = false,
+>(
+  options: Options<PostApiCollectionsMaterialsData, ThrowOnError>
+) => {
+  return (options.client ?? _heyApiClient).post<
+    PostApiCollectionsMaterialsResponses,
+    PostApiCollectionsMaterialsErrors,
+    ThrowOnError
+  >({
+    url: '/api/collections/materials',
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...options.headers,
+    },
+  });
+};
+
+/**
+ * Delete Collection Material
+ * This endpoint deletes an existing collection material.
+ */
+export const deleteApiCollectionsMaterialsById = <
+  ThrowOnError extends boolean = false,
+>(
+  options: Options<DeleteApiCollectionsMaterialsByIdData, ThrowOnError>
+) => {
+  return (options.client ?? _heyApiClient).delete<
+    DeleteApiCollectionsMaterialsByIdResponses,
+    DeleteApiCollectionsMaterialsByIdErrors,
+    ThrowOnError
+  >({
+    url: '/api/collections/materials/{id}',
+    ...options,
+  });
+};
+
+/**
+ * Get Collection Material
+ * This endpoint retrieves an existing collection material.
+ */
+export const getApiCollectionsMaterialsById = <
+  ThrowOnError extends boolean = false,
+>(
+  options: Options<GetApiCollectionsMaterialsByIdData, ThrowOnError>
+) => {
+  return (options.client ?? _heyApiClient).get<
+    GetApiCollectionsMaterialsByIdResponses,
+    GetApiCollectionsMaterialsByIdErrors,
+    ThrowOnError
+  >({
+    url: '/api/collections/materials/{id}',
+    ...options,
+  });
+};
+
+/**
+ * Update Collection Material
+ * This endpoint updates an existing collection material.
+ */
+export const putApiCollectionsMaterialsById = <
+  ThrowOnError extends boolean = false,
+>(
+  options: Options<PutApiCollectionsMaterialsByIdData, ThrowOnError>
+) => {
+  return (options.client ?? _heyApiClient).put<
+    PutApiCollectionsMaterialsByIdResponses,
+    PutApiCollectionsMaterialsByIdErrors,
+    ThrowOnError
+  >({
+    url: '/api/collections/materials/{id}',
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...options.headers,
+    },
+  });
+};
+
+/**
+ * Unassign Material
+ * This endpoint unassigns a material from a collection
+ */
+export const postApiCollectionsUnassignMaterialByCollectionIdByMaterialId = <
+  ThrowOnError extends boolean = false,
+>(
+  options: Options<
+    PostApiCollectionsUnassignMaterialByCollectionIdByMaterialIdData,
+    ThrowOnError
+  >
+) => {
+  return (options.client ?? _heyApiClient).post<
+    PostApiCollectionsUnassignMaterialByCollectionIdByMaterialIdResponses,
+    PostApiCollectionsUnassignMaterialByCollectionIdByMaterialIdErrors,
+    ThrowOnError
+  >({
+    url: '/api/collections/unassign-material/{collectionId}/{materialId}',
+    ...options,
+  });
+};
+
+/**
+ * Delete Collection
+ * This endpoint deletes an existing collection.
+ */
+export const deleteApiCollectionsById = <ThrowOnError extends boolean = false>(
+  options: Options<DeleteApiCollectionsByIdData, ThrowOnError>
+) => {
+  return (options.client ?? _heyApiClient).delete<
+    DeleteApiCollectionsByIdResponses,
+    DeleteApiCollectionsByIdErrors,
+    ThrowOnError
+  >({
+    url: '/api/collections/{id}',
+    ...options,
+  });
+};
+
+/**
+ * Get Collection
+ * This endpoint retrieves an existing collection.
+ */
+export const getApiCollectionsById = <ThrowOnError extends boolean = false>(
+  options: Options<GetApiCollectionsByIdData, ThrowOnError>
+) => {
+  return (options.client ?? _heyApiClient).get<
+    GetApiCollectionsByIdResponses,
+    GetApiCollectionsByIdErrors,
+    ThrowOnError
+  >({
+    url: '/api/collections/{id}',
+    ...options,
+  });
+};
+
+/**
+ * Update Collection
+ * This endpoint updates an existing collection.
+ */
+export const putApiCollectionsById = <ThrowOnError extends boolean = false>(
+  options: Options<PutApiCollectionsByIdData, ThrowOnError>
+) => {
+  return (options.client ?? _heyApiClient).put<
+    PutApiCollectionsByIdResponses,
+    PutApiCollectionsByIdErrors,
+    ThrowOnError
+  >({
+    url: '/api/collections/{id}',
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...options.headers,
+    },
+  });
+};
+
+/**
+ * Get Materials
+ * This endpoint retrieves a list of material.
  */
 export const getApiMaterials = <ThrowOnError extends boolean = false>(
-  options?: Options<GetApiMaterialsData, ThrowOnError>
+  options: Options<GetApiMaterialsData, ThrowOnError>
 ) => {
-  return (options?.client ?? _heyApiClient).get<
+  return (options.client ?? _heyApiClient).get<
     GetApiMaterialsResponses,
     GetApiMaterialsErrors,
     ThrowOnError
@@ -403,7 +850,7 @@ export const getApiMaterials = <ThrowOnError extends boolean = false>(
 
 /**
  * Create Material
- * Creates a new material.
+ * This endpoint creates a new material.
  */
 export const postApiMaterials = <ThrowOnError extends boolean = false>(
   options: Options<PostApiMaterialsData, ThrowOnError>
@@ -423,8 +870,8 @@ export const postApiMaterials = <ThrowOnError extends boolean = false>(
 };
 
 /**
- * Delete Material by ID
- * Deletes a material by by their id.
+ * Delete Material
+ * This endpoint deletes an existing material.
  */
 export const deleteApiMaterialsById = <ThrowOnError extends boolean = false>(
   options: Options<DeleteApiMaterialsByIdData, ThrowOnError>
@@ -440,8 +887,8 @@ export const deleteApiMaterialsById = <ThrowOnError extends boolean = false>(
 };
 
 /**
- * View Material
- * Endpoint to retrieve a material by their ID
+ * Get Material
+ * This endpoint retrieves an existing material.
  */
 export const getApiMaterialsById = <ThrowOnError extends boolean = false>(
   options: Options<GetApiMaterialsByIdData, ThrowOnError>
@@ -457,8 +904,8 @@ export const getApiMaterialsById = <ThrowOnError extends boolean = false>(
 };
 
 /**
- * Update Material by ID
- * Updates the material information for a specific material identified by their id.
+ * Update Material
+ * This endpoint updates an existing material.
  */
 export const putApiMaterialsById = <ThrowOnError extends boolean = false>(
   options: Options<PutApiMaterialsByIdData, ThrowOnError>
@@ -478,353 +925,13 @@ export const putApiMaterialsById = <ThrowOnError extends boolean = false>(
 };
 
 /**
- * View Notifications
- * Endpoint to retrieve a list of notifications with pagination and optional search query
- */
-export const getApiNotifications = <ThrowOnError extends boolean = false>(
-  options?: Options<GetApiNotificationsData, ThrowOnError>
-) => {
-  return (options?.client ?? _heyApiClient).get<
-    GetApiNotificationsResponses,
-    GetApiNotificationsErrors,
-    ThrowOnError
-  >({
-    url: '/api/notifications',
-    ...options,
-  });
-};
-
-/**
- * Create Notification
- * Creates a new notification.
- */
-export const postApiNotifications = <ThrowOnError extends boolean = false>(
-  options: Options<PostApiNotificationsData, ThrowOnError>
-) => {
-  return (options.client ?? _heyApiClient).post<
-    PostApiNotificationsResponses,
-    PostApiNotificationsErrors,
-    ThrowOnError
-  >({
-    url: '/api/notifications',
-    ...options,
-    headers: {
-      'Content-Type': 'application/json',
-      ...options.headers,
-    },
-  });
-};
-
-/**
- * Delete Notification by ID
- * Deletes a notification by by their id.
- */
-export const deleteApiNotificationsById = <
-  ThrowOnError extends boolean = false,
->(
-  options: Options<DeleteApiNotificationsByIdData, ThrowOnError>
-) => {
-  return (options.client ?? _heyApiClient).delete<
-    DeleteApiNotificationsByIdResponses,
-    DeleteApiNotificationsByIdErrors,
-    ThrowOnError
-  >({
-    url: '/api/notifications/{id}',
-    ...options,
-  });
-};
-
-/**
- * View Notification
- * Endpoint to retrieve a notification by their ID
- */
-export const getApiNotificationsById = <ThrowOnError extends boolean = false>(
-  options: Options<GetApiNotificationsByIdData, ThrowOnError>
-) => {
-  return (options.client ?? _heyApiClient).get<
-    GetApiNotificationsByIdResponses,
-    GetApiNotificationsByIdErrors,
-    ThrowOnError
-  >({
-    url: '/api/notifications/{id}',
-    ...options,
-  });
-};
-
-/**
- * Update Notification by ID
- * Updates the notification information for a specific notification identified by their id.
- */
-export const putApiNotificationsById = <ThrowOnError extends boolean = false>(
-  options: Options<PutApiNotificationsByIdData, ThrowOnError>
-) => {
-  return (options.client ?? _heyApiClient).put<
-    PutApiNotificationsByIdResponses,
-    PutApiNotificationsByIdErrors,
-    ThrowOnError
-  >({
-    url: '/api/notifications/{id}',
-    ...options,
-    headers: {
-      'Content-Type': 'application/json',
-      ...options.headers,
-    },
-  });
-};
-
-/**
- * View Organizations
- * Endpoint to retrieve a list of organizations with pagination and optional search query
- */
-export const getApiOrganizations = <ThrowOnError extends boolean = false>(
-  options?: Options<GetApiOrganizationsData, ThrowOnError>
-) => {
-  return (options?.client ?? _heyApiClient).get<
-    GetApiOrganizationsResponses,
-    GetApiOrganizationsErrors,
-    ThrowOnError
-  >({
-    url: '/api/organizations',
-    ...options,
-  });
-};
-
-/**
- * Create Organization
- * Creates a new organization.
- */
-export const postApiOrganizations = <ThrowOnError extends boolean = false>(
-  options: Options<PostApiOrganizationsData, ThrowOnError>
-) => {
-  return (options.client ?? _heyApiClient).post<
-    PostApiOrganizationsResponses,
-    PostApiOrganizationsErrors,
-    ThrowOnError
-  >({
-    url: '/api/organizations',
-    ...options,
-    headers: {
-      'Content-Type': 'application/json',
-      ...options.headers,
-    },
-  });
-};
-
-/**
- * Send Organization Invite
- * Sends an invitation to join the organization.
- */
-export const postApiOrganizationsInvitesSendByEmail = <
-  ThrowOnError extends boolean = false,
->(
-  options: Options<PostApiOrganizationsInvitesSendByEmailData, ThrowOnError>
-) => {
-  return (options.client ?? _heyApiClient).post<
-    PostApiOrganizationsInvitesSendByEmailResponses,
-    PostApiOrganizationsInvitesSendByEmailErrors,
-    ThrowOnError
-  >({
-    url: '/api/organizations/invites/send/{email}',
-    ...options,
-  });
-};
-
-/**
- * Remove User by ID
- * Removes a user by their id.
- */
-export const deleteApiOrganizationsUsersById = <
-  ThrowOnError extends boolean = false,
->(
-  options: Options<DeleteApiOrganizationsUsersByIdData, ThrowOnError>
-) => {
-  return (options.client ?? _heyApiClient).delete<
-    DeleteApiOrganizationsUsersByIdResponses,
-    DeleteApiOrganizationsUsersByIdErrors,
-    ThrowOnError
-  >({
-    url: '/api/organizations/users/{id}',
-    ...options,
-  });
-};
-
-/**
- * Delete Organization by ID
- * Deletes a organization by by their id.
- */
-export const deleteApiOrganizationsById = <
-  ThrowOnError extends boolean = false,
->(
-  options: Options<DeleteApiOrganizationsByIdData, ThrowOnError>
-) => {
-  return (options.client ?? _heyApiClient).delete<
-    DeleteApiOrganizationsByIdResponses,
-    DeleteApiOrganizationsByIdErrors,
-    ThrowOnError
-  >({
-    url: '/api/organizations/{id}',
-    ...options,
-  });
-};
-
-/**
- * View Organization
- * Endpoint to retrieve a organization by their ID
- */
-export const getApiOrganizationsById = <ThrowOnError extends boolean = false>(
-  options: Options<GetApiOrganizationsByIdData, ThrowOnError>
-) => {
-  return (options.client ?? _heyApiClient).get<
-    GetApiOrganizationsByIdResponses,
-    GetApiOrganizationsByIdErrors,
-    ThrowOnError
-  >({
-    url: '/api/organizations/{id}',
-    ...options,
-  });
-};
-
-/**
- * Update Organization by ID
- * Updates the organization information for a specific organization identified by their id.
- */
-export const putApiOrganizationsById = <ThrowOnError extends boolean = false>(
-  options: Options<PutApiOrganizationsByIdData, ThrowOnError>
-) => {
-  return (options.client ?? _heyApiClient).put<
-    PutApiOrganizationsByIdResponses,
-    PutApiOrganizationsByIdErrors,
-    ThrowOnError
-  >({
-    url: '/api/organizations/{id}',
-    ...options,
-    headers: {
-      'Content-Type': 'application/json',
-      ...options.headers,
-    },
-  });
-};
-
-/**
- * Accept Organization Invite
- * Accepts an invitation to join the organization.
- */
-export const postApiOrganizationsByIdInvitesAccept = <
-  ThrowOnError extends boolean = false,
->(
-  options?: Options<PostApiOrganizationsByIdInvitesAcceptData, ThrowOnError>
-) => {
-  return (options?.client ?? _heyApiClient).post<
-    PostApiOrganizationsByIdInvitesAcceptResponses,
-    PostApiOrganizationsByIdInvitesAcceptErrors,
-    ThrowOnError
-  >({
-    url: '/api/organizations/{id}/invites/accept',
-    ...options,
-  });
-};
-
-/**
- * View Products
- * Endpoint to retrieve a list of products with pagination and optional search query
- */
-export const getApiProducts = <ThrowOnError extends boolean = false>(
-  options?: Options<GetApiProductsData, ThrowOnError>
-) => {
-  return (options?.client ?? _heyApiClient).get<
-    GetApiProductsResponses,
-    GetApiProductsErrors,
-    ThrowOnError
-  >({
-    url: '/api/products',
-    ...options,
-  });
-};
-
-/**
- * Create Product
- * Creates a new product.
- */
-export const postApiProducts = <ThrowOnError extends boolean = false>(
-  options: Options<PostApiProductsData, ThrowOnError>
-) => {
-  return (options.client ?? _heyApiClient).post<
-    PostApiProductsResponses,
-    PostApiProductsErrors,
-    ThrowOnError
-  >({
-    url: '/api/products',
-    ...options,
-    headers: {
-      'Content-Type': 'application/json',
-      ...options.headers,
-    },
-  });
-};
-
-/**
- * Delete Product by ID
- * Deletes a product by by their id.
- */
-export const deleteApiProductsById = <ThrowOnError extends boolean = false>(
-  options: Options<DeleteApiProductsByIdData, ThrowOnError>
-) => {
-  return (options.client ?? _heyApiClient).delete<
-    DeleteApiProductsByIdResponses,
-    DeleteApiProductsByIdErrors,
-    ThrowOnError
-  >({
-    url: '/api/products/{id}',
-    ...options,
-  });
-};
-
-/**
- * View Product
- * Endpoint to retrieve a product by their ID
- */
-export const getApiProductsById = <ThrowOnError extends boolean = false>(
-  options: Options<GetApiProductsByIdData, ThrowOnError>
-) => {
-  return (options.client ?? _heyApiClient).get<
-    GetApiProductsByIdResponses,
-    GetApiProductsByIdErrors,
-    ThrowOnError
-  >({
-    url: '/api/products/{id}',
-    ...options,
-  });
-};
-
-/**
- * Update Product by ID
- * Updates the product information for a specific product identified by their id.
- */
-export const putApiProductsById = <ThrowOnError extends boolean = false>(
-  options: Options<PutApiProductsByIdData, ThrowOnError>
-) => {
-  return (options.client ?? _heyApiClient).put<
-    PutApiProductsByIdResponses,
-    PutApiProductsByIdErrors,
-    ThrowOnError
-  >({
-    url: '/api/products/{id}',
-    ...options,
-    headers: {
-      'Content-Type': 'application/json',
-      ...options.headers,
-    },
-  });
-};
-
-/**
- * View Roles
- * Endpoint to retrieve a list of roles with pagination and optional search query
+ * Get Roles
+ * This endpoint retrieves a list of role.
  */
 export const getApiRoles = <ThrowOnError extends boolean = false>(
-  options?: Options<GetApiRolesData, ThrowOnError>
+  options: Options<GetApiRolesData, ThrowOnError>
 ) => {
-  return (options?.client ?? _heyApiClient).get<
+  return (options.client ?? _heyApiClient).get<
     GetApiRolesResponses,
     GetApiRolesErrors,
     ThrowOnError
@@ -836,7 +943,7 @@ export const getApiRoles = <ThrowOnError extends boolean = false>(
 
 /**
  * Create Role
- * Creates a new role.
+ * This endpoint creates a new role.
  */
 export const postApiRoles = <ThrowOnError extends boolean = false>(
   options: Options<PostApiRolesData, ThrowOnError>
@@ -856,27 +963,8 @@ export const postApiRoles = <ThrowOnError extends boolean = false>(
 };
 
 /**
- * Available Permissions
- * Return the available permissions for roles.
- */
-export const getApiRolesAvailablePermissions = <
-  ThrowOnError extends boolean = false,
->(
-  options?: Options<GetApiRolesAvailablePermissionsData, ThrowOnError>
-) => {
-  return (options?.client ?? _heyApiClient).get<
-    GetApiRolesAvailablePermissionsResponses,
-    GetApiRolesAvailablePermissionsErrors,
-    ThrowOnError
-  >({
-    url: '/api/roles/available-permissions',
-    ...options,
-  });
-};
-
-/**
- * Delete Role by ID
- * Deletes a role by by their id.
+ * Delete Role
+ * This endpoint deletes an existing role.
  */
 export const deleteApiRolesById = <ThrowOnError extends boolean = false>(
   options: Options<DeleteApiRolesByIdData, ThrowOnError>
@@ -892,8 +980,8 @@ export const deleteApiRolesById = <ThrowOnError extends boolean = false>(
 };
 
 /**
- * View Role
- * Endpoint to retrieve a role by their ID
+ * Get Role
+ * This endpoint retrieves an existing role.
  */
 export const getApiRolesById = <ThrowOnError extends boolean = false>(
   options: Options<GetApiRolesByIdData, ThrowOnError>
@@ -909,8 +997,8 @@ export const getApiRolesById = <ThrowOnError extends boolean = false>(
 };
 
 /**
- * Update Role by ID
- * Updates the role information for a specific role identified by their id.
+ * Update Role
+ * This endpoint updates an existing role.
  */
 export const putApiRolesById = <ThrowOnError extends boolean = false>(
   options: Options<PutApiRolesByIdData, ThrowOnError>
@@ -930,13 +1018,13 @@ export const putApiRolesById = <ThrowOnError extends boolean = false>(
 };
 
 /**
- * View Transactions
- * Endpoint to retrieve a list of transactions with pagination and optional search query
+ * Get Transactions
+ * This endpoint retrieves a list of transaction.
  */
 export const getApiTransactions = <ThrowOnError extends boolean = false>(
-  options?: Options<GetApiTransactionsData, ThrowOnError>
+  options: Options<GetApiTransactionsData, ThrowOnError>
 ) => {
-  return (options?.client ?? _heyApiClient).get<
+  return (options.client ?? _heyApiClient).get<
     GetApiTransactionsResponses,
     GetApiTransactionsErrors,
     ThrowOnError
@@ -948,7 +1036,7 @@ export const getApiTransactions = <ThrowOnError extends boolean = false>(
 
 /**
  * Create Transaction
- * Creates a new transaction.
+ * This endpoint creates a new transaction.
  */
 export const postApiTransactions = <ThrowOnError extends boolean = false>(
   options: Options<PostApiTransactionsData, ThrowOnError>
@@ -968,8 +1056,177 @@ export const postApiTransactions = <ThrowOnError extends boolean = false>(
 };
 
 /**
- * Delete Transaction by ID
- * Deletes a transaction by by their id.
+ * Assign Material
+ * This endpoint assigns a material to a transaction
+ */
+export const postApiTransactionsAssignMaterialByTransactionIdByMaterialId = <
+  ThrowOnError extends boolean = false,
+>(
+  options: Options<
+    PostApiTransactionsAssignMaterialByTransactionIdByMaterialIdData,
+    ThrowOnError
+  >
+) => {
+  return (options.client ?? _heyApiClient).post<
+    PostApiTransactionsAssignMaterialByTransactionIdByMaterialIdResponses,
+    PostApiTransactionsAssignMaterialByTransactionIdByMaterialIdErrors,
+    ThrowOnError
+  >({
+    url: '/api/transactions/assign-material/{transactionId}/{materialId}',
+    ...options,
+  });
+};
+
+/**
+ * List Material
+ * This endpoint retrieves a list of material assigned to a transaction
+ */
+export const getApiTransactionsListMaterialsByTransactionId = <
+  ThrowOnError extends boolean = false,
+>(
+  options: Options<
+    GetApiTransactionsListMaterialsByTransactionIdData,
+    ThrowOnError
+  >
+) => {
+  return (options.client ?? _heyApiClient).get<
+    GetApiTransactionsListMaterialsByTransactionIdResponses,
+    GetApiTransactionsListMaterialsByTransactionIdErrors,
+    ThrowOnError
+  >({
+    url: '/api/transactions/list-materials/{transactionId}',
+    ...options,
+  });
+};
+
+/**
+ * Get Transaction Materials
+ * This endpoint retrieves a list of transaction material.
+ */
+export const getApiTransactionsMaterials = <
+  ThrowOnError extends boolean = false,
+>(
+  options: Options<GetApiTransactionsMaterialsData, ThrowOnError>
+) => {
+  return (options.client ?? _heyApiClient).get<
+    GetApiTransactionsMaterialsResponses,
+    GetApiTransactionsMaterialsErrors,
+    ThrowOnError
+  >({
+    url: '/api/transactions/materials',
+    ...options,
+  });
+};
+
+/**
+ * Create Transaction Material
+ * This endpoint creates a new transaction material.
+ */
+export const postApiTransactionsMaterials = <
+  ThrowOnError extends boolean = false,
+>(
+  options: Options<PostApiTransactionsMaterialsData, ThrowOnError>
+) => {
+  return (options.client ?? _heyApiClient).post<
+    PostApiTransactionsMaterialsResponses,
+    PostApiTransactionsMaterialsErrors,
+    ThrowOnError
+  >({
+    url: '/api/transactions/materials',
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...options.headers,
+    },
+  });
+};
+
+/**
+ * Delete Transaction Material
+ * This endpoint deletes an existing transaction material.
+ */
+export const deleteApiTransactionsMaterialsById = <
+  ThrowOnError extends boolean = false,
+>(
+  options: Options<DeleteApiTransactionsMaterialsByIdData, ThrowOnError>
+) => {
+  return (options.client ?? _heyApiClient).delete<
+    DeleteApiTransactionsMaterialsByIdResponses,
+    DeleteApiTransactionsMaterialsByIdErrors,
+    ThrowOnError
+  >({
+    url: '/api/transactions/materials/{id}',
+    ...options,
+  });
+};
+
+/**
+ * Get Transaction Material
+ * This endpoint retrieves an existing transaction material.
+ */
+export const getApiTransactionsMaterialsById = <
+  ThrowOnError extends boolean = false,
+>(
+  options: Options<GetApiTransactionsMaterialsByIdData, ThrowOnError>
+) => {
+  return (options.client ?? _heyApiClient).get<
+    GetApiTransactionsMaterialsByIdResponses,
+    GetApiTransactionsMaterialsByIdErrors,
+    ThrowOnError
+  >({
+    url: '/api/transactions/materials/{id}',
+    ...options,
+  });
+};
+
+/**
+ * Update Transaction Material
+ * This endpoint updates an existing transaction material.
+ */
+export const putApiTransactionsMaterialsById = <
+  ThrowOnError extends boolean = false,
+>(
+  options: Options<PutApiTransactionsMaterialsByIdData, ThrowOnError>
+) => {
+  return (options.client ?? _heyApiClient).put<
+    PutApiTransactionsMaterialsByIdResponses,
+    PutApiTransactionsMaterialsByIdErrors,
+    ThrowOnError
+  >({
+    url: '/api/transactions/materials/{id}',
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...options.headers,
+    },
+  });
+};
+
+/**
+ * Unassign Material
+ * This endpoint unassigns a material from a transaction
+ */
+export const postApiTransactionsUnassignMaterialByTransactionIdByMaterialId = <
+  ThrowOnError extends boolean = false,
+>(
+  options: Options<
+    PostApiTransactionsUnassignMaterialByTransactionIdByMaterialIdData,
+    ThrowOnError
+  >
+) => {
+  return (options.client ?? _heyApiClient).post<
+    PostApiTransactionsUnassignMaterialByTransactionIdByMaterialIdResponses,
+    PostApiTransactionsUnassignMaterialByTransactionIdByMaterialIdErrors,
+    ThrowOnError
+  >({
+    url: '/api/transactions/unassign-material/{transactionId}/{materialId}',
+    ...options,
+  });
+};
+
+/**
+ * Delete Transaction
+ * This endpoint deletes an existing transaction.
  */
 export const deleteApiTransactionsById = <ThrowOnError extends boolean = false>(
   options: Options<DeleteApiTransactionsByIdData, ThrowOnError>
@@ -985,8 +1242,8 @@ export const deleteApiTransactionsById = <ThrowOnError extends boolean = false>(
 };
 
 /**
- * View Transaction
- * Endpoint to retrieve a transaction by their ID
+ * Get Transaction
+ * This endpoint retrieves an existing transaction.
  */
 export const getApiTransactionsById = <ThrowOnError extends boolean = false>(
   options: Options<GetApiTransactionsByIdData, ThrowOnError>
@@ -1002,8 +1259,8 @@ export const getApiTransactionsById = <ThrowOnError extends boolean = false>(
 };
 
 /**
- * Update Transaction by ID
- * Updates the transaction information for a specific transaction identified by their id.
+ * Update Transaction
+ * This endpoint updates an existing transaction.
  */
 export const putApiTransactionsById = <ThrowOnError extends boolean = false>(
   options: Options<PutApiTransactionsByIdData, ThrowOnError>
@@ -1023,13 +1280,13 @@ export const putApiTransactionsById = <ThrowOnError extends boolean = false>(
 };
 
 /**
- * View Users
- * Endpoint to retrieve a list of users with pagination and optional search query
+ * Get Users
+ * This endpoint retrieves a list of user.
  */
 export const getApiUsers = <ThrowOnError extends boolean = false>(
-  options?: Options<GetApiUsersData, ThrowOnError>
+  options: Options<GetApiUsersData, ThrowOnError>
 ) => {
-  return (options?.client ?? _heyApiClient).get<
+  return (options.client ?? _heyApiClient).get<
     GetApiUsersResponses,
     GetApiUsersErrors,
     ThrowOnError
@@ -1041,7 +1298,7 @@ export const getApiUsers = <ThrowOnError extends boolean = false>(
 
 /**
  * Create User
- * Creates a new user.
+ * This endpoint creates a new user.
  */
 export const postApiUsers = <ThrowOnError extends boolean = false>(
   options: Options<PostApiUsersData, ThrowOnError>
@@ -1061,8 +1318,65 @@ export const postApiUsers = <ThrowOnError extends boolean = false>(
 };
 
 /**
- * Delete User by ID
- * Deletes a user by by their id.
+ * Assign Role
+ * This endpoint assigns a role to a user
+ */
+export const postApiUsersAssignRoleByUserIdByRoleId = <
+  ThrowOnError extends boolean = false,
+>(
+  options: Options<PostApiUsersAssignRoleByUserIdByRoleIdData, ThrowOnError>
+) => {
+  return (options.client ?? _heyApiClient).post<
+    PostApiUsersAssignRoleByUserIdByRoleIdResponses,
+    PostApiUsersAssignRoleByUserIdByRoleIdErrors,
+    ThrowOnError
+  >({
+    url: '/api/users/assign-role/{userId}/{roleId}',
+    ...options,
+  });
+};
+
+/**
+ * List Role
+ * This endpoint retrieves a list of role assigned to a user
+ */
+export const getApiUsersListRolesByUserId = <
+  ThrowOnError extends boolean = false,
+>(
+  options: Options<GetApiUsersListRolesByUserIdData, ThrowOnError>
+) => {
+  return (options.client ?? _heyApiClient).get<
+    GetApiUsersListRolesByUserIdResponses,
+    GetApiUsersListRolesByUserIdErrors,
+    ThrowOnError
+  >({
+    url: '/api/users/list-roles/{userId}',
+    ...options,
+  });
+};
+
+/**
+ * Unassign Role
+ * This endpoint unassigns a role from a user
+ */
+export const postApiUsersUnassignRoleByUserIdByRoleId = <
+  ThrowOnError extends boolean = false,
+>(
+  options: Options<PostApiUsersUnassignRoleByUserIdByRoleIdData, ThrowOnError>
+) => {
+  return (options.client ?? _heyApiClient).post<
+    PostApiUsersUnassignRoleByUserIdByRoleIdResponses,
+    PostApiUsersUnassignRoleByUserIdByRoleIdErrors,
+    ThrowOnError
+  >({
+    url: '/api/users/unassign-role/{userId}/{roleId}',
+    ...options,
+  });
+};
+
+/**
+ * Delete User
+ * This endpoint deletes an existing user.
  */
 export const deleteApiUsersById = <ThrowOnError extends boolean = false>(
   options: Options<DeleteApiUsersByIdData, ThrowOnError>
@@ -1078,8 +1392,8 @@ export const deleteApiUsersById = <ThrowOnError extends boolean = false>(
 };
 
 /**
- * View User
- * Endpoint to retrieve a user by their ID
+ * Get User
+ * This endpoint retrieves an existing user.
  */
 export const getApiUsersById = <ThrowOnError extends boolean = false>(
   options: Options<GetApiUsersByIdData, ThrowOnError>
@@ -1095,8 +1409,8 @@ export const getApiUsersById = <ThrowOnError extends boolean = false>(
 };
 
 /**
- * Update User by ID
- * Updates the user information for a specific user identified by their id.
+ * Update User
+ * This endpoint updates an existing user.
  */
 export const putApiUsersById = <ThrowOnError extends boolean = false>(
   options: Options<PutApiUsersByIdData, ThrowOnError>

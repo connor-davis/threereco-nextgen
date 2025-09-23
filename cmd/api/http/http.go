@@ -4,144 +4,176 @@ import (
 	"fmt"
 	"regexp"
 
-	"github.com/connor-davis/threereco-nextgen/cmd/api/http/auditlogs"
-	"github.com/connor-davis/threereco-nextgen/cmd/api/http/authentication"
-	"github.com/connor-davis/threereco-nextgen/cmd/api/http/materials"
 	"github.com/connor-davis/threereco-nextgen/cmd/api/http/middleware"
-	"github.com/connor-davis/threereco-nextgen/cmd/api/http/notifications"
-	"github.com/connor-davis/threereco-nextgen/cmd/api/http/organizations"
-	"github.com/connor-davis/threereco-nextgen/cmd/api/http/organizations/invites"
-	"github.com/connor-davis/threereco-nextgen/cmd/api/http/products"
-	"github.com/connor-davis/threereco-nextgen/cmd/api/http/roles"
-	"github.com/connor-davis/threereco-nextgen/cmd/api/http/transactions"
-	"github.com/connor-davis/threereco-nextgen/cmd/api/http/users"
-	"github.com/connor-davis/threereco-nextgen/env"
+	"github.com/connor-davis/threereco-nextgen/cmd/api/http/routes/authentication"
+	"github.com/connor-davis/threereco-nextgen/cmd/api/http/routes/authentication/mfa"
+	"github.com/connor-davis/threereco-nextgen/cmd/api/http/routes/businesses"
+	"github.com/connor-davis/threereco-nextgen/cmd/api/http/routes/collections"
+	"github.com/connor-davis/threereco-nextgen/cmd/api/http/routes/materials"
+	"github.com/connor-davis/threereco-nextgen/cmd/api/http/routes/roles"
+	"github.com/connor-davis/threereco-nextgen/cmd/api/http/routes/transactions"
+	"github.com/connor-davis/threereco-nextgen/cmd/api/http/routes/users"
+	"github.com/connor-davis/threereco-nextgen/common"
 	"github.com/connor-davis/threereco-nextgen/internal/routing"
 	"github.com/connor-davis/threereco-nextgen/internal/routing/schemas"
-	"github.com/connor-davis/threereco-nextgen/internal/services"
 	"github.com/connor-davis/threereco-nextgen/internal/storage"
 	"github.com/getkin/kin-openapi/openapi3"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/session"
 )
 
-// HttpRouter encapsulates the dependencies and configuration required to set up HTTP routing.
-// It includes references to storage, session management, service layer, middleware, and route definitions.
-type HttpRouter struct {
-	Storage    *storage.Storage
-	Sessions   *session.Store
-	Services   *services.Services
-	Middleware *middleware.Middleware
-	Routes     []routing.Route
+type HttpRouter interface {
+	InitializeRoutes(router fiber.Router)
+	InitializeOpenAPI() *openapi3.T
 }
 
-// NewHttpRouter creates and initializes a new HttpRouter instance.
-// It sets up middleware and authentication routes using the provided storage,
-// session store, and services. The returned HttpRouter contains all configured
-// routes and dependencies required for handling HTTP requests.
-//
-// Parameters:
-//   - storage: Pointer to the application's storage layer.
-//   - sessions: Pointer to the session store for managing user sessions.
-//   - services: Pointer to the application's service layer.
-//
-// Returns:
-//   - *HttpRouter: A pointer to the initialized HttpRouter.
-func NewHttpRouter(storage *storage.Storage, sessions *session.Store, services *services.Services, middleware *middleware.Middleware) *HttpRouter {
-	authenticationRouter := authentication.NewAuthenticationRouter(storage, sessions, services, middleware)
-	authenticationRoutes := authenticationRouter.InitializeRoutes()
+type httpRouter struct {
+	storage    storage.Storage
+	middleware middleware.Middleware
+	session    *session.Store
+	routes     []routing.Route
+}
 
-	usersRouter := users.NewUsersRouter(storage, sessions, services, middleware)
-	usersRoutes := usersRouter.InitializeRoutes()
+func NewHttpRouter(storage storage.Storage, middleware middleware.Middleware, session *session.Store) HttpRouter {
+	mfaRouter := mfa.NewMfaRouter(storage, middleware, session)
+	mfaRoutes := mfaRouter.LoadRoutes()
 
-	rolesRouter := roles.NewRolesRouter(storage, sessions, services, middleware)
-	rolesRoutes := rolesRouter.InitializeRoutes()
+	authenticationRouter := authentication.NewAuthenticationRouter(storage, middleware, session)
+	authenticationRoutes := authenticationRouter.LoadRoutes()
 
-	organizationsRouter := organizations.NewOrganizationsRouter(storage, sessions, services, middleware)
-	organizationsRoutes := organizationsRouter.InitializeRoutes()
+	usersRouter := users.NewUsersRouter(storage, middleware)
+	usersRoutes := usersRouter.LoadRoutes()
 
-	invitesRouter := invites.NewOrganizationsInvitesRouter(storage, sessions, services, middleware)
-	invitesRoutes := invitesRouter.InitializeRoutes()
+	rolesRouter := roles.NewRolesRouter(storage, middleware)
+	rolesRoutes := rolesRouter.LoadRoutes()
 
-	materialsRouter := materials.NewMaterialsRouter(storage, sessions, services, middleware)
-	materialsRoutes := materialsRouter.InitializeRoutes()
+	materialsRouter := materials.NewMaterialsRouter(storage, middleware)
+	materialsRoutes := materialsRouter.LoadRoutes()
 
-	productsRouter := products.NewProductsRouter(storage, sessions, services, middleware)
-	productsRoutes := productsRouter.InitializeRoutes()
+	collectionMaterialsRouter := collections.NewCollectionMaterialsRouter(storage, middleware)
+	collectionMaterialsRoutes := collectionMaterialsRouter.LoadRoutes()
 
-	transactionsRouter := transactions.NewTransactionsRouter(storage, sessions, services, middleware)
-	transactionsRoutes := transactionsRouter.InitializeRoutes()
+	collectionsRouter := collections.NewCollectionsRouter(storage, middleware)
+	collectionsRoutes := collectionsRouter.LoadRoutes()
 
-	notificationsRouter := notifications.NewNotificationsRouter(storage, sessions, services, middleware)
-	notificationsRoutes := notificationsRouter.InitializeRoutes()
+	transactionMaterialsRouter := transactions.NewTransactionMaterialsRouter(storage, middleware)
+	transactionMaterialsRoutes := transactionMaterialsRouter.LoadRoutes()
 
-	auditLogsRouter := auditlogs.NewAuditLogsRouter(storage, sessions, services, middleware)
-	auditLogsRoutes := auditLogsRouter.InitializeRoutes()
+	transactionsRouter := transactions.NewTransactionsRouter(storage, middleware)
+	transactionsRoutes := transactionsRouter.LoadRoutes()
+
+	businessesRouter := businesses.NewBusinessesRouter(storage, middleware)
+	businessesRoutes := businessesRouter.LoadRoutes()
 
 	routes := []routing.Route{}
 
+	routes = append(routes, mfaRoutes...)
 	routes = append(routes, authenticationRoutes...)
 	routes = append(routes, usersRoutes...)
 	routes = append(routes, rolesRoutes...)
-	routes = append(routes, organizationsRoutes...)
-	routes = append(routes, invitesRoutes...)
 	routes = append(routes, materialsRoutes...)
-	routes = append(routes, productsRoutes...)
+	routes = append(routes, collectionMaterialsRoutes...)
+	routes = append(routes, collectionsRoutes...)
+	routes = append(routes, transactionMaterialsRoutes...)
 	routes = append(routes, transactionsRoutes...)
-	routes = append(routes, notificationsRoutes...)
-	routes = append(routes, auditLogsRoutes...)
+	routes = append(routes, businessesRoutes...)
 
-	return &HttpRouter{
-		Storage:    storage,
-		Sessions:   sessions,
-		Services:   services,
-		Middleware: middleware,
-		Routes:     routes,
+	return &httpRouter{
+		storage:    storage,
+		middleware: middleware,
+		session:    session,
+		routes:     routes,
 	}
 }
 
-// InitializeRoutes registers all HTTP routes defined in the HttpRouter with the provided Fiber router.
-// It converts route paths from the format "{param}" to Fiber's ":param" syntax using regular expressions.
-// For each route, it attaches the specified middlewares and handler to the corresponding HTTP method.
-// Supported methods include GET, POST, PUT, PATCH, OPTIONS, and DELETE.
-func (r *HttpRouter) InitializeRoutes(router fiber.Router) {
-	for _, route := range r.Routes {
+func (h *httpRouter) InitializeRoutes(router fiber.Router) {
+	for _, route := range h.routes {
 		path := regexp.MustCompile(`\{([^}]+)\}`).ReplaceAllString(route.Path, ":$1")
 
 		switch route.Method {
-		case routing.GetMethod:
+		case routing.GET:
 			router.Get(path, append(route.Middlewares, route.Handler)...)
-		case routing.PostMethod:
+		case routing.POST:
 			router.Post(path, append(route.Middlewares, route.Handler)...)
-		case routing.PutMethod:
+		case routing.PUT:
 			router.Put(path, append(route.Middlewares, route.Handler)...)
-		case routing.PatchMethod:
-			router.Patch(path, append(route.Middlewares, route.Handler)...)
-		case routing.OptionsMethod:
-			router.Options(path, append(route.Middlewares, route.Handler)...)
-		case routing.DeleteMethod:
+		case routing.DELETE:
 			router.Delete(path, append(route.Middlewares, route.Handler)...)
 		}
 	}
 }
 
-// InitializeOpenAPI generates and returns an OpenAPI 3 specification for the HTTP router.
-// It iterates through the defined routes, constructs OpenAPI PathItem objects for each HTTP method,
-// and sets up the API paths, operations, and components (schemas, servers, etc.).
-// The resulting OpenAPI specification includes metadata such as title, version, server URLs, and
-// reusable schemas for success and error responses.
-//
-// Returns:
-//
-//	*openapi3.T: The constructed OpenAPI 3 specification for the API.
-func (h *HttpRouter) InitializeOpenAPI() *openapi3.T {
+func (h *httpRouter) InitializeOpenAPI() *openapi3.T {
 	paths := openapi3.NewPaths()
 
-	for _, route := range h.Routes {
+	bodies := openapi3.RequestBodies{
+		"LoginPayload":     schemas.LoginPayloadSchema,
+		"RegisterPayload":  schemas.RegisterPayloadSchema,
+		"VerifyMfaPayload": schemas.VerifyMfaPayloadSchema,
+	}
+
+	schemas := openapi3.Schemas{
+		"SuccessResponse":            schemas.SuccessSchema,
+		"ErrorResponse":              schemas.ErrorSchema,
+		"Query":                      schemas.QuerySchema,
+		"Pagination":                 schemas.PaginationSchema,
+		"Address":                    schemas.AddressSchema,
+		"BankDetails":                schemas.BankDetailsSchema,
+		"User":                       schemas.UserSchema,
+		"Users":                      schemas.UsersSchema,
+		"AssignUser":                 schemas.AssignUserSchema,
+		"AssignUsers":                schemas.AssignUsersSchema,
+		"CreateUser":                 schemas.CreateUserSchema,
+		"UpdateUser":                 schemas.UpdateUserSchema,
+		"Role":                       schemas.RoleSchema,
+		"Roles":                      schemas.RolesSchema,
+		"AssignRole":                 schemas.AssignRoleSchema,
+		"AssignRoles":                schemas.AssignRolesSchema,
+		"CreateRole":                 schemas.CreateRoleSchema,
+		"UpdateRole":                 schemas.UpdateRoleSchema,
+		"Material":                   schemas.MaterialSchema,
+		"Materials":                  schemas.MaterialsSchema,
+		"AssignMaterial":             schemas.AssignMaterialSchema,
+		"AssignMaterials":            schemas.AssignMaterialsSchema,
+		"CreateMaterial":             schemas.CreateMaterialSchema,
+		"UpdateMaterial":             schemas.UpdateMaterialSchema,
+		"Collection":                 schemas.CollectionSchema,
+		"Collections":                schemas.CollectionsSchema,
+		"CreateCollection":           schemas.CreateCollectionSchema,
+		"UpdateCollection":           schemas.UpdateCollectionSchema,
+		"CollectionMaterial":         schemas.CollectionMaterialSchema,
+		"CollectionMaterials":        schemas.CollectionMaterialsSchema,
+		"AssignCollectionMaterial":   schemas.AssignCollectionMaterialSchema,
+		"AssignCollectionMaterials":  schemas.AssignCollectionMaterialsSchema,
+		"CreateCollectionMaterial":   schemas.CreateCollectionMaterialSchema,
+		"UpdateCollectionMaterial":   schemas.UpdateCollectionMaterialSchema,
+		"Transaction":                schemas.TransactionSchema,
+		"Transactions":               schemas.TransactionsSchema,
+		"CreateTransaction":          schemas.CreateTransactionSchema,
+		"UpdateTransaction":          schemas.UpdateTransactionSchema,
+		"TransactionMaterial":        schemas.TransactionMaterialSchema,
+		"TransactionMaterials":       schemas.TransactionMaterialsSchema,
+		"AssignTransactionMaterial":  schemas.AssignTransactionMaterialSchema,
+		"AssignTransactionMaterials": schemas.AssignTransactionMaterialsSchema,
+		"CreateTransactionMaterial":  schemas.CreateTransactionMaterialSchema,
+		"UpdateTransactionMaterial":  schemas.UpdateTransactionMaterialSchema,
+		"Business":                   schemas.BusinessSchema,
+		"Businesses":                 schemas.BusinessesSchema,
+		"AssignBusiness":             schemas.AssignBusinessSchema,
+		"AssignBusinesses":           schemas.AssignBusinessesSchema,
+		"CreateBusiness":             schemas.CreateBusinessSchema,
+		"UpdateBusiness":             schemas.UpdateBusinessSchema,
+		"Permission":                 schemas.PermissionSchema,
+		"Permissions":                schemas.PermissionsSchema,
+		"PermissionGroup":            schemas.PermissionGroupSchema,
+		"PermissionGroups":           schemas.PermissionGroupsSchema,
+	}
+
+	for _, route := range h.routes {
 		pathItem := &openapi3.PathItem{}
 
 		switch route.Method {
-		case routing.GetMethod:
+		case routing.GET:
 			pathItem.Get = &openapi3.Operation{
 				Summary:     route.Summary,
 				Description: route.Description,
@@ -149,7 +181,7 @@ func (h *HttpRouter) InitializeOpenAPI() *openapi3.T {
 				Parameters:  route.Parameters,
 				Responses:   route.Responses,
 			}
-		case routing.PostMethod:
+		case routing.POST:
 			pathItem.Post = &openapi3.Operation{
 				Summary:     route.Summary,
 				Description: route.Description,
@@ -158,7 +190,7 @@ func (h *HttpRouter) InitializeOpenAPI() *openapi3.T {
 				RequestBody: route.RequestBody,
 				Responses:   route.Responses,
 			}
-		case routing.PutMethod:
+		case routing.PUT:
 			pathItem.Put = &openapi3.Operation{
 				Summary:     route.Summary,
 				Description: route.Description,
@@ -167,25 +199,7 @@ func (h *HttpRouter) InitializeOpenAPI() *openapi3.T {
 				RequestBody: route.RequestBody,
 				Responses:   route.Responses,
 			}
-		case routing.PatchMethod:
-			pathItem.Patch = &openapi3.Operation{
-				Summary:     route.Summary,
-				Description: route.Description,
-				Tags:        route.Tags,
-				Parameters:  route.Parameters,
-				RequestBody: route.RequestBody,
-				Responses:   route.Responses,
-			}
-		case routing.OptionsMethod:
-			pathItem.Options = &openapi3.Operation{
-				Summary:     route.Summary,
-				Description: route.Description,
-				Tags:        route.Tags,
-				Parameters:  route.Parameters,
-				RequestBody: route.RequestBody,
-				Responses:   route.Responses,
-			}
-		case routing.DeleteMethod:
+		case routing.DELETE:
 			pathItem.Delete = &openapi3.Operation{
 				Summary:     route.Summary,
 				Description: route.Description,
@@ -201,13 +215,13 @@ func (h *HttpRouter) InitializeOpenAPI() *openapi3.T {
 
 		if existingPathItem != nil {
 			switch route.Method {
-			case routing.GetMethod:
+			case routing.GET:
 				existingPathItem.Get = pathItem.Get
-			case routing.PostMethod:
+			case routing.POST:
 				existingPathItem.Post = pathItem.Post
-			case routing.PutMethod:
+			case routing.PUT:
 				existingPathItem.Put = pathItem.Put
-			case routing.DeleteMethod:
+			case routing.DELETE:
 				existingPathItem.Delete = pathItem.Delete
 			}
 		} else {
@@ -218,57 +232,24 @@ func (h *HttpRouter) InitializeOpenAPI() *openapi3.T {
 	return &openapi3.T{
 		OpenAPI: "3.0.0",
 		Info: &openapi3.Info{
-			Title:   "Thusa One API",
-			Version: "1.0.0",
+			Title:   common.EnvString("APP_NAME", "Dynamic CRUD API"),
+			Version: common.EnvString("APP_VERSION", "1.0.0"),
 		},
 		Servers: openapi3.Servers{
 			{
-				URL:         fmt.Sprintf("http://localhost:%s", string(env.PORT)),
+				URL:         fmt.Sprintf("http://localhost:%s", common.EnvString("APP_PORT", "6173")),
 				Description: "Development",
 			},
 			{
-				URL:         "https://one.thusa.co.za",
+				URL:         common.EnvString("APP_BASE_URL", "https://example.com"),
 				Description: "Production",
 			},
 		},
 		Tags:  openapi3.Tags{},
 		Paths: paths,
 		Components: &openapi3.Components{
-			Schemas: openapi3.Schemas{
-				"SuccessResponse":           schemas.SuccessResponseSchema,
-				"ErrorResponse":             schemas.ErrorResponseSchema,
-				"User":                      schemas.UserSchema,
-				"CreateUserPayload":         schemas.CreateUserPayloadSchema,
-				"UpdateUserPayload":         schemas.UpdateUserPayloadSchema,
-				"Role":                      schemas.RoleSchema,
-				"CreateRolePayload":         schemas.CreateRolePayloadSchema,
-				"UpdateRolePayload":         schemas.UpdateRolePayloadSchema,
-				"Organization":              schemas.OrganizationSchema,
-				"CreateOrganizationPayload": schemas.CreateOrganizationPayloadSchema,
-				"UpdateOrganizationPayload": schemas.UpdateOrganizationPayloadSchema,
-				"AuditLog":                  schemas.AuditLogSchema,
-				"MfaVerifyPayload":          schemas.MfaVerifyPayloadSchema,
-				"LoginPayload":              schemas.LoginPayloadSchema,
-				"SignUpPayload":             schemas.SignUpPayloadSchema,
-				"CreateMaterialPayload":     schemas.CreateMaterialPayloadSchema,
-				"UpdateMaterialPayload":     schemas.UpdateMaterialPayloadSchema,
-				"Material":                  schemas.MaterialSchema,
-				"CreateProductPayload":      schemas.CreateProductPayloadSchema,
-				"UpdateProductPayload":      schemas.UpdateProductPayloadSchema,
-				"Product":                   schemas.ProductSchema,
-				"CreateTransactionPayload":  schemas.CreateTransactionPayloadSchema,
-				"UpdateTransactionPayload":  schemas.UpdateTransactionPayloadSchema,
-				"Transaction":               schemas.TransactionSchema,
-				"Notification":              schemas.NotificationSchema,
-				"AvailablePermissionGroup":  schemas.AvailablePermissionGroupSchema,
-				"AvailablePermission":       schemas.AvailablePermissionSchema,
-				"Address":                   schemas.AddressSchema,
-				"CreateAddressPayload":      schemas.CreateAddressPayloadSchema,
-				"UpdateAddressPayload":      schemas.UpdateAddressPayloadSchema,
-				"BankDetails":               schemas.BankDetailsSchema,
-				"CreateBankDetailsPayload":  schemas.CreateBankDetailsPayloadSchema,
-				"UpdateBankDetailsPayload":  schemas.UpdateBankDetailsPayloadSchema,
-			},
+			Schemas:       schemas,
+			RequestBodies: bodies,
 		},
 	}
 }

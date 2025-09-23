@@ -1,9 +1,32 @@
-import { createFileRoute } from '@tanstack/react-router';
+import { createFileRoute, redirect } from '@tanstack/react-router';
 
 export const Route = createFileRoute('/_auth/')({
-  component: App,
+  loader: async ({ context: { getUser } }) => {
+    const { user } = await getUser();
+
+    if (user && user.type === 'system') {
+      throw redirect({
+        to: '/admin',
+      });
+    }
+
+    if (user && user.type === 'business') {
+      throw redirect({
+        to: '/business',
+      });
+    }
+
+    if (user && user.type === 'collector') {
+      throw redirect({
+        to: '/collector',
+      });
+    }
+
+    return {};
+  },
+  component: RouteComponent,
 });
 
-function App() {
-  return <div></div>;
+function RouteComponent() {
+  return null;
 }
