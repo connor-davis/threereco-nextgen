@@ -12,7 +12,7 @@ var LoginPayloadSchema = &openapi3.RequestBodyRef{
 					Properties: map[string]*openapi3.SchemaRef{
 						"username": {
 							Value: openapi3.NewStringSchema().
-								WithPattern(`^(?:\+?1)?[2-9]\d{2}[2-9](?!11)\d{6}$|^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$`).
+								WithPattern(`(?:\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b)|(?:\b(?:\+?\d{1,3}[-.\s]?)?(?:\(?\d{2,4}\)?[-.\s]?)?\d{3,4}[-.\s]?\d{3,4}\b)`).
 								WithDefault(nil),
 						},
 						"password": {
