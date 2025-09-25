@@ -478,7 +478,9 @@ function RouteComponent() {
                     <Calendar
                       mode="single"
                       selected={parseISO(field.value)}
-                      onSelect={field.onChange}
+                      onSelect={(date) =>
+                        field.onChange((date ?? new Date()).toDateString())
+                      }
                       disabled={(date) =>
                         date > new Date() || date < new Date('1900-01-01')
                       }

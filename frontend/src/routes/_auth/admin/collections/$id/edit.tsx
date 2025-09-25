@@ -595,7 +595,9 @@ function RouteComponent() {
                       selected={parseISO(
                         field.value ?? new Date().toISOString()
                       )}
-                      onSelect={field.onChange}
+                      onSelect={(date) =>
+                        field.onChange((date ?? new Date()).toDateString())
+                      }
                       disabled={(date) =>
                         date > new Date() || date < new Date('1900-01-01')
                       }
