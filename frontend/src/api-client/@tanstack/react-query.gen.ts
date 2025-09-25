@@ -22,7 +22,6 @@ import {
   getApiAuthenticationPermissions,
   getApiBusinesses,
   getApiBusinessesById,
-  getApiBusinessesListRolesByBusinessId,
   getApiBusinessesListUsersByBusinessId,
   getApiCollections,
   getApiCollectionsById,
@@ -46,9 +45,7 @@ import {
   postApiAuthenticationMfaVerify,
   postApiAuthenticationRegister,
   postApiBusinesses,
-  postApiBusinessesAssignRoleByBusinessIdByRoleId,
   postApiBusinessesAssignUserByBusinessIdByUserId,
-  postApiBusinessesUnassignRoleByBusinessIdByRoleId,
   postApiBusinessesUnassignUserByBusinessIdByUserId,
   postApiCollections,
   postApiCollectionsAssignMaterialByCollectionIdByMaterialId,
@@ -103,9 +100,6 @@ import type {
   GetApiBusinessesByIdData,
   GetApiBusinessesData,
   GetApiBusinessesError,
-  GetApiBusinessesListRolesByBusinessIdData,
-  GetApiBusinessesListRolesByBusinessIdError,
-  GetApiBusinessesListRolesByBusinessIdResponse,
   GetApiBusinessesListUsersByBusinessIdData,
   GetApiBusinessesListUsersByBusinessIdError,
   GetApiBusinessesListUsersByBusinessIdResponse,
@@ -159,18 +153,12 @@ import type {
   PostApiAuthenticationRegisterData,
   PostApiAuthenticationRegisterError,
   PostApiAuthenticationRegisterResponse,
-  PostApiBusinessesAssignRoleByBusinessIdByRoleIdData,
-  PostApiBusinessesAssignRoleByBusinessIdByRoleIdError,
-  PostApiBusinessesAssignRoleByBusinessIdByRoleIdResponse,
   PostApiBusinessesAssignUserByBusinessIdByUserIdData,
   PostApiBusinessesAssignUserByBusinessIdByUserIdError,
   PostApiBusinessesAssignUserByBusinessIdByUserIdResponse,
   PostApiBusinessesData,
   PostApiBusinessesError,
   PostApiBusinessesResponse,
-  PostApiBusinessesUnassignRoleByBusinessIdByRoleIdData,
-  PostApiBusinessesUnassignRoleByBusinessIdByRoleIdError,
-  PostApiBusinessesUnassignRoleByBusinessIdByRoleIdResponse,
   PostApiBusinessesUnassignUserByBusinessIdByUserIdData,
   PostApiBusinessesUnassignUserByBusinessIdByUserIdError,
   PostApiBusinessesUnassignUserByBusinessIdByUserIdResponse,
@@ -728,61 +716,6 @@ export const postApiBusinessesMutation = (
   return mutationOptions;
 };
 
-export const postApiBusinessesAssignRoleByBusinessIdByRoleIdQueryKey = (
-  options: Options<PostApiBusinessesAssignRoleByBusinessIdByRoleIdData>
-) => createQueryKey('postApiBusinessesAssignRoleByBusinessIdByRoleId', options);
-
-/**
- * Assign Role
- * This endpoint assigns a role to a business
- */
-export const postApiBusinessesAssignRoleByBusinessIdByRoleIdOptions = (
-  options: Options<PostApiBusinessesAssignRoleByBusinessIdByRoleIdData>
-) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await postApiBusinessesAssignRoleByBusinessIdByRoleId({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: postApiBusinessesAssignRoleByBusinessIdByRoleIdQueryKey(options),
-  });
-};
-
-/**
- * Assign Role
- * This endpoint assigns a role to a business
- */
-export const postApiBusinessesAssignRoleByBusinessIdByRoleIdMutation = (
-  options?: Partial<
-    Options<PostApiBusinessesAssignRoleByBusinessIdByRoleIdData>
-  >
-): UseMutationOptions<
-  PostApiBusinessesAssignRoleByBusinessIdByRoleIdResponse,
-  PostApiBusinessesAssignRoleByBusinessIdByRoleIdError,
-  Options<PostApiBusinessesAssignRoleByBusinessIdByRoleIdData>
-> => {
-  const mutationOptions: UseMutationOptions<
-    PostApiBusinessesAssignRoleByBusinessIdByRoleIdResponse,
-    PostApiBusinessesAssignRoleByBusinessIdByRoleIdError,
-    Options<PostApiBusinessesAssignRoleByBusinessIdByRoleIdData>
-  > = {
-    mutationFn: async (localOptions) => {
-      const { data } = await postApiBusinessesAssignRoleByBusinessIdByRoleId({
-        ...options,
-        ...localOptions,
-        throwOnError: true,
-      });
-      return data;
-    },
-  };
-  return mutationOptions;
-};
-
 export const postApiBusinessesAssignUserByBusinessIdByUserIdQueryKey = (
   options: Options<PostApiBusinessesAssignUserByBusinessIdByUserIdData>
 ) => createQueryKey('postApiBusinessesAssignUserByBusinessIdByUserId', options);
@@ -836,83 +769,6 @@ export const postApiBusinessesAssignUserByBusinessIdByUserIdMutation = (
     },
   };
   return mutationOptions;
-};
-
-export const getApiBusinessesListRolesByBusinessIdQueryKey = (
-  options: Options<GetApiBusinessesListRolesByBusinessIdData>
-) => createQueryKey('getApiBusinessesListRolesByBusinessId', options);
-
-/**
- * List Role
- * This endpoint retrieves a list of role assigned to a business
- */
-export const getApiBusinessesListRolesByBusinessIdOptions = (
-  options: Options<GetApiBusinessesListRolesByBusinessIdData>
-) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await getApiBusinessesListRolesByBusinessId({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: getApiBusinessesListRolesByBusinessIdQueryKey(options),
-  });
-};
-
-export const getApiBusinessesListRolesByBusinessIdInfiniteQueryKey = (
-  options: Options<GetApiBusinessesListRolesByBusinessIdData>
-): QueryKey<Options<GetApiBusinessesListRolesByBusinessIdData>> =>
-  createQueryKey('getApiBusinessesListRolesByBusinessId', options, true);
-
-/**
- * List Role
- * This endpoint retrieves a list of role assigned to a business
- */
-export const getApiBusinessesListRolesByBusinessIdInfiniteOptions = (
-  options: Options<GetApiBusinessesListRolesByBusinessIdData>
-) => {
-  return infiniteQueryOptions<
-    GetApiBusinessesListRolesByBusinessIdResponse,
-    GetApiBusinessesListRolesByBusinessIdError,
-    InfiniteData<GetApiBusinessesListRolesByBusinessIdResponse>,
-    QueryKey<Options<GetApiBusinessesListRolesByBusinessIdData>>,
-    | number
-    | Pick<
-        QueryKey<Options<GetApiBusinessesListRolesByBusinessIdData>>[0],
-        'body' | 'headers' | 'path' | 'query'
-      >
-  >(
-    // @ts-ignore
-    {
-      queryFn: async ({ pageParam, queryKey, signal }) => {
-        // @ts-ignore
-        const page: Pick<
-          QueryKey<Options<GetApiBusinessesListRolesByBusinessIdData>>[0],
-          'body' | 'headers' | 'path' | 'query'
-        > =
-          typeof pageParam === 'object'
-            ? pageParam
-            : {
-                query: {
-                  page: pageParam,
-                },
-              };
-        const params = createInfiniteParams(queryKey, page);
-        const { data } = await getApiBusinessesListRolesByBusinessId({
-          ...options,
-          ...params,
-          signal,
-          throwOnError: true,
-        });
-        return data;
-      },
-      queryKey: getApiBusinessesListRolesByBusinessIdInfiniteQueryKey(options),
-    }
-  );
 };
 
 export const getApiBusinessesListUsersByBusinessIdQueryKey = (
@@ -990,63 +846,6 @@ export const getApiBusinessesListUsersByBusinessIdInfiniteOptions = (
       queryKey: getApiBusinessesListUsersByBusinessIdInfiniteQueryKey(options),
     }
   );
-};
-
-export const postApiBusinessesUnassignRoleByBusinessIdByRoleIdQueryKey = (
-  options: Options<PostApiBusinessesUnassignRoleByBusinessIdByRoleIdData>
-) =>
-  createQueryKey('postApiBusinessesUnassignRoleByBusinessIdByRoleId', options);
-
-/**
- * Unassign Role
- * This endpoint unassigns a role from a business
- */
-export const postApiBusinessesUnassignRoleByBusinessIdByRoleIdOptions = (
-  options: Options<PostApiBusinessesUnassignRoleByBusinessIdByRoleIdData>
-) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await postApiBusinessesUnassignRoleByBusinessIdByRoleId({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey:
-      postApiBusinessesUnassignRoleByBusinessIdByRoleIdQueryKey(options),
-  });
-};
-
-/**
- * Unassign Role
- * This endpoint unassigns a role from a business
- */
-export const postApiBusinessesUnassignRoleByBusinessIdByRoleIdMutation = (
-  options?: Partial<
-    Options<PostApiBusinessesUnassignRoleByBusinessIdByRoleIdData>
-  >
-): UseMutationOptions<
-  PostApiBusinessesUnassignRoleByBusinessIdByRoleIdResponse,
-  PostApiBusinessesUnassignRoleByBusinessIdByRoleIdError,
-  Options<PostApiBusinessesUnassignRoleByBusinessIdByRoleIdData>
-> => {
-  const mutationOptions: UseMutationOptions<
-    PostApiBusinessesUnassignRoleByBusinessIdByRoleIdResponse,
-    PostApiBusinessesUnassignRoleByBusinessIdByRoleIdError,
-    Options<PostApiBusinessesUnassignRoleByBusinessIdByRoleIdData>
-  > = {
-    mutationFn: async (localOptions) => {
-      const { data } = await postApiBusinessesUnassignRoleByBusinessIdByRoleId({
-        ...options,
-        ...localOptions,
-        throwOnError: true,
-      });
-      return data;
-    },
-  };
-  return mutationOptions;
 };
 
 export const postApiBusinessesUnassignUserByBusinessIdByUserIdQueryKey = (

@@ -40,9 +40,6 @@ import type {
   GetApiBusinessesByIdResponses,
   GetApiBusinessesData,
   GetApiBusinessesErrors,
-  GetApiBusinessesListRolesByBusinessIdData,
-  GetApiBusinessesListRolesByBusinessIdErrors,
-  GetApiBusinessesListRolesByBusinessIdResponses,
   GetApiBusinessesListUsersByBusinessIdData,
   GetApiBusinessesListUsersByBusinessIdErrors,
   GetApiBusinessesListUsersByBusinessIdResponses,
@@ -110,18 +107,12 @@ import type {
   PostApiAuthenticationRegisterData,
   PostApiAuthenticationRegisterErrors,
   PostApiAuthenticationRegisterResponses,
-  PostApiBusinessesAssignRoleByBusinessIdByRoleIdData,
-  PostApiBusinessesAssignRoleByBusinessIdByRoleIdErrors,
-  PostApiBusinessesAssignRoleByBusinessIdByRoleIdResponses,
   PostApiBusinessesAssignUserByBusinessIdByUserIdData,
   PostApiBusinessesAssignUserByBusinessIdByUserIdErrors,
   PostApiBusinessesAssignUserByBusinessIdByUserIdResponses,
   PostApiBusinessesData,
   PostApiBusinessesErrors,
   PostApiBusinessesResponses,
-  PostApiBusinessesUnassignRoleByBusinessIdByRoleIdData,
-  PostApiBusinessesUnassignRoleByBusinessIdByRoleIdErrors,
-  PostApiBusinessesUnassignRoleByBusinessIdByRoleIdResponses,
   PostApiBusinessesUnassignUserByBusinessIdByUserIdData,
   PostApiBusinessesUnassignUserByBusinessIdByUserIdErrors,
   PostApiBusinessesUnassignUserByBusinessIdByUserIdResponses,
@@ -389,28 +380,6 @@ export const postApiBusinesses = <ThrowOnError extends boolean = false>(
 };
 
 /**
- * Assign Role
- * This endpoint assigns a role to a business
- */
-export const postApiBusinessesAssignRoleByBusinessIdByRoleId = <
-  ThrowOnError extends boolean = false,
->(
-  options: Options<
-    PostApiBusinessesAssignRoleByBusinessIdByRoleIdData,
-    ThrowOnError
-  >
-) => {
-  return (options.client ?? _heyApiClient).post<
-    PostApiBusinessesAssignRoleByBusinessIdByRoleIdResponses,
-    PostApiBusinessesAssignRoleByBusinessIdByRoleIdErrors,
-    ThrowOnError
-  >({
-    url: '/api/businesses/assign-role/{businessId}/{roleId}',
-    ...options,
-  });
-};
-
-/**
  * Assign User
  * This endpoint assigns a user to a business
  */
@@ -433,25 +402,6 @@ export const postApiBusinessesAssignUserByBusinessIdByUserId = <
 };
 
 /**
- * List Role
- * This endpoint retrieves a list of role assigned to a business
- */
-export const getApiBusinessesListRolesByBusinessId = <
-  ThrowOnError extends boolean = false,
->(
-  options: Options<GetApiBusinessesListRolesByBusinessIdData, ThrowOnError>
-) => {
-  return (options.client ?? _heyApiClient).get<
-    GetApiBusinessesListRolesByBusinessIdResponses,
-    GetApiBusinessesListRolesByBusinessIdErrors,
-    ThrowOnError
-  >({
-    url: '/api/businesses/list-roles/{businessId}',
-    ...options,
-  });
-};
-
-/**
  * List User
  * This endpoint retrieves a list of user assigned to a business
  */
@@ -466,28 +416,6 @@ export const getApiBusinessesListUsersByBusinessId = <
     ThrowOnError
   >({
     url: '/api/businesses/list-users/{businessId}',
-    ...options,
-  });
-};
-
-/**
- * Unassign Role
- * This endpoint unassigns a role from a business
- */
-export const postApiBusinessesUnassignRoleByBusinessIdByRoleId = <
-  ThrowOnError extends boolean = false,
->(
-  options: Options<
-    PostApiBusinessesUnassignRoleByBusinessIdByRoleIdData,
-    ThrowOnError
-  >
-) => {
-  return (options.client ?? _heyApiClient).post<
-    PostApiBusinessesUnassignRoleByBusinessIdByRoleIdResponses,
-    PostApiBusinessesUnassignRoleByBusinessIdByRoleIdErrors,
-    ThrowOnError
-  >({
-    url: '/api/businesses/unassign-role/{businessId}/{roleId}',
     ...options,
   });
 };
