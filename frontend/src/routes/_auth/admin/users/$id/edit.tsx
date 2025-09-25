@@ -127,6 +127,7 @@ function RouteComponent() {
       bankDetails: user.bankDetails,
       businesses: user.businesses ?? [],
       roles: user.roles ?? [],
+      idNumber: user.idNumber ?? null,
     },
   });
 
@@ -178,6 +179,7 @@ function RouteComponent() {
               bankDetails,
               businesses,
               roles,
+              idNumber,
             }) =>
               updateUserMutation.mutate({
                 path: {
@@ -192,6 +194,7 @@ function RouteComponent() {
                   bankDetails,
                   businesses,
                   roles,
+                  idNumber,
                 },
               })
           )}
@@ -236,6 +239,25 @@ function RouteComponent() {
                 <FormDescription>
                   What is the username of the user?
                 </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={updateUserForm.control}
+            name="idNumber"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>ID Number</FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder="ID Number"
+                    {...field}
+                    value={field.value ?? undefined}
+                  />
+                </FormControl>
+                <FormDescription>What is the user's ID Number?</FormDescription>
                 <FormMessage />
               </FormItem>
             )}

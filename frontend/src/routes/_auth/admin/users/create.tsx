@@ -109,6 +109,7 @@ function RouteComponent() {
       permissions: [],
       businesses: [],
       roles: [],
+      idNumber: null,
     },
   });
 
@@ -160,6 +161,7 @@ function RouteComponent() {
               bankDetails,
               businesses,
               roles,
+              idNumber,
             }) =>
               createUserMutation.mutate({
                 body: {
@@ -171,6 +173,7 @@ function RouteComponent() {
                   bankDetails,
                   businesses,
                   roles,
+                  idNumber,
                 },
               })
           )}
@@ -207,6 +210,25 @@ function RouteComponent() {
                 <FormDescription>
                   What is the username of the user?
                 </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={createUserForm.control}
+            name="idNumber"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>ID Number</FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder="ID Number"
+                    {...field}
+                    value={field.value ?? undefined}
+                  />
+                </FormControl>
+                <FormDescription>What is the user's ID Number?</FormDescription>
                 <FormMessage />
               </FormItem>
             )}
