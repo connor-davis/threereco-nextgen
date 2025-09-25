@@ -466,7 +466,7 @@ function RouteComponent() {
                         )}
                       >
                         {field.value ? (
-                          format(parseISO(field.value), 'PPP')
+                          format(field.value, 'PPP')
                         ) : (
                           <span>Pick a date</span>
                         )}
