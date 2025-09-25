@@ -32,6 +32,7 @@ type User struct {
 	Type          UserType       `json:"type" gorm:"type:text;not null;default:'system'"`
 	Address       *Address       `json:"address" gorm:"type:jsonb;"`
 	BankDetails   *BankDetails   `json:"bankDetails" gorm:"type:jsonb;"`
+	IdNumber      *string        `json:"idNumber" gorm:"type:text;"`
 	BusinessId    *uuid.UUID     `json:"businessId" gorm:"type:uuid;"`
 	Businesses    []Business     `json:"businesses" gorm:"many2many:businesses_users;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
 }

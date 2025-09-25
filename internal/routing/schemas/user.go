@@ -40,6 +40,9 @@ var UserSchema = &openapi3.SchemaRef{
 			"bankDetails": {
 				Ref: "#/components/schemas/BankDetails",
 			},
+			"idNumber": {
+				Value: openapi3.NewStringSchema().WithNullable(),
+			},
 			"roles": {
 				Ref: "#/components/schemas/Roles",
 			},
@@ -71,6 +74,7 @@ var UserSchema = &openapi3.SchemaRef{
 			"businesses",
 			"address",
 			"bankDetails",
+			"idNumber",
 			"createdAt",
 			"updatedAt",
 		},
@@ -138,6 +142,9 @@ var CreateUserSchema = &openapi3.SchemaRef{
 			"bankDetails": {
 				Ref: "#/components/schemas/BankDetails",
 			},
+			"idNumber": {
+				Value: openapi3.NewStringSchema().WithNullable(),
+			},
 			"roles": {
 				Ref: "#/components/schemas/AssignRoles",
 			},
@@ -152,6 +159,7 @@ var CreateUserSchema = &openapi3.SchemaRef{
 			"type",
 			"address",
 			"bankDetails",
+			"idNumber",
 			"roles",
 			"businesses",
 		},
@@ -187,6 +195,9 @@ var UpdateUserSchema = &openapi3.SchemaRef{
 			"bankDetails": {
 				Ref: "#/components/schemas/BankDetails",
 			},
+			"idNumber": {
+				Value: openapi3.NewStringSchema().WithNullable(),
+			},
 			"roles": {
 				Ref: "#/components/schemas/AssignRoles",
 			},
@@ -201,6 +212,7 @@ var UpdateUserSchema = &openapi3.SchemaRef{
 			"type",
 			"address",
 			"bankDetails",
+			"idNumber",
 			"roles",
 			"businesses",
 		},

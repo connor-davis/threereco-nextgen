@@ -153,6 +153,7 @@ export type CreateUser = {
   bankDetails: BankDetails;
   businessId?: string;
   businesses: AssignBusinesses;
+  idNumber: string | null;
   name: string;
   permissions: Array<string>;
   roles: AssignRoles;
@@ -228,6 +229,7 @@ export type SuccessResponse = {
         businesses: Array<Business>;
         createdAt: string;
         id: string;
+        idNumber: string | null;
         mfaEnabled: boolean;
         mfaVerified: boolean;
         name: string;
@@ -309,6 +311,7 @@ export type SuccessResponse = {
         businesses: Array<Business>;
         createdAt: string;
         id: string;
+        idNumber: string | null;
         mfaEnabled: boolean;
         mfaVerified: boolean;
         name: string;
@@ -467,6 +470,7 @@ export type UpdateUser = {
   bankDetails: BankDetails;
   businessId?: string | null;
   businesses: AssignBusinesses;
+  idNumber: string | null;
   name: string | null;
   permissions: Array<string> | null;
   roles: AssignRoles;
@@ -481,6 +485,7 @@ export type User = {
   businesses: Array<Business>;
   createdAt: string;
   id: string;
+  idNumber: string | null;
   mfaEnabled: boolean;
   mfaVerified: boolean;
   name: string;
@@ -573,6 +578,7 @@ export type GetApiAuthenticationCheckResponses = {
           businesses: Array<Business>;
           createdAt: string;
           id: string;
+          idNumber: string | null;
           mfaEnabled: boolean;
           mfaVerified: boolean;
           name: string;
@@ -654,6 +660,7 @@ export type GetApiAuthenticationCheckResponses = {
           businesses: Array<Business>;
           createdAt: string;
           id: string;
+          idNumber: string | null;
           mfaEnabled: boolean;
           mfaVerified: boolean;
           name: string;
@@ -798,6 +805,7 @@ export type PostApiAuthenticationLoginResponses = {
           businesses: Array<Business>;
           createdAt: string;
           id: string;
+          idNumber: string | null;
           mfaEnabled: boolean;
           mfaVerified: boolean;
           name: string;
@@ -879,6 +887,7 @@ export type PostApiAuthenticationLoginResponses = {
           businesses: Array<Business>;
           createdAt: string;
           id: string;
+          idNumber: string | null;
           mfaEnabled: boolean;
           mfaVerified: boolean;
           name: string;
@@ -1020,6 +1029,7 @@ export type PostApiAuthenticationLogoutResponses = {
           businesses: Array<Business>;
           createdAt: string;
           id: string;
+          idNumber: string | null;
           mfaEnabled: boolean;
           mfaVerified: boolean;
           name: string;
@@ -1101,6 +1111,7 @@ export type PostApiAuthenticationLogoutResponses = {
           businesses: Array<Business>;
           createdAt: string;
           id: string;
+          idNumber: string | null;
           mfaEnabled: boolean;
           mfaVerified: boolean;
           name: string;
@@ -1294,6 +1305,7 @@ export type PostApiAuthenticationMfaVerifyResponses = {
           businesses: Array<Business>;
           createdAt: string;
           id: string;
+          idNumber: string | null;
           mfaEnabled: boolean;
           mfaVerified: boolean;
           name: string;
@@ -1375,6 +1387,7 @@ export type PostApiAuthenticationMfaVerifyResponses = {
           businesses: Array<Business>;
           createdAt: string;
           id: string;
+          idNumber: string | null;
           mfaEnabled: boolean;
           mfaVerified: boolean;
           name: string;
@@ -1516,6 +1529,7 @@ export type GetApiAuthenticationPermissionsResponses = {
           businesses: Array<Business>;
           createdAt: string;
           id: string;
+          idNumber: string | null;
           mfaEnabled: boolean;
           mfaVerified: boolean;
           name: string;
@@ -1597,6 +1611,7 @@ export type GetApiAuthenticationPermissionsResponses = {
           businesses: Array<Business>;
           createdAt: string;
           id: string;
+          idNumber: string | null;
           mfaEnabled: boolean;
           mfaVerified: boolean;
           name: string;
@@ -1741,6 +1756,7 @@ export type PostApiAuthenticationRegisterResponses = {
           businesses: Array<Business>;
           createdAt: string;
           id: string;
+          idNumber: string | null;
           mfaEnabled: boolean;
           mfaVerified: boolean;
           name: string;
@@ -1822,6 +1838,7 @@ export type PostApiAuthenticationRegisterResponses = {
           businesses: Array<Business>;
           createdAt: string;
           id: string;
+          idNumber: string | null;
           mfaEnabled: boolean;
           mfaVerified: boolean;
           name: string;
@@ -1969,6 +1986,7 @@ export type GetApiBusinessesResponses = {
           businesses: Array<Business>;
           createdAt: string;
           id: string;
+          idNumber: string | null;
           mfaEnabled: boolean;
           mfaVerified: boolean;
           name: string;
@@ -2050,6 +2068,7 @@ export type GetApiBusinessesResponses = {
           businesses: Array<Business>;
           createdAt: string;
           id: string;
+          idNumber: string | null;
           mfaEnabled: boolean;
           mfaVerified: boolean;
           name: string;
@@ -2194,6 +2213,7 @@ export type PostApiBusinessesResponses = {
           businesses: Array<Business>;
           createdAt: string;
           id: string;
+          idNumber: string | null;
           mfaEnabled: boolean;
           mfaVerified: boolean;
           name: string;
@@ -2275,6 +2295,7 @@ export type PostApiBusinessesResponses = {
           businesses: Array<Business>;
           createdAt: string;
           id: string;
+          idNumber: string | null;
           mfaEnabled: boolean;
           mfaVerified: boolean;
           name: string;
@@ -2426,6 +2447,7 @@ export type PostApiBusinessesAssignUserByBusinessIdByUserIdResponses = {
           businesses: Array<Business>;
           createdAt: string;
           id: string;
+          idNumber: string | null;
           mfaEnabled: boolean;
           mfaVerified: boolean;
           name: string;
@@ -2507,6 +2529,7 @@ export type PostApiBusinessesAssignUserByBusinessIdByUserIdResponses = {
           businesses: Array<Business>;
           createdAt: string;
           id: string;
+          idNumber: string | null;
           mfaEnabled: boolean;
           mfaVerified: boolean;
           name: string;
@@ -2663,6 +2686,7 @@ export type GetApiBusinessesListUsersByBusinessIdResponses = {
           businesses: Array<Business>;
           createdAt: string;
           id: string;
+          idNumber: string | null;
           mfaEnabled: boolean;
           mfaVerified: boolean;
           name: string;
@@ -2744,6 +2768,7 @@ export type GetApiBusinessesListUsersByBusinessIdResponses = {
           businesses: Array<Business>;
           createdAt: string;
           id: string;
+          idNumber: string | null;
           mfaEnabled: boolean;
           mfaVerified: boolean;
           name: string;
@@ -2895,6 +2920,7 @@ export type PostApiBusinessesUnassignUserByBusinessIdByUserIdResponses = {
           businesses: Array<Business>;
           createdAt: string;
           id: string;
+          idNumber: string | null;
           mfaEnabled: boolean;
           mfaVerified: boolean;
           name: string;
@@ -2976,6 +3002,7 @@ export type PostApiBusinessesUnassignUserByBusinessIdByUserIdResponses = {
           businesses: Array<Business>;
           createdAt: string;
           id: string;
+          idNumber: string | null;
           mfaEnabled: boolean;
           mfaVerified: boolean;
           name: string;
@@ -3126,6 +3153,7 @@ export type DeleteApiBusinessesByIdResponses = {
           businesses: Array<Business>;
           createdAt: string;
           id: string;
+          idNumber: string | null;
           mfaEnabled: boolean;
           mfaVerified: boolean;
           name: string;
@@ -3207,6 +3235,7 @@ export type DeleteApiBusinessesByIdResponses = {
           businesses: Array<Business>;
           createdAt: string;
           id: string;
+          idNumber: string | null;
           mfaEnabled: boolean;
           mfaVerified: boolean;
           name: string;
@@ -3359,6 +3388,7 @@ export type GetApiBusinessesByIdResponses = {
           businesses: Array<Business>;
           createdAt: string;
           id: string;
+          idNumber: string | null;
           mfaEnabled: boolean;
           mfaVerified: boolean;
           name: string;
@@ -3440,6 +3470,7 @@ export type GetApiBusinessesByIdResponses = {
           businesses: Array<Business>;
           createdAt: string;
           id: string;
+          idNumber: string | null;
           mfaEnabled: boolean;
           mfaVerified: boolean;
           name: string;
@@ -3593,6 +3624,7 @@ export type PutApiBusinessesByIdResponses = {
           businesses: Array<Business>;
           createdAt: string;
           id: string;
+          idNumber: string | null;
           mfaEnabled: boolean;
           mfaVerified: boolean;
           name: string;
@@ -3674,6 +3706,7 @@ export type PutApiBusinessesByIdResponses = {
           businesses: Array<Business>;
           createdAt: string;
           id: string;
+          idNumber: string | null;
           mfaEnabled: boolean;
           mfaVerified: boolean;
           name: string;
@@ -3821,6 +3854,7 @@ export type GetApiCollectionsResponses = {
           businesses: Array<Business>;
           createdAt: string;
           id: string;
+          idNumber: string | null;
           mfaEnabled: boolean;
           mfaVerified: boolean;
           name: string;
@@ -3902,6 +3936,7 @@ export type GetApiCollectionsResponses = {
           businesses: Array<Business>;
           createdAt: string;
           id: string;
+          idNumber: string | null;
           mfaEnabled: boolean;
           mfaVerified: boolean;
           name: string;
@@ -4046,6 +4081,7 @@ export type PostApiCollectionsResponses = {
           businesses: Array<Business>;
           createdAt: string;
           id: string;
+          idNumber: string | null;
           mfaEnabled: boolean;
           mfaVerified: boolean;
           name: string;
@@ -4127,6 +4163,7 @@ export type PostApiCollectionsResponses = {
           businesses: Array<Business>;
           createdAt: string;
           id: string;
+          idNumber: string | null;
           mfaEnabled: boolean;
           mfaVerified: boolean;
           name: string;
@@ -4279,6 +4316,7 @@ export type PostApiCollectionsAssignMaterialByCollectionIdByMaterialIdResponses 
             businesses: Array<Business>;
             createdAt: string;
             id: string;
+            idNumber: string | null;
             mfaEnabled: boolean;
             mfaVerified: boolean;
             name: string;
@@ -4360,6 +4398,7 @@ export type PostApiCollectionsAssignMaterialByCollectionIdByMaterialIdResponses 
             businesses: Array<Business>;
             createdAt: string;
             id: string;
+            idNumber: string | null;
             mfaEnabled: boolean;
             mfaVerified: boolean;
             name: string;
@@ -4516,6 +4555,7 @@ export type GetApiCollectionsListMaterialsByCollectionIdResponses = {
           businesses: Array<Business>;
           createdAt: string;
           id: string;
+          idNumber: string | null;
           mfaEnabled: boolean;
           mfaVerified: boolean;
           name: string;
@@ -4597,6 +4637,7 @@ export type GetApiCollectionsListMaterialsByCollectionIdResponses = {
           businesses: Array<Business>;
           createdAt: string;
           id: string;
+          idNumber: string | null;
           mfaEnabled: boolean;
           mfaVerified: boolean;
           name: string;
@@ -4744,6 +4785,7 @@ export type GetApiCollectionsMaterialsResponses = {
           businesses: Array<Business>;
           createdAt: string;
           id: string;
+          idNumber: string | null;
           mfaEnabled: boolean;
           mfaVerified: boolean;
           name: string;
@@ -4825,6 +4867,7 @@ export type GetApiCollectionsMaterialsResponses = {
           businesses: Array<Business>;
           createdAt: string;
           id: string;
+          idNumber: string | null;
           mfaEnabled: boolean;
           mfaVerified: boolean;
           name: string;
@@ -4969,6 +5012,7 @@ export type PostApiCollectionsMaterialsResponses = {
           businesses: Array<Business>;
           createdAt: string;
           id: string;
+          idNumber: string | null;
           mfaEnabled: boolean;
           mfaVerified: boolean;
           name: string;
@@ -5050,6 +5094,7 @@ export type PostApiCollectionsMaterialsResponses = {
           businesses: Array<Business>;
           createdAt: string;
           id: string;
+          idNumber: string | null;
           mfaEnabled: boolean;
           mfaVerified: boolean;
           name: string;
@@ -5200,6 +5245,7 @@ export type DeleteApiCollectionsMaterialsByIdResponses = {
           businesses: Array<Business>;
           createdAt: string;
           id: string;
+          idNumber: string | null;
           mfaEnabled: boolean;
           mfaVerified: boolean;
           name: string;
@@ -5281,6 +5327,7 @@ export type DeleteApiCollectionsMaterialsByIdResponses = {
           businesses: Array<Business>;
           createdAt: string;
           id: string;
+          idNumber: string | null;
           mfaEnabled: boolean;
           mfaVerified: boolean;
           name: string;
@@ -5433,6 +5480,7 @@ export type GetApiCollectionsMaterialsByIdResponses = {
           businesses: Array<Business>;
           createdAt: string;
           id: string;
+          idNumber: string | null;
           mfaEnabled: boolean;
           mfaVerified: boolean;
           name: string;
@@ -5514,6 +5562,7 @@ export type GetApiCollectionsMaterialsByIdResponses = {
           businesses: Array<Business>;
           createdAt: string;
           id: string;
+          idNumber: string | null;
           mfaEnabled: boolean;
           mfaVerified: boolean;
           name: string;
@@ -5667,6 +5716,7 @@ export type PutApiCollectionsMaterialsByIdResponses = {
           businesses: Array<Business>;
           createdAt: string;
           id: string;
+          idNumber: string | null;
           mfaEnabled: boolean;
           mfaVerified: boolean;
           name: string;
@@ -5748,6 +5798,7 @@ export type PutApiCollectionsMaterialsByIdResponses = {
           businesses: Array<Business>;
           createdAt: string;
           id: string;
+          idNumber: string | null;
           mfaEnabled: boolean;
           mfaVerified: boolean;
           name: string;
@@ -5901,6 +5952,7 @@ export type PostApiCollectionsUnassignMaterialByCollectionIdByMaterialIdResponse
             businesses: Array<Business>;
             createdAt: string;
             id: string;
+            idNumber: string | null;
             mfaEnabled: boolean;
             mfaVerified: boolean;
             name: string;
@@ -5982,6 +6034,7 @@ export type PostApiCollectionsUnassignMaterialByCollectionIdByMaterialIdResponse
             businesses: Array<Business>;
             createdAt: string;
             id: string;
+            idNumber: string | null;
             mfaEnabled: boolean;
             mfaVerified: boolean;
             name: string;
@@ -6132,6 +6185,7 @@ export type DeleteApiCollectionsByIdResponses = {
           businesses: Array<Business>;
           createdAt: string;
           id: string;
+          idNumber: string | null;
           mfaEnabled: boolean;
           mfaVerified: boolean;
           name: string;
@@ -6213,6 +6267,7 @@ export type DeleteApiCollectionsByIdResponses = {
           businesses: Array<Business>;
           createdAt: string;
           id: string;
+          idNumber: string | null;
           mfaEnabled: boolean;
           mfaVerified: boolean;
           name: string;
@@ -6365,6 +6420,7 @@ export type GetApiCollectionsByIdResponses = {
           businesses: Array<Business>;
           createdAt: string;
           id: string;
+          idNumber: string | null;
           mfaEnabled: boolean;
           mfaVerified: boolean;
           name: string;
@@ -6446,6 +6502,7 @@ export type GetApiCollectionsByIdResponses = {
           businesses: Array<Business>;
           createdAt: string;
           id: string;
+          idNumber: string | null;
           mfaEnabled: boolean;
           mfaVerified: boolean;
           name: string;
@@ -6599,6 +6656,7 @@ export type PutApiCollectionsByIdResponses = {
           businesses: Array<Business>;
           createdAt: string;
           id: string;
+          idNumber: string | null;
           mfaEnabled: boolean;
           mfaVerified: boolean;
           name: string;
@@ -6680,6 +6738,7 @@ export type PutApiCollectionsByIdResponses = {
           businesses: Array<Business>;
           createdAt: string;
           id: string;
+          idNumber: string | null;
           mfaEnabled: boolean;
           mfaVerified: boolean;
           name: string;
@@ -6827,6 +6886,7 @@ export type GetApiMaterialsResponses = {
           businesses: Array<Business>;
           createdAt: string;
           id: string;
+          idNumber: string | null;
           mfaEnabled: boolean;
           mfaVerified: boolean;
           name: string;
@@ -6908,6 +6968,7 @@ export type GetApiMaterialsResponses = {
           businesses: Array<Business>;
           createdAt: string;
           id: string;
+          idNumber: string | null;
           mfaEnabled: boolean;
           mfaVerified: boolean;
           name: string;
@@ -7052,6 +7113,7 @@ export type PostApiMaterialsResponses = {
           businesses: Array<Business>;
           createdAt: string;
           id: string;
+          idNumber: string | null;
           mfaEnabled: boolean;
           mfaVerified: boolean;
           name: string;
@@ -7133,6 +7195,7 @@ export type PostApiMaterialsResponses = {
           businesses: Array<Business>;
           createdAt: string;
           id: string;
+          idNumber: string | null;
           mfaEnabled: boolean;
           mfaVerified: boolean;
           name: string;
@@ -7283,6 +7346,7 @@ export type DeleteApiMaterialsByIdResponses = {
           businesses: Array<Business>;
           createdAt: string;
           id: string;
+          idNumber: string | null;
           mfaEnabled: boolean;
           mfaVerified: boolean;
           name: string;
@@ -7364,6 +7428,7 @@ export type DeleteApiMaterialsByIdResponses = {
           businesses: Array<Business>;
           createdAt: string;
           id: string;
+          idNumber: string | null;
           mfaEnabled: boolean;
           mfaVerified: boolean;
           name: string;
@@ -7516,6 +7581,7 @@ export type GetApiMaterialsByIdResponses = {
           businesses: Array<Business>;
           createdAt: string;
           id: string;
+          idNumber: string | null;
           mfaEnabled: boolean;
           mfaVerified: boolean;
           name: string;
@@ -7597,6 +7663,7 @@ export type GetApiMaterialsByIdResponses = {
           businesses: Array<Business>;
           createdAt: string;
           id: string;
+          idNumber: string | null;
           mfaEnabled: boolean;
           mfaVerified: boolean;
           name: string;
@@ -7750,6 +7817,7 @@ export type PutApiMaterialsByIdResponses = {
           businesses: Array<Business>;
           createdAt: string;
           id: string;
+          idNumber: string | null;
           mfaEnabled: boolean;
           mfaVerified: boolean;
           name: string;
@@ -7831,6 +7899,7 @@ export type PutApiMaterialsByIdResponses = {
           businesses: Array<Business>;
           createdAt: string;
           id: string;
+          idNumber: string | null;
           mfaEnabled: boolean;
           mfaVerified: boolean;
           name: string;
@@ -7977,6 +8046,7 @@ export type GetApiRolesResponses = {
           businesses: Array<Business>;
           createdAt: string;
           id: string;
+          idNumber: string | null;
           mfaEnabled: boolean;
           mfaVerified: boolean;
           name: string;
@@ -8058,6 +8128,7 @@ export type GetApiRolesResponses = {
           businesses: Array<Business>;
           createdAt: string;
           id: string;
+          idNumber: string | null;
           mfaEnabled: boolean;
           mfaVerified: boolean;
           name: string;
@@ -8201,6 +8272,7 @@ export type PostApiRolesResponses = {
           businesses: Array<Business>;
           createdAt: string;
           id: string;
+          idNumber: string | null;
           mfaEnabled: boolean;
           mfaVerified: boolean;
           name: string;
@@ -8282,6 +8354,7 @@ export type PostApiRolesResponses = {
           businesses: Array<Business>;
           createdAt: string;
           id: string;
+          idNumber: string | null;
           mfaEnabled: boolean;
           mfaVerified: boolean;
           name: string;
@@ -8432,6 +8505,7 @@ export type DeleteApiRolesByIdResponses = {
           businesses: Array<Business>;
           createdAt: string;
           id: string;
+          idNumber: string | null;
           mfaEnabled: boolean;
           mfaVerified: boolean;
           name: string;
@@ -8513,6 +8587,7 @@ export type DeleteApiRolesByIdResponses = {
           businesses: Array<Business>;
           createdAt: string;
           id: string;
+          idNumber: string | null;
           mfaEnabled: boolean;
           mfaVerified: boolean;
           name: string;
@@ -8665,6 +8740,7 @@ export type GetApiRolesByIdResponses = {
           businesses: Array<Business>;
           createdAt: string;
           id: string;
+          idNumber: string | null;
           mfaEnabled: boolean;
           mfaVerified: boolean;
           name: string;
@@ -8746,6 +8822,7 @@ export type GetApiRolesByIdResponses = {
           businesses: Array<Business>;
           createdAt: string;
           id: string;
+          idNumber: string | null;
           mfaEnabled: boolean;
           mfaVerified: boolean;
           name: string;
@@ -8899,6 +8976,7 @@ export type PutApiRolesByIdResponses = {
           businesses: Array<Business>;
           createdAt: string;
           id: string;
+          idNumber: string | null;
           mfaEnabled: boolean;
           mfaVerified: boolean;
           name: string;
@@ -8980,6 +9058,7 @@ export type PutApiRolesByIdResponses = {
           businesses: Array<Business>;
           createdAt: string;
           id: string;
+          idNumber: string | null;
           mfaEnabled: boolean;
           mfaVerified: boolean;
           name: string;
@@ -9127,6 +9206,7 @@ export type GetApiTransactionsResponses = {
           businesses: Array<Business>;
           createdAt: string;
           id: string;
+          idNumber: string | null;
           mfaEnabled: boolean;
           mfaVerified: boolean;
           name: string;
@@ -9208,6 +9288,7 @@ export type GetApiTransactionsResponses = {
           businesses: Array<Business>;
           createdAt: string;
           id: string;
+          idNumber: string | null;
           mfaEnabled: boolean;
           mfaVerified: boolean;
           name: string;
@@ -9352,6 +9433,7 @@ export type PostApiTransactionsResponses = {
           businesses: Array<Business>;
           createdAt: string;
           id: string;
+          idNumber: string | null;
           mfaEnabled: boolean;
           mfaVerified: boolean;
           name: string;
@@ -9433,6 +9515,7 @@ export type PostApiTransactionsResponses = {
           businesses: Array<Business>;
           createdAt: string;
           id: string;
+          idNumber: string | null;
           mfaEnabled: boolean;
           mfaVerified: boolean;
           name: string;
@@ -9586,6 +9669,7 @@ export type PostApiTransactionsAssignMaterialByTransactionIdByMaterialIdResponse
             businesses: Array<Business>;
             createdAt: string;
             id: string;
+            idNumber: string | null;
             mfaEnabled: boolean;
             mfaVerified: boolean;
             name: string;
@@ -9667,6 +9751,7 @@ export type PostApiTransactionsAssignMaterialByTransactionIdByMaterialIdResponse
             businesses: Array<Business>;
             createdAt: string;
             id: string;
+            idNumber: string | null;
             mfaEnabled: boolean;
             mfaVerified: boolean;
             name: string;
@@ -9823,6 +9908,7 @@ export type GetApiTransactionsListMaterialsByTransactionIdResponses = {
           businesses: Array<Business>;
           createdAt: string;
           id: string;
+          idNumber: string | null;
           mfaEnabled: boolean;
           mfaVerified: boolean;
           name: string;
@@ -9904,6 +9990,7 @@ export type GetApiTransactionsListMaterialsByTransactionIdResponses = {
           businesses: Array<Business>;
           createdAt: string;
           id: string;
+          idNumber: string | null;
           mfaEnabled: boolean;
           mfaVerified: boolean;
           name: string;
@@ -10051,6 +10138,7 @@ export type GetApiTransactionsMaterialsResponses = {
           businesses: Array<Business>;
           createdAt: string;
           id: string;
+          idNumber: string | null;
           mfaEnabled: boolean;
           mfaVerified: boolean;
           name: string;
@@ -10132,6 +10220,7 @@ export type GetApiTransactionsMaterialsResponses = {
           businesses: Array<Business>;
           createdAt: string;
           id: string;
+          idNumber: string | null;
           mfaEnabled: boolean;
           mfaVerified: boolean;
           name: string;
@@ -10276,6 +10365,7 @@ export type PostApiTransactionsMaterialsResponses = {
           businesses: Array<Business>;
           createdAt: string;
           id: string;
+          idNumber: string | null;
           mfaEnabled: boolean;
           mfaVerified: boolean;
           name: string;
@@ -10357,6 +10447,7 @@ export type PostApiTransactionsMaterialsResponses = {
           businesses: Array<Business>;
           createdAt: string;
           id: string;
+          idNumber: string | null;
           mfaEnabled: boolean;
           mfaVerified: boolean;
           name: string;
@@ -10507,6 +10598,7 @@ export type DeleteApiTransactionsMaterialsByIdResponses = {
           businesses: Array<Business>;
           createdAt: string;
           id: string;
+          idNumber: string | null;
           mfaEnabled: boolean;
           mfaVerified: boolean;
           name: string;
@@ -10588,6 +10680,7 @@ export type DeleteApiTransactionsMaterialsByIdResponses = {
           businesses: Array<Business>;
           createdAt: string;
           id: string;
+          idNumber: string | null;
           mfaEnabled: boolean;
           mfaVerified: boolean;
           name: string;
@@ -10740,6 +10833,7 @@ export type GetApiTransactionsMaterialsByIdResponses = {
           businesses: Array<Business>;
           createdAt: string;
           id: string;
+          idNumber: string | null;
           mfaEnabled: boolean;
           mfaVerified: boolean;
           name: string;
@@ -10821,6 +10915,7 @@ export type GetApiTransactionsMaterialsByIdResponses = {
           businesses: Array<Business>;
           createdAt: string;
           id: string;
+          idNumber: string | null;
           mfaEnabled: boolean;
           mfaVerified: boolean;
           name: string;
@@ -10974,6 +11069,7 @@ export type PutApiTransactionsMaterialsByIdResponses = {
           businesses: Array<Business>;
           createdAt: string;
           id: string;
+          idNumber: string | null;
           mfaEnabled: boolean;
           mfaVerified: boolean;
           name: string;
@@ -11055,6 +11151,7 @@ export type PutApiTransactionsMaterialsByIdResponses = {
           businesses: Array<Business>;
           createdAt: string;
           id: string;
+          idNumber: string | null;
           mfaEnabled: boolean;
           mfaVerified: boolean;
           name: string;
@@ -11209,6 +11306,7 @@ export type PostApiTransactionsUnassignMaterialByTransactionIdByMaterialIdRespon
             businesses: Array<Business>;
             createdAt: string;
             id: string;
+            idNumber: string | null;
             mfaEnabled: boolean;
             mfaVerified: boolean;
             name: string;
@@ -11290,6 +11388,7 @@ export type PostApiTransactionsUnassignMaterialByTransactionIdByMaterialIdRespon
             businesses: Array<Business>;
             createdAt: string;
             id: string;
+            idNumber: string | null;
             mfaEnabled: boolean;
             mfaVerified: boolean;
             name: string;
@@ -11440,6 +11539,7 @@ export type DeleteApiTransactionsByIdResponses = {
           businesses: Array<Business>;
           createdAt: string;
           id: string;
+          idNumber: string | null;
           mfaEnabled: boolean;
           mfaVerified: boolean;
           name: string;
@@ -11521,6 +11621,7 @@ export type DeleteApiTransactionsByIdResponses = {
           businesses: Array<Business>;
           createdAt: string;
           id: string;
+          idNumber: string | null;
           mfaEnabled: boolean;
           mfaVerified: boolean;
           name: string;
@@ -11673,6 +11774,7 @@ export type GetApiTransactionsByIdResponses = {
           businesses: Array<Business>;
           createdAt: string;
           id: string;
+          idNumber: string | null;
           mfaEnabled: boolean;
           mfaVerified: boolean;
           name: string;
@@ -11754,6 +11856,7 @@ export type GetApiTransactionsByIdResponses = {
           businesses: Array<Business>;
           createdAt: string;
           id: string;
+          idNumber: string | null;
           mfaEnabled: boolean;
           mfaVerified: boolean;
           name: string;
@@ -11907,6 +12010,7 @@ export type PutApiTransactionsByIdResponses = {
           businesses: Array<Business>;
           createdAt: string;
           id: string;
+          idNumber: string | null;
           mfaEnabled: boolean;
           mfaVerified: boolean;
           name: string;
@@ -11988,6 +12092,7 @@ export type PutApiTransactionsByIdResponses = {
           businesses: Array<Business>;
           createdAt: string;
           id: string;
+          idNumber: string | null;
           mfaEnabled: boolean;
           mfaVerified: boolean;
           name: string;
@@ -12134,6 +12239,7 @@ export type GetApiUsersResponses = {
           businesses: Array<Business>;
           createdAt: string;
           id: string;
+          idNumber: string | null;
           mfaEnabled: boolean;
           mfaVerified: boolean;
           name: string;
@@ -12215,6 +12321,7 @@ export type GetApiUsersResponses = {
           businesses: Array<Business>;
           createdAt: string;
           id: string;
+          idNumber: string | null;
           mfaEnabled: boolean;
           mfaVerified: boolean;
           name: string;
@@ -12358,6 +12465,7 @@ export type PostApiUsersResponses = {
           businesses: Array<Business>;
           createdAt: string;
           id: string;
+          idNumber: string | null;
           mfaEnabled: boolean;
           mfaVerified: boolean;
           name: string;
@@ -12439,6 +12547,7 @@ export type PostApiUsersResponses = {
           businesses: Array<Business>;
           createdAt: string;
           id: string;
+          idNumber: string | null;
           mfaEnabled: boolean;
           mfaVerified: boolean;
           name: string;
@@ -12590,6 +12699,7 @@ export type PostApiUsersAssignRoleByUserIdByRoleIdResponses = {
           businesses: Array<Business>;
           createdAt: string;
           id: string;
+          idNumber: string | null;
           mfaEnabled: boolean;
           mfaVerified: boolean;
           name: string;
@@ -12671,6 +12781,7 @@ export type PostApiUsersAssignRoleByUserIdByRoleIdResponses = {
           businesses: Array<Business>;
           createdAt: string;
           id: string;
+          idNumber: string | null;
           mfaEnabled: boolean;
           mfaVerified: boolean;
           name: string;
@@ -12827,6 +12938,7 @@ export type GetApiUsersListRolesByUserIdResponses = {
           businesses: Array<Business>;
           createdAt: string;
           id: string;
+          idNumber: string | null;
           mfaEnabled: boolean;
           mfaVerified: boolean;
           name: string;
@@ -12908,6 +13020,7 @@ export type GetApiUsersListRolesByUserIdResponses = {
           businesses: Array<Business>;
           createdAt: string;
           id: string;
+          idNumber: string | null;
           mfaEnabled: boolean;
           mfaVerified: boolean;
           name: string;
@@ -13059,6 +13172,7 @@ export type PostApiUsersUnassignRoleByUserIdByRoleIdResponses = {
           businesses: Array<Business>;
           createdAt: string;
           id: string;
+          idNumber: string | null;
           mfaEnabled: boolean;
           mfaVerified: boolean;
           name: string;
@@ -13140,6 +13254,7 @@ export type PostApiUsersUnassignRoleByUserIdByRoleIdResponses = {
           businesses: Array<Business>;
           createdAt: string;
           id: string;
+          idNumber: string | null;
           mfaEnabled: boolean;
           mfaVerified: boolean;
           name: string;
@@ -13290,6 +13405,7 @@ export type DeleteApiUsersByIdResponses = {
           businesses: Array<Business>;
           createdAt: string;
           id: string;
+          idNumber: string | null;
           mfaEnabled: boolean;
           mfaVerified: boolean;
           name: string;
@@ -13371,6 +13487,7 @@ export type DeleteApiUsersByIdResponses = {
           businesses: Array<Business>;
           createdAt: string;
           id: string;
+          idNumber: string | null;
           mfaEnabled: boolean;
           mfaVerified: boolean;
           name: string;
@@ -13523,6 +13640,7 @@ export type GetApiUsersByIdResponses = {
           businesses: Array<Business>;
           createdAt: string;
           id: string;
+          idNumber: string | null;
           mfaEnabled: boolean;
           mfaVerified: boolean;
           name: string;
@@ -13604,6 +13722,7 @@ export type GetApiUsersByIdResponses = {
           businesses: Array<Business>;
           createdAt: string;
           id: string;
+          idNumber: string | null;
           mfaEnabled: boolean;
           mfaVerified: boolean;
           name: string;
@@ -13757,6 +13876,7 @@ export type PutApiUsersByIdResponses = {
           businesses: Array<Business>;
           createdAt: string;
           id: string;
+          idNumber: string | null;
           mfaEnabled: boolean;
           mfaVerified: boolean;
           name: string;
@@ -13838,6 +13958,7 @@ export type PutApiUsersByIdResponses = {
           businesses: Array<Business>;
           createdAt: string;
           id: string;
+          idNumber: string | null;
           mfaEnabled: boolean;
           mfaVerified: boolean;
           name: string;
