@@ -58,11 +58,15 @@ var CreateTransactionSchema = &openapi3.SchemaRef{
 			"materials": {
 				Ref: "#/components/schemas/AssignTransactionMaterials",
 			},
+			"createdAt": {
+				Value: openapi3.NewDateTimeSchema(),
+			},
 		},
 		Required: []string{
 			"sellerId",
 			"buyerId",
 			"materials",
+			"createdAt",
 		},
 	},
 }
@@ -77,10 +81,14 @@ var UpdateTransactionSchema = &openapi3.SchemaRef{
 			"buyerId": {
 				Value: openapi3.NewUUIDSchema().WithNullable(),
 			},
+			"createdAt": {
+				Value: openapi3.NewDateTimeSchema().WithNullable(),
+			},
 		},
 		Required: []string{
 			"sellerId",
 			"buyerId",
+			"createdAt",
 		},
 	},
 }

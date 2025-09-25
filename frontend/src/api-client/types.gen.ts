@@ -108,6 +108,7 @@ export type CreateBusiness = {
 
 export type CreateCollection = {
   buyerId: string;
+  createdAt: string;
   materials: AssignCollectionMaterials;
   sellerId: string;
 };
@@ -134,6 +135,7 @@ export type CreateRole = {
 
 export type CreateTransaction = {
   buyerId: string;
+  createdAt: string;
   materials: AssignTransactionMaterials;
   sellerId: string;
 };
@@ -422,6 +424,7 @@ export type UpdateBusiness = {
 
 export type UpdateCollection = {
   buyerId: string | null;
+  createdAt: string | null;
   sellerId: string | null;
 };
 
@@ -447,6 +450,7 @@ export type UpdateRole = {
 
 export type UpdateTransaction = {
   buyerId: string | null;
+  createdAt: string | null;
   sellerId: string | null;
 };
 

@@ -154,6 +154,7 @@ export const zCreateBusiness = z.object({
 
 export const zCreateCollection = z.object({
   buyerId: z.uuid(),
+  createdAt: z.iso.datetime(),
   materials: zAssignCollectionMaterials,
   sellerId: z.uuid(),
 });
@@ -182,6 +183,7 @@ export const zCreateRole = z.object({
 
 export const zCreateTransaction = z.object({
   buyerId: z.uuid(),
+  createdAt: z.iso.datetime(),
   materials: zAssignTransactionMaterials,
   sellerId: z.uuid(),
 });
@@ -493,6 +495,7 @@ export const zUpdateBusiness = z.object({
 
 export const zUpdateCollection = z.object({
   buyerId: z.union([z.uuid(), z.null()]),
+  createdAt: z.union([z.iso.datetime(), z.null()]),
   sellerId: z.union([z.uuid(), z.null()]),
 });
 
@@ -521,6 +524,7 @@ export const zUpdateRole = z.object({
 
 export const zUpdateTransaction = z.object({
   buyerId: z.union([z.uuid(), z.null()]),
+  createdAt: z.union([z.iso.datetime(), z.null()]),
   sellerId: z.union([z.uuid(), z.null()]),
 });
 

@@ -8,11 +8,13 @@ import {
   getCoreRowModel,
   useReactTable,
 } from '@tanstack/react-table';
-import { ChevronLeft, PlusCircle, TrashIcon } from 'lucide-react';
+import { CalendarIcon, ChevronLeft, PlusCircle, TrashIcon } from 'lucide-react';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import { format } from 'date-fns';
+import { parseISO } from 'date-fns/parseISO';
 import { toast } from 'sonner';
 import z from 'zod';
 
@@ -41,6 +43,7 @@ import {
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
+import { Calendar } from '@/components/ui/calendar';
 import { DebounceInput } from '@/components/ui/debounce-input';
 import { DebounceNumberInput } from '@/components/ui/debounce-number-input';
 import {
@@ -79,7 +82,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from '@/components/ui/tooltip';
-import { apiClient } from '@/lib/utils';
+import { apiClient, cn } from '@/lib/utils';
 
 declare module '@tanstack/react-table' {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -325,12 +328,13 @@ function RouteComponent() {
       <Form {...createTransactionForm}>
         <form
           onSubmit={createTransactionForm.handleSubmit(
-            ({ buyerId, sellerId, materials }) =>
+            ({ buyerId, sellerId, materials, createdAt }) =>
               createTransactionMutation.mutate({
                 body: {
                   buyerId,
                   sellerId,
                   materials: zAssignTransactionMaterials.parse(materials),
+                  createdAt,
                 },
               }),
             console.log
@@ -439,6 +443,51 @@ function RouteComponent() {
                 </Select>
                 <FormDescription>
                   Who is the transaction seller?
+                </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={createTransactionForm.control}
+            name="createdAt"
+            render={({ field }) => (
+              <FormItem className="flex flex-col">
+                <FormLabel>Date</FormLabel>
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <FormControl>
+                      <Button
+                        variant={'outline'}
+                        className={cn(
+                          'w-[240px] pl-3 text-left font-normal',
+                          !field.value && 'text-muted-foreground'
+                        )}
+                      >
+                        {field.value ? (
+                          format(parseISO(field.value), 'PPP')
+                        ) : (
+                          <span>Pick a date</span>
+                        )}
+                        <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                      </Button>
+                    </FormControl>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto p-0" align="start">
+                    <Calendar
+                      mode="single"
+                      selected={parseISO(field.value)}
+                      onSelect={field.onChange}
+                      disabled={(date) =>
+                        date > new Date() || date < new Date('1900-01-01')
+                      }
+                      captionLayout="dropdown"
+                    />
+                  </PopoverContent>
+                </Popover>
+                <FormDescription>
+                  When did the transaction happen?
                 </FormDescription>
                 <FormMessage />
               </FormItem>
