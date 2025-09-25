@@ -29,7 +29,12 @@ function RouteComponent() {
 
       <div className="flex flex-col w-full h-full overflow-hidden">
         <Header />
-        <Outlet />
+
+        <div className="flex flex-col w-full h-full px-3 overflow-hidden">
+          <div className="flex flex-col w-full h-full rounded-t-lg border-x border-t bg-sidebar p-3 gap-3">
+            <Outlet />
+          </div>
+        </div>
       </div>
     </SidebarProvider>
   );

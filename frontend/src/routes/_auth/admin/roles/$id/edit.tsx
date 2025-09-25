@@ -89,7 +89,11 @@ function RouteComponent() {
 
           <Label className="text-lg">Update Role</Label>
         </div>
-        <div className="flex w-auto h-auto items-center gap-3"></div>
+        <div className="flex w-auto h-auto items-center gap-3">
+          <Link to="/admin/roles/$id/permissions" params={{ id }}>
+            <Button>Permissions</Button>
+          </Link>
+        </div>
       </div>
 
       <Form {...updateRoleForm}>

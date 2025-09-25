@@ -5,7 +5,7 @@ import {
   Banknote,
   ChevronsUpDown,
   HandCoins,
-  LayoutDashboard,
+  // LayoutDashboard,
   LogOut,
   Users,
 } from 'lucide-react';
@@ -68,19 +68,19 @@ export default function BusinessSidebar({ user }: { user: User }) {
         <BusinessSwitcher user={user} />
       </SidebarHeader>
       <SidebarContent>
-        <SidebarGroup>
-          <SidebarGroupLabel>Analytics</SidebarGroupLabel>
-          <SidebarMenu>
-            <SidebarMenuItem>
-              <SidebarMenuButton asChild>
-                <Link to="/business">
-                  <LayoutDashboard className="size-5" />
-                  <p>Dashboard</p>
-                </Link>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-          </SidebarMenu>
-        </SidebarGroup>
+        {/*<SidebarGroup>*/}
+        {/*  <SidebarGroupLabel>Analytics</SidebarGroupLabel>*/}
+        {/*  <SidebarMenu>*/}
+        {/*    <SidebarMenuItem>*/}
+        {/*      <SidebarMenuButton asChild>*/}
+        {/*        <Link to="/business">*/}
+        {/*          <LayoutDashboard className="size-5" />*/}
+        {/*          <p>Dashboard</p>*/}
+        {/*        </Link>*/}
+        {/*      </SidebarMenuButton>*/}
+        {/*    </SidebarMenuItem>*/}
+        {/*  </SidebarMenu>*/}
+        {/*</SidebarGroup>*/}
 
         <SidebarGroup>
           <SidebarGroupLabel>Resources</SidebarGroupLabel>
