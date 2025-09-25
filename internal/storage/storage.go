@@ -1,6 +1,8 @@
 package storage
 
 import (
+	"errors"
+
 	"github.com/connor-davis/threereco-nextgen/common"
 	"github.com/connor-davis/threereco-nextgen/internal/models"
 	"github.com/gofiber/fiber/v2/log"
@@ -230,11 +232,6 @@ func (s *storage) SeedDefaultBusiness() error {
 		},
 		Name:    common.EnvString("APP_DEFAULT_BUSINESS_NAME", "Demo Business"),
 		OwnerId: businessOwnerId,
-		Roles: []models.Role{
-			businessOwnerRole,
-			businessStaffRole,
-			businessUserRole,
-		},
 		Users: []models.User{
 			businessOwner,
 		},
@@ -247,7 +244,7 @@ func (s *storage) SeedDefaultBusiness() error {
 	var existingBusiness models.Business
 
 	if err := s.db.Where("name = ?", businessOwnerRoleName).First(&existingBusinessOwnerRole).Error; err != nil {
-		if err == gorm.ErrRecordNotFound {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
 			if err := s.db.Create(&businessOwnerRole).Error; err != nil {
 				log.Errorf("failed to create business role: %s", err.Error())
 			}
@@ -257,7 +254,7 @@ func (s *storage) SeedDefaultBusiness() error {
 	}
 
 	if err := s.db.Where("name = ?", businessStaffRoleName).First(&existingBusinessStaffRole).Error; err != nil {
-		if err == gorm.ErrRecordNotFound {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
 			if err := s.db.Create(&businessStaffRole).Error; err != nil {
 				log.Errorf("failed to create business staff role: %s", err.Error())
 			}
@@ -267,7 +264,7 @@ func (s *storage) SeedDefaultBusiness() error {
 	}
 
 	if err := s.db.Where("name = ?", businessUserRoleName).First(&existingBusinessUserRole).Error; err != nil {
-		if err == gorm.ErrRecordNotFound {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
 			if err := s.db.Create(&businessUserRole).Error; err != nil {
 				log.Errorf("failed to create business user role: %s", err.Error())
 			}
@@ -277,7 +274,7 @@ func (s *storage) SeedDefaultBusiness() error {
 	}
 
 	if err := s.db.Where("username = ?", businessOwner.Username).First(&existingBusinessOwner).Error; err != nil {
-		if err == gorm.ErrRecordNotFound {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
 			if err := s.db.Create(&businessOwner).Error; err != nil {
 				log.Errorf("failed to create business owner: %s", err.Error())
 			}
@@ -287,7 +284,7 @@ func (s *storage) SeedDefaultBusiness() error {
 	}
 
 	if err := s.db.Where("name = ?", business.Name).First(&existingBusiness).Error; err != nil {
-		if err == gorm.ErrRecordNotFound {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
 			if err := s.db.Create(&business).Error; err != nil {
 				log.Errorf("failed to create default business: %s", err.Error())
 			}

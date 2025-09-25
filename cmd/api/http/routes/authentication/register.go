@@ -246,11 +246,6 @@ func (r *AuthenticationRouter) RegisterRoute() routing.Route {
 
 						newBusiness := models.Business{
 							Name: newBusinessName,
-							Roles: []models.Role{
-								newBusinessOwnerRole,
-								newBusinessStaffRole,
-								newBusinessUserRole,
-							},
 							Users: []models.User{
 								newUser,
 							},
