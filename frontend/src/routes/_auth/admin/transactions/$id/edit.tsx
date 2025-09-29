@@ -104,6 +104,8 @@ export const materialsColumns: ColumnDef<TransactionMaterial>[] = [
       <DebounceNumberInput
         min={0}
         placeholder="Weight"
+        decimalScale={2}
+        fixedDecimalScale
         defaultValue={row.getValue<number>('Weight')}
         onValueChange={(value) => {
           if (!value) return;
@@ -121,6 +123,8 @@ export const materialsColumns: ColumnDef<TransactionMaterial>[] = [
       <DebounceNumberInput
         min={0}
         placeholder="Value"
+        decimalScale={2}
+        fixedDecimalScale
         defaultValue={row.getValue<number>('Value')}
         onValueChange={(value) => {
           if (!value) return;
