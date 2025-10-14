@@ -21,17 +21,12 @@ import { Route as AuthMfaRouteImport } from './routes/_auth/_mfa'
 import { Route as AuthCollectorIndexRouteImport } from './routes/_auth/collector/index'
 import { Route as AuthBusinessIndexRouteImport } from './routes/_auth/business/index'
 import { Route as AuthAdminIndexRouteImport } from './routes/_auth/admin/index'
-import { Route as AuthBusinessUsersIndexRouteImport } from './routes/_auth/business/users/index'
-import { Route as AuthBusinessTransactionsIndexRouteImport } from './routes/_auth/business/transactions/index'
-import { Route as AuthBusinessCollectionsIndexRouteImport } from './routes/_auth/business/collections/index'
 import { Route as AuthAdminUsersIndexRouteImport } from './routes/_auth/admin/users/index'
 import { Route as AuthAdminTransactionsIndexRouteImport } from './routes/_auth/admin/transactions/index'
 import { Route as AuthAdminRolesIndexRouteImport } from './routes/_auth/admin/roles/index'
 import { Route as AuthAdminMaterialsIndexRouteImport } from './routes/_auth/admin/materials/index'
 import { Route as AuthAdminCollectionsIndexRouteImport } from './routes/_auth/admin/collections/index'
 import { Route as AuthAdminBusinessesIndexRouteImport } from './routes/_auth/admin/businesses/index'
-import { Route as AuthBusinessUsersCreateRouteImport } from './routes/_auth/business/users/create'
-import { Route as AuthBusinessTransactionsCreateRouteImport } from './routes/_auth/business/transactions/create'
 import { Route as AuthAdminUsersCreateRouteImport } from './routes/_auth/admin/users/create'
 import { Route as AuthAdminTransactionsCreateRouteImport } from './routes/_auth/admin/transactions/create'
 import { Route as AuthAdminRolesCreateRouteImport } from './routes/_auth/admin/roles/create'
@@ -40,8 +35,6 @@ import { Route as AuthAdminCollectionsCreateRouteImport } from './routes/_auth/a
 import { Route as AuthAdminBusinessesCreateRouteImport } from './routes/_auth/admin/businesses/create'
 import { Route as AuthMfaMfaVerifyRouteImport } from './routes/_auth/_mfa/mfa/verify'
 import { Route as AuthMfaMfaEnableRouteImport } from './routes/_auth/_mfa/mfa/enable'
-import { Route as AuthBusinessUsersIdEditRouteImport } from './routes/_auth/business/users/$id/edit'
-import { Route as AuthBusinessTransactionsIdEditRouteImport } from './routes/_auth/business/transactions/$id/edit'
 import { Route as AuthAdminUsersIdEditRouteImport } from './routes/_auth/admin/users/$id/edit'
 import { Route as AuthAdminTransactionsIdEditRouteImport } from './routes/_auth/admin/transactions/$id/edit'
 import { Route as AuthAdminRolesIdPermissionsRouteImport } from './routes/_auth/admin/roles/$id/permissions'
@@ -107,23 +100,6 @@ const AuthAdminIndexRoute = AuthAdminIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AuthAdminRoute,
 } as any)
-const AuthBusinessUsersIndexRoute = AuthBusinessUsersIndexRouteImport.update({
-  id: '/users/',
-  path: '/users/',
-  getParentRoute: () => AuthBusinessRoute,
-} as any)
-const AuthBusinessTransactionsIndexRoute =
-  AuthBusinessTransactionsIndexRouteImport.update({
-    id: '/transactions/',
-    path: '/transactions/',
-    getParentRoute: () => AuthBusinessRoute,
-  } as any)
-const AuthBusinessCollectionsIndexRoute =
-  AuthBusinessCollectionsIndexRouteImport.update({
-    id: '/collections/',
-    path: '/collections/',
-    getParentRoute: () => AuthBusinessRoute,
-  } as any)
 const AuthAdminUsersIndexRoute = AuthAdminUsersIndexRouteImport.update({
   id: '/users/',
   path: '/users/',
@@ -156,17 +132,6 @@ const AuthAdminBusinessesIndexRoute =
     id: '/businesses/',
     path: '/businesses/',
     getParentRoute: () => AuthAdminRoute,
-  } as any)
-const AuthBusinessUsersCreateRoute = AuthBusinessUsersCreateRouteImport.update({
-  id: '/users/create',
-  path: '/users/create',
-  getParentRoute: () => AuthBusinessRoute,
-} as any)
-const AuthBusinessTransactionsCreateRoute =
-  AuthBusinessTransactionsCreateRouteImport.update({
-    id: '/transactions/create',
-    path: '/transactions/create',
-    getParentRoute: () => AuthBusinessRoute,
   } as any)
 const AuthAdminUsersCreateRoute = AuthAdminUsersCreateRouteImport.update({
   id: '/users/create',
@@ -212,17 +177,6 @@ const AuthMfaMfaEnableRoute = AuthMfaMfaEnableRouteImport.update({
   path: '/mfa/enable',
   getParentRoute: () => AuthMfaRoute,
 } as any)
-const AuthBusinessUsersIdEditRoute = AuthBusinessUsersIdEditRouteImport.update({
-  id: '/users/$id/edit',
-  path: '/users/$id/edit',
-  getParentRoute: () => AuthBusinessRoute,
-} as any)
-const AuthBusinessTransactionsIdEditRoute =
-  AuthBusinessTransactionsIdEditRouteImport.update({
-    id: '/transactions/$id/edit',
-    path: '/transactions/$id/edit',
-    getParentRoute: () => AuthBusinessRoute,
-  } as any)
 const AuthAdminUsersIdEditRoute = AuthAdminUsersIdEditRouteImport.update({
   id: '/users/$id/edit',
   path: '/users/$id/edit',
@@ -282,17 +236,12 @@ export interface FileRoutesByFullPath {
   '/admin/roles/create': typeof AuthAdminRolesCreateRoute
   '/admin/transactions/create': typeof AuthAdminTransactionsCreateRoute
   '/admin/users/create': typeof AuthAdminUsersCreateRoute
-  '/business/transactions/create': typeof AuthBusinessTransactionsCreateRoute
-  '/business/users/create': typeof AuthBusinessUsersCreateRoute
   '/admin/businesses': typeof AuthAdminBusinessesIndexRoute
   '/admin/collections': typeof AuthAdminCollectionsIndexRoute
   '/admin/materials': typeof AuthAdminMaterialsIndexRoute
   '/admin/roles': typeof AuthAdminRolesIndexRoute
   '/admin/transactions': typeof AuthAdminTransactionsIndexRoute
   '/admin/users': typeof AuthAdminUsersIndexRoute
-  '/business/collections': typeof AuthBusinessCollectionsIndexRoute
-  '/business/transactions': typeof AuthBusinessTransactionsIndexRoute
-  '/business/users': typeof AuthBusinessUsersIndexRoute
   '/admin/businesses/$id/edit': typeof AuthAdminBusinessesIdEditRoute
   '/admin/collections/$id/edit': typeof AuthAdminCollectionsIdEditRoute
   '/admin/materials/$id/edit': typeof AuthAdminMaterialsIdEditRoute
@@ -300,8 +249,6 @@ export interface FileRoutesByFullPath {
   '/admin/roles/$id/permissions': typeof AuthAdminRolesIdPermissionsRoute
   '/admin/transactions/$id/edit': typeof AuthAdminTransactionsIdEditRoute
   '/admin/users/$id/edit': typeof AuthAdminUsersIdEditRoute
-  '/business/transactions/$id/edit': typeof AuthBusinessTransactionsIdEditRoute
-  '/business/users/$id/edit': typeof AuthBusinessUsersIdEditRoute
 }
 export interface FileRoutesByTo {
   '/sign-in': typeof NoauthSignInRoute
@@ -318,17 +265,12 @@ export interface FileRoutesByTo {
   '/admin/roles/create': typeof AuthAdminRolesCreateRoute
   '/admin/transactions/create': typeof AuthAdminTransactionsCreateRoute
   '/admin/users/create': typeof AuthAdminUsersCreateRoute
-  '/business/transactions/create': typeof AuthBusinessTransactionsCreateRoute
-  '/business/users/create': typeof AuthBusinessUsersCreateRoute
   '/admin/businesses': typeof AuthAdminBusinessesIndexRoute
   '/admin/collections': typeof AuthAdminCollectionsIndexRoute
   '/admin/materials': typeof AuthAdminMaterialsIndexRoute
   '/admin/roles': typeof AuthAdminRolesIndexRoute
   '/admin/transactions': typeof AuthAdminTransactionsIndexRoute
   '/admin/users': typeof AuthAdminUsersIndexRoute
-  '/business/collections': typeof AuthBusinessCollectionsIndexRoute
-  '/business/transactions': typeof AuthBusinessTransactionsIndexRoute
-  '/business/users': typeof AuthBusinessUsersIndexRoute
   '/admin/businesses/$id/edit': typeof AuthAdminBusinessesIdEditRoute
   '/admin/collections/$id/edit': typeof AuthAdminCollectionsIdEditRoute
   '/admin/materials/$id/edit': typeof AuthAdminMaterialsIdEditRoute
@@ -336,8 +278,6 @@ export interface FileRoutesByTo {
   '/admin/roles/$id/permissions': typeof AuthAdminRolesIdPermissionsRoute
   '/admin/transactions/$id/edit': typeof AuthAdminTransactionsIdEditRoute
   '/admin/users/$id/edit': typeof AuthAdminUsersIdEditRoute
-  '/business/transactions/$id/edit': typeof AuthBusinessTransactionsIdEditRoute
-  '/business/users/$id/edit': typeof AuthBusinessUsersIdEditRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -361,17 +301,12 @@ export interface FileRoutesById {
   '/_auth/admin/roles/create': typeof AuthAdminRolesCreateRoute
   '/_auth/admin/transactions/create': typeof AuthAdminTransactionsCreateRoute
   '/_auth/admin/users/create': typeof AuthAdminUsersCreateRoute
-  '/_auth/business/transactions/create': typeof AuthBusinessTransactionsCreateRoute
-  '/_auth/business/users/create': typeof AuthBusinessUsersCreateRoute
   '/_auth/admin/businesses/': typeof AuthAdminBusinessesIndexRoute
   '/_auth/admin/collections/': typeof AuthAdminCollectionsIndexRoute
   '/_auth/admin/materials/': typeof AuthAdminMaterialsIndexRoute
   '/_auth/admin/roles/': typeof AuthAdminRolesIndexRoute
   '/_auth/admin/transactions/': typeof AuthAdminTransactionsIndexRoute
   '/_auth/admin/users/': typeof AuthAdminUsersIndexRoute
-  '/_auth/business/collections/': typeof AuthBusinessCollectionsIndexRoute
-  '/_auth/business/transactions/': typeof AuthBusinessTransactionsIndexRoute
-  '/_auth/business/users/': typeof AuthBusinessUsersIndexRoute
   '/_auth/admin/businesses/$id/edit': typeof AuthAdminBusinessesIdEditRoute
   '/_auth/admin/collections/$id/edit': typeof AuthAdminCollectionsIdEditRoute
   '/_auth/admin/materials/$id/edit': typeof AuthAdminMaterialsIdEditRoute
@@ -379,8 +314,6 @@ export interface FileRoutesById {
   '/_auth/admin/roles/$id/permissions': typeof AuthAdminRolesIdPermissionsRoute
   '/_auth/admin/transactions/$id/edit': typeof AuthAdminTransactionsIdEditRoute
   '/_auth/admin/users/$id/edit': typeof AuthAdminUsersIdEditRoute
-  '/_auth/business/transactions/$id/edit': typeof AuthBusinessTransactionsIdEditRoute
-  '/_auth/business/users/$id/edit': typeof AuthBusinessUsersIdEditRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -402,17 +335,12 @@ export interface FileRouteTypes {
     | '/admin/roles/create'
     | '/admin/transactions/create'
     | '/admin/users/create'
-    | '/business/transactions/create'
-    | '/business/users/create'
     | '/admin/businesses'
     | '/admin/collections'
     | '/admin/materials'
     | '/admin/roles'
     | '/admin/transactions'
     | '/admin/users'
-    | '/business/collections'
-    | '/business/transactions'
-    | '/business/users'
     | '/admin/businesses/$id/edit'
     | '/admin/collections/$id/edit'
     | '/admin/materials/$id/edit'
@@ -420,8 +348,6 @@ export interface FileRouteTypes {
     | '/admin/roles/$id/permissions'
     | '/admin/transactions/$id/edit'
     | '/admin/users/$id/edit'
-    | '/business/transactions/$id/edit'
-    | '/business/users/$id/edit'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/sign-in'
@@ -438,17 +364,12 @@ export interface FileRouteTypes {
     | '/admin/roles/create'
     | '/admin/transactions/create'
     | '/admin/users/create'
-    | '/business/transactions/create'
-    | '/business/users/create'
     | '/admin/businesses'
     | '/admin/collections'
     | '/admin/materials'
     | '/admin/roles'
     | '/admin/transactions'
     | '/admin/users'
-    | '/business/collections'
-    | '/business/transactions'
-    | '/business/users'
     | '/admin/businesses/$id/edit'
     | '/admin/collections/$id/edit'
     | '/admin/materials/$id/edit'
@@ -456,8 +377,6 @@ export interface FileRouteTypes {
     | '/admin/roles/$id/permissions'
     | '/admin/transactions/$id/edit'
     | '/admin/users/$id/edit'
-    | '/business/transactions/$id/edit'
-    | '/business/users/$id/edit'
   id:
     | '__root__'
     | '/_auth'
@@ -480,17 +399,12 @@ export interface FileRouteTypes {
     | '/_auth/admin/roles/create'
     | '/_auth/admin/transactions/create'
     | '/_auth/admin/users/create'
-    | '/_auth/business/transactions/create'
-    | '/_auth/business/users/create'
     | '/_auth/admin/businesses/'
     | '/_auth/admin/collections/'
     | '/_auth/admin/materials/'
     | '/_auth/admin/roles/'
     | '/_auth/admin/transactions/'
     | '/_auth/admin/users/'
-    | '/_auth/business/collections/'
-    | '/_auth/business/transactions/'
-    | '/_auth/business/users/'
     | '/_auth/admin/businesses/$id/edit'
     | '/_auth/admin/collections/$id/edit'
     | '/_auth/admin/materials/$id/edit'
@@ -498,8 +412,6 @@ export interface FileRouteTypes {
     | '/_auth/admin/roles/$id/permissions'
     | '/_auth/admin/transactions/$id/edit'
     | '/_auth/admin/users/$id/edit'
-    | '/_auth/business/transactions/$id/edit'
-    | '/_auth/business/users/$id/edit'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -593,27 +505,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthAdminIndexRouteImport
       parentRoute: typeof AuthAdminRoute
     }
-    '/_auth/business/users/': {
-      id: '/_auth/business/users/'
-      path: '/users'
-      fullPath: '/business/users'
-      preLoaderRoute: typeof AuthBusinessUsersIndexRouteImport
-      parentRoute: typeof AuthBusinessRoute
-    }
-    '/_auth/business/transactions/': {
-      id: '/_auth/business/transactions/'
-      path: '/transactions'
-      fullPath: '/business/transactions'
-      preLoaderRoute: typeof AuthBusinessTransactionsIndexRouteImport
-      parentRoute: typeof AuthBusinessRoute
-    }
-    '/_auth/business/collections/': {
-      id: '/_auth/business/collections/'
-      path: '/collections'
-      fullPath: '/business/collections'
-      preLoaderRoute: typeof AuthBusinessCollectionsIndexRouteImport
-      parentRoute: typeof AuthBusinessRoute
-    }
     '/_auth/admin/users/': {
       id: '/_auth/admin/users/'
       path: '/users'
@@ -655,20 +546,6 @@ declare module '@tanstack/react-router' {
       fullPath: '/admin/businesses'
       preLoaderRoute: typeof AuthAdminBusinessesIndexRouteImport
       parentRoute: typeof AuthAdminRoute
-    }
-    '/_auth/business/users/create': {
-      id: '/_auth/business/users/create'
-      path: '/users/create'
-      fullPath: '/business/users/create'
-      preLoaderRoute: typeof AuthBusinessUsersCreateRouteImport
-      parentRoute: typeof AuthBusinessRoute
-    }
-    '/_auth/business/transactions/create': {
-      id: '/_auth/business/transactions/create'
-      path: '/transactions/create'
-      fullPath: '/business/transactions/create'
-      preLoaderRoute: typeof AuthBusinessTransactionsCreateRouteImport
-      parentRoute: typeof AuthBusinessRoute
     }
     '/_auth/admin/users/create': {
       id: '/_auth/admin/users/create'
@@ -725,20 +602,6 @@ declare module '@tanstack/react-router' {
       fullPath: '/mfa/enable'
       preLoaderRoute: typeof AuthMfaMfaEnableRouteImport
       parentRoute: typeof AuthMfaRoute
-    }
-    '/_auth/business/users/$id/edit': {
-      id: '/_auth/business/users/$id/edit'
-      path: '/users/$id/edit'
-      fullPath: '/business/users/$id/edit'
-      preLoaderRoute: typeof AuthBusinessUsersIdEditRouteImport
-      parentRoute: typeof AuthBusinessRoute
-    }
-    '/_auth/business/transactions/$id/edit': {
-      id: '/_auth/business/transactions/$id/edit'
-      path: '/transactions/$id/edit'
-      fullPath: '/business/transactions/$id/edit'
-      preLoaderRoute: typeof AuthBusinessTransactionsIdEditRouteImport
-      parentRoute: typeof AuthBusinessRoute
     }
     '/_auth/admin/users/$id/edit': {
       id: '/_auth/admin/users/$id/edit'
@@ -857,24 +720,10 @@ const AuthAdminRouteWithChildren = AuthAdminRoute._addFileChildren(
 
 interface AuthBusinessRouteChildren {
   AuthBusinessIndexRoute: typeof AuthBusinessIndexRoute
-  AuthBusinessTransactionsCreateRoute: typeof AuthBusinessTransactionsCreateRoute
-  AuthBusinessUsersCreateRoute: typeof AuthBusinessUsersCreateRoute
-  AuthBusinessCollectionsIndexRoute: typeof AuthBusinessCollectionsIndexRoute
-  AuthBusinessTransactionsIndexRoute: typeof AuthBusinessTransactionsIndexRoute
-  AuthBusinessUsersIndexRoute: typeof AuthBusinessUsersIndexRoute
-  AuthBusinessTransactionsIdEditRoute: typeof AuthBusinessTransactionsIdEditRoute
-  AuthBusinessUsersIdEditRoute: typeof AuthBusinessUsersIdEditRoute
 }
 
 const AuthBusinessRouteChildren: AuthBusinessRouteChildren = {
   AuthBusinessIndexRoute: AuthBusinessIndexRoute,
-  AuthBusinessTransactionsCreateRoute: AuthBusinessTransactionsCreateRoute,
-  AuthBusinessUsersCreateRoute: AuthBusinessUsersCreateRoute,
-  AuthBusinessCollectionsIndexRoute: AuthBusinessCollectionsIndexRoute,
-  AuthBusinessTransactionsIndexRoute: AuthBusinessTransactionsIndexRoute,
-  AuthBusinessUsersIndexRoute: AuthBusinessUsersIndexRoute,
-  AuthBusinessTransactionsIdEditRoute: AuthBusinessTransactionsIdEditRoute,
-  AuthBusinessUsersIdEditRoute: AuthBusinessUsersIdEditRoute,
 }
 
 const AuthBusinessRouteWithChildren = AuthBusinessRoute._addFileChildren(
