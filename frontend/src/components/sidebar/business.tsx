@@ -1,13 +1,10 @@
 import { postApiAuthenticationLogoutMutation } from '@/api-client/@tanstack/react-query.gen';
 import { useMutation } from '@tanstack/react-query';
-import { Link, useRouter } from '@tanstack/react-router';
+import { useRouter } from '@tanstack/react-router';
 import {
-  Banknote,
   ChevronsUpDown,
-  HandCoins,
   // LayoutDashboard,
   LogOut,
-  Users,
 } from 'lucide-react';
 
 import { toast } from 'sonner';
@@ -27,8 +24,6 @@ import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
-  SidebarGroup,
-  SidebarGroupLabel,
   SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
@@ -82,7 +77,7 @@ export default function BusinessSidebar({ user }: { user: User }) {
         {/*  </SidebarMenu>*/}
         {/*</SidebarGroup>*/}
 
-        <SidebarGroup>
+        {/* <SidebarGroup>
           <SidebarGroupLabel>Resources</SidebarGroupLabel>
           <SidebarMenu>
             <SidebarMenuItem>
@@ -117,7 +112,7 @@ export default function BusinessSidebar({ user }: { user: User }) {
               </SidebarMenuButton>
             </SidebarMenuItem>
           </SidebarMenu>
-        </SidebarGroup>
+        </SidebarGroup> */}
       </SidebarContent>
       <SidebarFooter>
         <SidebarMenu>
