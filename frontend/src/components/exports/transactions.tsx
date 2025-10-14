@@ -52,7 +52,6 @@ export default function TransactionsExportDialog() {
               defaultMonth={range?.from}
               selected={range}
               onSelect={setRange}
-              startMonth={range?.from}
               fixedWeeks
               showOutsideDays
             />

@@ -52,7 +52,6 @@ export default function CollectionsExportDialog() {
               defaultMonth={range?.from}
               selected={range}
               onSelect={setRange}
-              startMonth={range?.from}
               fixedWeeks
               showOutsideDays
             />
