@@ -111,7 +111,7 @@ func (r *AnalyticsRouter) MaterialTypesRoute() routing.Route {
 				Joins("JOIN collections_materials ON collections_materials.collection_id = collections.id").
 				Joins("JOIN collection_materials ON collection_materials.id = collections_materials.collection_material_id").
 				Select("collection_materials.name AS type, COALESCE(SUM(collection_materials.weight), 0) AS weight").
-				Group("collection_materials.id").
+				Group("collection_materials.name").
 				Order("SUM(collection_materials.weight) DESC").
 				Scan(&materialTypes).Error; err != nil {
 				return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
