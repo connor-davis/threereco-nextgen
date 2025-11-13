@@ -58,6 +58,8 @@ var SuccessSchema = &openapi3.SchemaRef{
 											TransactionMaterialSchema,
 											BusinessSchema,
 											PermissionGroupSchema,
+											TopBusinessSchema,
+											MaterialTypeSchema,
 										},
 									},
 								},

@@ -26,6 +26,15 @@ import type {
   DeleteApiUsersByIdData,
   DeleteApiUsersByIdErrors,
   DeleteApiUsersByIdResponses,
+  GetApiAnalyticsMaterialTypesData,
+  GetApiAnalyticsMaterialTypesErrors,
+  GetApiAnalyticsMaterialTypesResponses,
+  GetApiAnalyticsTopBusinessesData,
+  GetApiAnalyticsTopBusinessesErrors,
+  GetApiAnalyticsTopBusinessesResponses,
+  GetApiAnalyticsTotalCollectorsData,
+  GetApiAnalyticsTotalCollectorsErrors,
+  GetApiAnalyticsTotalCollectorsResponses,
   GetApiAnalyticsTotalWasteCollectedData,
   GetApiAnalyticsTotalWasteCollectedErrors,
   GetApiAnalyticsTotalWasteCollectedResponses,
@@ -199,6 +208,63 @@ export type Options<
    * used to access values that aren't defined as part of the SDK function.
    */
   meta?: Record<string, unknown>;
+};
+
+/**
+ * Material Types
+ * Returns the material types in the system.
+ */
+export const getApiAnalyticsMaterialTypes = <
+  ThrowOnError extends boolean = false,
+>(
+  options?: Options<GetApiAnalyticsMaterialTypesData, ThrowOnError>
+) => {
+  return (options?.client ?? _heyApiClient).get<
+    GetApiAnalyticsMaterialTypesResponses,
+    GetApiAnalyticsMaterialTypesErrors,
+    ThrowOnError
+  >({
+    url: '/api/analytics/material-types',
+    ...options,
+  });
+};
+
+/**
+ * Top Businesses
+ * Returns the top businesses in the system.
+ */
+export const getApiAnalyticsTopBusinesses = <
+  ThrowOnError extends boolean = false,
+>(
+  options?: Options<GetApiAnalyticsTopBusinessesData, ThrowOnError>
+) => {
+  return (options?.client ?? _heyApiClient).get<
+    GetApiAnalyticsTopBusinessesResponses,
+    GetApiAnalyticsTopBusinessesErrors,
+    ThrowOnError
+  >({
+    url: '/api/analytics/top-businesses',
+    ...options,
+  });
+};
+
+/**
+ * Total Collectors
+ * Returns the total number of collectors in the system.
+ */
+export const getApiAnalyticsTotalCollectors = <
+  ThrowOnError extends boolean = false,
+>(
+  options?: Options<GetApiAnalyticsTotalCollectorsData, ThrowOnError>
+) => {
+  return (options?.client ?? _heyApiClient).get<
+    GetApiAnalyticsTotalCollectorsResponses,
+    GetApiAnalyticsTotalCollectorsErrors,
+    ThrowOnError
+  >({
+    url: '/api/analytics/total-collectors',
+    ...options,
+  });
 };
 
 /**

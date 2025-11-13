@@ -175,6 +175,11 @@ export type Material = {
   updatedAt: string;
 };
 
+export type MaterialType = {
+  type: string;
+  weight: number;
+};
+
 export type Materials = Array<Material>;
 
 export type Pagination = {
@@ -390,8 +395,21 @@ export type SuccessResponse = {
         permissions: Permissions;
         subGroups: Array<PermissionGroup>;
       }
+    | {
+        name: string;
+        weight: number;
+      }
+    | {
+        type: string;
+        weight: number;
+      }
   >;
   pagination?: Pagination;
+};
+
+export type TopBusiness = {
+  name: string;
+  weight: number;
 };
 
 export type Transaction = {
@@ -522,6 +540,702 @@ export type RegisterPayload = {
 export type VerifyMfaPayload = {
   code: string;
 };
+
+export type GetApiAnalyticsMaterialTypesData = {
+  body?: never;
+  path?: never;
+  query?: never;
+  url: '/api/analytics/material-types';
+};
+
+export type GetApiAnalyticsMaterialTypesErrors = {
+  /**
+   * Bad Request
+   */
+  400: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Unauthorized
+   */
+  401: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Forbidden
+   */
+  403: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Internal Server Error
+   */
+  500: {
+    error: string;
+    message: string;
+  };
+  default: unknown;
+};
+
+export type GetApiAnalyticsMaterialTypesError =
+  GetApiAnalyticsMaterialTypesErrors[keyof GetApiAnalyticsMaterialTypesErrors];
+
+export type GetApiAnalyticsMaterialTypesResponses = {
+  /**
+   * Successful material types list with percentages towards the total waste collected.
+   */
+  200: {
+    item?:
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          businessId: string | null;
+          businesses: Array<Business>;
+          createdAt: string;
+          id: string;
+          idNumber: string | null;
+          mfaEnabled: boolean;
+          mfaVerified: boolean;
+          name: string;
+          permissions: Array<string>;
+          roles: Roles;
+          type: 'system' | 'collector' | 'business';
+          updatedAt: string;
+          username: string;
+        }
+      | {
+          createdAt: string;
+          default: boolean;
+          description: string;
+          id: string;
+          name: string;
+          permissions: Array<string>;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor: string;
+          createdAt: string;
+          gwCode: string;
+          id: string;
+          name: string;
+          updatedAt: string;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: CollectionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: TransactionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          createdAt: string;
+          id: string;
+          name: string;
+          ownerId: string;
+          roles: Roles;
+          updatedAt: string;
+          users: Array<User>;
+        };
+    items?: Array<
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          businessId: string | null;
+          businesses: Array<Business>;
+          createdAt: string;
+          id: string;
+          idNumber: string | null;
+          mfaEnabled: boolean;
+          mfaVerified: boolean;
+          name: string;
+          permissions: Array<string>;
+          roles: Roles;
+          type: 'system' | 'collector' | 'business';
+          updatedAt: string;
+          username: string;
+        }
+      | {
+          createdAt: string;
+          default: boolean;
+          description: string;
+          id: string;
+          name: string;
+          permissions: Array<string>;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor: string;
+          createdAt: string;
+          gwCode: string;
+          id: string;
+          name: string;
+          updatedAt: string;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: CollectionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: TransactionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          createdAt: string;
+          id: string;
+          name: string;
+          ownerId: string;
+          roles: Roles;
+          updatedAt: string;
+          users: Array<User>;
+        }
+      | {
+          name: string;
+          permissions: Permissions;
+          subGroups: Array<PermissionGroup>;
+        }
+      | {
+          name: string;
+          weight: number;
+        }
+      | {
+          type: string;
+          weight: number;
+        }
+    >;
+    pagination?: Pagination;
+  };
+};
+
+export type GetApiAnalyticsMaterialTypesResponse =
+  GetApiAnalyticsMaterialTypesResponses[keyof GetApiAnalyticsMaterialTypesResponses];
+
+export type GetApiAnalyticsTopBusinessesData = {
+  body?: never;
+  path?: never;
+  query?: never;
+  url: '/api/analytics/top-businesses';
+};
+
+export type GetApiAnalyticsTopBusinessesErrors = {
+  /**
+   * Bad Request
+   */
+  400: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Unauthorized
+   */
+  401: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Forbidden
+   */
+  403: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Internal Server Error
+   */
+  500: {
+    error: string;
+    message: string;
+  };
+  default: unknown;
+};
+
+export type GetApiAnalyticsTopBusinessesError =
+  GetApiAnalyticsTopBusinessesErrors[keyof GetApiAnalyticsTopBusinessesErrors];
+
+export type GetApiAnalyticsTopBusinessesResponses = {
+  /**
+   * Successful top businesses list with percentages towards the total waste collected.
+   */
+  200: {
+    item?:
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          businessId: string | null;
+          businesses: Array<Business>;
+          createdAt: string;
+          id: string;
+          idNumber: string | null;
+          mfaEnabled: boolean;
+          mfaVerified: boolean;
+          name: string;
+          permissions: Array<string>;
+          roles: Roles;
+          type: 'system' | 'collector' | 'business';
+          updatedAt: string;
+          username: string;
+        }
+      | {
+          createdAt: string;
+          default: boolean;
+          description: string;
+          id: string;
+          name: string;
+          permissions: Array<string>;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor: string;
+          createdAt: string;
+          gwCode: string;
+          id: string;
+          name: string;
+          updatedAt: string;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: CollectionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: TransactionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          createdAt: string;
+          id: string;
+          name: string;
+          ownerId: string;
+          roles: Roles;
+          updatedAt: string;
+          users: Array<User>;
+        };
+    items?: Array<
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          businessId: string | null;
+          businesses: Array<Business>;
+          createdAt: string;
+          id: string;
+          idNumber: string | null;
+          mfaEnabled: boolean;
+          mfaVerified: boolean;
+          name: string;
+          permissions: Array<string>;
+          roles: Roles;
+          type: 'system' | 'collector' | 'business';
+          updatedAt: string;
+          username: string;
+        }
+      | {
+          createdAt: string;
+          default: boolean;
+          description: string;
+          id: string;
+          name: string;
+          permissions: Array<string>;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor: string;
+          createdAt: string;
+          gwCode: string;
+          id: string;
+          name: string;
+          updatedAt: string;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: CollectionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: TransactionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          createdAt: string;
+          id: string;
+          name: string;
+          ownerId: string;
+          roles: Roles;
+          updatedAt: string;
+          users: Array<User>;
+        }
+      | {
+          name: string;
+          permissions: Permissions;
+          subGroups: Array<PermissionGroup>;
+        }
+      | {
+          name: string;
+          weight: number;
+        }
+      | {
+          type: string;
+          weight: number;
+        }
+    >;
+    pagination?: Pagination;
+  };
+};
+
+export type GetApiAnalyticsTopBusinessesResponse =
+  GetApiAnalyticsTopBusinessesResponses[keyof GetApiAnalyticsTopBusinessesResponses];
+
+export type GetApiAnalyticsTotalCollectorsData = {
+  body?: never;
+  path?: never;
+  query?: never;
+  url: '/api/analytics/total-collectors';
+};
+
+export type GetApiAnalyticsTotalCollectorsErrors = {
+  /**
+   * Bad Request
+   */
+  400: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Unauthorized
+   */
+  401: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Forbidden
+   */
+  403: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Internal Server Error
+   */
+  500: {
+    error: string;
+    message: string;
+  };
+  default: unknown;
+};
+
+export type GetApiAnalyticsTotalCollectorsError =
+  GetApiAnalyticsTotalCollectorsErrors[keyof GetApiAnalyticsTotalCollectorsErrors];
+
+export type GetApiAnalyticsTotalCollectorsResponses = {
+  /**
+   * Successful total number of collectors.
+   */
+  200: {
+    item?:
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          businessId: string | null;
+          businesses: Array<Business>;
+          createdAt: string;
+          id: string;
+          idNumber: string | null;
+          mfaEnabled: boolean;
+          mfaVerified: boolean;
+          name: string;
+          permissions: Array<string>;
+          roles: Roles;
+          type: 'system' | 'collector' | 'business';
+          updatedAt: string;
+          username: string;
+        }
+      | {
+          createdAt: string;
+          default: boolean;
+          description: string;
+          id: string;
+          name: string;
+          permissions: Array<string>;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor: string;
+          createdAt: string;
+          gwCode: string;
+          id: string;
+          name: string;
+          updatedAt: string;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: CollectionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: TransactionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          createdAt: string;
+          id: string;
+          name: string;
+          ownerId: string;
+          roles: Roles;
+          updatedAt: string;
+          users: Array<User>;
+        };
+    items?: Array<
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          businessId: string | null;
+          businesses: Array<Business>;
+          createdAt: string;
+          id: string;
+          idNumber: string | null;
+          mfaEnabled: boolean;
+          mfaVerified: boolean;
+          name: string;
+          permissions: Array<string>;
+          roles: Roles;
+          type: 'system' | 'collector' | 'business';
+          updatedAt: string;
+          username: string;
+        }
+      | {
+          createdAt: string;
+          default: boolean;
+          description: string;
+          id: string;
+          name: string;
+          permissions: Array<string>;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor: string;
+          createdAt: string;
+          gwCode: string;
+          id: string;
+          name: string;
+          updatedAt: string;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: CollectionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: TransactionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          createdAt: string;
+          id: string;
+          name: string;
+          ownerId: string;
+          roles: Roles;
+          updatedAt: string;
+          users: Array<User>;
+        }
+      | {
+          name: string;
+          permissions: Permissions;
+          subGroups: Array<PermissionGroup>;
+        }
+      | {
+          name: string;
+          weight: number;
+        }
+      | {
+          type: string;
+          weight: number;
+        }
+    >;
+    pagination?: Pagination;
+  };
+};
+
+export type GetApiAnalyticsTotalCollectorsResponse =
+  GetApiAnalyticsTotalCollectorsResponses[keyof GetApiAnalyticsTotalCollectorsResponses];
 
 export type GetApiAnalyticsTotalWasteCollectedData = {
   body?: never;
@@ -738,6 +1452,14 @@ export type GetApiAnalyticsTotalWasteCollectedResponses = {
           name: string;
           permissions: Permissions;
           subGroups: Array<PermissionGroup>;
+        }
+      | {
+          name: string;
+          weight: number;
+        }
+      | {
+          type: string;
+          weight: number;
         }
     >;
     pagination?: Pagination;
@@ -962,6 +1684,14 @@ export type GetApiAuthenticationCheckResponses = {
           name: string;
           permissions: Permissions;
           subGroups: Array<PermissionGroup>;
+        }
+      | {
+          name: string;
+          weight: number;
+        }
+      | {
+          type: string;
+          weight: number;
         }
     >;
     pagination?: Pagination;
@@ -1190,6 +1920,14 @@ export type PostApiAuthenticationLoginResponses = {
           permissions: Permissions;
           subGroups: Array<PermissionGroup>;
         }
+      | {
+          name: string;
+          weight: number;
+        }
+      | {
+          type: string;
+          weight: number;
+        }
     >;
     pagination?: Pagination;
   };
@@ -1413,6 +2151,14 @@ export type PostApiAuthenticationLogoutResponses = {
           name: string;
           permissions: Permissions;
           subGroups: Array<PermissionGroup>;
+        }
+      | {
+          name: string;
+          weight: number;
+        }
+      | {
+          type: string;
+          weight: number;
         }
     >;
     pagination?: Pagination;
@@ -1690,6 +2436,14 @@ export type PostApiAuthenticationMfaVerifyResponses = {
           permissions: Permissions;
           subGroups: Array<PermissionGroup>;
         }
+      | {
+          name: string;
+          weight: number;
+        }
+      | {
+          type: string;
+          weight: number;
+        }
     >;
     pagination?: Pagination;
   };
@@ -1913,6 +2667,14 @@ export type GetApiAuthenticationPermissionsResponses = {
           name: string;
           permissions: Permissions;
           subGroups: Array<PermissionGroup>;
+        }
+      | {
+          name: string;
+          weight: number;
+        }
+      | {
+          type: string;
+          weight: number;
         }
     >;
     pagination?: Pagination;
@@ -2140,6 +2902,14 @@ export type PostApiAuthenticationRegisterResponses = {
           name: string;
           permissions: Permissions;
           subGroups: Array<PermissionGroup>;
+        }
+      | {
+          name: string;
+          weight: number;
+        }
+      | {
+          type: string;
+          weight: number;
         }
     >;
     pagination?: Pagination;
@@ -2371,6 +3141,14 @@ export type GetApiBusinessesResponses = {
           permissions: Permissions;
           subGroups: Array<PermissionGroup>;
         }
+      | {
+          name: string;
+          weight: number;
+        }
+      | {
+          type: string;
+          weight: number;
+        }
     >;
     pagination?: Pagination;
   };
@@ -2597,6 +3375,14 @@ export type PostApiBusinessesResponses = {
           name: string;
           permissions: Permissions;
           subGroups: Array<PermissionGroup>;
+        }
+      | {
+          name: string;
+          weight: number;
+        }
+      | {
+          type: string;
+          weight: number;
         }
     >;
     pagination?: Pagination;
@@ -2831,6 +3617,14 @@ export type PostApiBusinessesAssignUserByBusinessIdByUserIdResponses = {
           name: string;
           permissions: Permissions;
           subGroups: Array<PermissionGroup>;
+        }
+      | {
+          name: string;
+          weight: number;
+        }
+      | {
+          type: string;
+          weight: number;
         }
     >;
     pagination?: Pagination;
@@ -3071,6 +3865,14 @@ export type GetApiBusinessesListUsersByBusinessIdResponses = {
           permissions: Permissions;
           subGroups: Array<PermissionGroup>;
         }
+      | {
+          name: string;
+          weight: number;
+        }
+      | {
+          type: string;
+          weight: number;
+        }
     >;
     pagination?: Pagination;
   };
@@ -3305,6 +4107,14 @@ export type PostApiBusinessesUnassignUserByBusinessIdByUserIdResponses = {
           permissions: Permissions;
           subGroups: Array<PermissionGroup>;
         }
+      | {
+          name: string;
+          weight: number;
+        }
+      | {
+          type: string;
+          weight: number;
+        }
     >;
     pagination?: Pagination;
   };
@@ -3537,6 +4347,14 @@ export type DeleteApiBusinessesByIdResponses = {
           name: string;
           permissions: Permissions;
           subGroups: Array<PermissionGroup>;
+        }
+      | {
+          name: string;
+          weight: number;
+        }
+      | {
+          type: string;
+          weight: number;
         }
     >;
     pagination?: Pagination;
@@ -3772,6 +4590,14 @@ export type GetApiBusinessesByIdResponses = {
           name: string;
           permissions: Permissions;
           subGroups: Array<PermissionGroup>;
+        }
+      | {
+          name: string;
+          weight: number;
+        }
+      | {
+          type: string;
+          weight: number;
         }
     >;
     pagination?: Pagination;
@@ -4009,6 +4835,14 @@ export type PutApiBusinessesByIdResponses = {
           permissions: Permissions;
           subGroups: Array<PermissionGroup>;
         }
+      | {
+          name: string;
+          weight: number;
+        }
+      | {
+          type: string;
+          weight: number;
+        }
     >;
     pagination?: Pagination;
   };
@@ -4239,6 +5073,14 @@ export type GetApiCollectionsResponses = {
           permissions: Permissions;
           subGroups: Array<PermissionGroup>;
         }
+      | {
+          name: string;
+          weight: number;
+        }
+      | {
+          type: string;
+          weight: number;
+        }
     >;
     pagination?: Pagination;
   };
@@ -4465,6 +5307,14 @@ export type PostApiCollectionsResponses = {
           name: string;
           permissions: Permissions;
           subGroups: Array<PermissionGroup>;
+        }
+      | {
+          name: string;
+          weight: number;
+        }
+      | {
+          type: string;
+          weight: number;
         }
     >;
     pagination?: Pagination;
@@ -4700,6 +5550,14 @@ export type PostApiCollectionsAssignMaterialByCollectionIdByMaterialIdResponses 
             name: string;
             permissions: Permissions;
             subGroups: Array<PermissionGroup>;
+          }
+        | {
+            name: string;
+            weight: number;
+          }
+        | {
+            type: string;
+            weight: number;
           }
       >;
       pagination?: Pagination;
@@ -4940,6 +5798,14 @@ export type GetApiCollectionsListMaterialsByCollectionIdResponses = {
           permissions: Permissions;
           subGroups: Array<PermissionGroup>;
         }
+      | {
+          name: string;
+          weight: number;
+        }
+      | {
+          type: string;
+          weight: number;
+        }
     >;
     pagination?: Pagination;
   };
@@ -5170,6 +6036,14 @@ export type GetApiCollectionsMaterialsResponses = {
           permissions: Permissions;
           subGroups: Array<PermissionGroup>;
         }
+      | {
+          name: string;
+          weight: number;
+        }
+      | {
+          type: string;
+          weight: number;
+        }
     >;
     pagination?: Pagination;
   };
@@ -5396,6 +6270,14 @@ export type PostApiCollectionsMaterialsResponses = {
           name: string;
           permissions: Permissions;
           subGroups: Array<PermissionGroup>;
+        }
+      | {
+          name: string;
+          weight: number;
+        }
+      | {
+          type: string;
+          weight: number;
         }
     >;
     pagination?: Pagination;
@@ -5629,6 +6511,14 @@ export type DeleteApiCollectionsMaterialsByIdResponses = {
           name: string;
           permissions: Permissions;
           subGroups: Array<PermissionGroup>;
+        }
+      | {
+          name: string;
+          weight: number;
+        }
+      | {
+          type: string;
+          weight: number;
         }
     >;
     pagination?: Pagination;
@@ -5864,6 +6754,14 @@ export type GetApiCollectionsMaterialsByIdResponses = {
           name: string;
           permissions: Permissions;
           subGroups: Array<PermissionGroup>;
+        }
+      | {
+          name: string;
+          weight: number;
+        }
+      | {
+          type: string;
+          weight: number;
         }
     >;
     pagination?: Pagination;
@@ -6101,6 +6999,14 @@ export type PutApiCollectionsMaterialsByIdResponses = {
           permissions: Permissions;
           subGroups: Array<PermissionGroup>;
         }
+      | {
+          name: string;
+          weight: number;
+        }
+      | {
+          type: string;
+          weight: number;
+        }
     >;
     pagination?: Pagination;
   };
@@ -6337,6 +7243,14 @@ export type PostApiCollectionsUnassignMaterialByCollectionIdByMaterialIdResponse
             permissions: Permissions;
             subGroups: Array<PermissionGroup>;
           }
+        | {
+            name: string;
+            weight: number;
+          }
+        | {
+            type: string;
+            weight: number;
+          }
       >;
       pagination?: Pagination;
     };
@@ -6569,6 +7483,14 @@ export type DeleteApiCollectionsByIdResponses = {
           name: string;
           permissions: Permissions;
           subGroups: Array<PermissionGroup>;
+        }
+      | {
+          name: string;
+          weight: number;
+        }
+      | {
+          type: string;
+          weight: number;
         }
     >;
     pagination?: Pagination;
@@ -6804,6 +7726,14 @@ export type GetApiCollectionsByIdResponses = {
           name: string;
           permissions: Permissions;
           subGroups: Array<PermissionGroup>;
+        }
+      | {
+          name: string;
+          weight: number;
+        }
+      | {
+          type: string;
+          weight: number;
         }
     >;
     pagination?: Pagination;
@@ -7041,6 +7971,14 @@ export type PutApiCollectionsByIdResponses = {
           permissions: Permissions;
           subGroups: Array<PermissionGroup>;
         }
+      | {
+          name: string;
+          weight: number;
+        }
+      | {
+          type: string;
+          weight: number;
+        }
     >;
     pagination?: Pagination;
   };
@@ -7271,6 +8209,14 @@ export type GetApiMaterialsResponses = {
           permissions: Permissions;
           subGroups: Array<PermissionGroup>;
         }
+      | {
+          name: string;
+          weight: number;
+        }
+      | {
+          type: string;
+          weight: number;
+        }
     >;
     pagination?: Pagination;
   };
@@ -7497,6 +8443,14 @@ export type PostApiMaterialsResponses = {
           name: string;
           permissions: Permissions;
           subGroups: Array<PermissionGroup>;
+        }
+      | {
+          name: string;
+          weight: number;
+        }
+      | {
+          type: string;
+          weight: number;
         }
     >;
     pagination?: Pagination;
@@ -7730,6 +8684,14 @@ export type DeleteApiMaterialsByIdResponses = {
           name: string;
           permissions: Permissions;
           subGroups: Array<PermissionGroup>;
+        }
+      | {
+          name: string;
+          weight: number;
+        }
+      | {
+          type: string;
+          weight: number;
         }
     >;
     pagination?: Pagination;
@@ -7965,6 +8927,14 @@ export type GetApiMaterialsByIdResponses = {
           name: string;
           permissions: Permissions;
           subGroups: Array<PermissionGroup>;
+        }
+      | {
+          name: string;
+          weight: number;
+        }
+      | {
+          type: string;
+          weight: number;
         }
     >;
     pagination?: Pagination;
@@ -8202,6 +9172,14 @@ export type PutApiMaterialsByIdResponses = {
           permissions: Permissions;
           subGroups: Array<PermissionGroup>;
         }
+      | {
+          name: string;
+          weight: number;
+        }
+      | {
+          type: string;
+          weight: number;
+        }
     >;
     pagination?: Pagination;
   };
@@ -8431,6 +9409,14 @@ export type GetApiRolesResponses = {
           permissions: Permissions;
           subGroups: Array<PermissionGroup>;
         }
+      | {
+          name: string;
+          weight: number;
+        }
+      | {
+          type: string;
+          weight: number;
+        }
     >;
     pagination?: Pagination;
   };
@@ -8656,6 +9642,14 @@ export type PostApiRolesResponses = {
           name: string;
           permissions: Permissions;
           subGroups: Array<PermissionGroup>;
+        }
+      | {
+          name: string;
+          weight: number;
+        }
+      | {
+          type: string;
+          weight: number;
         }
     >;
     pagination?: Pagination;
@@ -8889,6 +9883,14 @@ export type DeleteApiRolesByIdResponses = {
           name: string;
           permissions: Permissions;
           subGroups: Array<PermissionGroup>;
+        }
+      | {
+          name: string;
+          weight: number;
+        }
+      | {
+          type: string;
+          weight: number;
         }
     >;
     pagination?: Pagination;
@@ -9124,6 +10126,14 @@ export type GetApiRolesByIdResponses = {
           name: string;
           permissions: Permissions;
           subGroups: Array<PermissionGroup>;
+        }
+      | {
+          name: string;
+          weight: number;
+        }
+      | {
+          type: string;
+          weight: number;
         }
     >;
     pagination?: Pagination;
@@ -9361,6 +10371,14 @@ export type PutApiRolesByIdResponses = {
           permissions: Permissions;
           subGroups: Array<PermissionGroup>;
         }
+      | {
+          name: string;
+          weight: number;
+        }
+      | {
+          type: string;
+          weight: number;
+        }
     >;
     pagination?: Pagination;
   };
@@ -9591,6 +10609,14 @@ export type GetApiTransactionsResponses = {
           permissions: Permissions;
           subGroups: Array<PermissionGroup>;
         }
+      | {
+          name: string;
+          weight: number;
+        }
+      | {
+          type: string;
+          weight: number;
+        }
     >;
     pagination?: Pagination;
   };
@@ -9817,6 +10843,14 @@ export type PostApiTransactionsResponses = {
           name: string;
           permissions: Permissions;
           subGroups: Array<PermissionGroup>;
+        }
+      | {
+          name: string;
+          weight: number;
+        }
+      | {
+          type: string;
+          weight: number;
         }
     >;
     pagination?: Pagination;
@@ -10053,6 +11087,14 @@ export type PostApiTransactionsAssignMaterialByTransactionIdByMaterialIdResponse
             name: string;
             permissions: Permissions;
             subGroups: Array<PermissionGroup>;
+          }
+        | {
+            name: string;
+            weight: number;
+          }
+        | {
+            type: string;
+            weight: number;
           }
       >;
       pagination?: Pagination;
@@ -10293,6 +11335,14 @@ export type GetApiTransactionsListMaterialsByTransactionIdResponses = {
           permissions: Permissions;
           subGroups: Array<PermissionGroup>;
         }
+      | {
+          name: string;
+          weight: number;
+        }
+      | {
+          type: string;
+          weight: number;
+        }
     >;
     pagination?: Pagination;
   };
@@ -10523,6 +11573,14 @@ export type GetApiTransactionsMaterialsResponses = {
           permissions: Permissions;
           subGroups: Array<PermissionGroup>;
         }
+      | {
+          name: string;
+          weight: number;
+        }
+      | {
+          type: string;
+          weight: number;
+        }
     >;
     pagination?: Pagination;
   };
@@ -10749,6 +11807,14 @@ export type PostApiTransactionsMaterialsResponses = {
           name: string;
           permissions: Permissions;
           subGroups: Array<PermissionGroup>;
+        }
+      | {
+          name: string;
+          weight: number;
+        }
+      | {
+          type: string;
+          weight: number;
         }
     >;
     pagination?: Pagination;
@@ -10982,6 +12048,14 @@ export type DeleteApiTransactionsMaterialsByIdResponses = {
           name: string;
           permissions: Permissions;
           subGroups: Array<PermissionGroup>;
+        }
+      | {
+          name: string;
+          weight: number;
+        }
+      | {
+          type: string;
+          weight: number;
         }
     >;
     pagination?: Pagination;
@@ -11218,6 +12292,14 @@ export type GetApiTransactionsMaterialsByIdResponses = {
           permissions: Permissions;
           subGroups: Array<PermissionGroup>;
         }
+      | {
+          name: string;
+          weight: number;
+        }
+      | {
+          type: string;
+          weight: number;
+        }
     >;
     pagination?: Pagination;
   };
@@ -11453,6 +12535,14 @@ export type PutApiTransactionsMaterialsByIdResponses = {
           name: string;
           permissions: Permissions;
           subGroups: Array<PermissionGroup>;
+        }
+      | {
+          name: string;
+          weight: number;
+        }
+      | {
+          type: string;
+          weight: number;
         }
     >;
     pagination?: Pagination;
@@ -11691,6 +12781,14 @@ export type PostApiTransactionsUnassignMaterialByTransactionIdByMaterialIdRespon
             permissions: Permissions;
             subGroups: Array<PermissionGroup>;
           }
+        | {
+            name: string;
+            weight: number;
+          }
+        | {
+            type: string;
+            weight: number;
+          }
       >;
       pagination?: Pagination;
     };
@@ -11923,6 +13021,14 @@ export type DeleteApiTransactionsByIdResponses = {
           name: string;
           permissions: Permissions;
           subGroups: Array<PermissionGroup>;
+        }
+      | {
+          name: string;
+          weight: number;
+        }
+      | {
+          type: string;
+          weight: number;
         }
     >;
     pagination?: Pagination;
@@ -12158,6 +13264,14 @@ export type GetApiTransactionsByIdResponses = {
           name: string;
           permissions: Permissions;
           subGroups: Array<PermissionGroup>;
+        }
+      | {
+          name: string;
+          weight: number;
+        }
+      | {
+          type: string;
+          weight: number;
         }
     >;
     pagination?: Pagination;
@@ -12395,6 +13509,14 @@ export type PutApiTransactionsByIdResponses = {
           permissions: Permissions;
           subGroups: Array<PermissionGroup>;
         }
+      | {
+          name: string;
+          weight: number;
+        }
+      | {
+          type: string;
+          weight: number;
+        }
     >;
     pagination?: Pagination;
   };
@@ -12624,6 +13746,14 @@ export type GetApiUsersResponses = {
           permissions: Permissions;
           subGroups: Array<PermissionGroup>;
         }
+      | {
+          name: string;
+          weight: number;
+        }
+      | {
+          type: string;
+          weight: number;
+        }
     >;
     pagination?: Pagination;
   };
@@ -12849,6 +13979,14 @@ export type PostApiUsersResponses = {
           name: string;
           permissions: Permissions;
           subGroups: Array<PermissionGroup>;
+        }
+      | {
+          name: string;
+          weight: number;
+        }
+      | {
+          type: string;
+          weight: number;
         }
     >;
     pagination?: Pagination;
@@ -13083,6 +14221,14 @@ export type PostApiUsersAssignRoleByUserIdByRoleIdResponses = {
           name: string;
           permissions: Permissions;
           subGroups: Array<PermissionGroup>;
+        }
+      | {
+          name: string;
+          weight: number;
+        }
+      | {
+          type: string;
+          weight: number;
         }
     >;
     pagination?: Pagination;
@@ -13323,6 +14469,14 @@ export type GetApiUsersListRolesByUserIdResponses = {
           permissions: Permissions;
           subGroups: Array<PermissionGroup>;
         }
+      | {
+          name: string;
+          weight: number;
+        }
+      | {
+          type: string;
+          weight: number;
+        }
     >;
     pagination?: Pagination;
   };
@@ -13557,6 +14711,14 @@ export type PostApiUsersUnassignRoleByUserIdByRoleIdResponses = {
           permissions: Permissions;
           subGroups: Array<PermissionGroup>;
         }
+      | {
+          name: string;
+          weight: number;
+        }
+      | {
+          type: string;
+          weight: number;
+        }
     >;
     pagination?: Pagination;
   };
@@ -13789,6 +14951,14 @@ export type DeleteApiUsersByIdResponses = {
           name: string;
           permissions: Permissions;
           subGroups: Array<PermissionGroup>;
+        }
+      | {
+          name: string;
+          weight: number;
+        }
+      | {
+          type: string;
+          weight: number;
         }
     >;
     pagination?: Pagination;
@@ -14025,6 +15195,14 @@ export type GetApiUsersByIdResponses = {
           permissions: Permissions;
           subGroups: Array<PermissionGroup>;
         }
+      | {
+          name: string;
+          weight: number;
+        }
+      | {
+          type: string;
+          weight: number;
+        }
     >;
     pagination?: Pagination;
   };
@@ -14260,6 +15438,14 @@ export type PutApiUsersByIdResponses = {
           name: string;
           permissions: Permissions;
           subGroups: Array<PermissionGroup>;
+        }
+      | {
+          name: string;
+          weight: number;
+        }
+      | {
+          type: string;
+          weight: number;
         }
     >;
     pagination?: Pagination;

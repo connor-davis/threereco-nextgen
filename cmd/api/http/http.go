@@ -172,6 +172,8 @@ func (h *httpRouter) InitializeOpenAPI() *openapi3.T {
 		"Permissions":                schemas.PermissionsSchema,
 		"PermissionGroup":            schemas.PermissionGroupSchema,
 		"PermissionGroups":           schemas.PermissionGroupsSchema,
+		"TopBusiness":                schemas.TopBusinessSchema,
+		"MaterialType":               schemas.MaterialTypeSchema,
 	}
 
 	for _, route := range h.routes {

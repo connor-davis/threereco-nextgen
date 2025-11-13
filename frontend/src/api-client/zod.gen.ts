@@ -230,6 +230,11 @@ export const zMaterial = z.object({
   updatedAt: z.iso.datetime(),
 });
 
+export const zMaterialType = z.object({
+  type: z.string(),
+  weight: z.number(),
+});
+
 export const zMaterials = z.array(zMaterial);
 
 export const zPagination = z.object({
@@ -473,10 +478,23 @@ export const zSuccessResponse = z.object({
           permissions: zPermissions,
           subGroups: z.array(zPermissionGroup),
         }),
+        z.object({
+          name: z.string(),
+          weight: z.number(),
+        }),
+        z.object({
+          type: z.string(),
+          weight: z.number(),
+        }),
       ])
     )
   ),
   pagination: z.optional(zPagination),
+});
+
+export const zTopBusiness = z.object({
+  name: z.string(),
+  weight: z.number(),
 });
 
 export const zTransaction = z.object({
@@ -596,6 +614,648 @@ export const zRegisterPayload = z.object({
  */
 export const zVerifyMfaPayload = z.object({
   code: z.string().length(6),
+});
+
+export const zGetApiAnalyticsMaterialTypesData = z.object({
+  body: z.optional(z.never()),
+  path: z.optional(z.never()),
+  query: z.optional(z.never()),
+});
+
+/**
+ * Successful material types list with percentages towards the total waste collected.
+ */
+export const zGetApiAnalyticsMaterialTypesResponse = z.object({
+  item: z.optional(
+    z.union([
+      z.object({
+        address: zAddress,
+        bankDetails: zBankDetails,
+        businessId: z.union([z.uuid(), z.null()]),
+        businesses: z.array(zBusiness),
+        createdAt: z.iso.datetime(),
+        id: z.uuid(),
+        idNumber: z.union([z.string(), z.null()]),
+        mfaEnabled: z.boolean(),
+        mfaVerified: z.boolean(),
+        name: z.string(),
+        permissions: z.array(
+          z.string().regex(/^(\*|[a-zA-Z0-9]+(\.(\*|[a-zA-Z0-9]+))*)$/)
+        ),
+        roles: zRoles,
+        type: z.enum(['system', 'collector', 'business']),
+        updatedAt: z.iso.datetime(),
+        username: z
+          .string()
+          .regex(
+            /(?:\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b)|(?:\b(?:\+?\d{1,3}[-.\s]?)?(?:\(?\d{2,4}\)?[-.\s]?)?\d{3,4}[-.\s]?\d{3,4}\b)/
+          ),
+      }),
+      z.object({
+        createdAt: z.iso.datetime(),
+        default: z.boolean(),
+        description: z.string(),
+        id: z.uuid(),
+        name: z.string(),
+        permissions: z.array(
+          z.string().regex(/^(\*|[a-zA-Z0-9]+(\.(\*|[a-zA-Z0-9]+))*)$/)
+        ),
+        updatedAt: z.iso.datetime(),
+      }),
+      z.object({
+        carbonFactor: z.string(),
+        createdAt: z.iso.datetime(),
+        gwCode: z.string(),
+        id: z.uuid(),
+        name: z.string(),
+        updatedAt: z.iso.datetime(),
+      }),
+      z.object({
+        buyer: zBusiness,
+        createdAt: z.iso.datetime(),
+        id: z.uuid(),
+        materials: zCollectionMaterials,
+        seller: zUser,
+        updatedAt: z.iso.datetime(),
+      }),
+      z.object({
+        carbonFactor: z.optional(z.string()),
+        createdAt: z.iso.datetime(),
+        gwCode: z.optional(z.string()),
+        id: z.uuid(),
+        name: z.optional(z.string()),
+        updatedAt: z.iso.datetime(),
+        value: z.number().gte(0),
+        weight: z.number().gte(0),
+      }),
+      z.object({
+        buyer: zBusiness,
+        createdAt: z.iso.datetime(),
+        id: z.uuid(),
+        materials: zTransactionMaterials,
+        seller: zUser,
+        updatedAt: z.iso.datetime(),
+      }),
+      z.object({
+        carbonFactor: z.optional(z.string()),
+        createdAt: z.iso.datetime(),
+        gwCode: z.optional(z.string()),
+        id: z.uuid(),
+        name: z.optional(z.string()),
+        updatedAt: z.iso.datetime(),
+        value: z.number().gte(0),
+        weight: z.number().gte(0),
+      }),
+      z.object({
+        address: zAddress,
+        bankDetails: zBankDetails,
+        createdAt: z.iso.datetime(),
+        id: z.uuid(),
+        name: z.string(),
+        ownerId: z.uuid(),
+        roles: zRoles,
+        updatedAt: z.iso.datetime(),
+        users: z.array(zUser),
+      }),
+    ])
+  ),
+  items: z.optional(
+    z.array(
+      z.union([
+        z.object({
+          address: zAddress,
+          bankDetails: zBankDetails,
+          businessId: z.union([z.uuid(), z.null()]),
+          businesses: z.array(zBusiness),
+          createdAt: z.iso.datetime(),
+          id: z.uuid(),
+          idNumber: z.union([z.string(), z.null()]),
+          mfaEnabled: z.boolean(),
+          mfaVerified: z.boolean(),
+          name: z.string(),
+          permissions: z.array(
+            z.string().regex(/^(\*|[a-zA-Z0-9]+(\.(\*|[a-zA-Z0-9]+))*)$/)
+          ),
+          roles: zRoles,
+          type: z.enum(['system', 'collector', 'business']),
+          updatedAt: z.iso.datetime(),
+          username: z
+            .string()
+            .regex(
+              /(?:\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b)|(?:\b(?:\+?\d{1,3}[-.\s]?)?(?:\(?\d{2,4}\)?[-.\s]?)?\d{3,4}[-.\s]?\d{3,4}\b)/
+            ),
+        }),
+        z.object({
+          createdAt: z.iso.datetime(),
+          default: z.boolean(),
+          description: z.string(),
+          id: z.uuid(),
+          name: z.string(),
+          permissions: z.array(
+            z.string().regex(/^(\*|[a-zA-Z0-9]+(\.(\*|[a-zA-Z0-9]+))*)$/)
+          ),
+          updatedAt: z.iso.datetime(),
+        }),
+        z.object({
+          carbonFactor: z.string(),
+          createdAt: z.iso.datetime(),
+          gwCode: z.string(),
+          id: z.uuid(),
+          name: z.string(),
+          updatedAt: z.iso.datetime(),
+        }),
+        z.object({
+          buyer: zBusiness,
+          createdAt: z.iso.datetime(),
+          id: z.uuid(),
+          materials: zCollectionMaterials,
+          seller: zUser,
+          updatedAt: z.iso.datetime(),
+        }),
+        z.object({
+          carbonFactor: z.optional(z.string()),
+          createdAt: z.iso.datetime(),
+          gwCode: z.optional(z.string()),
+          id: z.uuid(),
+          name: z.optional(z.string()),
+          updatedAt: z.iso.datetime(),
+          value: z.number().gte(0),
+          weight: z.number().gte(0),
+        }),
+        z.object({
+          buyer: zBusiness,
+          createdAt: z.iso.datetime(),
+          id: z.uuid(),
+          materials: zTransactionMaterials,
+          seller: zUser,
+          updatedAt: z.iso.datetime(),
+        }),
+        z.object({
+          carbonFactor: z.optional(z.string()),
+          createdAt: z.iso.datetime(),
+          gwCode: z.optional(z.string()),
+          id: z.uuid(),
+          name: z.optional(z.string()),
+          updatedAt: z.iso.datetime(),
+          value: z.number().gte(0),
+          weight: z.number().gte(0),
+        }),
+        z.object({
+          address: zAddress,
+          bankDetails: zBankDetails,
+          createdAt: z.iso.datetime(),
+          id: z.uuid(),
+          name: z.string(),
+          ownerId: z.uuid(),
+          roles: zRoles,
+          updatedAt: z.iso.datetime(),
+          users: z.array(zUser),
+        }),
+        z.object({
+          name: z.string(),
+          permissions: zPermissions,
+          subGroups: z.array(zPermissionGroup),
+        }),
+        z.object({
+          name: z.string(),
+          weight: z.number(),
+        }),
+        z.object({
+          type: z.string(),
+          weight: z.number(),
+        }),
+      ])
+    )
+  ),
+  pagination: z.optional(zPagination),
+});
+
+export const zGetApiAnalyticsTopBusinessesData = z.object({
+  body: z.optional(z.never()),
+  path: z.optional(z.never()),
+  query: z.optional(z.never()),
+});
+
+/**
+ * Successful top businesses list with percentages towards the total waste collected.
+ */
+export const zGetApiAnalyticsTopBusinessesResponse = z.object({
+  item: z.optional(
+    z.union([
+      z.object({
+        address: zAddress,
+        bankDetails: zBankDetails,
+        businessId: z.union([z.uuid(), z.null()]),
+        businesses: z.array(zBusiness),
+        createdAt: z.iso.datetime(),
+        id: z.uuid(),
+        idNumber: z.union([z.string(), z.null()]),
+        mfaEnabled: z.boolean(),
+        mfaVerified: z.boolean(),
+        name: z.string(),
+        permissions: z.array(
+          z.string().regex(/^(\*|[a-zA-Z0-9]+(\.(\*|[a-zA-Z0-9]+))*)$/)
+        ),
+        roles: zRoles,
+        type: z.enum(['system', 'collector', 'business']),
+        updatedAt: z.iso.datetime(),
+        username: z
+          .string()
+          .regex(
+            /(?:\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b)|(?:\b(?:\+?\d{1,3}[-.\s]?)?(?:\(?\d{2,4}\)?[-.\s]?)?\d{3,4}[-.\s]?\d{3,4}\b)/
+          ),
+      }),
+      z.object({
+        createdAt: z.iso.datetime(),
+        default: z.boolean(),
+        description: z.string(),
+        id: z.uuid(),
+        name: z.string(),
+        permissions: z.array(
+          z.string().regex(/^(\*|[a-zA-Z0-9]+(\.(\*|[a-zA-Z0-9]+))*)$/)
+        ),
+        updatedAt: z.iso.datetime(),
+      }),
+      z.object({
+        carbonFactor: z.string(),
+        createdAt: z.iso.datetime(),
+        gwCode: z.string(),
+        id: z.uuid(),
+        name: z.string(),
+        updatedAt: z.iso.datetime(),
+      }),
+      z.object({
+        buyer: zBusiness,
+        createdAt: z.iso.datetime(),
+        id: z.uuid(),
+        materials: zCollectionMaterials,
+        seller: zUser,
+        updatedAt: z.iso.datetime(),
+      }),
+      z.object({
+        carbonFactor: z.optional(z.string()),
+        createdAt: z.iso.datetime(),
+        gwCode: z.optional(z.string()),
+        id: z.uuid(),
+        name: z.optional(z.string()),
+        updatedAt: z.iso.datetime(),
+        value: z.number().gte(0),
+        weight: z.number().gte(0),
+      }),
+      z.object({
+        buyer: zBusiness,
+        createdAt: z.iso.datetime(),
+        id: z.uuid(),
+        materials: zTransactionMaterials,
+        seller: zUser,
+        updatedAt: z.iso.datetime(),
+      }),
+      z.object({
+        carbonFactor: z.optional(z.string()),
+        createdAt: z.iso.datetime(),
+        gwCode: z.optional(z.string()),
+        id: z.uuid(),
+        name: z.optional(z.string()),
+        updatedAt: z.iso.datetime(),
+        value: z.number().gte(0),
+        weight: z.number().gte(0),
+      }),
+      z.object({
+        address: zAddress,
+        bankDetails: zBankDetails,
+        createdAt: z.iso.datetime(),
+        id: z.uuid(),
+        name: z.string(),
+        ownerId: z.uuid(),
+        roles: zRoles,
+        updatedAt: z.iso.datetime(),
+        users: z.array(zUser),
+      }),
+    ])
+  ),
+  items: z.optional(
+    z.array(
+      z.union([
+        z.object({
+          address: zAddress,
+          bankDetails: zBankDetails,
+          businessId: z.union([z.uuid(), z.null()]),
+          businesses: z.array(zBusiness),
+          createdAt: z.iso.datetime(),
+          id: z.uuid(),
+          idNumber: z.union([z.string(), z.null()]),
+          mfaEnabled: z.boolean(),
+          mfaVerified: z.boolean(),
+          name: z.string(),
+          permissions: z.array(
+            z.string().regex(/^(\*|[a-zA-Z0-9]+(\.(\*|[a-zA-Z0-9]+))*)$/)
+          ),
+          roles: zRoles,
+          type: z.enum(['system', 'collector', 'business']),
+          updatedAt: z.iso.datetime(),
+          username: z
+            .string()
+            .regex(
+              /(?:\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b)|(?:\b(?:\+?\d{1,3}[-.\s]?)?(?:\(?\d{2,4}\)?[-.\s]?)?\d{3,4}[-.\s]?\d{3,4}\b)/
+            ),
+        }),
+        z.object({
+          createdAt: z.iso.datetime(),
+          default: z.boolean(),
+          description: z.string(),
+          id: z.uuid(),
+          name: z.string(),
+          permissions: z.array(
+            z.string().regex(/^(\*|[a-zA-Z0-9]+(\.(\*|[a-zA-Z0-9]+))*)$/)
+          ),
+          updatedAt: z.iso.datetime(),
+        }),
+        z.object({
+          carbonFactor: z.string(),
+          createdAt: z.iso.datetime(),
+          gwCode: z.string(),
+          id: z.uuid(),
+          name: z.string(),
+          updatedAt: z.iso.datetime(),
+        }),
+        z.object({
+          buyer: zBusiness,
+          createdAt: z.iso.datetime(),
+          id: z.uuid(),
+          materials: zCollectionMaterials,
+          seller: zUser,
+          updatedAt: z.iso.datetime(),
+        }),
+        z.object({
+          carbonFactor: z.optional(z.string()),
+          createdAt: z.iso.datetime(),
+          gwCode: z.optional(z.string()),
+          id: z.uuid(),
+          name: z.optional(z.string()),
+          updatedAt: z.iso.datetime(),
+          value: z.number().gte(0),
+          weight: z.number().gte(0),
+        }),
+        z.object({
+          buyer: zBusiness,
+          createdAt: z.iso.datetime(),
+          id: z.uuid(),
+          materials: zTransactionMaterials,
+          seller: zUser,
+          updatedAt: z.iso.datetime(),
+        }),
+        z.object({
+          carbonFactor: z.optional(z.string()),
+          createdAt: z.iso.datetime(),
+          gwCode: z.optional(z.string()),
+          id: z.uuid(),
+          name: z.optional(z.string()),
+          updatedAt: z.iso.datetime(),
+          value: z.number().gte(0),
+          weight: z.number().gte(0),
+        }),
+        z.object({
+          address: zAddress,
+          bankDetails: zBankDetails,
+          createdAt: z.iso.datetime(),
+          id: z.uuid(),
+          name: z.string(),
+          ownerId: z.uuid(),
+          roles: zRoles,
+          updatedAt: z.iso.datetime(),
+          users: z.array(zUser),
+        }),
+        z.object({
+          name: z.string(),
+          permissions: zPermissions,
+          subGroups: z.array(zPermissionGroup),
+        }),
+        z.object({
+          name: z.string(),
+          weight: z.number(),
+        }),
+        z.object({
+          type: z.string(),
+          weight: z.number(),
+        }),
+      ])
+    )
+  ),
+  pagination: z.optional(zPagination),
+});
+
+export const zGetApiAnalyticsTotalCollectorsData = z.object({
+  body: z.optional(z.never()),
+  path: z.optional(z.never()),
+  query: z.optional(z.never()),
+});
+
+/**
+ * Successful total number of collectors.
+ */
+export const zGetApiAnalyticsTotalCollectorsResponse = z.object({
+  item: z.optional(
+    z.union([
+      z.object({
+        address: zAddress,
+        bankDetails: zBankDetails,
+        businessId: z.union([z.uuid(), z.null()]),
+        businesses: z.array(zBusiness),
+        createdAt: z.iso.datetime(),
+        id: z.uuid(),
+        idNumber: z.union([z.string(), z.null()]),
+        mfaEnabled: z.boolean(),
+        mfaVerified: z.boolean(),
+        name: z.string(),
+        permissions: z.array(
+          z.string().regex(/^(\*|[a-zA-Z0-9]+(\.(\*|[a-zA-Z0-9]+))*)$/)
+        ),
+        roles: zRoles,
+        type: z.enum(['system', 'collector', 'business']),
+        updatedAt: z.iso.datetime(),
+        username: z
+          .string()
+          .regex(
+            /(?:\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b)|(?:\b(?:\+?\d{1,3}[-.\s]?)?(?:\(?\d{2,4}\)?[-.\s]?)?\d{3,4}[-.\s]?\d{3,4}\b)/
+          ),
+      }),
+      z.object({
+        createdAt: z.iso.datetime(),
+        default: z.boolean(),
+        description: z.string(),
+        id: z.uuid(),
+        name: z.string(),
+        permissions: z.array(
+          z.string().regex(/^(\*|[a-zA-Z0-9]+(\.(\*|[a-zA-Z0-9]+))*)$/)
+        ),
+        updatedAt: z.iso.datetime(),
+      }),
+      z.object({
+        carbonFactor: z.string(),
+        createdAt: z.iso.datetime(),
+        gwCode: z.string(),
+        id: z.uuid(),
+        name: z.string(),
+        updatedAt: z.iso.datetime(),
+      }),
+      z.object({
+        buyer: zBusiness,
+        createdAt: z.iso.datetime(),
+        id: z.uuid(),
+        materials: zCollectionMaterials,
+        seller: zUser,
+        updatedAt: z.iso.datetime(),
+      }),
+      z.object({
+        carbonFactor: z.optional(z.string()),
+        createdAt: z.iso.datetime(),
+        gwCode: z.optional(z.string()),
+        id: z.uuid(),
+        name: z.optional(z.string()),
+        updatedAt: z.iso.datetime(),
+        value: z.number().gte(0),
+        weight: z.number().gte(0),
+      }),
+      z.object({
+        buyer: zBusiness,
+        createdAt: z.iso.datetime(),
+        id: z.uuid(),
+        materials: zTransactionMaterials,
+        seller: zUser,
+        updatedAt: z.iso.datetime(),
+      }),
+      z.object({
+        carbonFactor: z.optional(z.string()),
+        createdAt: z.iso.datetime(),
+        gwCode: z.optional(z.string()),
+        id: z.uuid(),
+        name: z.optional(z.string()),
+        updatedAt: z.iso.datetime(),
+        value: z.number().gte(0),
+        weight: z.number().gte(0),
+      }),
+      z.object({
+        address: zAddress,
+        bankDetails: zBankDetails,
+        createdAt: z.iso.datetime(),
+        id: z.uuid(),
+        name: z.string(),
+        ownerId: z.uuid(),
+        roles: zRoles,
+        updatedAt: z.iso.datetime(),
+        users: z.array(zUser),
+      }),
+    ])
+  ),
+  items: z.optional(
+    z.array(
+      z.union([
+        z.object({
+          address: zAddress,
+          bankDetails: zBankDetails,
+          businessId: z.union([z.uuid(), z.null()]),
+          businesses: z.array(zBusiness),
+          createdAt: z.iso.datetime(),
+          id: z.uuid(),
+          idNumber: z.union([z.string(), z.null()]),
+          mfaEnabled: z.boolean(),
+          mfaVerified: z.boolean(),
+          name: z.string(),
+          permissions: z.array(
+            z.string().regex(/^(\*|[a-zA-Z0-9]+(\.(\*|[a-zA-Z0-9]+))*)$/)
+          ),
+          roles: zRoles,
+          type: z.enum(['system', 'collector', 'business']),
+          updatedAt: z.iso.datetime(),
+          username: z
+            .string()
+            .regex(
+              /(?:\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b)|(?:\b(?:\+?\d{1,3}[-.\s]?)?(?:\(?\d{2,4}\)?[-.\s]?)?\d{3,4}[-.\s]?\d{3,4}\b)/
+            ),
+        }),
+        z.object({
+          createdAt: z.iso.datetime(),
+          default: z.boolean(),
+          description: z.string(),
+          id: z.uuid(),
+          name: z.string(),
+          permissions: z.array(
+            z.string().regex(/^(\*|[a-zA-Z0-9]+(\.(\*|[a-zA-Z0-9]+))*)$/)
+          ),
+          updatedAt: z.iso.datetime(),
+        }),
+        z.object({
+          carbonFactor: z.string(),
+          createdAt: z.iso.datetime(),
+          gwCode: z.string(),
+          id: z.uuid(),
+          name: z.string(),
+          updatedAt: z.iso.datetime(),
+        }),
+        z.object({
+          buyer: zBusiness,
+          createdAt: z.iso.datetime(),
+          id: z.uuid(),
+          materials: zCollectionMaterials,
+          seller: zUser,
+          updatedAt: z.iso.datetime(),
+        }),
+        z.object({
+          carbonFactor: z.optional(z.string()),
+          createdAt: z.iso.datetime(),
+          gwCode: z.optional(z.string()),
+          id: z.uuid(),
+          name: z.optional(z.string()),
+          updatedAt: z.iso.datetime(),
+          value: z.number().gte(0),
+          weight: z.number().gte(0),
+        }),
+        z.object({
+          buyer: zBusiness,
+          createdAt: z.iso.datetime(),
+          id: z.uuid(),
+          materials: zTransactionMaterials,
+          seller: zUser,
+          updatedAt: z.iso.datetime(),
+        }),
+        z.object({
+          carbonFactor: z.optional(z.string()),
+          createdAt: z.iso.datetime(),
+          gwCode: z.optional(z.string()),
+          id: z.uuid(),
+          name: z.optional(z.string()),
+          updatedAt: z.iso.datetime(),
+          value: z.number().gte(0),
+          weight: z.number().gte(0),
+        }),
+        z.object({
+          address: zAddress,
+          bankDetails: zBankDetails,
+          createdAt: z.iso.datetime(),
+          id: z.uuid(),
+          name: z.string(),
+          ownerId: z.uuid(),
+          roles: zRoles,
+          updatedAt: z.iso.datetime(),
+          users: z.array(zUser),
+        }),
+        z.object({
+          name: z.string(),
+          permissions: zPermissions,
+          subGroups: z.array(zPermissionGroup),
+        }),
+        z.object({
+          name: z.string(),
+          weight: z.number(),
+        }),
+        z.object({
+          type: z.string(),
+          weight: z.number(),
+        }),
+      ])
+    )
+  ),
+  pagination: z.optional(zPagination),
 });
 
 export const zGetApiAnalyticsTotalWasteCollectedData = z.object({
@@ -797,6 +1457,14 @@ export const zGetApiAnalyticsTotalWasteCollectedResponse = z.object({
           name: z.string(),
           permissions: zPermissions,
           subGroups: z.array(zPermissionGroup),
+        }),
+        z.object({
+          name: z.string(),
+          weight: z.number(),
+        }),
+        z.object({
+          type: z.string(),
+          weight: z.number(),
         }),
       ])
     )
@@ -1004,6 +1672,14 @@ export const zGetApiAuthenticationCheckResponse = z.object({
           permissions: zPermissions,
           subGroups: z.array(zPermissionGroup),
         }),
+        z.object({
+          name: z.string(),
+          weight: z.number(),
+        }),
+        z.object({
+          type: z.string(),
+          weight: z.number(),
+        }),
       ])
     )
   ),
@@ -1210,6 +1886,14 @@ export const zPostApiAuthenticationLoginResponse = z.object({
           permissions: zPermissions,
           subGroups: z.array(zPermissionGroup),
         }),
+        z.object({
+          name: z.string(),
+          weight: z.number(),
+        }),
+        z.object({
+          type: z.string(),
+          weight: z.number(),
+        }),
       ])
     )
   ),
@@ -1415,6 +2099,14 @@ export const zPostApiAuthenticationLogoutResponse = z.object({
           name: z.string(),
           permissions: zPermissions,
           subGroups: z.array(zPermissionGroup),
+        }),
+        z.object({
+          name: z.string(),
+          weight: z.number(),
+        }),
+        z.object({
+          type: z.string(),
+          weight: z.number(),
         }),
       ])
     )
@@ -1628,6 +2320,14 @@ export const zPostApiAuthenticationMfaVerifyResponse = z.object({
           permissions: zPermissions,
           subGroups: z.array(zPermissionGroup),
         }),
+        z.object({
+          name: z.string(),
+          weight: z.number(),
+        }),
+        z.object({
+          type: z.string(),
+          weight: z.number(),
+        }),
       ])
     )
   ),
@@ -1834,6 +2534,14 @@ export const zGetApiAuthenticationPermissionsResponse = z.object({
           permissions: zPermissions,
           subGroups: z.array(zPermissionGroup),
         }),
+        z.object({
+          name: z.string(),
+          weight: z.number(),
+        }),
+        z.object({
+          type: z.string(),
+          weight: z.number(),
+        }),
       ])
     )
   ),
@@ -2039,6 +2747,14 @@ export const zPostApiAuthenticationRegisterResponse = z.object({
           name: z.string(),
           permissions: zPermissions,
           subGroups: z.array(zPermissionGroup),
+        }),
+        z.object({
+          name: z.string(),
+          weight: z.number(),
+        }),
+        z.object({
+          type: z.string(),
+          weight: z.number(),
         }),
       ])
     )
@@ -2252,6 +2968,14 @@ export const zGetApiBusinessesResponse = z.object({
           permissions: zPermissions,
           subGroups: z.array(zPermissionGroup),
         }),
+        z.object({
+          name: z.string(),
+          weight: z.number(),
+        }),
+        z.object({
+          type: z.string(),
+          weight: z.number(),
+        }),
       ])
     )
   ),
@@ -2457,6 +3181,14 @@ export const zPostApiBusinessesResponse = z.object({
           name: z.string(),
           permissions: zPermissions,
           subGroups: z.array(zPermissionGroup),
+        }),
+        z.object({
+          name: z.string(),
+          weight: z.number(),
+        }),
+        z.object({
+          type: z.string(),
+          weight: z.number(),
         }),
       ])
     )
@@ -2667,6 +3399,14 @@ export const zPostApiBusinessesAssignUserByBusinessIdByUserIdResponse =
             name: z.string(),
             permissions: zPermissions,
             subGroups: z.array(zPermissionGroup),
+          }),
+          z.object({
+            name: z.string(),
+            weight: z.number(),
+          }),
+          z.object({
+            type: z.string(),
+            weight: z.number(),
           }),
         ])
       )
@@ -2882,6 +3622,14 @@ export const zGetApiBusinessesListUsersByBusinessIdResponse = z.object({
           permissions: zPermissions,
           subGroups: z.array(zPermissionGroup),
         }),
+        z.object({
+          name: z.string(),
+          weight: z.number(),
+        }),
+        z.object({
+          type: z.string(),
+          weight: z.number(),
+        }),
       ])
     )
   ),
@@ -3092,6 +3840,14 @@ export const zPostApiBusinessesUnassignUserByBusinessIdByUserIdResponse =
             permissions: zPermissions,
             subGroups: z.array(zPermissionGroup),
           }),
+          z.object({
+            name: z.string(),
+            weight: z.number(),
+          }),
+          z.object({
+            type: z.string(),
+            weight: z.number(),
+          }),
         ])
       )
     ),
@@ -3299,6 +4055,14 @@ export const zDeleteApiBusinessesByIdResponse = z.object({
           name: z.string(),
           permissions: zPermissions,
           subGroups: z.array(zPermissionGroup),
+        }),
+        z.object({
+          name: z.string(),
+          weight: z.number(),
+        }),
+        z.object({
+          type: z.string(),
+          weight: z.number(),
         }),
       ])
     )
@@ -3512,6 +4276,14 @@ export const zGetApiBusinessesByIdResponse = z.object({
           permissions: zPermissions,
           subGroups: z.array(zPermissionGroup),
         }),
+        z.object({
+          name: z.string(),
+          weight: z.number(),
+        }),
+        z.object({
+          type: z.string(),
+          weight: z.number(),
+        }),
       ])
     )
   ),
@@ -3719,6 +4491,14 @@ export const zPutApiBusinessesByIdResponse = z.object({
           name: z.string(),
           permissions: zPermissions,
           subGroups: z.array(zPermissionGroup),
+        }),
+        z.object({
+          name: z.string(),
+          weight: z.number(),
+        }),
+        z.object({
+          type: z.string(),
+          weight: z.number(),
         }),
       ])
     )
@@ -3932,6 +4712,14 @@ export const zGetApiCollectionsResponse = z.object({
           permissions: zPermissions,
           subGroups: z.array(zPermissionGroup),
         }),
+        z.object({
+          name: z.string(),
+          weight: z.number(),
+        }),
+        z.object({
+          type: z.string(),
+          weight: z.number(),
+        }),
       ])
     )
   ),
@@ -4137,6 +4925,14 @@ export const zPostApiCollectionsResponse = z.object({
           name: z.string(),
           permissions: zPermissions,
           subGroups: z.array(zPermissionGroup),
+        }),
+        z.object({
+          name: z.string(),
+          weight: z.number(),
+        }),
+        z.object({
+          type: z.string(),
+          weight: z.number(),
         }),
       ])
     )
@@ -4348,6 +5144,14 @@ export const zPostApiCollectionsAssignMaterialByCollectionIdByMaterialIdResponse
             name: z.string(),
             permissions: zPermissions,
             subGroups: z.array(zPermissionGroup),
+          }),
+          z.object({
+            name: z.string(),
+            weight: z.number(),
+          }),
+          z.object({
+            type: z.string(),
+            weight: z.number(),
           }),
         ])
       )
@@ -4563,6 +5367,14 @@ export const zGetApiCollectionsListMaterialsByCollectionIdResponse = z.object({
           permissions: zPermissions,
           subGroups: z.array(zPermissionGroup),
         }),
+        z.object({
+          name: z.string(),
+          weight: z.number(),
+        }),
+        z.object({
+          type: z.string(),
+          weight: z.number(),
+        }),
       ])
     )
   ),
@@ -4775,6 +5587,14 @@ export const zGetApiCollectionsMaterialsResponse = z.object({
           permissions: zPermissions,
           subGroups: z.array(zPermissionGroup),
         }),
+        z.object({
+          name: z.string(),
+          weight: z.number(),
+        }),
+        z.object({
+          type: z.string(),
+          weight: z.number(),
+        }),
       ])
     )
   ),
@@ -4980,6 +5800,14 @@ export const zPostApiCollectionsMaterialsResponse = z.object({
           name: z.string(),
           permissions: zPermissions,
           subGroups: z.array(zPermissionGroup),
+        }),
+        z.object({
+          name: z.string(),
+          weight: z.number(),
+        }),
+        z.object({
+          type: z.string(),
+          weight: z.number(),
         }),
       ])
     )
@@ -5188,6 +6016,14 @@ export const zDeleteApiCollectionsMaterialsByIdResponse = z.object({
           name: z.string(),
           permissions: zPermissions,
           subGroups: z.array(zPermissionGroup),
+        }),
+        z.object({
+          name: z.string(),
+          weight: z.number(),
+        }),
+        z.object({
+          type: z.string(),
+          weight: z.number(),
         }),
       ])
     )
@@ -5401,6 +6237,14 @@ export const zGetApiCollectionsMaterialsByIdResponse = z.object({
           permissions: zPermissions,
           subGroups: z.array(zPermissionGroup),
         }),
+        z.object({
+          name: z.string(),
+          weight: z.number(),
+        }),
+        z.object({
+          type: z.string(),
+          weight: z.number(),
+        }),
       ])
     )
   ),
@@ -5608,6 +6452,14 @@ export const zPutApiCollectionsMaterialsByIdResponse = z.object({
           name: z.string(),
           permissions: zPermissions,
           subGroups: z.array(zPermissionGroup),
+        }),
+        z.object({
+          name: z.string(),
+          weight: z.number(),
+        }),
+        z.object({
+          type: z.string(),
+          weight: z.number(),
         }),
       ])
     )
@@ -5820,6 +6672,14 @@ export const zPostApiCollectionsUnassignMaterialByCollectionIdByMaterialIdRespon
             permissions: zPermissions,
             subGroups: z.array(zPermissionGroup),
           }),
+          z.object({
+            name: z.string(),
+            weight: z.number(),
+          }),
+          z.object({
+            type: z.string(),
+            weight: z.number(),
+          }),
         ])
       )
     ),
@@ -6027,6 +6887,14 @@ export const zDeleteApiCollectionsByIdResponse = z.object({
           name: z.string(),
           permissions: zPermissions,
           subGroups: z.array(zPermissionGroup),
+        }),
+        z.object({
+          name: z.string(),
+          weight: z.number(),
+        }),
+        z.object({
+          type: z.string(),
+          weight: z.number(),
         }),
       ])
     )
@@ -6240,6 +7108,14 @@ export const zGetApiCollectionsByIdResponse = z.object({
           permissions: zPermissions,
           subGroups: z.array(zPermissionGroup),
         }),
+        z.object({
+          name: z.string(),
+          weight: z.number(),
+        }),
+        z.object({
+          type: z.string(),
+          weight: z.number(),
+        }),
       ])
     )
   ),
@@ -6447,6 +7323,14 @@ export const zPutApiCollectionsByIdResponse = z.object({
           name: z.string(),
           permissions: zPermissions,
           subGroups: z.array(zPermissionGroup),
+        }),
+        z.object({
+          name: z.string(),
+          weight: z.number(),
+        }),
+        z.object({
+          type: z.string(),
+          weight: z.number(),
         }),
       ])
     )
@@ -6660,6 +7544,14 @@ export const zGetApiMaterialsResponse = z.object({
           permissions: zPermissions,
           subGroups: z.array(zPermissionGroup),
         }),
+        z.object({
+          name: z.string(),
+          weight: z.number(),
+        }),
+        z.object({
+          type: z.string(),
+          weight: z.number(),
+        }),
       ])
     )
   ),
@@ -6865,6 +7757,14 @@ export const zPostApiMaterialsResponse = z.object({
           name: z.string(),
           permissions: zPermissions,
           subGroups: z.array(zPermissionGroup),
+        }),
+        z.object({
+          name: z.string(),
+          weight: z.number(),
+        }),
+        z.object({
+          type: z.string(),
+          weight: z.number(),
         }),
       ])
     )
@@ -7073,6 +7973,14 @@ export const zDeleteApiMaterialsByIdResponse = z.object({
           name: z.string(),
           permissions: zPermissions,
           subGroups: z.array(zPermissionGroup),
+        }),
+        z.object({
+          name: z.string(),
+          weight: z.number(),
+        }),
+        z.object({
+          type: z.string(),
+          weight: z.number(),
         }),
       ])
     )
@@ -7286,6 +8194,14 @@ export const zGetApiMaterialsByIdResponse = z.object({
           permissions: zPermissions,
           subGroups: z.array(zPermissionGroup),
         }),
+        z.object({
+          name: z.string(),
+          weight: z.number(),
+        }),
+        z.object({
+          type: z.string(),
+          weight: z.number(),
+        }),
       ])
     )
   ),
@@ -7493,6 +8409,14 @@ export const zPutApiMaterialsByIdResponse = z.object({
           name: z.string(),
           permissions: zPermissions,
           subGroups: z.array(zPermissionGroup),
+        }),
+        z.object({
+          name: z.string(),
+          weight: z.number(),
+        }),
+        z.object({
+          type: z.string(),
+          weight: z.number(),
         }),
       ])
     )
@@ -7706,6 +8630,14 @@ export const zGetApiRolesResponse = z.object({
           permissions: zPermissions,
           subGroups: z.array(zPermissionGroup),
         }),
+        z.object({
+          name: z.string(),
+          weight: z.number(),
+        }),
+        z.object({
+          type: z.string(),
+          weight: z.number(),
+        }),
       ])
     )
   ),
@@ -7911,6 +8843,14 @@ export const zPostApiRolesResponse = z.object({
           name: z.string(),
           permissions: zPermissions,
           subGroups: z.array(zPermissionGroup),
+        }),
+        z.object({
+          name: z.string(),
+          weight: z.number(),
+        }),
+        z.object({
+          type: z.string(),
+          weight: z.number(),
         }),
       ])
     )
@@ -8119,6 +9059,14 @@ export const zDeleteApiRolesByIdResponse = z.object({
           name: z.string(),
           permissions: zPermissions,
           subGroups: z.array(zPermissionGroup),
+        }),
+        z.object({
+          name: z.string(),
+          weight: z.number(),
+        }),
+        z.object({
+          type: z.string(),
+          weight: z.number(),
         }),
       ])
     )
@@ -8332,6 +9280,14 @@ export const zGetApiRolesByIdResponse = z.object({
           permissions: zPermissions,
           subGroups: z.array(zPermissionGroup),
         }),
+        z.object({
+          name: z.string(),
+          weight: z.number(),
+        }),
+        z.object({
+          type: z.string(),
+          weight: z.number(),
+        }),
       ])
     )
   ),
@@ -8539,6 +9495,14 @@ export const zPutApiRolesByIdResponse = z.object({
           name: z.string(),
           permissions: zPermissions,
           subGroups: z.array(zPermissionGroup),
+        }),
+        z.object({
+          name: z.string(),
+          weight: z.number(),
+        }),
+        z.object({
+          type: z.string(),
+          weight: z.number(),
         }),
       ])
     )
@@ -8752,6 +9716,14 @@ export const zGetApiTransactionsResponse = z.object({
           permissions: zPermissions,
           subGroups: z.array(zPermissionGroup),
         }),
+        z.object({
+          name: z.string(),
+          weight: z.number(),
+        }),
+        z.object({
+          type: z.string(),
+          weight: z.number(),
+        }),
       ])
     )
   ),
@@ -8957,6 +9929,14 @@ export const zPostApiTransactionsResponse = z.object({
           name: z.string(),
           permissions: zPermissions,
           subGroups: z.array(zPermissionGroup),
+        }),
+        z.object({
+          name: z.string(),
+          weight: z.number(),
+        }),
+        z.object({
+          type: z.string(),
+          weight: z.number(),
         }),
       ])
     )
@@ -9168,6 +10148,14 @@ export const zPostApiTransactionsAssignMaterialByTransactionIdByMaterialIdRespon
             name: z.string(),
             permissions: zPermissions,
             subGroups: z.array(zPermissionGroup),
+          }),
+          z.object({
+            name: z.string(),
+            weight: z.number(),
+          }),
+          z.object({
+            type: z.string(),
+            weight: z.number(),
           }),
         ])
       )
@@ -9384,6 +10372,14 @@ export const zGetApiTransactionsListMaterialsByTransactionIdResponse = z.object(
             permissions: zPermissions,
             subGroups: z.array(zPermissionGroup),
           }),
+          z.object({
+            name: z.string(),
+            weight: z.number(),
+          }),
+          z.object({
+            type: z.string(),
+            weight: z.number(),
+          }),
         ])
       )
     ),
@@ -9597,6 +10593,14 @@ export const zGetApiTransactionsMaterialsResponse = z.object({
           permissions: zPermissions,
           subGroups: z.array(zPermissionGroup),
         }),
+        z.object({
+          name: z.string(),
+          weight: z.number(),
+        }),
+        z.object({
+          type: z.string(),
+          weight: z.number(),
+        }),
       ])
     )
   ),
@@ -9802,6 +10806,14 @@ export const zPostApiTransactionsMaterialsResponse = z.object({
           name: z.string(),
           permissions: zPermissions,
           subGroups: z.array(zPermissionGroup),
+        }),
+        z.object({
+          name: z.string(),
+          weight: z.number(),
+        }),
+        z.object({
+          type: z.string(),
+          weight: z.number(),
         }),
       ])
     )
@@ -10010,6 +11022,14 @@ export const zDeleteApiTransactionsMaterialsByIdResponse = z.object({
           name: z.string(),
           permissions: zPermissions,
           subGroups: z.array(zPermissionGroup),
+        }),
+        z.object({
+          name: z.string(),
+          weight: z.number(),
+        }),
+        z.object({
+          type: z.string(),
+          weight: z.number(),
         }),
       ])
     )
@@ -10223,6 +11243,14 @@ export const zGetApiTransactionsMaterialsByIdResponse = z.object({
           permissions: zPermissions,
           subGroups: z.array(zPermissionGroup),
         }),
+        z.object({
+          name: z.string(),
+          weight: z.number(),
+        }),
+        z.object({
+          type: z.string(),
+          weight: z.number(),
+        }),
       ])
     )
   ),
@@ -10430,6 +11458,14 @@ export const zPutApiTransactionsMaterialsByIdResponse = z.object({
           name: z.string(),
           permissions: zPermissions,
           subGroups: z.array(zPermissionGroup),
+        }),
+        z.object({
+          name: z.string(),
+          weight: z.number(),
+        }),
+        z.object({
+          type: z.string(),
+          weight: z.number(),
         }),
       ])
     )
@@ -10642,6 +11678,14 @@ export const zPostApiTransactionsUnassignMaterialByTransactionIdByMaterialIdResp
             permissions: zPermissions,
             subGroups: z.array(zPermissionGroup),
           }),
+          z.object({
+            name: z.string(),
+            weight: z.number(),
+          }),
+          z.object({
+            type: z.string(),
+            weight: z.number(),
+          }),
         ])
       )
     ),
@@ -10849,6 +11893,14 @@ export const zDeleteApiTransactionsByIdResponse = z.object({
           name: z.string(),
           permissions: zPermissions,
           subGroups: z.array(zPermissionGroup),
+        }),
+        z.object({
+          name: z.string(),
+          weight: z.number(),
+        }),
+        z.object({
+          type: z.string(),
+          weight: z.number(),
         }),
       ])
     )
@@ -11062,6 +12114,14 @@ export const zGetApiTransactionsByIdResponse = z.object({
           permissions: zPermissions,
           subGroups: z.array(zPermissionGroup),
         }),
+        z.object({
+          name: z.string(),
+          weight: z.number(),
+        }),
+        z.object({
+          type: z.string(),
+          weight: z.number(),
+        }),
       ])
     )
   ),
@@ -11269,6 +12329,14 @@ export const zPutApiTransactionsByIdResponse = z.object({
           name: z.string(),
           permissions: zPermissions,
           subGroups: z.array(zPermissionGroup),
+        }),
+        z.object({
+          name: z.string(),
+          weight: z.number(),
+        }),
+        z.object({
+          type: z.string(),
+          weight: z.number(),
         }),
       ])
     )
@@ -11482,6 +12550,14 @@ export const zGetApiUsersResponse = z.object({
           permissions: zPermissions,
           subGroups: z.array(zPermissionGroup),
         }),
+        z.object({
+          name: z.string(),
+          weight: z.number(),
+        }),
+        z.object({
+          type: z.string(),
+          weight: z.number(),
+        }),
       ])
     )
   ),
@@ -11687,6 +12763,14 @@ export const zPostApiUsersResponse = z.object({
           name: z.string(),
           permissions: zPermissions,
           subGroups: z.array(zPermissionGroup),
+        }),
+        z.object({
+          name: z.string(),
+          weight: z.number(),
+        }),
+        z.object({
+          type: z.string(),
+          weight: z.number(),
         }),
       ])
     )
@@ -11896,6 +12980,14 @@ export const zPostApiUsersAssignRoleByUserIdByRoleIdResponse = z.object({
           name: z.string(),
           permissions: zPermissions,
           subGroups: z.array(zPermissionGroup),
+        }),
+        z.object({
+          name: z.string(),
+          weight: z.number(),
+        }),
+        z.object({
+          type: z.string(),
+          weight: z.number(),
         }),
       ])
     )
@@ -12111,6 +13203,14 @@ export const zGetApiUsersListRolesByUserIdResponse = z.object({
           permissions: zPermissions,
           subGroups: z.array(zPermissionGroup),
         }),
+        z.object({
+          name: z.string(),
+          weight: z.number(),
+        }),
+        z.object({
+          type: z.string(),
+          weight: z.number(),
+        }),
       ])
     )
   ),
@@ -12320,6 +13420,14 @@ export const zPostApiUsersUnassignRoleByUserIdByRoleIdResponse = z.object({
           permissions: zPermissions,
           subGroups: z.array(zPermissionGroup),
         }),
+        z.object({
+          name: z.string(),
+          weight: z.number(),
+        }),
+        z.object({
+          type: z.string(),
+          weight: z.number(),
+        }),
       ])
     )
   ),
@@ -12527,6 +13635,14 @@ export const zDeleteApiUsersByIdResponse = z.object({
           name: z.string(),
           permissions: zPermissions,
           subGroups: z.array(zPermissionGroup),
+        }),
+        z.object({
+          name: z.string(),
+          weight: z.number(),
+        }),
+        z.object({
+          type: z.string(),
+          weight: z.number(),
         }),
       ])
     )
@@ -12740,6 +13856,14 @@ export const zGetApiUsersByIdResponse = z.object({
           permissions: zPermissions,
           subGroups: z.array(zPermissionGroup),
         }),
+        z.object({
+          name: z.string(),
+          weight: z.number(),
+        }),
+        z.object({
+          type: z.string(),
+          weight: z.number(),
+        }),
       ])
     )
   ),
@@ -12947,6 +14071,14 @@ export const zPutApiUsersByIdResponse = z.object({
           name: z.string(),
           permissions: zPermissions,
           subGroups: z.array(zPermissionGroup),
+        }),
+        z.object({
+          name: z.string(),
+          weight: z.number(),
+        }),
+        z.object({
+          type: z.string(),
+          weight: z.number(),
         }),
       ])
     )

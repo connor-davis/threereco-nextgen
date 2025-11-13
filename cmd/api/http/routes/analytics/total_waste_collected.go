@@ -84,15 +84,25 @@ func (r *AnalyticsRouter) TotalWasteCollectedRoute() routing.Route {
 				})
 			}
 
-			var totalWeight float64
-
-			baseQuery := r.storage.Database()
+			baseQuery := r.storage.Database().Model(&models.Collection{})
 
 			if user.Type == models.BusinessUser {
 				baseQuery = baseQuery.Where("buyer_id = ?", user.BusinessId)
 			}
 
-			baseQuery = baseQuery.Raw(`SELECT SUM(weight)::decimal(10,2) FROM collections`).Scan(totalWeight)
+			var totalWeight float64
+
+			if err := baseQuery.
+				Table("collections").
+				Joins("JOIN collections_materials ON collections_materials.collection_id = collections.id").
+				Joins("JOIN collection_materials ON collection_materials.id = collections_materials.collection_material_id").
+				Select("COALESCE(SUM(collection_materials.weight), 0)"). // returns 0 instead of NULL
+				Scan(&totalWeight).Error; err != nil {
+				return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+					"error":   "Internal Server Error",
+					"message": "Failed to retrieve total weight.",
+				})
+			}
 
 			return c.Status(fiber.StatusOK).JSON(fiber.Map{
 				"item": totalWeight,

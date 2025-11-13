@@ -20,8 +20,14 @@ func NewAnalyticsRouter(storage storage.Storage, middleware middleware.Middlewar
 
 func (r *AnalyticsRouter) LoadRoutes() []routing.Route {
 	totalWasteCollectedRoute := r.TotalWasteCollectedRoute()
+	totalCollectorsRoute := r.TotalCollectorsRoute()
+	topBusinessesRoute := r.TopBusinessesRoute()
+	materialTypesRoute := r.MaterialTypesRoute()
 
 	return []routing.Route{
 		totalWasteCollectedRoute,
+		totalCollectorsRoute,
+		topBusinessesRoute,
+		materialTypesRoute,
 	}
 }

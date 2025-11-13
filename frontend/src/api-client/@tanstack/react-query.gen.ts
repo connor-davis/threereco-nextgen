@@ -17,6 +17,9 @@ import {
   deleteApiTransactionsById,
   deleteApiTransactionsMaterialsById,
   deleteApiUsersById,
+  getApiAnalyticsMaterialTypes,
+  getApiAnalyticsTopBusinesses,
+  getApiAnalyticsTotalCollectors,
   getApiAnalyticsTotalWasteCollected,
   getApiAuthenticationCheck,
   getApiAuthenticationMfaEnable,
@@ -95,6 +98,9 @@ import type {
   DeleteApiUsersByIdData,
   DeleteApiUsersByIdError,
   DeleteApiUsersByIdResponse,
+  GetApiAnalyticsMaterialTypesData,
+  GetApiAnalyticsTopBusinessesData,
+  GetApiAnalyticsTotalCollectorsData,
   GetApiAnalyticsTotalWasteCollectedData,
   GetApiAuthenticationCheckData,
   GetApiAuthenticationMfaEnableData,
@@ -263,6 +269,81 @@ const createQueryKey = <TOptions extends Options>(
     params.query = options.query;
   }
   return [params];
+};
+
+export const getApiAnalyticsMaterialTypesQueryKey = (
+  options?: Options<GetApiAnalyticsMaterialTypesData>
+) => createQueryKey('getApiAnalyticsMaterialTypes', options);
+
+/**
+ * Material Types
+ * Returns the material types in the system.
+ */
+export const getApiAnalyticsMaterialTypesOptions = (
+  options?: Options<GetApiAnalyticsMaterialTypesData>
+) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await getApiAnalyticsMaterialTypes({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: getApiAnalyticsMaterialTypesQueryKey(options),
+  });
+};
+
+export const getApiAnalyticsTopBusinessesQueryKey = (
+  options?: Options<GetApiAnalyticsTopBusinessesData>
+) => createQueryKey('getApiAnalyticsTopBusinesses', options);
+
+/**
+ * Top Businesses
+ * Returns the top businesses in the system.
+ */
+export const getApiAnalyticsTopBusinessesOptions = (
+  options?: Options<GetApiAnalyticsTopBusinessesData>
+) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await getApiAnalyticsTopBusinesses({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: getApiAnalyticsTopBusinessesQueryKey(options),
+  });
+};
+
+export const getApiAnalyticsTotalCollectorsQueryKey = (
+  options?: Options<GetApiAnalyticsTotalCollectorsData>
+) => createQueryKey('getApiAnalyticsTotalCollectors', options);
+
+/**
+ * Total Collectors
+ * Returns the total number of collectors in the system.
+ */
+export const getApiAnalyticsTotalCollectorsOptions = (
+  options?: Options<GetApiAnalyticsTotalCollectorsData>
+) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await getApiAnalyticsTotalCollectors({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: getApiAnalyticsTotalCollectorsQueryKey(options),
+  });
 };
 
 export const getApiAnalyticsTotalWasteCollectedQueryKey = (
