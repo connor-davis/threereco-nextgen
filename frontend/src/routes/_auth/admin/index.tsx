@@ -4,7 +4,6 @@ import {
   Bar,
   BarChart,
   CartesianGrid,
-  Label,
   LabelList,
   Pie,
   PieChart,
@@ -40,7 +39,6 @@ const renderCustomizedLabel = ({
   midAngle,
   innerRadius,
   outerRadius,
-  percent,
   name,
 }: PieLabelRenderProps) => {
   const RADIAN = Math.PI / 180;
