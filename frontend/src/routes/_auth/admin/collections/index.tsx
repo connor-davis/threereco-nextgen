@@ -23,6 +23,7 @@ import {
 } from '@/api-client';
 import { zQuery } from '@/api-client/zod.gen';
 import DataTable from '@/components/data-table/table';
+import CollectionsExportDialog from '@/components/exports/collections';
 import { Button } from '@/components/ui/button';
 import { DebounceInput } from '@/components/ui/debounce-input';
 import { Label } from '@/components/ui/label';
@@ -155,6 +156,8 @@ function RouteComponent() {
               </TooltipContent>
             </Tooltip>
           </Link>
+
+          <CollectionsExportDialog />
         </div>
       </div>
 

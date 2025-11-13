@@ -73,7 +73,10 @@ func (r *CollectionsRouter) LoadRoutes() []routing.Route {
 		r.middleware.Authorized("collections.delete"),
 	)
 
+	exportRoute := r.ExportRoute()
+
 	return []routing.Route{
+		exportRoute,
 		assignMaterialRoute,
 		unassignMaterialRoute,
 		listMaterialsRoute,

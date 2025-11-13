@@ -248,6 +248,7 @@ function RouteComponent() {
       buyerId: undefined,
       sellerId: undefined,
       materials: [],
+      createdAt: new Date().toISOString(),
     },
   });
 

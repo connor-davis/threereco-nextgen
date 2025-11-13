@@ -73,7 +73,10 @@ func (r *TransactionsRouter) LoadRoutes() []routing.Route {
 		r.middleware.Authorized("transactions.delete"),
 	)
 
+	exportRoute := r.ExportRoute()
+
 	return []routing.Route{
+		exportRoute,
 		assignMaterialRoute,
 		unassignMaterialRoute,
 		listMaterialsRoute,
