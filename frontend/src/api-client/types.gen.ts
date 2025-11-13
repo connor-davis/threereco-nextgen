@@ -523,6 +523,230 @@ export type VerifyMfaPayload = {
   code: string;
 };
 
+export type GetApiAnalyticsTotalWasteCollectedData = {
+  body?: never;
+  path?: never;
+  query?: never;
+  url: '/api/analytics/total-waste-collected';
+};
+
+export type GetApiAnalyticsTotalWasteCollectedErrors = {
+  /**
+   * Bad Request
+   */
+  400: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Unauthorized
+   */
+  401: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Forbidden
+   */
+  403: {
+    error: string;
+    message: string;
+  };
+  /**
+   * Internal Server Error
+   */
+  500: {
+    error: string;
+    message: string;
+  };
+  default: unknown;
+};
+
+export type GetApiAnalyticsTotalWasteCollectedError =
+  GetApiAnalyticsTotalWasteCollectedErrors[keyof GetApiAnalyticsTotalWasteCollectedErrors];
+
+export type GetApiAnalyticsTotalWasteCollectedResponses = {
+  /**
+   * Successful total kilograms of waste collected.
+   */
+  200: {
+    item?:
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          businessId: string | null;
+          businesses: Array<Business>;
+          createdAt: string;
+          id: string;
+          idNumber: string | null;
+          mfaEnabled: boolean;
+          mfaVerified: boolean;
+          name: string;
+          permissions: Array<string>;
+          roles: Roles;
+          type: 'system' | 'collector' | 'business';
+          updatedAt: string;
+          username: string;
+        }
+      | {
+          createdAt: string;
+          default: boolean;
+          description: string;
+          id: string;
+          name: string;
+          permissions: Array<string>;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor: string;
+          createdAt: string;
+          gwCode: string;
+          id: string;
+          name: string;
+          updatedAt: string;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: CollectionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: TransactionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          createdAt: string;
+          id: string;
+          name: string;
+          ownerId: string;
+          roles: Roles;
+          updatedAt: string;
+          users: Array<User>;
+        };
+    items?: Array<
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          businessId: string | null;
+          businesses: Array<Business>;
+          createdAt: string;
+          id: string;
+          idNumber: string | null;
+          mfaEnabled: boolean;
+          mfaVerified: boolean;
+          name: string;
+          permissions: Array<string>;
+          roles: Roles;
+          type: 'system' | 'collector' | 'business';
+          updatedAt: string;
+          username: string;
+        }
+      | {
+          createdAt: string;
+          default: boolean;
+          description: string;
+          id: string;
+          name: string;
+          permissions: Array<string>;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor: string;
+          createdAt: string;
+          gwCode: string;
+          id: string;
+          name: string;
+          updatedAt: string;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: CollectionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          buyer: Business;
+          createdAt: string;
+          id: string;
+          materials: TransactionMaterials;
+          seller: User;
+          updatedAt: string;
+        }
+      | {
+          carbonFactor?: string;
+          createdAt: string;
+          gwCode?: string;
+          id: string;
+          name?: string;
+          updatedAt: string;
+          value: number;
+          weight: number;
+        }
+      | {
+          address: Address;
+          bankDetails: BankDetails;
+          createdAt: string;
+          id: string;
+          name: string;
+          ownerId: string;
+          roles: Roles;
+          updatedAt: string;
+          users: Array<User>;
+        }
+      | {
+          name: string;
+          permissions: Permissions;
+          subGroups: Array<PermissionGroup>;
+        }
+    >;
+    pagination?: Pagination;
+  };
+};
+
+export type GetApiAnalyticsTotalWasteCollectedResponse =
+  GetApiAnalyticsTotalWasteCollectedResponses[keyof GetApiAnalyticsTotalWasteCollectedResponses];
+
 export type GetApiAuthenticationCheckData = {
   body?: never;
   path?: never;

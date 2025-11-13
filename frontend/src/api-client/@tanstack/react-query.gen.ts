@@ -17,6 +17,7 @@ import {
   deleteApiTransactionsById,
   deleteApiTransactionsMaterialsById,
   deleteApiUsersById,
+  getApiAnalyticsTotalWasteCollected,
   getApiAuthenticationCheck,
   getApiAuthenticationMfaEnable,
   getApiAuthenticationPermissions,
@@ -94,6 +95,7 @@ import type {
   DeleteApiUsersByIdData,
   DeleteApiUsersByIdError,
   DeleteApiUsersByIdResponse,
+  GetApiAnalyticsTotalWasteCollectedData,
   GetApiAuthenticationCheckData,
   GetApiAuthenticationMfaEnableData,
   GetApiAuthenticationPermissionsData,
@@ -261,6 +263,31 @@ const createQueryKey = <TOptions extends Options>(
     params.query = options.query;
   }
   return [params];
+};
+
+export const getApiAnalyticsTotalWasteCollectedQueryKey = (
+  options?: Options<GetApiAnalyticsTotalWasteCollectedData>
+) => createQueryKey('getApiAnalyticsTotalWasteCollected', options);
+
+/**
+ * Total Waste Collected
+ * Returns the total amount of waste collected in the system.
+ */
+export const getApiAnalyticsTotalWasteCollectedOptions = (
+  options?: Options<GetApiAnalyticsTotalWasteCollectedData>
+) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await getApiAnalyticsTotalWasteCollected({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: getApiAnalyticsTotalWasteCollectedQueryKey(options),
+  });
 };
 
 export const getApiAuthenticationCheckQueryKey = (

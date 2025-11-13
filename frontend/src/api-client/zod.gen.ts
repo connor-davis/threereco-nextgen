@@ -598,6 +598,212 @@ export const zVerifyMfaPayload = z.object({
   code: z.string().length(6),
 });
 
+export const zGetApiAnalyticsTotalWasteCollectedData = z.object({
+  body: z.optional(z.never()),
+  path: z.optional(z.never()),
+  query: z.optional(z.never()),
+});
+
+/**
+ * Successful total kilograms of waste collected.
+ */
+export const zGetApiAnalyticsTotalWasteCollectedResponse = z.object({
+  item: z.optional(
+    z.union([
+      z.object({
+        address: zAddress,
+        bankDetails: zBankDetails,
+        businessId: z.union([z.uuid(), z.null()]),
+        businesses: z.array(zBusiness),
+        createdAt: z.iso.datetime(),
+        id: z.uuid(),
+        idNumber: z.union([z.string(), z.null()]),
+        mfaEnabled: z.boolean(),
+        mfaVerified: z.boolean(),
+        name: z.string(),
+        permissions: z.array(
+          z.string().regex(/^(\*|[a-zA-Z0-9]+(\.(\*|[a-zA-Z0-9]+))*)$/)
+        ),
+        roles: zRoles,
+        type: z.enum(['system', 'collector', 'business']),
+        updatedAt: z.iso.datetime(),
+        username: z
+          .string()
+          .regex(
+            /(?:\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b)|(?:\b(?:\+?\d{1,3}[-.\s]?)?(?:\(?\d{2,4}\)?[-.\s]?)?\d{3,4}[-.\s]?\d{3,4}\b)/
+          ),
+      }),
+      z.object({
+        createdAt: z.iso.datetime(),
+        default: z.boolean(),
+        description: z.string(),
+        id: z.uuid(),
+        name: z.string(),
+        permissions: z.array(
+          z.string().regex(/^(\*|[a-zA-Z0-9]+(\.(\*|[a-zA-Z0-9]+))*)$/)
+        ),
+        updatedAt: z.iso.datetime(),
+      }),
+      z.object({
+        carbonFactor: z.string(),
+        createdAt: z.iso.datetime(),
+        gwCode: z.string(),
+        id: z.uuid(),
+        name: z.string(),
+        updatedAt: z.iso.datetime(),
+      }),
+      z.object({
+        buyer: zBusiness,
+        createdAt: z.iso.datetime(),
+        id: z.uuid(),
+        materials: zCollectionMaterials,
+        seller: zUser,
+        updatedAt: z.iso.datetime(),
+      }),
+      z.object({
+        carbonFactor: z.optional(z.string()),
+        createdAt: z.iso.datetime(),
+        gwCode: z.optional(z.string()),
+        id: z.uuid(),
+        name: z.optional(z.string()),
+        updatedAt: z.iso.datetime(),
+        value: z.number().gte(0),
+        weight: z.number().gte(0),
+      }),
+      z.object({
+        buyer: zBusiness,
+        createdAt: z.iso.datetime(),
+        id: z.uuid(),
+        materials: zTransactionMaterials,
+        seller: zUser,
+        updatedAt: z.iso.datetime(),
+      }),
+      z.object({
+        carbonFactor: z.optional(z.string()),
+        createdAt: z.iso.datetime(),
+        gwCode: z.optional(z.string()),
+        id: z.uuid(),
+        name: z.optional(z.string()),
+        updatedAt: z.iso.datetime(),
+        value: z.number().gte(0),
+        weight: z.number().gte(0),
+      }),
+      z.object({
+        address: zAddress,
+        bankDetails: zBankDetails,
+        createdAt: z.iso.datetime(),
+        id: z.uuid(),
+        name: z.string(),
+        ownerId: z.uuid(),
+        roles: zRoles,
+        updatedAt: z.iso.datetime(),
+        users: z.array(zUser),
+      }),
+    ])
+  ),
+  items: z.optional(
+    z.array(
+      z.union([
+        z.object({
+          address: zAddress,
+          bankDetails: zBankDetails,
+          businessId: z.union([z.uuid(), z.null()]),
+          businesses: z.array(zBusiness),
+          createdAt: z.iso.datetime(),
+          id: z.uuid(),
+          idNumber: z.union([z.string(), z.null()]),
+          mfaEnabled: z.boolean(),
+          mfaVerified: z.boolean(),
+          name: z.string(),
+          permissions: z.array(
+            z.string().regex(/^(\*|[a-zA-Z0-9]+(\.(\*|[a-zA-Z0-9]+))*)$/)
+          ),
+          roles: zRoles,
+          type: z.enum(['system', 'collector', 'business']),
+          updatedAt: z.iso.datetime(),
+          username: z
+            .string()
+            .regex(
+              /(?:\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b)|(?:\b(?:\+?\d{1,3}[-.\s]?)?(?:\(?\d{2,4}\)?[-.\s]?)?\d{3,4}[-.\s]?\d{3,4}\b)/
+            ),
+        }),
+        z.object({
+          createdAt: z.iso.datetime(),
+          default: z.boolean(),
+          description: z.string(),
+          id: z.uuid(),
+          name: z.string(),
+          permissions: z.array(
+            z.string().regex(/^(\*|[a-zA-Z0-9]+(\.(\*|[a-zA-Z0-9]+))*)$/)
+          ),
+          updatedAt: z.iso.datetime(),
+        }),
+        z.object({
+          carbonFactor: z.string(),
+          createdAt: z.iso.datetime(),
+          gwCode: z.string(),
+          id: z.uuid(),
+          name: z.string(),
+          updatedAt: z.iso.datetime(),
+        }),
+        z.object({
+          buyer: zBusiness,
+          createdAt: z.iso.datetime(),
+          id: z.uuid(),
+          materials: zCollectionMaterials,
+          seller: zUser,
+          updatedAt: z.iso.datetime(),
+        }),
+        z.object({
+          carbonFactor: z.optional(z.string()),
+          createdAt: z.iso.datetime(),
+          gwCode: z.optional(z.string()),
+          id: z.uuid(),
+          name: z.optional(z.string()),
+          updatedAt: z.iso.datetime(),
+          value: z.number().gte(0),
+          weight: z.number().gte(0),
+        }),
+        z.object({
+          buyer: zBusiness,
+          createdAt: z.iso.datetime(),
+          id: z.uuid(),
+          materials: zTransactionMaterials,
+          seller: zUser,
+          updatedAt: z.iso.datetime(),
+        }),
+        z.object({
+          carbonFactor: z.optional(z.string()),
+          createdAt: z.iso.datetime(),
+          gwCode: z.optional(z.string()),
+          id: z.uuid(),
+          name: z.optional(z.string()),
+          updatedAt: z.iso.datetime(),
+          value: z.number().gte(0),
+          weight: z.number().gte(0),
+        }),
+        z.object({
+          address: zAddress,
+          bankDetails: zBankDetails,
+          createdAt: z.iso.datetime(),
+          id: z.uuid(),
+          name: z.string(),
+          ownerId: z.uuid(),
+          roles: zRoles,
+          updatedAt: z.iso.datetime(),
+          users: z.array(zUser),
+        }),
+        z.object({
+          name: z.string(),
+          permissions: zPermissions,
+          subGroups: z.array(zPermissionGroup),
+        }),
+      ])
+    )
+  ),
+  pagination: z.optional(zPagination),
+});
+
 export const zGetApiAuthenticationCheckData = z.object({
   body: z.optional(z.never()),
   path: z.optional(z.never()),

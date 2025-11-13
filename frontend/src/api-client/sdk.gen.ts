@@ -26,6 +26,9 @@ import type {
   DeleteApiUsersByIdData,
   DeleteApiUsersByIdErrors,
   DeleteApiUsersByIdResponses,
+  GetApiAnalyticsTotalWasteCollectedData,
+  GetApiAnalyticsTotalWasteCollectedErrors,
+  GetApiAnalyticsTotalWasteCollectedResponses,
   GetApiAuthenticationCheckData,
   GetApiAuthenticationCheckErrors,
   GetApiAuthenticationCheckResponses,
@@ -196,6 +199,25 @@ export type Options<
    * used to access values that aren't defined as part of the SDK function.
    */
   meta?: Record<string, unknown>;
+};
+
+/**
+ * Total Waste Collected
+ * Returns the total amount of waste collected in the system.
+ */
+export const getApiAnalyticsTotalWasteCollected = <
+  ThrowOnError extends boolean = false,
+>(
+  options?: Options<GetApiAnalyticsTotalWasteCollectedData, ThrowOnError>
+) => {
+  return (options?.client ?? _heyApiClient).get<
+    GetApiAnalyticsTotalWasteCollectedResponses,
+    GetApiAnalyticsTotalWasteCollectedErrors,
+    ThrowOnError
+  >({
+    url: '/api/analytics/total-waste-collected',
+    ...options,
+  });
 };
 
 /**

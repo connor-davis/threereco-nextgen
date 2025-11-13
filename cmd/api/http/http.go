@@ -5,6 +5,7 @@ import (
 	"regexp"
 
 	"github.com/connor-davis/threereco-nextgen/cmd/api/http/middleware"
+	"github.com/connor-davis/threereco-nextgen/cmd/api/http/routes/analytics"
 	"github.com/connor-davis/threereco-nextgen/cmd/api/http/routes/authentication"
 	"github.com/connor-davis/threereco-nextgen/cmd/api/http/routes/authentication/mfa"
 	"github.com/connor-davis/threereco-nextgen/cmd/api/http/routes/businesses"
@@ -65,6 +66,9 @@ func NewHttpRouter(storage storage.Storage, middleware middleware.Middleware, se
 	businessesRouter := businesses.NewBusinessesRouter(storage, middleware)
 	businessesRoutes := businessesRouter.LoadRoutes()
 
+	analyticsRouter := analytics.NewAnalyticsRouter(storage, middleware)
+	analyticsRoutes := analyticsRouter.LoadRoutes()
+
 	routes := []routing.Route{}
 
 	routes = append(routes, mfaRoutes...)
@@ -77,6 +81,7 @@ func NewHttpRouter(storage storage.Storage, middleware middleware.Middleware, se
 	routes = append(routes, transactionMaterialsRoutes...)
 	routes = append(routes, transactionsRoutes...)
 	routes = append(routes, businessesRoutes...)
+	routes = append(routes, analyticsRoutes...)
 
 	return &httpRouter{
 		storage:    storage,
